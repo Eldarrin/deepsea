@@ -1,0 +1,16 @@
+io\ensure\deepsea\actuarial\bordereau\rxjava\BordereauService.class
+deepsea-actuarial-bordereau-ts\bordereau_service-proxy.ts
+io\ensure\deepsea\actuarial\bordereau\package-info.class
+io\ensure\deepsea\actuarial\bordereau\BordereauService.class
+io\ensure\deepsea\actuarial\bordereau\BordereauServiceVertxEBProxy.class
+io\ensure\deepsea\actuarial\package-info.class
+io\ensure\deepsea\actuarial\bordereau\BordereauEvent.class
+deepsea-actuarial-bordereau-js\bordereau_service-proxy.js
+io\ensure\deepsea\actuarial\ActuarialVerticle.class
+io\ensure\deepsea\actuarial\bordereau\impl\MySqlBordereauServiceImpl.class
+io\ensure\deepsea\actuarial\bordereau\BordereauLineConverter.class
+io\ensure\deepsea\actuarial\bordereau\BordereauServiceVertxProxyHandler.class
+io\ensure\deepsea\actuarial\bordereau\BordereauVerticle.class
+io\ensure\deepsea\actuarial\bordereau\BordereauLine.class
+deepsea-actuarial-bordereau-js\bordereau_service.js
+io\ensure\deepsea\actuarial\bordereau\api\RestBordereauAPIVerticle.class
