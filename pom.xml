@@ -202,9 +202,7 @@
 		</profile>
 	</profiles>
 	<modules>
-		<module>deepsea-dataobjects</module>
 		<module>deepsea-common</module>
-		<module>deepsea-gateway</module>
 		<module>deepsea-account</module>
 		<module>deepsea-product</module>
 		<module>deepsea-underwriting</module>

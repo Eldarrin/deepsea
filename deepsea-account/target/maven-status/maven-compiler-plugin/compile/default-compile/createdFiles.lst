@@ -1,13 +1,3 @@
-io\ensure\deepsea\account\AccountService.class
-io\ensure\deepsea\account\AccountServiceVertxEBProxy.class
-io\ensure\deepsea\account\Account.class
-io\ensure\deepsea\account\UserAccountVerticle.class
-io\ensure\deepsea\account\rxjava\AccountService.class
-io\ensure\deepsea\account\api\RestUserAccountAPIVerticle.class
-io\ensure\deepsea\account\impl\MySqlAccountServiceImpl.class
-deepsea-user-account-ts\account_service-proxy.ts
 deepsea-user-account-js\account_service.js
-io\ensure\deepsea\account\AccountConverter.class
+deepsea-user-account-ts\account_service-proxy.ts
 deepsea-user-account-js\account_service-proxy.js
-io\ensure\deepsea\account\package-info.class
-io\ensure\deepsea\account\AccountServiceVertxProxyHandler.class
