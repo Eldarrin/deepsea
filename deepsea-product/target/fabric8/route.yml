@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: deepsea-product
+spec:
+  to:
+    kind: Service
+    name: deepsea-product
+    weight: 100
+  port:
+    targetPort: http

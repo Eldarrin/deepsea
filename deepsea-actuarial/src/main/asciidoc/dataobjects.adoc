@@ -1,0 +1,18 @@
+= Cheatsheets
+
+[[BordereauLine]]
+== BordereauLine
+
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[bordereauLineId]]`bordereauLineId`|`String`|-
+|[[clientId]]`clientId`|`String`|-
+|[[customerName]]`customerName`|`String`|-
+|[[event]]`event`|`link:enums.html#BordereauEvent[BordereauEvent]`|-
+|[[ipt]]`ipt`|`Number (double)`|-
+|[[value]]`value`|`Number (double)`|-
+|===
+

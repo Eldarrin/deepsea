@@ -1,0 +1,7 @@
+deepsea-product-js\product_service-proxy.js
+com\assurant\deepsea\product\ProductServiceVertxEBProxy.class
+com\assurant\deepsea\product\ProductConverter.class
+com\assurant\deepsea\product\ProductServiceVertxProxyHandler.class
+com\assurant\deepsea\product\rxjava\ProductService.class
+deepsea-product-ts\product_service-proxy.ts
+deepsea-product-js\product_service.js

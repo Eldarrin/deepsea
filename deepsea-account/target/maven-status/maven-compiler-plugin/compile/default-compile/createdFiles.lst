@@ -1,0 +1,12 @@
+com\assurant\deepsea\account\AccountServiceVertxProxyHandler.class
+com\assurant\deepsea\account\AccountServiceVertxEBProxy.class
+deepsea-user-account-ts\account_service-proxy.ts
+com\assurant\deepsea\account\package-info.class
+com\assurant\deepsea\account\rxjava\AccountService.class
+com\assurant\deepsea\account\Account.class
+com\assurant\deepsea\account\UserAccountVerticle.class
+deepsea-user-account-js\account_service.js
+com\assurant\deepsea\account\AccountConverter.class
+deepsea-user-account-js\account_service-proxy.js
+com\assurant\deepsea\account\api\RestUserAccountAPIVerticle.class
+com\assurant\deepsea\account\AccountService.class

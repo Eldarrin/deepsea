@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    fabric8.io/iconUrl: img/icons/vertx.svg
+    prometheus.io/port: "9779"
+    prometheus.io/scrape: "true"
+  labels:
+    expose: "true"
+    app: deepsea-underwriting-ui
+    provider: fabric8
+    version: 1.0-SNAPSHOT
+    group: com.assurant
+  name: deepsea-underwriting-ui
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: deepsea-underwriting-ui
+    provider: fabric8
+    group: com.assurant
