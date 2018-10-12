@@ -207,7 +207,6 @@
 		<module>deepsea-gateway</module>
 		<module>deepsea-account</module>
 		<module>deepsea-product</module>
-		<module>deepsea-actuarial</module>
-		<module>deepsea-underwriting-ui</module>
+		<module>deepsea-underwriting</module>
 	</modules>
 </project>

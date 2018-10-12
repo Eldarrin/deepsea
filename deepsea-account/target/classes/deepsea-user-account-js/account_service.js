@@ -19,8 +19,8 @@ var utils = require('vertx-js/util/utils');
 
 var io = Packages.io;
 var JsonObject = io.vertx.core.json.JsonObject;
-var JAccountService = Java.type('com.assurant.deepsea.account.AccountService');
-var Account = Java.type('com.assurant.deepsea.account.Account');
+var JAccountService = Java.type('io.ensure.deepsea.account.AccountService');
+var Account = Java.type('io.ensure.deepsea.account.Account');
 
 /**
  A service interface managing user accounts.
@@ -67,7 +67,7 @@ var AccountService = function(j_val) {
   this.addAccount = function(account, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
-      j_accountService["addAccount(com.assurant.deepsea.account.Account,io.vertx.core.Handler)"](account != null ? new Account(new JsonObject(Java.asJSONCompatible(account))) : null, function(ar) {
+      j_accountService["addAccount(io.ensure.deepsea.account.Account,io.vertx.core.Handler)"](account != null ? new Account(new JsonObject(Java.asJSONCompatible(account))) : null, function(ar) {
       if (ar.succeeded()) {
         resultHandler(null, null);
       } else {
@@ -154,7 +154,7 @@ var AccountService = function(j_val) {
   this.updateAccount = function(account, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
-      j_accountService["updateAccount(com.assurant.deepsea.account.Account,io.vertx.core.Handler)"](account != null ? new Account(new JsonObject(Java.asJSONCompatible(account))) : null, function(ar) {
+      j_accountService["updateAccount(io.ensure.deepsea.account.Account,io.vertx.core.Handler)"](account != null ? new Account(new JsonObject(Java.asJSONCompatible(account))) : null, function(ar) {
       if (ar.succeeded()) {
         resultHandler(utils.convReturnDataObject(ar.result()), null);
       } else {
@@ -214,7 +214,7 @@ var AccountService = function(j_val) {
   this._jdel = j_accountService;
 };
 
-AccountService._jclass = utils.getJavaClass("com.assurant.deepsea.account.AccountService");
+AccountService._jclass = utils.getJavaClass("io.ensure.deepsea.account.AccountService");
 AccountService._jtype = {
   accept: function(obj) {
     return AccountService._jclass.isInstance(obj._jdel);

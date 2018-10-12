@@ -19,8 +19,8 @@ var utils = require('vertx-js/util/utils');
 
 var io = Packages.io;
 var JsonObject = io.vertx.core.json.JsonObject;
-var JProductService = Java.type('com.assurant.deepsea.product.ProductService');
-var Product = Java.type('com.assurant.deepsea.product.Product');
+var JProductService = Java.type('io.ensure.deepsea.product.ProductService');
+var Product = Java.type('io.ensure.deepsea.product.Product');
 
 /**
  A service interface managing products.
@@ -67,7 +67,7 @@ var ProductService = function(j_val) {
   this.addProduct = function(product, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
-      j_productService["addProduct(com.assurant.deepsea.product.Product,io.vertx.core.Handler)"](product != null ? new Product(new JsonObject(Java.asJSONCompatible(product))) : null, function(ar) {
+      j_productService["addProduct(io.ensure.deepsea.product.Product,io.vertx.core.Handler)"](product != null ? new Product(new JsonObject(Java.asJSONCompatible(product))) : null, function(ar) {
       if (ar.succeeded()) {
         resultHandler(null, null);
       } else {
@@ -214,7 +214,7 @@ var ProductService = function(j_val) {
   this._jdel = j_productService;
 };
 
-ProductService._jclass = utils.getJavaClass("com.assurant.deepsea.product.ProductService");
+ProductService._jclass = utils.getJavaClass("io.ensure.deepsea.product.ProductService");
 ProductService._jtype = {
   accept: function(obj) {
     return ProductService._jclass.isInstance(obj._jdel);
