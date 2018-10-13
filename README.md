@@ -5,15 +5,15 @@ This is a simple (at the moment) project to recreate an Open Source Insurance ap
 
 Thanks, Andy
 
-Initial Layout
-Deepsea Insurance
-	Sales
+## Initial Layout
+### Deepsea Insurance
+###	Sales
 		Payment Processing
 		Telesales
 		Retention
 		Optimisation
 		Sales Portal
-	Administration
+###	Administration
 		Cash Settlement
 		Policy Management
 		Risk Management
@@ -24,12 +24,12 @@ Deepsea Insurance
 		Deductibles
 		Self Service Portal
 		Tele Assisted Service
-	Underwriting
+###	Underwriting
 		Actuarial
 		Book Management
 		Re/Co-Insurance
 		Settlements
-	Shared 
+###	Shared 
 		Document Management
 		Document Fulfilment
 		Regulatory Compliance
