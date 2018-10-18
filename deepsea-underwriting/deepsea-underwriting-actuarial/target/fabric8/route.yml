@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: deepsea-underwriting-actuarial
+spec:
+  to:
+    kind: Service
+    name: deepsea-underwriting-actuarial
+    weight: 100
+  port:
+    targetPort: http

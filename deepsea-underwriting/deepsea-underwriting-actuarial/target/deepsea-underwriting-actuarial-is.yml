@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    name: deepsea-underwriting-actuarial
+  spec:
+    tags:
+    - from:
+        kind: ImageStreamImage
+        name: deepsea-underwriting-actuarial@sha256:c7ed8109c5eee21d66715b5aa98ab397ac0991ef344021bd55bedf8eee0ab55c
+        namespace: deepsea
+      name: latest

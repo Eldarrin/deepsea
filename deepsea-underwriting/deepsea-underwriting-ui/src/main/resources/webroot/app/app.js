@@ -28,8 +28,8 @@ vertxApp.config(['$routeProvider', function ($routeProvider) {
     templateUrl: 'app/view/bordereau.html',
     controller: 'UserBordereauCtrl'
   }).when('/bordereau/:clientId', {
-    templateUrl: 'app/view/order-detail.html',
-    controller: 'OrderDetailCtrl'
+    templateUrl: 'app/view/bordereau.html',
+    controller: 'UserBordereauCtrl'
   }).when('/404', {
     templateUrl: 'app/view/404.html'
   }).otherwise({

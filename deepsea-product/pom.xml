@@ -1,13 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>io.ensure</groupId>
-    <artifactId>deepsea</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
-  <artifactId>deepsea-product</artifactId>
-  
-  <properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>io.ensure</groupId>
+		<artifactId>deepsea</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>deepsea-product</artifactId>
+
+	<properties>
 		<vertx.verticle>io.ensure.deepsea.product.ProductVerticle</vertx.verticle>
 	</properties>
 
@@ -20,6 +22,11 @@
 		<dependency>
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-mysql-postgresql-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.22</version>
 		</dependency>
 	</dependencies>
 
@@ -45,7 +52,8 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -77,5 +85,5 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 </project>

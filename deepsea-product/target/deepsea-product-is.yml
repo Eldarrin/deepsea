@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    name: deepsea-product
+  spec:
+    tags:
+    - from:
+        kind: ImageStreamImage
+        name: deepsea-product@sha256:7bd00b49f391be0f6a5e16407f93bb73666ed05c925a6e4f07663b53c629606d
+        namespace: deepsea
+      name: latest

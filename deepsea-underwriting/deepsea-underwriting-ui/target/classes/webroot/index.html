@@ -40,7 +40,7 @@
                         <span><a href="/#/account">{{ user.username }}</a></span>
                     </span>
         </li>
-        <li ng-if="user.id != undefined"><a href="/#/orders">Orders</a></li>
+        <li ng-if="user.id == undefined"><a href="/#/bordereau">Bordereau</a></li>
         <li ng-if="user.id != undefined">
           <a href="/#/cart"><span class="glyphicon glyphicon-shopping-cart">Cart</span></a></li>
         <li ng-if="user.id == undefined"><a ng-href="/login">Login</a></li>

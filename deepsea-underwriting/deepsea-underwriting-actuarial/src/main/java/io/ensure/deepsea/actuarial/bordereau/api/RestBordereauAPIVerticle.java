@@ -50,7 +50,8 @@ public class RestBordereauAPIVerticle extends RestAPIVerticle {
 		log.info("Starting Deepsea Bordereau on host:port " + host + ":" + port);
 
 		// create HTTP server and publish REST service
-		createHttpServer(router, host, port).compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, host, port))
+		createHttpServer(router, host, port)
+				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, "deepsea-underwriting-actuarial.deepsea.svc", port))
 				.setHandler(future.completer());
 	}
 	

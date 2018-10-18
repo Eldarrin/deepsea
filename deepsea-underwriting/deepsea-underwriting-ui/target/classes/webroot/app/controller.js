@@ -202,30 +202,6 @@ vertxApp.controller('UpdateCartCtrl', ['$rootScope', '$scope', '$http', function
   };
 }]);
 
-vertxApp.controller('CheckoutCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
-  $scope.checkout = () => {
-    var req = {
-      method: 'POST',
-      url: '/api/cart/checkout',
-      headers: {
-        'Content-Type': "application/json"
-      },
-      data: {}
-    };
-
-    $http(req).success((data, status, headers, config) => {
-      if (data.order == null) {
-        alert(data.message);
-      } else {
-        $scope.order = data.order;
-        $location.path('/orders/' + $scope.order.orderId);
-      }
-    }).error(() => {
-      alert("Checkout failed...");
-    });
-  };
-}]);
-
 vertxApp.controller('HeaderCtrl', ['$scope', '$http', '$rootScope', '$location',
   function ($scope, $http, $rootScope, $location) {
     $scope.authUrl = '/uaa';
@@ -304,20 +280,20 @@ vertxApp.controller('OrderDetailCtrl', ['$scope', '$rootScope', '$http', '$locat
     }
   }]);
 
-vertxApp.controller('UserBordereauCtrl', ['$scope', '$rootScope', '$http', '$location',
-  function ($scope, $rootScope, $http, $location) {
-    $scope.orders = [];
+vertxApp.controller('UserBordereauCtrl', ['$scope', '$rootScope', '$http', '$location', '$routeParams',
+  function ($scope, $rootScope, $http, $location, $routeParams) {
+    $scope.bordereau = [];
 
-    $scope.userOrderURL = '/api/bordereau/user/' + $rootScope.user.id + "/orders";
-    var fetchOrders = () => {
+    $scope.userBordereauURL = API_URI + '/bordereau/barclays';
+    var fetchBordereau = () => {
       $http({
         method: 'GET',
-        url: $scope.userOrderURL
+        url: $scope.userBordereauURL
       }).success(data => {
-        $scope.orders = data;
+        $scope.bordereau = data;
       }).error((data, status, headers, config) => {
         // $location.path('/');
       })
     };
-    fetchOrders();
+    fetchBordereau();
   }]);
