@@ -1,5 +1,8 @@
 package io.ensure.deepsea.shared.client;
 
+import static io.ensure.deepsea.shared.client.ClientService.SERVICE_ADDRESS;
+import static io.ensure.deepsea.shared.client.ClientService.SERVICE_NAME;
+
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.shared.client.api.RestClientAPIVerticle;
 import io.ensure.deepsea.shared.client.impl.MySqlClientServiceImpl;
@@ -10,7 +13,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.serviceproxy.ServiceBinder;
 
-public abstract class ClientVerticle extends BaseMicroserviceVerticle {
+public class ClientVerticle extends BaseMicroserviceVerticle {
 
 	private ClientService clientService;
 

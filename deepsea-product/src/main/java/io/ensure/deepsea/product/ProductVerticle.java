@@ -12,20 +12,14 @@ import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class ProductVerticle extends BaseMicroserviceVerticle {
 	
 	private ProductService productService;
 	
-	private Logger logger = LoggerFactory.getLogger(getClass());
-	
     private static final String HOCON = "hocon";
     private static final String CONFIGMAP = "configmap";
-    private static final String NAMESPACE = "deepsea";
-    private static final String SECRET = "secret";
     private static final String OPTIONAL = "optional";
 	
 	@Override

@@ -12,21 +12,19 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 
-public abstract class RestClientAPIVerticle extends RestAPIVerticle {
+public class RestClientAPIVerticle extends RestAPIVerticle {
 	
 private Logger log = LoggerFactory.getLogger(getClass());
 	
 	public static final String SERVICE_NAME = "client-rest-api";
 	
-	private static String implementer;
 	private static final String API_ADD = "/client/add";
 	private static final String API_RETRIEVE = "/client/";
 	
 	private final ClientService service;
 	
-	public RestClientAPIVerticle(ClientService service, String implementingService) {
+	public RestClientAPIVerticle(ClientService service) {
 		this.service = service;
-		implementer = implementingService;
 	}
 	
 	@Override
@@ -41,13 +39,13 @@ private Logger log = LoggerFactory.getLogger(getClass());
 
 		// get HTTP host and port from configuration, or use default value
 		String host = config().getString(SERVICE_NAME + ".http.address", "0.0.0.0");
-		int port = config().getInteger(SERVICE_NAME + ".http.port", 8081);
+		int port = config().getInteger(SERVICE_NAME + ".http.port", 8080);
 		
 		log.info("Starting Deepsea Client on host:port " + host + ":" + port);
 
 		// create HTTP server and publish REST service
 		createHttpServer(router, host, port)
-				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, implementer, port, implementer + "." + SERVICE_NAME))
+				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, "deepsea-shared.deepsea.svc", port, "client"))
 				.setHandler(future.completer());
 	}
 	
