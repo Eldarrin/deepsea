@@ -19,8 +19,6 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	
     private static final String HOCON = "hocon";
     private static final String CONFIGMAP = "configmap";
-    private static final String NAMESPACE = "deepsea";
-    private static final String SECRET = "secret";
     private static final String OPTIONAL = "optional";
 
 	@Override
@@ -43,8 +41,8 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		JsonObject mySqlConfig = new JsonObject()
 				.put("host", "mysql")
 				.put("port", 3306)
-				.put("username", "userT2K")
-				.put("password", "18iPeN4wGXA1FpHH")
+				.put("username", "userWYY")
+				.put("password", "5FneIc4JkLWdxGYA")
 				.put("database", "sampledb");
 
 		bordereauService = new MySqlBordereauServiceImpl(vertx, mySqlConfig);

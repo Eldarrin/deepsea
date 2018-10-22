@@ -7,10 +7,13 @@
           <table class="table table-striped" ng-if="bordereau.length > 0">
             <thead>
             <tr>
-              <th>Order Id</th>
-              <th>Status</th>
-              <th class="hidden-xs">Date</th>
-              <th>Total</th>
+              <th>Event Id</th>
+              <th>Customer Name</th>
+              <th>Start Date</th>
+              <th>Event</th>
+              <th>Event Date</th>
+              <th>Value</th>
+              <th>IPT</th>
             </tr>
             </thead>
             <tbody>
@@ -19,13 +22,22 @@
                 <a href="/#/bordereau/{{ bordereauLine.bordereauLineId }}">{{ bordereauLine.bordereauLineId }}</a>
               </td>
               <td>
-                {{ bordereauLine.event || 'Created' }}
+                {{ bordereauLine.customerName || 'NULL' }}
               </td>
-              <td class="hidden-xs">
-                {{ bordereauLine.eventDate | date:"MM/dd/yyyy" }}
+              <td>
+                {{ bordereauLine.startDate | date:"dd/MM/yyyy" }}  
+              </td>
+              <td>
+                {{ bordereauLine.event || 'NULL' }}
+              </td>
+              <td>
+                {{ bordereauLine.eventDate | date:"dd/MM/yyyy" }}
               </td>
               <td>
                 {{ bordereauLine.value | currency }}
+              </td>
+              <td>
+                {{ bordereauLine.ipt | currency }}
               </td>
             </tr>
             </tbody>

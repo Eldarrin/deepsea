@@ -284,7 +284,7 @@ vertxApp.controller('UserBordereauCtrl', ['$scope', '$rootScope', '$http', '$loc
   function ($scope, $rootScope, $http, $location, $routeParams) {
     $scope.bordereau = [];
 
-    $scope.userBordereauURL = API_URI + '/bordereau/barclays';
+    $scope.userBordereauURL = API_URI + '/bordereau/' + $routeParams.clientId;
     var fetchBordereau = () => {
       $http({
         method: 'GET',

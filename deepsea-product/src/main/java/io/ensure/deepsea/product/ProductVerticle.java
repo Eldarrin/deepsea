@@ -49,8 +49,8 @@ public class ProductVerticle extends BaseMicroserviceVerticle {
 		JsonObject mySqlConfig = new JsonObject()
 				.put("host", "mysql")
 				.put("port", 3306)
-				.put("username", "userMTQ")
-				.put("password", "npdPLPOcRq3V7wK1")
+				.put("username", "userWYY")
+				.put("password", "5FneIc4JkLWdxGYA")
 				.put("database", "sampledb");
 		
 		productService = new MySqlProductServiceImpl(vertx, mySqlConfig);

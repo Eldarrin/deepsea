@@ -12,13 +12,9 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 
 public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements BordereauService {
 	
-	private Logger log = LoggerFactory.getLogger(getClass());
-
 	private static final int PAGE_LIMIT = 10;
 
 	public MySqlBordereauServiceImpl(Vertx vertx, JsonObject config) {
@@ -78,7 +74,7 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 				.setHandler(resultHandler);
 		return this;
 	}
-
+	
 	@Override
 	public BordereauService removeBordereauLine(String bordereauLineId, Handler<AsyncResult<Void>> resultHandler) {
 		// TODO Auto-generated method stub
@@ -102,5 +98,5 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 	private static final String FETCH_BY_CLIENT_STATEMENT = "SELECT * FROM bordereau WHERE clientId = ?";
 
 	private static final String FETCH_BY_CLIENT_WITH_PAGE_STATEMENT = "SELECT * FROM bordereau WHERE clientId = ? LIMIT ?, ?";
-
+	
 }

@@ -26,8 +26,6 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 	
 	private static final String HOCON = "hocon";
     private static final String CONFIGMAP = "configmap";
-    private static final String NAMESPACE = "deepsea";
-    private static final String SECRET = "secret";
     private static final String OPTIONAL = "optional";
 
 	private Logger logger = LoggerFactory.getLogger(getClass());

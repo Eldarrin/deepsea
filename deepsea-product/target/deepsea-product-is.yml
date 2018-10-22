@@ -10,6 +10,6 @@ items:
     tags:
     - from:
         kind: ImageStreamImage
-        name: deepsea-product@sha256:7bd00b49f391be0f6a5e16407f93bb73666ed05c925a6e4f07663b53c629606d
+        name: deepsea-product@sha256:44a95d0b52aa2721ad4656739953f1fc8ed02680510e4f2f722d3d7ee1f93947
         namespace: deepsea
       name: latest

@@ -25,6 +25,7 @@ public class RestBordereauAPIVerticle extends RestAPIVerticle {
 	private static final String API_RETRIEVE_BY_CLIENT = "/:clientId";
 	private static final String API_RETRIEVE_BY_CLIENT_BY_PAGE = "/:clientId";
 	
+	
 	private final BordereauService service;
 	
 	public RestBordereauAPIVerticle(BordereauService service) {
@@ -51,7 +52,7 @@ public class RestBordereauAPIVerticle extends RestAPIVerticle {
 
 		// create HTTP server and publish REST service
 		createHttpServer(router, host, port)
-				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, "deepsea-underwriting-actuarial.deepsea.svc", port))
+				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, "deepsea-underwriting-actuarial.deepsea.svc", port, "bordereau"))
 				.setHandler(future.completer());
 	}
 	

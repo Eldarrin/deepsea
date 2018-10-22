@@ -35,7 +35,7 @@ public class BordereauLine {
 	
 	public BordereauLine(BordereauLine bordereauLine) {
 		super();
-		log.info(bordereauLine.startDate);
+		this.bordereauLineId = bordereauLine.bordereauLineId;
 		this.clientId = bordereauLine.clientId;
 		this.customerName = bordereauLine.customerName;
 		this.value = bordereauLine.value;
