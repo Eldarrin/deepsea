@@ -10,6 +10,6 @@ items:
     tags:
     - from:
         kind: ImageStreamImage
-        name: deepsea-underwriting-ui@sha256:171c59b8127a32650fc6209747b32d49d132029ac7818a0927dce5b255475315
+        name: deepsea-underwriting-ui@sha256:77a4e923356087677352c7e04a51633905c77bfb11e64c07113270f46f064238
         namespace: deepsea
       name: latest
