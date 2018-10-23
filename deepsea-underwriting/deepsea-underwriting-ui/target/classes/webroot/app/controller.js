@@ -282,6 +282,20 @@ vertxApp.controller('OrderDetailCtrl', ['$scope', '$rootScope', '$http', '$locat
 
 vertxApp.controller('UserBordereauCtrl', ['$scope', '$rootScope', '$http', '$location', '$routeParams',
   function ($scope, $rootScope, $http, $location, $routeParams) {
+    
+    $scope.client = [];
+    var fetchClients = () => {
+    	$http({
+    		method: 'GET',
+    		url: '/api/client/client/'
+    	}).success(data => {
+    		$scope.client = data;
+    	}).error((data, status, headers, config) => {
+    		
+    	})
+    };
+    fetchClients();
+    
     $scope.bordereau = [];
 
     $scope.userBordereauURL = API_URI + '/bordereau/' + $routeParams.clientId;

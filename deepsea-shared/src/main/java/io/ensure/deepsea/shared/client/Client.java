@@ -1,9 +1,5 @@
 package io.ensure.deepsea.shared.client;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.text.ParseException;
-
 import io.vertx.codegen.annotations.DataObject;
 import io.vertx.core.json.JsonObject;
 

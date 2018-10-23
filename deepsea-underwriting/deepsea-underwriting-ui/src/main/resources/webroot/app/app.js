@@ -25,7 +25,7 @@ vertxApp.config(['$routeProvider', function ($routeProvider) {
     templateUrl: 'app/view/account.html',
     controller: 'AccountCtrl'
   }).when('/bordereau', {
-    templateUrl: 'app/view/bordereau.html',
+    templateUrl: 'app/view/bordereau_select.html',
     controller: 'UserBordereauCtrl'
   }).when('/bordereau/:clientId', {
     templateUrl: 'app/view/bordereau.html',

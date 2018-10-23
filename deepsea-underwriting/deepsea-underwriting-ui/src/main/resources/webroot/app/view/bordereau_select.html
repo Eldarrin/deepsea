@@ -1,0 +1,25 @@
+<div class="container" ng-model="client">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Select Bordereau</div>
+        <div class="table-responsive">
+          <table class="table table-striped" ng-if="client.length > 0">
+            <thead>
+            <tr>
+              <th>Client</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="client in client">
+              <td>
+                <a href="/#/bordereau/{{ client.clientId }}">{{ client.clientName }}</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

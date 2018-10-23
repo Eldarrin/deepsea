@@ -78,11 +78,6 @@ public class RestProductAPIVerticle extends RestAPIVerticle {
 				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, "deepsea-product.deepsea.svc", port, "product"))
 				.setHandler(future.completer());
 	}
-	
-	private void logHit(RoutingContext rc) {
-		log.info("hit");
-		rc.response().setStatusCode(201).putHeader("content-type", "application/json").end();
-	}
 
 	private void buildProduct(RoutingContext context) {
 		service.initializePersistence(resultHandler(context, Json::encodePrettily));
