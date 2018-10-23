@@ -1,10 +1,10 @@
 io\ensure\deepsea\common\RestAPIVerticle.class
-io\ensure\deepsea\common\service\ExampleHelper.class
-io\ensure\deepsea\common\rx\BaseMicroserviceRxVerticle.class
-io\ensure\deepsea\common\service\MySqlRepositoryWrapper.class
 io\ensure\deepsea\common\rx\RestAPIRxVerticle.class
 io\ensure\deepsea\common\functional\Functional.class
+io\ensure\deepsea\common\service\ExampleHelper.class
 io\ensure\deepsea\common\BaseMicroserviceVerticle.class
+io\ensure\deepsea\common\rx\BaseMicroserviceRxVerticle.class
+io\ensure\deepsea\common\service\MySqlRepositoryWrapper.class
 io\ensure\deepsea\common\config\ConfigRetrieverHelper.class
 io\ensure\deepsea\common\package-info.class
 io\ensure\deepsea\common\service\ISO8601DateParser.class
