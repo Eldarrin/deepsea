@@ -4,8 +4,8 @@ metadata:
   name: deepsea-shared-client
   namespace: deepsea
 data:
-  client.host: 0.0.0.0
-  client.port: 8080
-  client.service: deepsea-shared.deepsea.svc
+  client.host.address: 0.0.0.0
+  client.host.port: 8080
+  client.service.hostname: deepsea-shared.deepsea.svc
   client.api.name: client
   

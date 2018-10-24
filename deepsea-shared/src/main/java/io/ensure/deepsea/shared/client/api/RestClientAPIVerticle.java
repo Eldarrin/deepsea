@@ -1,13 +1,9 @@
 package io.ensure.deepsea.shared.client.api;
 
-import static io.ensure.deepsea.shared.client.ClientService.SERVICE_ADDRESS;
-import static io.ensure.deepsea.shared.client.ClientService.SERVICE_NAME;
-
 import io.ensure.deepsea.common.RestAPIVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
 import io.ensure.deepsea.shared.client.Client;
 import io.ensure.deepsea.shared.client.ClientService;
-import io.ensure.deepsea.shared.client.impl.MySqlClientServiceImpl;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Future;
 import io.vertx.core.json.DecodeException;
@@ -17,7 +13,6 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
-import io.vertx.serviceproxy.ServiceBinder;
 
 public class RestClientAPIVerticle extends RestAPIVerticle {
 	
@@ -49,23 +44,23 @@ public class RestClientAPIVerticle extends RestAPIVerticle {
 						.getOptions("deepsea", "deepsea-shared-client"));
         retriever.getConfig(res -> {
         	if (res.succeeded()) {
+        		String host = res.result().getString("client.http.address", "0.0.0.0");
+        		int port = res.result().getInteger("client.http.port", 8080);
+        		String serviceHost = res.result().getString("client.service.hostname", "deepsea-shared.deepsea.svc");
+        		String apiName = res.result().getString("client.api.name", "client");
+        		
+        		log.info("Starting Deepsea Client on host:port " + host + ":" + port);
+        		
+        		// create HTTP server and publish REST service
+        		createHttpServer(router, host, port)
+        				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, serviceHost, port, apiName))
+        				.setHandler(future.completer());
         		
         	} else {
         		log.error("Unable to find config map for Deepsea Client");
         	}
         
         });
-        
-		// get HTTP host and port from configuration, or use default value
-		String host = config().getString("client.http.address", "0.0.0.0");
-		int port = config().getInteger("client.http.port", 8080);
-		
-		log.info("Starting Deepsea Client on host:port " + host + ":" + port);
-
-		// create HTTP server and publish REST service
-		createHttpServer(router, host, port)
-				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, "deepsea-shared.deepsea.svc", port, "client"))
-				.setHandler(future.completer());
 	}
 	
 	private void apiAdd(RoutingContext rc) {

@@ -33,7 +33,7 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
         		// create the service instance
         		JsonObject mySqlConfig = new JsonObject()
         				.put("host", res.result().getString("mysql.host"))
-        				.put("port", res.result().getString("mysql.port"))
+        				.put("port", res.result().getInteger("mysql.port"))
         				.put("username", res.result().getString("mysql.username"))
         				.put("password", res.result().getString("mysql.password"))
         				.put("database", res.result().getString("mysql.database"));
