@@ -1,0 +1,75 @@
+kind: "BuildConfig"
+apiVersion: "v1"
+metadata:
+  name: "deepsea"
+spec:
+  runPolicy: "Serial"
+  triggers:
+    - type: "GitHub"
+      github:
+        secret: "secret101"
+    - type: "Generic"
+      generic:
+        secret: "secret101"
+    - type: "ImageChange"
+  source:
+    git:
+      uri: "https://github.com/Eldarrin/deepsea"
+  strategy:
+    jenkinsPipelineStrategy:
+      jenkinsfile:  |-
+        try {
+             timeout(time: 20, unit: 'MINUTES') {
+                agent {
+                  label 'maven'
+                }
+                def appName="deepsea-shared"
+                def project=""
+                node {
+                  stage("Initialize") {
+                    project = env.PROJECT_NAME
+                  }
+                }
+                node {
+                  stage("Checkout") {
+                    git url: "https://github.com/Eldarrin/deepsea.git", branch: "master"
+                  }
+                  stage("Build Vertx") {
+                    sh "mvn fabric8:deploy -Popenshift"
+                    stash name:"jar", includes:"target/deepsea-shared-1.0-SNAPSHOT.jar"
+                  }
+                }
+                node {
+                  stage("Build Image") {
+                    unstash name:"jar"
+                    sh "oc start-build deepsea-shared-docker --from-file=target/deepsea-shared-1.0-SNAPSHOT.jar -n deepsea"
+                    timeout(time: 20, unit: 'MINUTES') {
+                      openshift.withCluster() {
+                        openshift.withProject() {
+                          def bc = openshift.selector('bc', "deepsea-shared-docker")
+                          echo "Found 1 ${bc.count()} buildconfig"
+                          def blds = bc.related('builds')
+                          blds.untilEach {
+                            return it.object().status.phase == "Complete"
+                          }
+                        }
+                      }  
+                    }
+                  }
+                  stage("Deploy") {
+                    openshift.withCluster() {
+                      openshift.withProject() {
+                        def dc = openshift.selector('dc', "deepsea-shared")
+                        dc.rollout().status()
+                      }
+                    }
+                  }
+                }
+             }
+          } catch (err) {
+             echo "in catch block"
+             echo "Caught: ${err}"
+             currentBuild.result = 'FAILURE'
+             throw err
+          }
+    type: jenkinsPipeline
