@@ -9,14 +9,14 @@ pipeline {
       }
     }
     stage('Create Image Builder') {
-      when {
-        expression {
+      
+      steps {
+        script {
           openshift.withCluster() {
-            return !openshift.selector("bc", "deepsea-shared").exists();
+            openshift.newBuild("--name=deepsea-shared", "--image-stream=redhat-openjdk18-openshift:1.1", "--binary")
           }
         }
       }
-      
     }
     stage('Build Image') {
       steps {
