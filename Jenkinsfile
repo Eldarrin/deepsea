@@ -1,3 +1,4 @@
+def templateName = 'deepsea-shared' 
 pipeline {
   agent {
       label 'maven'
@@ -6,6 +7,11 @@ pipeline {
     stage('Build App') {
       steps {
         sh "mvn install"
+        openshift.withCluster() {
+          openshift.withProject() {
+            openshift.newApp(templatePath) 
+          }
+        }
       }
     }
     stage('Create Image Builder') {
@@ -13,7 +19,9 @@ pipeline {
       steps {
         script {
           openshift.withCluster() {
-            openshift.newBuild("--name=deepsea-shared", "--image-stream=redhat-openjdk18-openshift:1.1", "--binary")
+            openshift.withProject() {
+              openshift.newBuild("--name=deepsea-shared", "--image-stream=redhat-openjdk18-openshift:1.1", "--binary")    
+            }
           }
         }
       }
@@ -22,7 +30,9 @@ pipeline {
       steps {
         script {
           openshift.withCluster() {
-            openshift.selector("bc", "deepsea-shared").startBuild("--from-file=deepsea-shared/target/deepsea-shared.jar", "--wait")
+            openshift.withProject() {
+              openshift.selector("bc", "deepsea-shared").startBuild("--from-file=deepsea-shared/target/deepsea-shared.jar", "--wait")
+            }
           }
         }
       }
