@@ -7,19 +7,14 @@ pipeline {
     stage('Build App') {
       steps {
         sh "mvn install"
-        openshift.withCluster() {
-          openshift.withProject() {
-            openshift.newApp(templatePath) 
-          }
-        }
       }
     }
     stage('Create Image Builder') {
-      
       steps {
         script {
           openshift.withCluster() {
             openshift.withProject() {
+              openshift.newApp(templatePath)
               openshift.newBuild("--name=deepsea-shared", "--image-stream=redhat-openjdk18-openshift:1.1", "--binary")    
             }
           }
