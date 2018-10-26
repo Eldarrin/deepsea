@@ -14,7 +14,7 @@ pipeline {
         script {
           openshift.withCluster() {
             openshift.withProject() {
-              openshift.newApp(templatePath)
+              openshift.newApp(templateName)
               openshift.newBuild("--name=deepsea-shared", "--image-stream=redhat-openjdk18-openshift:1.1", "--binary")    
             }
           }
