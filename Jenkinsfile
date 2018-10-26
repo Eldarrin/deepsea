@@ -12,14 +12,14 @@ pipeline {
       when {
         expression {
           openshift.withCluster() {
-            return !openshift.selector("bc", "deepsea").exists();
+            return !openshift.selector("bc", "deepsea-shared").exists();
           }
         }
       }
       steps {
         script {
           openshift.withCluster() {
-            openshift.newBuild("--name=deepsea", "--image-stream=redhat-openjdk18-openshift:1.1", "--binary")
+            openshift.newBuild("--name=deepsea-shared", "--image-stream=redhat-openjdk18-openshift:1.1", "--binary")
           }
         }
       }
@@ -28,7 +28,7 @@ pipeline {
       steps {
         script {
           openshift.withCluster() {
-            openshift.selector("bc", "deepsea").startBuild("--from-file=deepsea-shared/target/deepsea-shared.jar", "--wait")
+            openshift.selector("bc", "deepsea-shared").startBuild("--from-file=deepsea-shared/target/deepsea-shared.jar", "--wait")
           }
         }
       }
@@ -37,7 +37,7 @@ pipeline {
       steps {
         script {
           openshift.withCluster() {
-            openshift.tag("deepsea:latest", "deepsea:dev")
+            openshift.tag("deepsea-shared:latest", "deepsea-shared:dev")
           }
         }
       }
@@ -46,14 +46,14 @@ pipeline {
       when {
         expression {
           openshift.withCluster() {
-            return !openshift.selector('dc', 'deepsea-dev').exists()
+            return !openshift.selector('dc', 'deepseas-shared-dev').exists()
           }
         }
       }
       steps {
         script {
           openshift.withCluster() {
-            openshift.newApp("deepsea:latest", "--name=deepsea-dev").narrow('svc').expose()
+            openshift.newApp("deepsea-shared:latest", "--name=deepsea-shared-dev").narrow('svc').expose()
           }
         }
       }
@@ -62,7 +62,7 @@ pipeline {
       steps {
         script {
           openshift.withCluster() {
-            openshift.tag("deepsea:dev", "deepsea:stage")
+            openshift.tag("deepsea-shared:dev", "deepsea-shared:stage")
           }
         }
       }
@@ -71,14 +71,14 @@ pipeline {
       when {
         expression {
           openshift.withCluster() {
-            return !openshift.selector('dc', 'deepsea-stage').exists()
+            return !openshift.selector('dc', 'deepsea-shared-stage').exists()
           }
         }
       }
       steps {
         script {
           openshift.withCluster() {
-            openshift.newApp("deepsea:stage", "--name=deepsea-stage").narrow('svc').expose()
+            openshift.newApp("deepsea-shared:stage", "--name=deepsea-shared-stage").narrow('svc').expose()
           }
         }
       }

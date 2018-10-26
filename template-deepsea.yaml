@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: myapp
+  name: deepsea-shared
 objects:
 #Build Config (Jenkins)
 - apiVersion: v1
@@ -9,7 +9,7 @@ objects:
   metadata:
     labels:
       name: sample-pipeline
-    name: myapp-pipeline
+    name: deepsea-shared-pipeline
   spec:
     runPolicy: Serial
     source:
@@ -33,16 +33,16 @@ objects:
   kind: BuildConfig
   metadata:
     labels:
-      app: deepsea
-      application: deepsea
+      app: deepsea-shared
+      application: deepsea-shared
       createdBy: template-deepsea
-    name: myapp
+    name: deepsea-shared
   spec:
     nodeSelector: null
     output:
       to:
         kind: ImageStreamTag
-        name: myapp:latest
+        name: deepsea-shared:latest
     runPolicy: Serial
     source:
       git:
@@ -67,10 +67,10 @@ objects:
   kind: ImageStream
   metadata:
     labels:
-      app: deepsea
-      application: deepsea
-      createdBy: template-deepsea
-    name: myapp
+      app: deepsea-shared
+      application: deepsea-shared
+      createdBy: template-deepsea-shared
+    name: deepsea-shared
   spec:
     tags:
     - importPolicy: {}
@@ -79,11 +79,11 @@ objects:
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
-    name: myapp
+    name: deepsea-shared
     labels:
-      app: deepsea
-      application: deepsea
-      createdBy: template-deepsea
+      app: deepsea-shared
+      application: deepsea-shared
+      createdBy: template-deepsea-shared
   spec:
     strategy:
       type: Rolling
@@ -100,23 +100,23 @@ objects:
         imageChangeParams:
           automatic: true
           containerNames:
-            - myapp
+            - deepsea-shared
           from:
             kind: ImageStreamTag
-            name: 'myapp:latest'
+            name: 'deepsea-shared:latest'
     replicas: 1
     test: false
     selector:
-      deploymentconfig: myapp
+      deploymentconfig: deepsea-shared
     template:
       metadata:
         creationTimestamp: null
         labels:
-          deploymentconfig: myapp
+          deploymentconfig: deepsea-shared
       spec:
         containers:
-          - name: myapp
-            image: myapp
+          - name: deepsea-shared
+            image: deepsea-shared
             ports:
               - containerPort: 8080
                 protocol: TCP
@@ -143,30 +143,30 @@ objects:
   kind: Service
   metadata:
     labels:
-      app: deepsea
-      application: deepsea
-      createdBy: template-deepsea
-    name: myapp
+      app: deepsea-shared
+      application: deepsea-shared
+      createdBy: template-deepsea-shared
+    name: deepsea-shared
   spec:
     ports:
-    - name: myapp
+    - name: deepsea-shared
       port: 8080
       protocol: TCP
       targetPort: 8080
     selector:
-      deploymentconfig: myapp
+      deploymentconfig: deepsea-shared
     type: ClusterIP
 #Route
 - apiVersion: v1
   kind: Route
   metadata:
     labels:
-      app: deepsea
-      application: deepsea
-      createdBy: template-deepsea
-    name: myapp
+      app: deepsea-shared
+      application: deepsea-shared
+      createdBy: template-deepsea-shared
+    name: deepsea-shared
   spec:
     to:
       kind: Service
-      name: myapp
+      name: deepsea-shared
       weight: 100
