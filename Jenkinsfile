@@ -16,13 +16,7 @@ pipeline {
           }
         }
       }
-      steps {
-        script {
-          openshift.withCluster() {
-            openshift.newBuild("--name=deepsea-shared", "--image-stream=redhat-openjdk18-openshift:1.1", "--binary")
-          }
-        }
-      }
+      
     }
     stage('Build Image') {
       steps {
