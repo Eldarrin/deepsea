@@ -1,83 +1,28 @@
-def templateName = 'deepsea-shared' 
-pipeline {
-  agent {
-      label 'maven'
-  }
-  stages {
-    stage('Build App') {
-      steps {
-        sh "mvn install"
-      }
+#!/usr/bin/groovy
+
+@Library('github.com/fabric8io/fabric8-pipeline-library@master')
+def canaryVersion = "1.0.${env.BUILD_NUMBER}"
+def utils = new io.fabric8.Utils()
+
+mavenNode {
+  checkout scm
+  if (utils.isCI()) {
+
+    mavenCI {
+        integrationTestCmd =
+             "mvn org.apache.maven.plugins:maven-failsafe-plugin:integration-test \
+                org.apache.maven.plugins:maven-failsafe-plugin:verify \
+                -Dnamespace.use.current=false -Dnamespace.use.existing=${utils.testNamespace()} \
+                -Dit.test=*IT -DfailIfNoTests=false -DenableImageStreamDetection=true \
+                -P openshift-it"
     }
-    stage('Create Image Builder') {
-      steps {
-        script {
-          openshift.withCluster() {
-            openshift.withProject() {
-              openshift.newBuild("--name=deepsea-shared", "--image-stream=redhat-openjdk18-openshift:1.3", "--source")    
-            }
-          }
-        }
-      }
-    }
-    stage('Build Image') {
-      steps {
-        script {
-          openshift.withCluster() {
-            openshift.withProject() {
-              openshift.selector("bc", "deepsea-shared").startBuild("--from-file=deepsea-shared/target/deepsea-shared.jar", "--wait")
-            }
-          }
-        }
-      }
-    }
-    stage('Promote to DEV') {
-      steps {
-        script {
-          openshift.withCluster() {
-            openshift.tag("deepsea-shared:latest", "deepsea-shared:dev")
-          }
-        }
-      }
-    }
-    stage('Create DEV') {
-      when {
-        expression {
-          openshift.withCluster() {
-            return !openshift.selector('dc', 'deepseas-shared-dev').exists()
-          }
-        }
-      }
-      steps {
-        script {
-          openshift.withCluster() {
-            openshift.newApp("deepsea-shared:latest", "--name=deepsea-shared-dev").narrow('svc').expose()
-          }
-        }
-      }
-    }
-    stage('Promote STAGE') {
-      steps {
-        script {
-          openshift.withCluster() {
-            openshift.tag("deepsea-shared:dev", "deepsea-shared:stage")
-          }
-        }
-      }
-    }
-    stage('Create STAGE') {
-      when {
-        expression {
-          openshift.withCluster() {
-            return !openshift.selector('dc', 'deepsea-shared-stage').exists()
-          }
-        }
-      }
-      steps {
-        script {
-          openshift.withCluster() {
-            openshift.newApp("deepsea-shared:stage", "--name=deepsea-shared-stage").narrow('svc').expose()
-          }
+
+  } else if (utils.isCD()) {
+    echo 'NOTE: running pipelines for the first time will take longer as build and base docker images are pulled onto the node'
+    container(name: 'maven', shell:'/bin/bash') {
+      stage('Build Image') {
+        mavenCanaryRelease {
+          version = canaryVersion
         }
       }
     }
