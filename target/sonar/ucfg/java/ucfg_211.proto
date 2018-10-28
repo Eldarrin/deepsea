@@ -1,0 +1,41 @@
+
+»io.ensure.deepsea.actuarial.bordereau.impl.MySqlBordereauServiceImpl#removeBordereauLine(Ljava/lang/String;Lio/vertx/core/Handler;)Lio/ensure/deepsea/actuarial/bordereau/BordereauService;
+__unknown_file (bordereauLineIdresultHandler"paramAnnotations*î
+1­
+¢/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/impl/MySqlBordereauServiceImpl.javaQ	 Q("¸
+­
+¢/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/impl/MySqlBordereauServiceImpl.javaQ Q(
+""*ë
+paramAnnotations­
+¢/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/impl/MySqlBordereauServiceImpl.javaO, O(nò
+ï
+­
+¢/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/impl/MySqlBordereauServiceImpl.javaN N(
+
+%0"
+__annotate*
+java.lang.Override*
+
+bordereauLineIdÜ
+Ù
+­
+¢/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/impl/MySqlBordereauServiceImpl.javaO4 O(C
+bordereauLineId"__annotation*
+
+%0ð
+í
+­
+¢/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/impl/MySqlBordereauServiceImpl.javaN N(
+
+%1"
+__annotate*
+java.lang.Override*
+
+resultHandlerÚ
+×
+­
+¢/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/impl/MySqlBordereauServiceImpl.javaO` O(m
+resultHandler"__annotation*
+
+%1*
+1

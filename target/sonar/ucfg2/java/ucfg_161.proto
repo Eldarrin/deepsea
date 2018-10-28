@@ -1,0 +1,45 @@
+
+ˆio.ensure.deepsea.shared.client.ClientVerticle#initClientDatabase(Lio/ensure/deepsea/shared/client/ClientService;)Lio/vertx/core/Future;
+__unknown_file (service"1*¦
+
+1q
+g/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/ClientVerticle.java= =("Ë
+È
+q
+g/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/ClientVerticle.java= =(+
+%0"3io.vertx.core.Future#future()Lio/vertx/core/Future;*"
+io.vertx.core.Future’
+
+q
+g/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/ClientVerticle.java= =(,
+
+initFuture"__id*
+
+%0Å
+Â
+q
+g/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/ClientVerticle.java>  >(6
+%1"7io.vertx.core.Future#completer()Lio/vertx/core/Handler;*
+
+
+initFutureŸ
+œ
+q
+g/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/ClientVerticle.java> >(7
+%2"‹io.ensure.deepsea.shared.client.ClientService#initializePersistence(Lio/vertx/core/Handler;)Lio/ensure/deepsea/shared/client/ClientService;*
+	
+service*
+
+%1ã
+à
+q
+g/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/ClientVerticle.java?	 A(
+%3"Mio.vertx.core.Future#map(Ljava/util/function/Function;)Lio/vertx/core/Future;*
+
+
+initFuture*
+"""{
+q
+g/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/ClientVerticle.java? A(
+
+%3

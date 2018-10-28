@@ -1,0 +1,44 @@
+
+io.ensure.deepsea.actuarial.bordereau.BordereauVerticle#initBordereauDatabase(Lio/ensure/deepsea/actuarial/bordereau/BordereauService;)Lio/vertx/core/Future;
+__unknown_file (service"1*‰
+1 
+•/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/BordereauVerticle.javaB B("û
+ø
+ 
+•/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/BordereauVerticle.javaB B(+
+%0"3io.vertx.core.Future#future()Lio/vertx/core/Future;*"
+io.vertx.core.FutureÂ
+¿
+ 
+•/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/BordereauVerticle.javaB B(,
+
+initFuture"__id*
+
+%0õ
+ò
+ 
+•/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/BordereauVerticle.javaC  C(6
+%1"7io.vertx.core.Future#completer()Lio/vertx/core/Handler;*
+
+
+initFutureá
+Ş
+ 
+•/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/BordereauVerticle.javaC C(7
+%2"io.ensure.deepsea.actuarial.bordereau.BordereauService#initializePersistence(Lio/vertx/core/Handler;)Lio/ensure/deepsea/actuarial/bordereau/BordereauService;*
+	
+service*
+
+%1“
+
+ 
+•/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/BordereauVerticle.javaD	 F(
+%3"Mio.vertx.core.Future#map(Ljava/util/function/Function;)Lio/vertx/core/Future;*
+
+
+initFuture*
+"""«
+ 
+•/home/andy/git/deepsea/deepsea-underwriting/deepsea-underwriting-actuarial/src/main/java/io/ensure/deepsea/actuarial/bordereau/BordereauVerticle.javaD F(
+
+%3

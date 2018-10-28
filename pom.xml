@@ -225,7 +225,6 @@
 	<modules>
 		<module>deepsea-common</module>
 		<module>deepsea-account</module>
-		<module>deepsea-product</module>
 		<module>deepsea-underwriting</module>
 		<module>deepsea-shared</module>
 	</modules>
