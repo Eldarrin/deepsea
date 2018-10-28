@@ -1,6 +1,5 @@
 /home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/service/ISO8601DateParser.java
 /home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/rx/BaseMicroserviceRxVerticle.java
-/home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/service/ExampleHelper.java
 /home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/functional/Functional.java
 /home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/service/MySqlRepositoryWrapper.java
 /home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/BaseMicroserviceVerticle.java
