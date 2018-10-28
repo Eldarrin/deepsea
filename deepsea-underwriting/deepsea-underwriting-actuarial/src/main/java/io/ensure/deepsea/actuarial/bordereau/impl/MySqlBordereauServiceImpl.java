@@ -23,12 +23,12 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 
 	@Override
 	public BordereauService initializePersistence(Handler<AsyncResult<Void>> resultHandler) {
-		client.getConnection(connHandler(resultHandler, connection -> {
+		client.getConnection(connHandler(resultHandler, connection -> 
 			connection.execute(CREATE_STATEMENT, r -> {
 				resultHandler.handle(r);
 				connection.close();
-			});
-		}));
+			})
+		));
 		return this;
 	}
 

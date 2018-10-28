@@ -6,8 +6,6 @@ import java.text.ParseException;
 
 import java.time.Instant;
 
-import io.ensure.deepsea.actuarial.bordereau.BordereauLineConverter;
-
 import io.ensure.deepsea.common.service.ISO8601DateParser;
 
 import io.vertx.codegen.annotations.DataObject;

@@ -2,72 +2,71 @@ package io.ensure.deepsea.actuarial.bordereau;
 
 import static io.ensure.deepsea.actuarial.bordereau.BordereauService.SERVICE_ADDRESS;
 import static io.ensure.deepsea.actuarial.bordereau.BordereauService.SERVICE_NAME;
+import static io.ensure.deepsea.shared.client.ClientService.SERVICE_ADDRESS;
+import static io.ensure.deepsea.shared.client.ClientService.SERVICE_NAME;
 
 import io.ensure.deepsea.actuarial.bordereau.api.RestBordereauAPIVerticle;
 import io.ensure.deepsea.actuarial.bordereau.impl.MySqlBordereauServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
+import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
+import io.ensure.deepsea.shared.client.ClientService;
+import io.ensure.deepsea.shared.client.impl.MySqlClientServiceImpl;
+import io.vertx.config.ConfigRetriever;
 import io.vertx.config.ConfigRetrieverOptions;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class BordereauVerticle extends BaseMicroserviceVerticle {
+	
+	private Logger log = LoggerFactory.getLogger(getClass());
 
 	private BordereauService bordereauService;
-	
-    private static final String HOCON = "hocon";
-    private static final String CONFIGMAP = "configmap";
-    private static final String OPTIONAL = "optional";
 
 	@Override
 	public void start(Future<Void> future) throws Exception {
 		super.start();
 		
-		ConfigRetrieverOptions configRetrieverOptions = new ConfigRetrieverOptions();
-        if (System.getenv().containsKey("OPENSHIFT_BUILD_NAMESPACE")) {
-            ConfigStoreOptions kubeConfig = new ConfigStoreOptions()
-                    .setType(CONFIGMAP)
-                    .setFormat(HOCON)
-                    .setConfig(new JsonObject()
-                            .put(OPTIONAL, true)
-                            .put("name", "deepsea-underwriting-actuarial"));
-            configRetrieverOptions
-                .addStore(kubeConfig);        // Values here will override identical keys from above
-        }
+		ConfigRetriever retriever = ConfigRetriever
+				.create(vertx, new ConfigRetrieverHelper()
+						.getOptions("deepsea", "deepsea-underwriting-actuarial"));
+        retriever.getConfig(res -> {
+        	if (res.succeeded()) {
+        		// create the service instance
+        		JsonObject mySqlConfig = new JsonObject()
+        				.put("host", res.result().getString("mysql.host"))
+        				.put("port", res.result().getInteger("mysql.port"))
+        				.put("username", res.result().getString("mysql.username"))
+        				.put("password", res.result().getString("mysql.password"))
+        				.put("database", res.result().getString("mysql.database"));
 
-		// create the service instance
-		JsonObject mySqlConfig = new JsonObject()
-				.put("host", "mysql")
-				.put("port", 3306)
-				.put("username", "userWYY")
-				.put("password", "5FneIc4JkLWdxGYA")
-				.put("database", "sampledb");
+        		bordereauService = new MySqlBordereauServiceImpl(vertx, mySqlConfig);
+        		// Register the handler
+        		new ServiceBinder(vertx)
+        				.setAddress(SERVICE_ADDRESS)
+        				.register(BordereauService.class, bordereauService);
 
-		bordereauService = new MySqlBordereauServiceImpl(vertx, mySqlConfig);
-		// Register the handler
-		new ServiceBinder(vertx)
-				.setAddress(SERVICE_ADDRESS)
-				.register(BordereauService.class, bordereauService);
+        		initBordereauDatabase(bordereauService);
 
-		initBordereauDatabase(bordereauService);
-
-		// register the service proxy on event bus
-		// ProxyHelper.registerService(AccountService.class, vertx, accountService,
-		// SERVICE_ADDRESS);
-		// publish the service and REST endpoint in the discovery infrastructure
-		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, BordereauService.class)
-				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+        		// publish the service and REST endpoint in the discovery infrastructure
+        		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, BordereauService.class)
+        				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+        	} else {
+        		log.error("Unable to find config map for deepsea-underwriting-actuarial MySQL");
+        	}
+        
+        });
 
 	}
 
 	private Future<Void> initBordereauDatabase(BordereauService service) {
 		Future<Void> initFuture = Future.future();
 		service.initializePersistence(initFuture.completer());
-		return initFuture.map(v -> {
-			return null;
-		});
+		return initFuture.map(v -> null);
 	}
 
 	private Future<Void> deployRestVerticle() {

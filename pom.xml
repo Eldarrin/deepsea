@@ -91,18 +91,18 @@
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-circuit-breaker</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-config-hocon</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-config-kubernetes-configmap</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-config-hocon</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-config-kubernetes-configmap</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-health-check</artifactId>
@@ -196,6 +196,16 @@
 						<configuration>
 							<buildStrategy>s2i</buildStrategy>
 							<mode>openshift</mode>
+							<!-- <enricher>
+								<includes>
+									<include>vertx-health-check</include>
+								</includes>
+								<config>
+									<vertx-health-check>
+										<path>/health</path>
+									</vertx-health-check>
+								</config>
+							</enricher> -->
 						</configuration>
 						<executions>
 							<execution>
@@ -207,9 +217,6 @@
 								</goals>
 							</execution>
 						</executions>
-						<!-- <configuration> <enricher> <includes> <include>vertx-health-check</include> 
-							</includes> <config> <vertx-health-check> <path>/health</path> </vertx-health-check> 
-							</config> </enricher> </configuration> -->
 					</plugin>
 				</plugins>
 			</build>
