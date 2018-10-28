@@ -1,7 +1,5 @@
 package io.ensure.deepsea.actuarial.bordereau;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.text.ParseException;
 
 import java.time.Instant;
@@ -10,13 +8,10 @@ import io.ensure.deepsea.common.service.ISO8601DateParser;
 
 import io.vertx.codegen.annotations.DataObject;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
+
 
 @DataObject(generateConverter = true)
 public class BordereauLine {
-	
-	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	private String bordereauLineId;
 	private String clientId;

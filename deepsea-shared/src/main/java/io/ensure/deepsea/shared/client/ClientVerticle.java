@@ -17,6 +17,17 @@ import io.vertx.serviceproxy.ServiceBinder;
 
 public class ClientVerticle extends BaseMicroserviceVerticle {
 	
+	/**
+	 * The name of the event bus service.
+	 */
+	private static String SERVICE_NAME = "client-service";
+
+	/**
+	 * The address on which the service is published.
+	 */
+	private static String SERVICE_ADDRESS = "service.client";
+
+	
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	private ClientService clientService;
@@ -60,9 +71,7 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 	private Future<Void> initClientDatabase(ClientService service) {
 		Future<Void> initFuture = Future.future();
 		service.initializePersistence(initFuture.completer());
-		return initFuture.map(v -> {
-			return null;
-		});
+		return initFuture.map(v -> null);
 	}
 
 	private Future<Void> deployRestVerticle() {

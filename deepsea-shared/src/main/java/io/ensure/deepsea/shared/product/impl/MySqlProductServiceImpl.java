@@ -33,12 +33,12 @@ public class MySqlProductServiceImpl extends MySqlRepositoryWrapper implements P
 	@Override
 	public ProductService initializePersistence(Handler<AsyncResult<Void>> resultHandler) {
 		log.info(CREATE_STATEMENT);
-		client.getConnection(connHandler(resultHandler, connection -> {
+		client.getConnection(connHandler(resultHandler, connection -> 
 			connection.execute(CREATE_STATEMENT, r -> {
 				resultHandler.handle(r);
 				connection.close();
-			});
-		}));
+			})
+		));
 		return this;
 	}
 

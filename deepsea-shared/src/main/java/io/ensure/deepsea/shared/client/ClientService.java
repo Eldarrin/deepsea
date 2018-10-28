@@ -13,16 +13,6 @@ import io.vertx.core.Handler;
 public interface ClientService {
 
 	/**
-	 * The name of the event bus service.
-	 */
-	String SERVICE_NAME = "client-service";
-
-	/**
-	 * The address on which the service is published.
-	 */
-	String SERVICE_ADDRESS = "service.client";
-
-	/**
 	 * Initialize the persistence.
 	 *
 	 * @param resultHandler the result handler will be called as soon as the

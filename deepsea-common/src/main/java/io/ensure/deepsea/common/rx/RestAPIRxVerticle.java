@@ -27,6 +27,10 @@ import java.util.function.BiConsumer;
  */
 public abstract class RestAPIRxVerticle extends BaseMicroserviceRxVerticle {
 	
+	private static final String ERROR = "error";
+	private static final String APPLICATION_JSON = "application/json";
+	private static final String CONTENT_TYPE = "content-type";
+	private static final String MESSAGE = "message";
 	private Logger log = LoggerFactory.getLogger(getClass());
 
   protected Single<Void> createHttpServer(Router router, String host, int port) {
@@ -74,42 +78,40 @@ public abstract class RestAPIRxVerticle extends BaseMicroserviceRxVerticle {
     } else {
       context.response()
         .setStatusCode(401)
-        .end(new JsonObject().put("message", "need_auth").encode());
+        .end(new JsonObject().put(MESSAGE, "need_auth").encode());
     }
   }
 
   protected void badRequest(RoutingContext context, Throwable ex) {
     context.response().setStatusCode(400)
-      .putHeader("content-type", "application/json")
-      .end(new JsonObject().put("error", ex.getMessage()).encodePrettily());
+      .putHeader(CONTENT_TYPE, APPLICATION_JSON)
+      .end(new JsonObject().put(ERROR, ex.getMessage()).encodePrettily());
   }
 
   protected void notFound(RoutingContext context) {
     context.response().setStatusCode(404)
-      .putHeader("content-type", "application/json")
-      .end(new JsonObject().put("message", "not_found").encodePrettily());
+      .putHeader(CONTENT_TYPE, APPLICATION_JSON)
+      .end(new JsonObject().put(MESSAGE, "not_found").encodePrettily());
   }
 
   protected void internalError(RoutingContext context, Throwable ex) {
     context.response().setStatusCode(500)
-      .putHeader("content-type", "application/json")
-      .end(new JsonObject().put("error", ex.getMessage()).encodePrettily());
+      .putHeader(CONTENT_TYPE, APPLICATION_JSON)
+      .end(new JsonObject().put(ERROR, ex.getMessage()).encodePrettily());
   }
 
   protected void notImplemented(RoutingContext context) {
     context.response().setStatusCode(501)
-      .putHeader("content-type", "application/json")
-      .end(new JsonObject().put("message", "not_implemented").encodePrettily());
+      .putHeader(CONTENT_TYPE, APPLICATION_JSON)
+      .end(new JsonObject().put(MESSAGE, "not_implemented").encodePrettily());
   }
 
   protected void badGateway(Throwable ex, RoutingContext context) {
     log.error(ex);;
     context.response()
       .setStatusCode(502)
-      .putHeader("content-type", "application/json")
-      .end(new JsonObject().put("error", "bad_gateway")
-        //.put("message", ex.getMessage())
-        .encodePrettily());
+      .putHeader(CONTENT_TYPE, APPLICATION_JSON)
+      .end(new JsonObject().put(ERROR, "bad_gateway").encodePrettily());
   }
 
   protected void serviceUnavailable(RoutingContext context) {
@@ -118,14 +120,14 @@ public abstract class RestAPIRxVerticle extends BaseMicroserviceRxVerticle {
 
   protected void serviceUnavailable(RoutingContext context, Throwable ex) {
     context.response().setStatusCode(503)
-      .putHeader("content-type", "application/json")
-      .end(new JsonObject().put("error", ex.getMessage()).encodePrettily());
+      .putHeader(CONTENT_TYPE, APPLICATION_JSON)
+      .end(new JsonObject().put(ERROR, ex.getMessage()).encodePrettily());
   }
 
   protected void serviceUnavailable(RoutingContext context, String cause) {
     context.response().setStatusCode(503)
-      .putHeader("content-type", "application/json")
-      .end(new JsonObject().put("error", cause).encodePrettily());
+      .putHeader(CONTENT_TYPE, APPLICATION_JSON)
+      .end(new JsonObject().put(ERROR, cause).encodePrettily());
   }
 
 }

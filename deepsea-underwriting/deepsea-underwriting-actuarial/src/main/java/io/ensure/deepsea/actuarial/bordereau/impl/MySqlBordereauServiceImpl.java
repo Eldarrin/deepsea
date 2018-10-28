@@ -77,8 +77,8 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 	
 	@Override
 	public BordereauService removeBordereauLine(String bordereauLineId, Handler<AsyncResult<Void>> resultHandler) {
-		// TODO Auto-generated method stub
-		return null;
+		this.removeOne(bordereauLineId, REMOVE_BORDEREAULINE, resultHandler);
+		return this;
 	}
 
 	// SQL Statements
@@ -98,5 +98,7 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 	private static final String FETCH_BY_CLIENT_STATEMENT = "SELECT * FROM bordereau WHERE clientId = ?";
 
 	private static final String FETCH_BY_CLIENT_WITH_PAGE_STATEMENT = "SELECT * FROM bordereau WHERE clientId = ? LIMIT ?, ?";
+	
+	private static final String REMOVE_BORDEREAULINE = "DELETE FROM bordereau WHERE bordereauLineId = ?";
 	
 }

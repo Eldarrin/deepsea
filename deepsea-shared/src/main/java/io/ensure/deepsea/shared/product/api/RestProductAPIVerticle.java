@@ -25,6 +25,8 @@ import io.vertx.servicediscovery.types.HttpEndpoint;
  */
 public class RestProductAPIVerticle extends RestAPIVerticle {
 
+	private static final String PRODUCT_ID = "productId";
+
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	public static final String SERVICE_NAME = "product-rest-api";
@@ -87,7 +89,7 @@ public class RestProductAPIVerticle extends RestAPIVerticle {
 			Product product = new Product(new JsonObject(context.getBodyAsString()));
 			service.addProduct(product, resultHandler(context, r -> {
 				String result = new JsonObject().put("message", "product_added")
-						.put("productId", product.getProductId()).encodePrettily();
+						.put(PRODUCT_ID, product.getProductId()).encodePrettily();
 				context.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
 			}));
 		} catch (DecodeException e) {
@@ -108,7 +110,7 @@ public class RestProductAPIVerticle extends RestAPIVerticle {
 			}
 		});
 				
-		String productId = context.request().getParam("productId");
+		String productId = context.request().getParam(PRODUCT_ID);
 		service.retrieveProduct(productId, resultHandlerNonEmpty(context));
 	}
 	
@@ -120,7 +122,7 @@ public class RestProductAPIVerticle extends RestAPIVerticle {
 	
 
 	private void apiRetrievePrice(RoutingContext context) {
-		String productId = context.request().getParam("productId");
+		String productId = context.request().getParam(PRODUCT_ID);
 		service.retrieveProductPrice(productId, resultHandlerNonEmpty(context));
 	}
 
@@ -135,7 +137,6 @@ public class RestProductAPIVerticle extends RestAPIVerticle {
 	}
 
 	private void apiRetrieveAll(RoutingContext context) {
-		log.info("In retrieve all");
 		service.retrieveAllProducts(resultHandler(context, Json::encodePrettily));
 	}
 
@@ -144,7 +145,7 @@ public class RestProductAPIVerticle extends RestAPIVerticle {
 	}
 
 	private void apiDelete(RoutingContext context) {
-		String productId = context.request().getParam("productId");
+		String productId = context.request().getParam(PRODUCT_ID);
 		service.deleteProduct(productId, deleteResultHandler(context));
 	}
 

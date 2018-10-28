@@ -38,7 +38,7 @@ public class MySqlRepositoryWrapper {
 	 * @param resultHandler async result handler
 	 */
 	protected void executeNoResult(JsonArray params, String sql, Handler<AsyncResult<Void>> resultHandler) {
-		client.getConnection(connHandler(resultHandler, connection -> {
+		client.getConnection(connHandler(resultHandler, connection -> 
 			connection.updateWithParams(sql, params, r -> {
 				if (r.succeeded()) {
 					resultHandler.handle(Future.succeededFuture());
@@ -46,12 +46,12 @@ public class MySqlRepositoryWrapper {
 					resultHandler.handle(Future.failedFuture(r.cause()));
 				}
 				connection.close();
-			});
-		}));
+			})
+		));
 	}
 
 	protected <R> void execute(JsonArray params, String sql, R ret, Handler<AsyncResult<R>> resultHandler) {
-		client.getConnection(connHandler(resultHandler, connection -> {
+		client.getConnection(connHandler(resultHandler, connection -> 
 			connection.updateWithParams(sql, params, r -> {
 				if (r.succeeded()) {
 					resultHandler.handle(Future.succeededFuture(ret));
@@ -59,8 +59,8 @@ public class MySqlRepositoryWrapper {
 					resultHandler.handle(Future.failedFuture(r.cause()));
 				}
 				connection.close();
-			});
-		}));
+			})
+		));
 	}
 
 	protected <K> Future<Optional<JsonObject>> retrieveOne(K param, String sql) {
@@ -90,26 +90,19 @@ public class MySqlRepositoryWrapper {
 	}
 
 	protected Future<List<JsonObject>> retrieveByPage(int page, int limit, String sql) {
-		JsonArray params = new JsonArray().add(calcPage(page, limit)).add(limit);
-		return getConnection().compose(connection -> {
-			Future<List<JsonObject>> future = Future.future();
-			connection.queryWithParams(sql, params, r -> {
-				if (r.succeeded()) {
-					future.complete(r.result().getRows());
-				} else {
-					future.fail(r.cause());
-				}
-				connection.close();
-			});
-			return future;
-		});
+		return retrieveManyByPage(page, limit, null, sql);
 	}
 
 	protected Future<List<JsonObject>> retrieveManyByPage(int page, int limit, JsonArray params, String sql) {
-		params.add(calcPage(page, limit)).add(limit);
+		if (params != null) {
+			params.add(calcPage(page, limit)).add(limit);
+		} else {
+			params = new JsonArray().add(calcPage(page, limit)).add(limit);
+		}
+		JsonArray paramq = params;
 		return getConnection().compose(connection -> {
 			Future<List<JsonObject>> future = Future.future();
-			connection.queryWithParams(sql, params, r -> {
+			connection.queryWithParams(sql, paramq, r -> {
 				if (r.succeeded()) {
 					future.complete(r.result().getRows());
 				} else {
@@ -166,7 +159,7 @@ public class MySqlRepositoryWrapper {
 	}
 
 	protected void removeAll(String sql, Handler<AsyncResult<Void>> resultHandler) {
-		client.getConnection(connHandler(resultHandler, connection -> {
+		client.getConnection(connHandler(resultHandler, connection -> 
 			connection.update(sql, r -> {
 				if (r.succeeded()) {
 					resultHandler.handle(Future.succeededFuture());
@@ -174,8 +167,8 @@ public class MySqlRepositoryWrapper {
 					resultHandler.handle(Future.failedFuture(r.cause()));
 				}
 				connection.close();
-			});
-		}));
+			})
+		));
 	}
 
 	/**

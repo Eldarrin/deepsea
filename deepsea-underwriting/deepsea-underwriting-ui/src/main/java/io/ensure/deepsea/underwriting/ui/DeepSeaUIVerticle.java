@@ -81,7 +81,7 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 	private void dispatchRequests(RoutingContext context) {
 		int initialOffset = 5; // length of `/api/`
 		// run with circuit breaker in order to deal with failure
-		circuitBreaker.execute(future -> {
+		circuitBreaker.execute(future -> 
 			getAllEndpoints().setHandler(ar -> {
 				logger.info("in get endpoints");
 				if (ar.succeeded()) {
@@ -122,8 +122,8 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 				} else {
 					future.fail(ar.cause());
 				}
-			});
-		}).setHandler(ar -> {
+			})
+		).setHandler(ar -> {
 			if (ar.failed()) {
 				badGateway(ar.cause(), context);
 			}
@@ -156,9 +156,9 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 					cbFuture.fail(response.statusCode() + ": " + body.toString());
 				} else {
 					HttpServerResponse toRsp = context.response().setStatusCode(response.statusCode());
-					response.headers().forEach(header -> {
-						toRsp.putHeader(header.getKey(), header.getValue());
-					});
+					response.headers().forEach(header -> 
+						toRsp.putHeader(header.getKey(), header.getValue())
+					);
 					// send response
 					toRsp.end(body);
 					cbFuture.complete();
@@ -167,9 +167,9 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 			});
 		});
 		// set headers
-		context.request().headers().forEach(header -> {
-			toReq.putHeader(header.getKey(), header.getValue());
-		});
+		context.request().headers().forEach(header -> 
+			toReq.putHeader(header.getKey(), header.getValue())
+		);
 		if (context.user() != null) {
 			toReq.putHeader("user-principal", context.user().principal().encode());
 		}

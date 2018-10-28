@@ -27,7 +27,9 @@ import java.util.Set;
  */
 public class BaseMicroserviceRxVerticle extends AbstractVerticle {
 
-  private static final Logger logger = LoggerFactory.getLogger(BaseMicroserviceRxVerticle.class);
+  private static final String CIRCUIT_BREAKER = "circuit-breaker";
+
+private static final Logger logger = LoggerFactory.getLogger(BaseMicroserviceRxVerticle.class);
 
   protected ServiceDiscovery discovery;
   protected CircuitBreaker circuitBreaker;
@@ -36,9 +38,9 @@ public class BaseMicroserviceRxVerticle extends AbstractVerticle {
   @Override
   public void start() throws Exception {
     discovery = ServiceDiscovery.create(vertx, new ServiceDiscoveryOptions().setBackendConfiguration(config()));
-    JsonObject cbOptions = config().getJsonObject("circuit-breaker") != null ?
-      config().getJsonObject("circuit-breaker") : new JsonObject();
-    circuitBreaker = CircuitBreaker.create(cbOptions.getString("name", "circuit-breaker"), vertx,
+    JsonObject cbOptions = config().getJsonObject(CIRCUIT_BREAKER) != null ?
+      config().getJsonObject(CIRCUIT_BREAKER) : new JsonObject();
+    circuitBreaker = CircuitBreaker.create(cbOptions.getString("name", CIRCUIT_BREAKER), vertx,
       new CircuitBreakerOptions()
         .setMaxFailures(cbOptions.getInteger("maxFailures", 5))
         .setTimeout(cbOptions.getLong("timeout", 10000L))
