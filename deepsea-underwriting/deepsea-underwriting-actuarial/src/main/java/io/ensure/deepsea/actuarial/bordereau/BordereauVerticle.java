@@ -1,19 +1,10 @@
 package io.ensure.deepsea.actuarial.bordereau;
 
-import static io.ensure.deepsea.actuarial.bordereau.BordereauService.SERVICE_ADDRESS;
-import static io.ensure.deepsea.actuarial.bordereau.BordereauService.SERVICE_NAME;
-import static io.ensure.deepsea.shared.client.ClientService.SERVICE_ADDRESS;
-import static io.ensure.deepsea.shared.client.ClientService.SERVICE_NAME;
-
 import io.ensure.deepsea.actuarial.bordereau.api.RestBordereauAPIVerticle;
 import io.ensure.deepsea.actuarial.bordereau.impl.MySqlBordereauServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
-import io.ensure.deepsea.shared.client.ClientService;
-import io.ensure.deepsea.shared.client.impl.MySqlClientServiceImpl;
 import io.vertx.config.ConfigRetriever;
-import io.vertx.config.ConfigRetrieverOptions;
-import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -22,6 +13,10 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class BordereauVerticle extends BaseMicroserviceVerticle {
+	
+	private static final String SERVICE_NAME = "bordereau-eb-service";
+
+	private static final  String SERVICE_ADDRESS = "service.bordereau";
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 

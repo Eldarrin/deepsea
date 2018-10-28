@@ -1,7 +1,0 @@
-organization=eldarrin-github
-projectKey=Eldarrin_deepsea
-serverUrl=https://sonarcloud.io
-serverVersion=7.4.0.18669
-dashboardUrl=https://sonarcloud.io/dashboard?id=Eldarrin_deepsea
-ceTaskId=AWa67toj93J9j99zCfZS
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWa67toj93J9j99zCfZS

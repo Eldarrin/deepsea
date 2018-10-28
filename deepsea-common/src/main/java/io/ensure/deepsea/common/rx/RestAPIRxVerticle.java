@@ -2,6 +2,8 @@ package io.ensure.deepsea.common.rx;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.rxjava.ext.web.Router;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.handler.CookieHandler;
@@ -24,6 +26,8 @@ import java.util.function.BiConsumer;
  * @author Eric Zhao
  */
 public abstract class RestAPIRxVerticle extends BaseMicroserviceRxVerticle {
+	
+	private Logger log = LoggerFactory.getLogger(getClass());
 
   protected Single<Void> createHttpServer(Router router, String host, int port) {
     return vertx.createHttpServer()
@@ -99,7 +103,7 @@ public abstract class RestAPIRxVerticle extends BaseMicroserviceRxVerticle {
   }
 
   protected void badGateway(Throwable ex, RoutingContext context) {
-    ex.printStackTrace();
+    log.error(ex);;
     context.response()
       .setStatusCode(502)
       .putHeader("content-type", "application/json")

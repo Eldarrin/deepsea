@@ -29,6 +29,10 @@ import java.util.Set;
  */
 public abstract class BaseMicroserviceVerticle extends AbstractVerticle {
 
+	private static final String API_NAME = "api.name";
+
+	private static final String CIRCUIT_BREAKER = "circuit-breaker";
+
 	private static final String LOG_EVENT_ADDRESS = "events.log";
 
 	private static final Logger logger = LoggerFactory.getLogger(BaseMicroserviceVerticle.class);
@@ -42,19 +46,11 @@ public abstract class BaseMicroserviceVerticle extends AbstractVerticle {
 		// init service discovery instance
 		discovery = ServiceDiscovery.create(vertx, new ServiceDiscoveryOptions().setBackendConfiguration(config()));
 
-		logger.info(config());
-		
-		logger.info(discovery.options().getAnnounceAddress());
-		logger.info(discovery.options().getBackendConfiguration());
-		logger.info(discovery.options().getName());
-		logger.info(discovery.options().getUsageAddress());
-		
-		
 		// init circuit breaker instance
-		JsonObject cbOptions = config().getJsonObject("circuit-breaker") != null
-				? config().getJsonObject("circuit-breaker")
+		JsonObject cbOptions = config().getJsonObject(CIRCUIT_BREAKER) != null
+				? config().getJsonObject(CIRCUIT_BREAKER)
 				: new JsonObject();
-		circuitBreaker = CircuitBreaker.create(cbOptions.getString("name", "circuit-breaker"), vertx,
+		circuitBreaker = CircuitBreaker.create(cbOptions.getString("name", CIRCUIT_BREAKER), vertx,
 				new CircuitBreakerOptions().setMaxFailures(cbOptions.getInteger("max-failures", 5))
 						.setTimeout(cbOptions.getLong("timeout", 10000L)).setFallbackOnFailure(true)
 						.setResetTimeout(cbOptions.getLong("reset-timeout", 30000L)));
@@ -62,13 +58,13 @@ public abstract class BaseMicroserviceVerticle extends AbstractVerticle {
 
 	protected Future<Void> publishHttpEndpoint(String name, String host, int port) {
 		Record record = HttpEndpoint.createRecord(name, host, port, "/",
-				new JsonObject().put("api.name", config().getString("api.name", "")));
+				new JsonObject().put(API_NAME, config().getString(API_NAME, "")));
 		return publish(record);
 	}
 	
 	protected Future<Void> publishHttpEndpoint(String name, String host, int port, String apiName) {
 		Record record = HttpEndpoint.createRecord(name, host, port, "/",
-				new JsonObject().put("api.name", apiName));
+				new JsonObject().put(API_NAME, apiName));
 		return publish(record);
 	}
 

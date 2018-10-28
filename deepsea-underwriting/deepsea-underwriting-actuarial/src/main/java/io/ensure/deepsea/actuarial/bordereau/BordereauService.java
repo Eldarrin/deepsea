@@ -13,16 +13,7 @@ import io.vertx.core.Handler;
 @ProxyGen
 public interface BordereauService {
 	
-	/**
-	   * The name of the event bus service.
-	   */
-	  String SERVICE_NAME = "bordereau-eb-service";
-
-	  /**
-	   * The address on which the service is published.
-	   */
-	  String SERVICE_ADDRESS = "service.bordereau";
-	  
+  
 	  /**
 	   * Initialize the persistence.
 	   *

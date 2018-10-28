@@ -4,63 +4,56 @@ import static io.ensure.deepsea.shared.product.ProductService.SERVICE_ADDRESS;
 import static io.ensure.deepsea.shared.product.ProductService.SERVICE_NAME;
 
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
+import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
 import io.ensure.deepsea.shared.product.api.RestProductAPIVerticle;
 import io.ensure.deepsea.shared.product.impl.MySqlProductServiceImpl;
-import io.vertx.config.ConfigRetrieverOptions;
-import io.vertx.config.ConfigStoreOptions;
+import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class ProductVerticle extends BaseMicroserviceVerticle {
 	
-	private ProductService productService;
+	private Logger log = LoggerFactory.getLogger(getClass());
 	
-    private static final String HOCON = "hocon";
-    private static final String CONFIGMAP = "configmap";
-    private static final String OPTIONAL = "optional";
+	private ProductService productService;
 	
 	@Override
 	public void start(Future<Void> future) throws Exception {
 		super.start();
 		
-		ConfigRetrieverOptions configRetrieverOptions = new ConfigRetrieverOptions();
-        if (System.getenv().containsKey("OPENSHIFT_BUILD_NAMESPACE")) {
-            ConfigStoreOptions kubeConfig = new ConfigStoreOptions()
-                    .setType(CONFIGMAP)
-                    .setFormat(HOCON)
-                    .setConfig(new JsonObject()
-                            .put(OPTIONAL, true)
-                            .put("name", "deepsea-product"));
-            configRetrieverOptions
-                .addStore(kubeConfig);        // Values here will override identical keys from above
-        }
+		ConfigRetriever retriever = ConfigRetriever
+				.create(vertx, new ConfigRetrieverHelper()
+						.getOptions("deepsea", "deepsea-shared"));
+        retriever.getConfig(res -> {
+        	if (res.succeeded()) {
+        		// create the service instance
+        		JsonObject mySqlConfig = new JsonObject()
+        				.put("host", res.result().getString("mysql.host"))
+        				.put("port", res.result().getInteger("mysql.port"))
+        				.put("username", res.result().getString("mysql.username"))
+        				.put("password", res.result().getString("mysql.password"))
+        				.put("database", res.result().getString("mysql.database"));
 
-		
-		// create the service instance
-		JsonObject mySqlConfig = new JsonObject()
-				.put("host", "mysql")
-				.put("port", 3306)
-				.put("username", "userWYY")
-				.put("password", "5FneIc4JkLWdxGYA")
-				.put("database", "sampledb");
-		
-		productService = new MySqlProductServiceImpl(vertx, mySqlConfig);
-		// Register the handler
-		new ServiceBinder(vertx)
-			.setAddress(SERVICE_ADDRESS)
-			.register(ProductService.class, productService);
-		
-		initProductDatabase(productService);
-		
-		// register the service proxy on event bus
-	    //ProxyHelper.registerService(ProductService.class, vertx, productService, SERVICE_ADDRESS);
-	    
-		// publish the service and REST endpoint in the discovery infrastructure
-		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, ProductService.class)
-				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
-		
+        		productService = new MySqlProductServiceImpl(vertx, mySqlConfig);
+        		// Register the handler
+        		new ServiceBinder(vertx)
+        				.setAddress(SERVICE_ADDRESS)
+        				.register(ProductService.class, productService);
+
+        		initProductDatabase(productService);
+
+        		// publish the service and REST endpoint in the discovery infrastructure
+        		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, ProductService.class)
+        				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+        	} else {
+        		log.error("Unable to find config map for deepsea-shared MySQL");
+        	}
+        
+        });
 		
 	}
 	

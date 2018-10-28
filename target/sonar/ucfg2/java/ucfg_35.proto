@@ -1,40 +1,0 @@
-
-cio.ensure.deepsea.common.functional.Functional#allOfFutures(Ljava/util/List;)Lio/vertx/core/Future;
-__unknown_file (futures"1*ç	
-1q
-g/home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/functional/Functional.java! !(¡
-ž
-q
-g/home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/functional/Functional.java!> !(L
-%0"java.util.List#size()I*
-	
-futures„
-q
-g/home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/functional/Functional.java!3 !(M
-%1"$ArrayÑ
-Î
-q
-g/home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/functional/Functional.java!# !(N
-%2">java.util.List#toArray([Ljava/lang/Object;)[Ljava/lang/Object;*
-	
-futures*
-
-%1”
-‘
-q
-g/home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/functional/Functional.java! !(O
-%3"bio.vertx.core.impl.CompositeFutureImpl#all([Lio/vertx/core/Future;)Lio/vertx/core/CompositeFuture;**"(
-&io.vertx.core.impl.CompositeFutureImpl*
-
-%2Û
-Ø
-q
-g/home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/functional/Functional.java! %(
-%4"Mio.vertx.core.Future#map(Ljava/util/function/Function;)Lio/vertx/core/Future;*
-
-%3*
-"""{
-q
-g/home/andy/git/deepsea/deepsea-common/src/main/java/io/ensure/deepsea/common/functional/Functional.java! %(
-
-%4

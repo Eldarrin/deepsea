@@ -1,8 +1,8 @@
 package io.ensure.deepsea.actuarial;
 
-import io.ensure.deepsea.common.BaseMicroserviceVerticle;
+import io.vertx.core.AbstractVerticle;
 
-public class ActuarialVerticle extends BaseMicroserviceVerticle {
+public class ActuarialVerticle extends AbstractVerticle {
 
 	@Override
 	public void start() {
