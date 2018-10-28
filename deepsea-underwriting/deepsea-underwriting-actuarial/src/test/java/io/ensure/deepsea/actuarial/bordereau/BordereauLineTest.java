@@ -1,7 +1,6 @@
 package io.ensure.deepsea.actuarial.bordereau;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.time.Instant;
 
@@ -82,7 +81,11 @@ public class BordereauLineTest {
 	@Test
 	public void testEqualsObject() {
 		BordereauLine b = new BordereauLine(bordereauLine);
+		assertTrue(b.equals(b));
+		assertFalse(b.equals(null));
+		assertFalse(b.equals(new String()));
 		assertEquals(b, bordereauLine);
+		
 	}
 
 	@Test

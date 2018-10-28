@@ -115,15 +115,6 @@ public class BordereauLine {
 			this.eventDate = ISO8601DateParser
 					.parse(json.getString("eventDate")).toInstant();
 		} catch (ParseException pe) {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	        PrintStream ps = new PrintStream(baos);
-
-	        pe.printStackTrace(ps);
-
-	        String content = baos.toString(); 
-
-	        log.error(pe);
-	        log.error(content);
 			
 		}
 	}
