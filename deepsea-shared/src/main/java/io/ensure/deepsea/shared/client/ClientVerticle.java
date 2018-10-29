@@ -1,8 +1,5 @@
 package io.ensure.deepsea.shared.client;
 
-import static io.ensure.deepsea.shared.client.ClientService.SERVICE_ADDRESS;
-import static io.ensure.deepsea.shared.client.ClientService.SERVICE_NAME;
-
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
 import io.ensure.deepsea.shared.client.api.RestClientAPIVerticle;
