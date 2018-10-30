@@ -107,7 +107,7 @@ public abstract class RestAPIRxVerticle extends BaseMicroserviceRxVerticle {
   }
 
   protected void badGateway(Throwable ex, RoutingContext context) {
-    log.error(ex);;
+    log.error(ex);
     context.response()
       .setStatusCode(502)
       .putHeader(CONTENT_TYPE, APPLICATION_JSON)

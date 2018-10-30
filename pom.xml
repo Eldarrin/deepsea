@@ -247,5 +247,6 @@
 		<module>deepsea-common</module>
 		<module>deepsea-underwriting</module>
 		<module>deepsea-shared</module>
+		<module>deepsea-admin</module>
 	</modules>
 </project>

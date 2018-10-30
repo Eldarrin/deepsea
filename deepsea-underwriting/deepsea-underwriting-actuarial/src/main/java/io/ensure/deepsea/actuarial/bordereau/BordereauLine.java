@@ -4,15 +4,13 @@ import java.text.ParseException;
 
 import java.time.Instant;
 
-import io.ensure.deepsea.common.service.ISO8601DateParser;
-
+import io.ensure.deepsea.common.helper.ISO8601DateParser;
 import io.vertx.codegen.annotations.DataObject;
 import io.vertx.core.json.JsonObject;
 
-
 @DataObject(generateConverter = true)
 public class BordereauLine {
-	
+
 	private String bordereauLineId;
 	private String clientId;
 	private String customerName;
@@ -21,11 +19,11 @@ public class BordereauLine {
 	private Instant startDate;
 	private Instant eventDate;
 	private BordereauEvent event;
-	
+
 	public BordereauLine() {
-		
+
 	}
-	
+
 	public BordereauLine(BordereauLine bordereauLine) {
 		super();
 		this.bordereauLineId = bordereauLine.bordereauLineId;
@@ -37,7 +35,7 @@ public class BordereauLine {
 		this.eventDate = bordereauLine.eventDate;
 		this.event = bordereauLine.event;
 	}
-	
+
 	public String getBordereauLineId() {
 		return bordereauLineId;
 	}
@@ -105,12 +103,12 @@ public class BordereauLine {
 	public BordereauLine(JsonObject json) {
 		BordereauLineConverter.fromJson(json, this);
 		try {
-			this.startDate = ISO8601DateParser
-					.parse(json.getString("startDate")).toInstant();
-			this.eventDate = ISO8601DateParser
-					.parse(json.getString("eventDate")).toInstant();
+			this.startDate = ISO8601DateParser.parse(
+					json.getString("startDate")).toInstant();
+			this.eventDate = ISO8601DateParser.parse(
+					json.getString("eventDate")).toInstant();
 		} catch (ParseException pe) {
-			
+			// zero the dates if an error
 		}
 	}
 
@@ -121,7 +119,7 @@ public class BordereauLine {
 		json.put("eventDate", this.eventDate);
 		return json;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

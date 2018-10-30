@@ -11,7 +11,7 @@ import org.junit.Test;
 import io.vertx.core.json.JsonObject;
 
 public class BordereauLineTest {
-	
+
 	private static final String CUSTOMER_NAME = "customerName";
 	private static final String CLIENT_ID = "clientId";
 	private static final String LINE_ID = "lineId";
@@ -31,15 +31,10 @@ public class BordereauLineTest {
 		bordereauLine.setIpt(2d);
 		bordereauLine.setValue(10d);
 		bordereauLine.setStartDate(testInstant);
-		
-		jBordereauLine = new JsonObject().put("bordereauLineId", LINE_ID)
-				.put("clientId", CLIENT_ID)
-				.put("customerName", CUSTOMER_NAME)
-				.put("event", BordereauEvent.INCEPTION.toString())
-				.put("eventDate", testInstant)
-				.put("ipt", 2d)
-				.put("value", 10d)
-				.put("startDate", testInstant);
+
+		jBordereauLine = new JsonObject().put("bordereauLineId", LINE_ID).put("clientId", CLIENT_ID)
+				.put("customerName", CUSTOMER_NAME).put("event", BordereauEvent.INCEPTION.toString())
+				.put("eventDate", testInstant).put("ipt", 2d).put("value", 10d).put("startDate", testInstant);
 	}
 
 	@After
@@ -68,8 +63,8 @@ public class BordereauLineTest {
 
 	@Test
 	public void testBordereauLineJsonObject() {
-		BordereauLine jBL = new BordereauLine(jBordereauLine);
-		
+		BordereauLine jBL;
+		jBL = new BordereauLine(jBordereauLine);
 		assertEquals(bordereauLine, jBL);
 	}
 
@@ -83,9 +78,9 @@ public class BordereauLineTest {
 		BordereauLine b = new BordereauLine(bordereauLine);
 		assertTrue(b.equals(b));
 		assertFalse(b.equals(null));
-		assertFalse(b.equals(new String()));
+		assertFalse(b.equals(new String("test")));
 		assertEquals(b, bordereauLine);
-		
+
 	}
 
 	@Test

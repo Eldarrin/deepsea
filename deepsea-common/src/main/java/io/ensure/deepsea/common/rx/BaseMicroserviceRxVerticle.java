@@ -82,7 +82,6 @@ private static final Logger logger = LoggerFactory.getLogger(BaseMicroserviceRxV
 
   @Override
   public void stop(Future<Void> future) throws Exception {
-    // TODO: to optimize.
     Observable.from(registeredRecords)
       .flatMap(record -> discovery.rxUnpublish(record.getRegistration()).toObservable())
       .reduce((Void) null, (a, b) -> null)

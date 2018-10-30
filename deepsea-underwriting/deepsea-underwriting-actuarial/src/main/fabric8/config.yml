@@ -4,8 +4,8 @@ metadata:
   name: ${project.artifactId}
   namespace: deepsea
 data:
-  mysql.username: userLLF
-  mysql.password: PTLoLVfp5DEOA18b
+  mysql.username: user2BX
+  mysql.password: oYJosEPd3C2YHjwa
   mysql.host: mysql
   mysql.port: 3306
   mysql.database: sampledb

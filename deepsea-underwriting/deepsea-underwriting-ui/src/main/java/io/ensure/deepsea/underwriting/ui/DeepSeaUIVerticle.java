@@ -83,17 +83,10 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 		// run with circuit breaker in order to deal with failure
 		circuitBreaker.execute(future -> 
 			getAllEndpoints().setHandler(ar -> {
-				logger.info("in get endpoints");
 				if (ar.succeeded()) {
-					logger.info("in get endpoints - succeeded");
 					List<Record> recordList = ar.result();
-					logger.info(recordList.size());
-					for (Record record : recordList) {
-						logger.info(record.getName());
-					}
 					// get relative path and retrieve prefix to dispatch client
 					String path = context.request().uri();
-					logger.info(path);
 
 					if (path.length() <= initialOffset) {
 						notFound(context);
@@ -107,15 +100,10 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 					Optional<Record> client = recordList.stream()
 							.filter(record -> record.getMetadata().getString("api.name") != null)
 							.filter(record -> record.getMetadata().getString("api.name").equals(prefix)).findAny(); // simple
-																													// load
-																													// balance
-
+													
 					if (client.isPresent()) {
-						logger.info(client.get().getLocation());
-						logger.info(newPath);
 						doDispatch(context, newPath, discovery.getReference(client.get()).get(), future);
 					} else {
-						logger.info("not found");
 						notFound(context);
 						future.complete();
 					}

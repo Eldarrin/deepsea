@@ -103,12 +103,12 @@ public class ClientService {
     }));
   }
 
-  public ClientService removeClient(Client client, Handler<AsyncResult<Client>> resultHandler) { 
+  public ClientService removeClient(Client client, Handler<AsyncResult<Void>> resultHandler) { 
     delegate.removeClient(client, resultHandler);
     return this;
   }
 
-  public Single<Client> rxRemoveClient(Client client) { 
+  public Single<Void> rxRemoveClient(Client client) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       removeClient(client, fut);
     }));

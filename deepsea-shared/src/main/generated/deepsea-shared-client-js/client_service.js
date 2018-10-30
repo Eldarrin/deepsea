@@ -104,7 +104,7 @@ var ClientService = function(j_val) {
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
       j_clientService["removeClient(io.ensure.deepsea.shared.client.Client,io.vertx.core.Handler)"](client != null ? new Client(new JsonObject(Java.asJSONCompatible(client))) : null, function(ar) {
       if (ar.succeeded()) {
-        resultHandler(utils.convReturnDataObject(ar.result()), null);
+        resultHandler(null, null);
       } else {
         resultHandler(null, ar.cause());
       }

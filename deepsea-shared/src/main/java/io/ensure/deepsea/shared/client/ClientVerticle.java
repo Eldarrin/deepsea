@@ -17,12 +17,12 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 	/**
 	 * The name of the event bus service.
 	 */
-	private static String SERVICE_NAME = "client-service";
+	private static final String SERVICE_NAME = "client-service";
 
 	/**
 	 * The address on which the service is published.
 	 */
-	private static String SERVICE_ADDRESS = "service.client";
+	private static final String SERVICE_ADDRESS = "service.client";
 
 	
 	private Logger log = LoggerFactory.getLogger(getClass());

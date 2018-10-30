@@ -23,6 +23,8 @@ public class MySqlClientServiceImpl extends MySqlRepositoryWrapper implements Cl
 			+ "  VALUES(?, ?)";
 
 	private static final String FETCH_STATEMENT = "SELECT * FROM client";
+	
+	private static final String REMOVE_STATEMENT = "DELETE FROM client WHERE clientId = ?";
 
 	public MySqlClientServiceImpl(Vertx vertx, JsonObject config) {
 		super(vertx, config);
@@ -30,12 +32,12 @@ public class MySqlClientServiceImpl extends MySqlRepositoryWrapper implements Cl
 	
 	@Override
 	public ClientService initializePersistence(Handler<AsyncResult<Void>> resultHandler) {
-		client.getConnection(connHandler(resultHandler, connection -> {
+		client.getConnection(connHandler(resultHandler, connection -> 
 			connection.execute(CREATE_STATEMENT, r -> {
 				resultHandler.handle(r);
 				connection.close();
-			});
-		}));
+			})
+		));
 		return this;
 	}
 
@@ -56,9 +58,9 @@ public class MySqlClientServiceImpl extends MySqlRepositoryWrapper implements Cl
 	}
 
 	@Override
-	public ClientService removeClient(Client client, Handler<AsyncResult<Client>> resultHandler) {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientService removeClient(Client client, Handler<AsyncResult<Void>> resultHandler) {
+		this.removeOne(client.getClientId(), REMOVE_STATEMENT, resultHandler);
+		return this;
 	}
 
 }

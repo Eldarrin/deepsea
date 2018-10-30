@@ -150,7 +150,9 @@ public class RestProductAPIVerticle extends RestAPIVerticle {
 	}
 
 	private void apiDeleteAll(RoutingContext context, JsonObject principle) {
-		service.deleteAllProducts(deleteResultHandler(context));
+		if (principle != null) {
+			service.deleteAllProducts(deleteResultHandler(context));
+		}
 	}
 
 }

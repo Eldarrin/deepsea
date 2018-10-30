@@ -316,7 +316,7 @@ public abstract class RestAPIVerticle extends BaseMicroserviceVerticle {
   }
 
   protected void badGateway(Throwable ex, RoutingContext context) {
-    ex.printStackTrace();
+    log.error(ex);
     context.response()
       .setStatusCode(502)
       .putHeader(CONTENT_TYPE, APPLICATION_JSON)

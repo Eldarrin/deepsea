@@ -1,42 +1,0 @@
-
-¸io.ensure.deepsea.shared.client.impl.MySqlClientServiceImpl#removeClient(Lio/ensure/deepsea/shared/client/Client;Lio/vertx/core/Handler;)Lio/ensure/deepsea/shared/client/ClientService;
-__unknown_file (clientresultHandler"paramAnnotations*Ž
-1~
-t/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/impl/MySqlClientServiceImpl.java=	 =("ˆ
-~
-t/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/impl/MySqlClientServiceImpl.java= =(
-""*é
-paramAnnotations~
-t/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/impl/MySqlClientServiceImpl.java;" ;(]¹
-¶
-~
-t/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/impl/MySqlClientServiceImpl.java: :(
-
-%0"
-__annotate*
-java.lang.Override*
-
-
-client£
- 
-~
-t/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/impl/MySqlClientServiceImpl.java;* ;(0
-client"__annotation*
-
-%0À
-½
-~
-t/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/impl/MySqlClientServiceImpl.java: :(
-
-%1"
-__annotate*
-java.lang.Override*
-
-resultHandlerª
-§
-~
-t/home/andy/git/deepsea/deepsea-shared/src/main/java/io/ensure/deepsea/shared/client/impl/MySqlClientServiceImpl.java;O ;(\
-resultHandler"__annotation*
-
-%1*
-1

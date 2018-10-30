@@ -29,6 +29,6 @@ public interface ClientService {
 	ClientService retrieveClients(Handler<AsyncResult<List<Client>>> resultHandler);
 	
 	@Fluent
-	ClientService removeClient(Client client, Handler<AsyncResult<Client>> resultHandler);
+	ClientService removeClient(Client client, Handler<AsyncResult<Void>> resultHandler);
 
 }

@@ -1,5 +1,8 @@
 package io.ensure.deepsea.actuarial.bordereau;
 
+import static io.ensure.deepsea.actuarial.bordereau.BordereauService.SERVICE_ADDRESS;
+import static io.ensure.deepsea.actuarial.bordereau.BordereauService.SERVICE_NAME;
+
 import io.ensure.deepsea.actuarial.bordereau.api.RestBordereauAPIVerticle;
 import io.ensure.deepsea.actuarial.bordereau.impl.MySqlBordereauServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
@@ -7,17 +10,14 @@ import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
+import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class BordereauVerticle extends BaseMicroserviceVerticle {
-	
-	private static final String SERVICE_NAME = "bordereau-eb-service";
 
-	private static final  String SERVICE_ADDRESS = "service.bordereau";
-	
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	private BordereauService bordereauService;
@@ -46,6 +46,8 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
         				.register(BordereauService.class, bordereauService);
 
         		initBordereauDatabase(bordereauService);
+        		
+        		vertx.eventBus().<JsonObject>consumer(SERVICE_ADDRESS, this::bordereauAdd);
 
         		// publish the service and REST endpoint in the discovery infrastructure
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, BordereauService.class)
@@ -62,6 +64,10 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		Future<Void> initFuture = Future.future();
 		service.initializePersistence(initFuture.completer());
 		return initFuture.map(v -> null);
+	}
+	
+	private void bordereauAdd(Message<JsonObject> bordereauLineMsg) {
+		bordereauService.addBordereauLine(new BordereauLine(bordereauLineMsg.body()), null);
 	}
 
 	private Future<Void> deployRestVerticle() {
