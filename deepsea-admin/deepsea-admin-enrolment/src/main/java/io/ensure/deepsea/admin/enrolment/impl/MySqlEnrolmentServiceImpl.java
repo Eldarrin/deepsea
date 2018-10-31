@@ -36,7 +36,7 @@ public class MySqlEnrolmentServiceImpl extends MySqlRepositoryWrapper implements
 				.add(fromInstant(enrolment.getStartDate()))
 				.add(enrolment.getGrossPremium())
 				.add(enrolment.getIpt());
-		this.executeNoResult(params, INSERT_STATEMENT, null);
+		this.executeNoResult(params, INSERT_STATEMENT, resultHandler);
 		return this;
 	}
 	
@@ -51,7 +51,7 @@ public class MySqlEnrolmentServiceImpl extends MySqlRepositoryWrapper implements
 
 	private static final String INSERT_STATEMENT = "INSERT INTO enrolment (`clientId`, \n"
 			+ "  `firstName`, `lastName`, `middleNames`, `productId`, `startDate`, `grossPremium`, `ipt`) \n"
-			+ "  VALUES(?, ?, ?, ?, ?, ?, ?, ?); \n SELECT LAST_INSERT_ID();";
+			+ "  VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
 
 }
