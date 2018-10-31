@@ -30,6 +30,8 @@ public class RestProductAPIVerticle extends RestAPIVerticle {
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	public static final String SERVICE_NAME = "product-rest-api";
+	
+	private static final String ROOT_FOLDER = "/product";
 
 	private static final String API_ADD = "/add";
 	private static final String API_RETRIEVE_BY_PAGE = "/products";
@@ -54,16 +56,16 @@ public class RestProductAPIVerticle extends RestAPIVerticle {
 		// body handler
 		router.route().handler(BodyHandler.create());
 		// API route handler
-		router.get(API_BUILD).handler(this::buildProduct);
+		router.get(ROOT_FOLDER + API_BUILD).handler(this::buildProduct);
 		
-		router.post(API_ADD).handler(this::apiAdd);
-		router.get(API_RETRIEVE_BY_PAGE).handler(this::apiRetrieveByPage);
-		router.get(API_RETRIEVE_ALL).handler(this::apiRetrieveAll);
-		router.get(API_RETRIEVE_PRICE).handler(this::apiRetrievePrice);
-		router.get(API_RETRIEVE).handler(this::apiRetrieve);
-		router.patch(API_UPDATE).handler(this::apiUpdate);
-		router.delete(API_DELETE).handler(this::apiDelete);
-		router.delete(API_DELETE_ALL).handler(context -> requireLogin(context, this::apiDeleteAll));
+		router.post(ROOT_FOLDER + API_ADD).handler(this::apiAdd);
+		router.get(ROOT_FOLDER + API_RETRIEVE_BY_PAGE).handler(this::apiRetrieveByPage);
+		router.get(ROOT_FOLDER + API_RETRIEVE_ALL).handler(this::apiRetrieveAll);
+		router.get(ROOT_FOLDER + API_RETRIEVE_PRICE).handler(this::apiRetrievePrice);
+		router.get(ROOT_FOLDER + API_RETRIEVE).handler(this::apiRetrieve);
+		router.patch(ROOT_FOLDER + API_UPDATE).handler(this::apiUpdate);
+		router.delete(ROOT_FOLDER + API_DELETE).handler(this::apiDelete);
+		router.delete(ROOT_FOLDER + API_DELETE_ALL).handler(context -> requireLogin(context, this::apiDeleteAll));
 		
 
 		// get HTTP host and port from configuration, or use default value

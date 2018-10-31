@@ -21,6 +21,7 @@ import rx.Observable;
 import rx.Single;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
+import io.ensure.deepsea.admin.enrolment.Enrolment;
 
 
 @io.vertx.lang.rxjava.RxGen(io.ensure.deepsea.admin.enrolment.EnrolmentService.class)
@@ -67,6 +68,17 @@ public class EnrolmentService {
   public Single<Void> rxInitializePersistence() { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       initializePersistence(fut);
+    }));
+  }
+
+  public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Void>> resultHandler) { 
+    delegate.addEnrolment(enrolment, resultHandler);
+    return this;
+  }
+
+  public Single<Void> rxAddEnrolment(Enrolment enrolment) { 
+    return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+      addEnrolment(enrolment, fut);
     }));
   }
 

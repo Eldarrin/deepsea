@@ -61,6 +61,24 @@
       } else throw new TypeError('function invoked with invalid arguments');
     };
 
+    /**
+
+     @public
+     @param enrolment {Object} 
+     @param resultHandler {function} 
+     @return {EnrolmentService}
+     */
+    this.addEnrolment = function(enrolment, resultHandler) {
+      var __args = arguments;
+      if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
+        if (closed) {
+          throw new Error('Proxy is closed');
+        }
+        j_eb.send(j_address, {"enrolment":__args[0]}, {"action":"addEnrolment"}, function(err, result) { __args[1](err, result &&result.body); });
+        return that;
+      } else throw new TypeError('function invoked with invalid arguments');
+    };
+
   };
 
   if (typeof exports !== 'undefined') {

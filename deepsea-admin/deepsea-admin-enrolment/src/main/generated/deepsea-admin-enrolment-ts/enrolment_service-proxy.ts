@@ -38,4 +38,12 @@ export class EnrolmentService {
       return this;
   }
 
+  addEnrolment(enrolment: any, resultHandler: (err: any, result: any) => any) : EnrolmentService {
+    if (closed) {
+      throw new Error('Proxy is closed');
+    }
+    this.eb.send(this.address, {"enrolment": enrolment}, {"action":"addEnrolment"}, function(err, result) { resultHandler(err, result &&result.body); });
+      return this;
+  }
+
 }

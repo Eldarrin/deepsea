@@ -35,6 +35,7 @@ import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
 import io.ensure.deepsea.admin.enrolment.EnrolmentService;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
+import io.ensure.deepsea.admin.enrolment.Enrolment;
 
 /*
   Generated Proxy code - DO NOT EDIT
@@ -71,6 +72,26 @@ public class EnrolmentServiceVertxEBProxy implements EnrolmentService {
     JsonObject _json = new JsonObject();
     DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
     _deliveryOptions.addHeader("action", "initializePersistence");
+    _vertx.eventBus().<Void>send(_address, _json, _deliveryOptions, res -> {
+      if (res.failed()) {
+        resultHandler.handle(Future.failedFuture(res.cause()));
+      } else {
+        resultHandler.handle(Future.succeededFuture(res.result().body()));
+      }
+    });
+    return this;
+  }
+
+  @Override
+  public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Void>> resultHandler) {
+    if (closed) {
+    resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
+      return this;
+    }
+    JsonObject _json = new JsonObject();
+    _json.put("enrolment", enrolment == null ? null : enrolment.toJson());
+    DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
+    _deliveryOptions.addHeader("action", "addEnrolment");
     _vertx.eventBus().<Void>send(_address, _json, _deliveryOptions, res -> {
       if (res.failed()) {
         resultHandler.handle(Future.failedFuture(res.cause()));

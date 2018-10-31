@@ -42,6 +42,7 @@ import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
 import io.ensure.deepsea.admin.enrolment.EnrolmentService;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
+import io.ensure.deepsea.admin.enrolment.Enrolment;
 
 /*
   Generated Proxy code - DO NOT EDIT
@@ -116,6 +117,10 @@ public class EnrolmentServiceVertxProxyHandler extends ProxyHandler {
       switch (action) {
         case "initializePersistence": {
           service.initializePersistence(createHandler(msg));
+          break;
+        }
+        case "addEnrolment": {
+          service.addEnrolment(json.getJsonObject("enrolment") == null ? null : new io.ensure.deepsea.admin.enrolment.Enrolment(json.getJsonObject("enrolment")), createHandler(msg));
           break;
         }
         default: {

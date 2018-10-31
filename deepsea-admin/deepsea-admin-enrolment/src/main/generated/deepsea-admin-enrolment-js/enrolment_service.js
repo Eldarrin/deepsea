@@ -20,6 +20,7 @@ var utils = require('vertx-js/util/utils');
 var io = Packages.io;
 var JsonObject = io.vertx.core.json.JsonObject;
 var JEnrolmentService = Java.type('io.ensure.deepsea.admin.enrolment.EnrolmentService');
+var Enrolment = Java.type('io.ensure.deepsea.admin.enrolment.Enrolment');
 
 /**
  @class
@@ -39,6 +40,27 @@ var EnrolmentService = function(j_val) {
     var __args = arguments;
     if (__args.length === 1 && typeof __args[0] === 'function') {
       j_enrolmentService["initializePersistence(io.vertx.core.Handler)"](function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(null, null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
+      return that;
+    } else throw new TypeError('function invoked with invalid arguments');
+  };
+
+  /**
+
+   @public
+   @param enrolment {Object} 
+   @param resultHandler {function} 
+   @return {EnrolmentService}
+   */
+  this.addEnrolment = function(enrolment, resultHandler) {
+    var __args = arguments;
+    if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
+      j_enrolmentService["addEnrolment(io.ensure.deepsea.admin.enrolment.Enrolment,io.vertx.core.Handler)"](enrolment != null ? new Enrolment(new JsonObject(Java.asJSONCompatible(enrolment))) : null, function(ar) {
       if (ar.succeeded()) {
         resultHandler(null, null);
       } else {

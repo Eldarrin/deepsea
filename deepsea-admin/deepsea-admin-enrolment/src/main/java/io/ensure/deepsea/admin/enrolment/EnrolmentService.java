@@ -10,7 +10,14 @@ import io.vertx.core.Handler;
 @ProxyGen
 public interface EnrolmentService {
 	
+	String SERVICE_NAME = "enrolment-eb-service";
+
+	String SERVICE_ADDRESS = "service.enrolment";
+	
 	@Fluent
 	EnrolmentService initializePersistence(Handler<AsyncResult<Void>> resultHandler);
+	
+	@Fluent
+	EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Void>> resultHandler);
 
 }
