@@ -27,6 +27,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 	@Override
 	public void start(Future<Void> future) throws Exception {
 		super.start();
+		startEBCluster();
 		
 		ConfigRetriever retriever = ConfigRetriever
 				.create(vertx, new ConfigRetrieverHelper()
@@ -54,6 +55,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
         		// publish the service and REST endpoint in the discovery infrastructure
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, EnrolmentService.class)
         				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+        		vertx.eventBus().publish("enrolment", new JsonObject().put("started", "true"));
         	} else {
         		log.error("Unable to find config map for deepsea-admin-enrolment MySQL");
         	}

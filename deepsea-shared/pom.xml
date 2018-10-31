@@ -85,7 +85,7 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 	<profiles>
 		<profile>
 			<id>openshift</id>
@@ -98,9 +98,16 @@
 						<configuration>
 							<buildStrategy>s2i</buildStrategy>
 							<mode>openshift</mode>
-							<!-- <enricher> <includes> <include>vertx-health-check</include> </includes> 
-								<config> <vertx-health-check> <path>/health</path> </vertx-health-check> 
-								</config> </enricher> -->
+							<enricher>
+								<includes>
+									<include>vertx-health-check</include>
+								</includes>
+								<config>
+									<vertx-health-check>
+										<path>/health</path>
+									</vertx-health-check>
+								</config>
+							</enricher>
 						</configuration>
 						<executions>
 							<execution>
@@ -117,5 +124,5 @@
 			</build>
 		</profile>
 	</profiles>
-	
+
 </project>

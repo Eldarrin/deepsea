@@ -33,6 +33,7 @@ public abstract class RestAPIVerticle extends BaseMicroserviceVerticle {
 	private static final String APPLICATION_JSON = "application/json";
 	private static final String CONTENT_TYPE = "content-type";
 	private static final String MESSAGE = "message";
+	protected static final String HEALTH = "/health";
 	private Logger log = LoggerFactory.getLogger(getClass());
 
   /**

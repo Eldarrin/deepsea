@@ -3,6 +3,8 @@ package io.ensure.deepsea.actuarial.bordereau;
 import static io.ensure.deepsea.actuarial.bordereau.BordereauService.SERVICE_ADDRESS;
 import static io.ensure.deepsea.actuarial.bordereau.BordereauService.SERVICE_NAME;
 
+import java.time.Instant;
+
 import io.ensure.deepsea.actuarial.bordereau.api.RestBordereauAPIVerticle;
 import io.ensure.deepsea.actuarial.bordereau.impl.MySqlBordereauServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
@@ -10,7 +12,6 @@ import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
-import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
@@ -47,11 +48,11 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 
         		initBordereauDatabase(bordereauService);
         		
-        		vertx.eventBus().<JsonObject>consumer(SERVICE_ADDRESS, this::bordereauAdd);
-
         		// publish the service and REST endpoint in the discovery infrastructure
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, BordereauService.class)
         				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+        		
+        		setupConsumers();
         	} else {
         		log.error("Unable to find config map for deepsea-underwriting-actuarial MySQL");
         	}
@@ -66,10 +67,23 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		return initFuture.map(v -> null);
 	}
 	
-	private void bordereauAdd(Message<JsonObject> bordereauLineMsg) {
-		bordereauService.addBordereauLine(new BordereauLine(bordereauLineMsg.body()), null);
+	private void setupConsumers() {
+		vertx.eventBus().<JsonObject>consumer("enrolment", res -> {
+			// convert enrolment to bordereauline and add
+			BordereauLine bl = new BordereauLine();
+			bl.setBordereauLineId("enrolment-" + res.body().getInteger("enrolmentId"));
+			bl.setClientId(res.body().getString("clientId"));
+			bl.setCustomerName(res.body().getString("firstName").substring(1, 1)
+					+ res.body().getString("lastName"));
+			bl.setEvent(BordereauEvent.INCEPTION);
+			bl.setEventDate(Instant.now());
+			bl.setIpt(res.body().getDouble("ipt"));
+			bl.setValue(res.body().getDouble("grossPremium"));
+			bl.setStartDate(res.body().getInstant("startDate"));
+			bordereauService.addBordereauLine(bl, null);
+		});
 	}
-
+	
 	private Future<Void> deployRestVerticle() {
 		Future<String> future = Future.future();
 		vertx.deployVerticle(new RestBordereauAPIVerticle(bordereauService),

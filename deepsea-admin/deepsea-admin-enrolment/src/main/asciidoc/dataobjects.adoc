@@ -1,0 +1,20 @@
+= Cheatsheets
+
+[[Enrolment]]
+== Enrolment
+
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[clientId]]`clientId`|`String`|-
+|[[enrolmentId]]`enrolmentId`|`Number (int)`|-
+|[[firstName]]`firstName`|`String`|-
+|[[grossPremium]]`grossPremium`|`Number (double)`|-
+|[[ipt]]`ipt`|`Number (double)`|-
+|[[lastName]]`lastName`|`String`|-
+|[[middleNames]]`middleNames`|`String`|-
+|[[productId]]`productId`|`String`|-
+|===
+

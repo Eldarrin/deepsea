@@ -4,6 +4,7 @@ import io.ensure.deepsea.admin.enrolment.Enrolment;
 import io.ensure.deepsea.admin.enrolment.EnrolmentService;
 import io.ensure.deepsea.common.RestAPIVerticle;
 import io.vertx.core.Future;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
@@ -20,6 +21,8 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 
 	private static final String API_ADD = "/add";
 	
+	private DeliveryOptions options = new DeliveryOptions().addHeader("source", "enrolment");
+	
 	private final EnrolmentService service;
 	
 	public RestEnrolmentAPIVerticle(EnrolmentService service) {
@@ -33,6 +36,13 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 		// body handler
 		router.route().handler(BodyHandler.create());
 		// API route handler
+		router.get(HEALTH).handler(rc -> {
+			if (future.succeeded()) {
+				rc.response().end("Ready");
+			} else {
+				rc.response().setStatusCode(503).end();
+			}
+		});
 		router.post(API_ADD).handler(this::apiAdd);
 
 		// get HTTP host and port from configuration, or use default value
@@ -51,8 +61,10 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 		try {
 			Enrolment enrolment = new Enrolment(new JsonObject(rc.getBodyAsString()));
 			service.addEnrolment(enrolment, resultHandler(rc, r -> {
+				enrolment.setEnrolmentId(1);
 				String result = new JsonObject().put("message", "enrolment_added")
-						.put("productId", enrolment.getEnrolmentId()).encodePrettily();
+						.put("enrolmentId", enrolment.getEnrolmentId()).encodePrettily();
+				vertx.eventBus().publish("enrolment", enrolment.toJson(), options);
 				rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
 			}));
 		} catch (DecodeException e) {

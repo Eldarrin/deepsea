@@ -43,7 +43,8 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -87,9 +88,16 @@
 						<configuration>
 							<buildStrategy>s2i</buildStrategy>
 							<mode>openshift</mode>
-							<!-- <enricher> <includes> <include>vertx-health-check</include> </includes> 
-								<config> <vertx-health-check> <path>/health</path> </vertx-health-check> 
-								</config> </enricher> -->
+							<enricher>
+								<includes>
+									<include>vertx-health-check</include>
+								</includes>
+								<config>
+									<vertx-health-check>
+										<path>/health</path>
+									</vertx-health-check>
+								</config>
+							</enricher>
 						</configuration>
 						<executions>
 							<execution>
