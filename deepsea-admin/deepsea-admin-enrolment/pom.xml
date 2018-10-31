@@ -9,6 +9,10 @@
 	</parent>
 	<artifactId>deepsea-admin-enrolment</artifactId>
 
+	<properties>
+		<vertx.verticle>io.ensure.deepsea.admin.enrolment.EnrolmentVerticle</vertx.verticle>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
