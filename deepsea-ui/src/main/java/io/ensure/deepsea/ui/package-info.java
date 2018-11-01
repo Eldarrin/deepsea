@@ -5,4 +5,4 @@
  * @author Andy.Ward
  *
  */
-package io.ensure.deepsea.underwriting.ui;
+package io.ensure.deepsea.ui;

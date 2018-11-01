@@ -1,4 +1,4 @@
-package io.ensure.deepsea.underwriting.ui;
+package io.ensure.deepsea.ui;
 
 import java.util.List;
 import java.util.Optional;
