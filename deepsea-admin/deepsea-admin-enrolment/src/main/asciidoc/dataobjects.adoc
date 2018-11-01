@@ -1,5 +1,17 @@
 = Cheatsheets
 
+[[Device]]
+== Device
+
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[manufacturer]]`manufacturer`|`String`|-
+|[[model]]`model`|`String`|-
+|===
+
 [[Enrolment]]
 == Enrolment
 
@@ -8,7 +20,10 @@
 [frame="topbot"]
 |===
 ^|Name | Type ^| Description
+|[[agreeTerms]]`agreeTerms`|`Boolean`|-
 |[[clientId]]`clientId`|`String`|-
+|[[devices]]`devices`|`Array of link:dataobjects.html#Device[Device]`|-
+|[[email]]`email`|`String`|-
 |[[enrolmentId]]`enrolmentId`|`Number (int)`|-
 |[[firstName]]`firstName`|`String`|-
 |[[grossPremium]]`grossPremium`|`Number (double)`|-
@@ -16,5 +31,6 @@
 |[[lastName]]`lastName`|`String`|-
 |[[middleNames]]`middleNames`|`String`|-
 |[[productId]]`productId`|`String`|-
+|[[title]]`title`|`String`|-
 |===
 

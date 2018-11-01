@@ -1,5 +1,8 @@
 package io.ensure.deepsea.admin.enrolment.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import io.ensure.deepsea.admin.enrolment.EnrolmentService;
 import io.ensure.deepsea.admin.enrolment.models.Enrolment;
 import io.ensure.deepsea.common.service.MySqlRepositoryWrapper;
@@ -38,8 +41,24 @@ public class MySqlEnrolmentServiceImpl extends MySqlRepositoryWrapper implements
 				.add(enrolment.getIpt());
 		
 		this.executeReturnKey(params, INSERT_STATEMENT)
-		.map(option -> option.map(Integer::new).orElse(null))
-		.setHandler(resultHandler);
+			.map(option -> option.map(Integer::new).orElse(null))
+			.setHandler(resultHandler);
+		return this;
+	}
+	
+	@Override
+	public EnrolmentService replayEnrolments(JsonArray specificIds,
+			Handler<AsyncResult<List<Enrolment>>> resultHandler) {
+		String sql = "";
+		for (int i = 0; i < specificIds.size(); i++) {
+			sql += specificIds.getInteger(i) + ",";
+		}
+		sql = sql.substring(1, sql.length() - 1);
+		
+		this.retrieveMany(REPLAY_STATEMENT + sql + REPLAY_STATEMENT_MID 
+				+ specificIds.getInteger(specificIds.size() - 1))
+			.map(rawList -> rawList.stream().map(Enrolment::new).collect(Collectors.toList()))
+			.setHandler(resultHandler);
 		return this;
 	}
 	
@@ -55,6 +74,9 @@ public class MySqlEnrolmentServiceImpl extends MySqlRepositoryWrapper implements
 	private static final String INSERT_STATEMENT = "INSERT INTO enrolment (`clientId`, \n"
 			+ "  `firstName`, `lastName`, `middleNames`, `productId`, `startDate`, `grossPremium`, `ipt`) \n"
 			+ "  VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+
+	private static final String REPLAY_STATEMENT = "SELECT * FROM enrolment WHERE id in (";
+	private static final String REPLAY_STATEMENT_MID = ") or id > ";
 
 
 }

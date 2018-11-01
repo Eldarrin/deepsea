@@ -13,6 +13,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
@@ -56,12 +57,23 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, EnrolmentService.class)
         				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
         		vertx.eventBus().publish("enrolment", new JsonObject().put("started", "true"));
+        		setupReplayConsumer();
         	} else {
         		log.error("Unable to find config map for deepsea-admin-enrolment MySQL");
         	}
         
         });
 		
+	}
+	
+	private void setupReplayConsumer() {
+		vertx.eventBus().<JsonObject>consumer("enrolment.mgr", msg -> {
+			enrolmentService.replayEnrolments(new JsonArray(), res -> {
+				if (res.succeeded()) {
+					vertx.eventBus().publish("enrolment", res.result());
+				}
+			});
+		});
 	}
 	
 	private Future<Void> initEnrolmentDatabase(EnrolmentService service) {

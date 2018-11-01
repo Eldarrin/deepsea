@@ -14,9 +14,9 @@
 * under the License.
 */
 
-package io.ensure.deepsea.shared.client;
+package io.ensure.deepsea.product;
 
-import io.ensure.deepsea.shared.client.ClientService;
+import io.ensure.deepsea.product.ProductService;
 import io.vertx.core.Vertx;
 import io.vertx.core.Handler;
 import io.vertx.core.AsyncResult;
@@ -40,9 +40,10 @@ import io.vertx.serviceproxy.ProxyHandler;
 import io.vertx.serviceproxy.ServiceException;
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
 import java.util.List;
-import io.ensure.deepsea.shared.client.ClientService;
+import io.ensure.deepsea.product.Product;
+import io.ensure.deepsea.product.ProductService;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.AsyncResult;
-import io.ensure.deepsea.shared.client.Client;
 import io.vertx.core.Handler;
 
 /*
@@ -50,25 +51,25 @@ import io.vertx.core.Handler;
   @author Roger the Robot
 */
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class ClientServiceVertxProxyHandler extends ProxyHandler {
+public class ProductServiceVertxProxyHandler extends ProxyHandler {
 
   public static final long DEFAULT_CONNECTION_TIMEOUT = 5 * 60; // 5 minutes 
 
   private final Vertx vertx;
-  private final ClientService service;
+  private final ProductService service;
   private final long timerID;
   private long lastAccessed;
   private final long timeoutSeconds;
 
-  public ClientServiceVertxProxyHandler(Vertx vertx, ClientService service) {
+  public ProductServiceVertxProxyHandler(Vertx vertx, ProductService service) {
     this(vertx, service, DEFAULT_CONNECTION_TIMEOUT);
   }
 
-  public ClientServiceVertxProxyHandler(Vertx vertx, ClientService service, long timeoutInSecond) {
+  public ProductServiceVertxProxyHandler(Vertx vertx, ProductService service, long timeoutInSecond) {
     this(vertx, service, true, timeoutInSecond);
   }
 
-  public ClientServiceVertxProxyHandler(Vertx vertx, ClientService service, boolean topLevel, long timeoutSeconds) {
+  public ProductServiceVertxProxyHandler(Vertx vertx, ProductService service, boolean topLevel, long timeoutSeconds) {
     this.vertx = vertx;
     this.service = service;
     this.timeoutSeconds = timeoutSeconds;
@@ -120,12 +121,30 @@ public class ClientServiceVertxProxyHandler extends ProxyHandler {
           service.initializePersistence(createHandler(msg));
           break;
         }
-        case "addClient": {
-          service.addClient(json.getJsonObject("client") == null ? null : new io.ensure.deepsea.shared.client.Client(json.getJsonObject("client")), createHandler(msg));
+        case "addProduct": {
+          service.addProduct(json.getJsonObject("product") == null ? null : new io.ensure.deepsea.product.Product(json.getJsonObject("product")), createHandler(msg));
           break;
         }
-        case "retrieveClients": {
-          service.retrieveClients(res -> {
+        case "retrieveProduct": {
+          service.retrieveProduct((java.lang.String)json.getValue("productId"), res -> {
+            if (res.failed()) {
+              if (res.cause() instanceof ServiceException) {
+                msg.reply(res.cause());
+              } else {
+                msg.reply(new ServiceException(-1, res.cause().getMessage()));
+              }
+            } else {
+              msg.reply(res.result() == null ? null : res.result().toJson());
+            }
+         });
+          break;
+        }
+        case "retrieveProductPrice": {
+          service.retrieveProductPrice((java.lang.String)json.getValue("productId"), createHandler(msg));
+          break;
+        }
+        case "retrieveAllProducts": {
+          service.retrieveAllProducts(res -> {
             if (res.failed()) {
               if (res.cause() instanceof ServiceException) {
                 msg.reply(res.cause());
@@ -138,8 +157,26 @@ public class ClientServiceVertxProxyHandler extends ProxyHandler {
          });
           break;
         }
-        case "removeClient": {
-          service.removeClient(json.getJsonObject("client") == null ? null : new io.ensure.deepsea.shared.client.Client(json.getJsonObject("client")), createHandler(msg));
+        case "retrieveProductsByPage": {
+          service.retrieveProductsByPage(json.getValue("page") == null ? null : (json.getLong("page").intValue()), res -> {
+            if (res.failed()) {
+              if (res.cause() instanceof ServiceException) {
+                msg.reply(res.cause());
+              } else {
+                msg.reply(new ServiceException(-1, res.cause().getMessage()));
+              }
+            } else {
+              msg.reply(new JsonArray(res.result().stream().map(r -> r == null ? null : r.toJson()).collect(Collectors.toList())));
+            }
+         });
+          break;
+        }
+        case "deleteProduct": {
+          service.deleteProduct((java.lang.String)json.getValue("productId"), createHandler(msg));
+          break;
+        }
+        case "deleteAllProducts": {
+          service.deleteAllProducts(createHandler(msg));
           break;
         }
         default: {

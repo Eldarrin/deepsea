@@ -14,13 +14,13 @@
  * under the License.
  */
 
-package io.ensure.deepsea.shared.product.rxjava;
+package io.ensure.deepsea.product.rxjava;
 
 import java.util.Map;
 import rx.Observable;
 import rx.Single;
 import java.util.List;
-import io.ensure.deepsea.shared.product.Product;
+import io.ensure.deepsea.product.Product;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -32,10 +32,10 @@ import io.vertx.core.Handler;
  * </p>
  *
  * <p/>
- * NOTE: This class has been automatically generated from the {@link io.ensure.deepsea.shared.product.ProductService original} non RX-ified interface using Vert.x codegen.
+ * NOTE: This class has been automatically generated from the {@link io.ensure.deepsea.product.ProductService original} non RX-ified interface using Vert.x codegen.
  */
 
-@io.vertx.lang.rxjava.RxGen(io.ensure.deepsea.shared.product.ProductService.class)
+@io.vertx.lang.rxjava.RxGen(io.ensure.deepsea.product.ProductService.class)
 public class ProductService {
 
   @Override
@@ -57,17 +57,17 @@ public class ProductService {
   }
 
   public static final io.vertx.lang.rxjava.TypeArg<ProductService> __TYPE_ARG = new io.vertx.lang.rxjava.TypeArg<>(
-    obj -> new ProductService((io.ensure.deepsea.shared.product.ProductService) obj),
+    obj -> new ProductService((io.ensure.deepsea.product.ProductService) obj),
     ProductService::getDelegate
   );
 
-  private final io.ensure.deepsea.shared.product.ProductService delegate;
+  private final io.ensure.deepsea.product.ProductService delegate;
   
-  public ProductService(io.ensure.deepsea.shared.product.ProductService delegate) {
+  public ProductService(io.ensure.deepsea.product.ProductService delegate) {
     this.delegate = delegate;
   }
 
-  public io.ensure.deepsea.shared.product.ProductService getDelegate() {
+  public io.ensure.deepsea.product.ProductService getDelegate() {
     return delegate;
   }
 
@@ -242,7 +242,7 @@ public class ProductService {
   }
 
 
-  public static  ProductService newInstance(io.ensure.deepsea.shared.product.ProductService arg) {
+  public static  ProductService newInstance(io.ensure.deepsea.product.ProductService arg) {
     return arg != null ? new ProductService(arg) : null;
   }
 }

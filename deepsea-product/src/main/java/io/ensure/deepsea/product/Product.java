@@ -1,6 +1,5 @@
 package io.ensure.deepsea.product;
 
-import io.ensure.deepsea.shared.product.ProductConverter;
 import io.vertx.codegen.annotations.DataObject;
 import io.vertx.core.json.JsonObject;
 

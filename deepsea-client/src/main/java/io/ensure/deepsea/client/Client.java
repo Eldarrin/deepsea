@@ -1,6 +1,5 @@
 package io.ensure.deepsea.client;
 
-import io.ensure.deepsea.shared.client.ClientConverter;
 import io.vertx.codegen.annotations.DataObject;
 import io.vertx.core.json.JsonObject;
 

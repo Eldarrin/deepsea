@@ -14,15 +14,15 @@
  * under the License.
  */
 
-package io.ensure.deepsea.shared.product;
+package io.ensure.deepsea.product;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.json.JsonArray;
 
 /**
- * Converter for {@link io.ensure.deepsea.shared.product.Product}.
+ * Converter for {@link io.ensure.deepsea.product.Product}.
  *
- * NOTE: This class has been automatically generated from the {@link io.ensure.deepsea.shared.product.Product} original class using Vert.x codegen.
+ * NOTE: This class has been automatically generated from the {@link io.ensure.deepsea.product.Product} original class using Vert.x codegen.
  */
 public class ProductConverter {
 

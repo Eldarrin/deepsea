@@ -19,8 +19,8 @@ var utils = require('vertx-js/util/utils');
 
 var io = Packages.io;
 var JsonObject = io.vertx.core.json.JsonObject;
-var JClientService = Java.type('io.ensure.deepsea.shared.client.ClientService');
-var Client = Java.type('io.ensure.deepsea.shared.client.Client');
+var JClientService = Java.type('io.ensure.deepsea.client.ClientService');
+var Client = Java.type('io.ensure.deepsea.client.Client');
 
 /**
  @class
@@ -61,7 +61,7 @@ var ClientService = function(j_val) {
   this.addClient = function(client, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
-      j_clientService["addClient(io.ensure.deepsea.shared.client.Client,io.vertx.core.Handler)"](client != null ? new Client(new JsonObject(Java.asJSONCompatible(client))) : null, function(ar) {
+      j_clientService["addClient(io.ensure.deepsea.client.Client,io.vertx.core.Handler)"](client != null ? new Client(new JsonObject(Java.asJSONCompatible(client))) : null, function(ar) {
       if (ar.succeeded()) {
         resultHandler(null, null);
       } else {
@@ -102,7 +102,7 @@ var ClientService = function(j_val) {
   this.removeClient = function(client, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
-      j_clientService["removeClient(io.ensure.deepsea.shared.client.Client,io.vertx.core.Handler)"](client != null ? new Client(new JsonObject(Java.asJSONCompatible(client))) : null, function(ar) {
+      j_clientService["removeClient(io.ensure.deepsea.client.Client,io.vertx.core.Handler)"](client != null ? new Client(new JsonObject(Java.asJSONCompatible(client))) : null, function(ar) {
       if (ar.succeeded()) {
         resultHandler(null, null);
       } else {
@@ -119,7 +119,7 @@ var ClientService = function(j_val) {
   this._jdel = j_clientService;
 };
 
-ClientService._jclass = utils.getJavaClass("io.ensure.deepsea.shared.client.ClientService");
+ClientService._jclass = utils.getJavaClass("io.ensure.deepsea.client.ClientService");
 ClientService._jtype = {
   accept: function(obj) {
     return ClientService._jclass.isInstance(obj._jdel);

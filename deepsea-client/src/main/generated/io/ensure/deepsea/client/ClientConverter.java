@@ -14,15 +14,15 @@
  * under the License.
  */
 
-package io.ensure.deepsea.shared.client;
+package io.ensure.deepsea.client;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.json.JsonArray;
 
 /**
- * Converter for {@link io.ensure.deepsea.shared.client.Client}.
+ * Converter for {@link io.ensure.deepsea.client.Client}.
  *
- * NOTE: This class has been automatically generated from the {@link io.ensure.deepsea.shared.client.Client} original class using Vert.x codegen.
+ * NOTE: This class has been automatically generated from the {@link io.ensure.deepsea.client.Client} original class using Vert.x codegen.
  */
 public class ClientConverter {
 

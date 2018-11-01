@@ -14,9 +14,9 @@
 * under the License.
 */
 
-package io.ensure.deepsea.shared.product;
+package io.ensure.deepsea.client;
 
-import io.ensure.deepsea.shared.product.ProductService;
+import io.ensure.deepsea.client.ClientService;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.Future;
@@ -32,30 +32,29 @@ import java.util.function.Function;
 import io.vertx.serviceproxy.ProxyHelper;
 import io.vertx.serviceproxy.ServiceException;
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
+import io.ensure.deepsea.client.ClientService;
 import java.util.List;
-import io.ensure.deepsea.shared.product.Product;
-import io.ensure.deepsea.shared.product.ProductService;
-import io.vertx.core.json.JsonObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
+import io.ensure.deepsea.client.Client;
 
 /*
   Generated Proxy code - DO NOT EDIT
   @author Roger the Robot
 */
 @SuppressWarnings({"unchecked", "rawtypes"})
-public class ProductServiceVertxEBProxy implements ProductService {
+public class ClientServiceVertxEBProxy implements ClientService {
 
   private Vertx _vertx;
   private String _address;
   private DeliveryOptions _options;
   private boolean closed;
 
-  public ProductServiceVertxEBProxy(Vertx vertx, String address) {
+  public ClientServiceVertxEBProxy(Vertx vertx, String address) {
     this(vertx, address, null);
   }
 
-  public ProductServiceVertxEBProxy(Vertx vertx, String address, DeliveryOptions options) {
+  public ClientServiceVertxEBProxy(Vertx vertx, String address, DeliveryOptions options) {
     this._vertx = vertx;
     this._address = address;
     this._options = options;
@@ -66,7 +65,7 @@ public class ProductServiceVertxEBProxy implements ProductService {
   }
 
   @Override
-  public ProductService initializePersistence(Handler<AsyncResult<Void>> resultHandler) {
+  public ClientService initializePersistence(Handler<AsyncResult<Void>> resultHandler) {
     if (closed) {
     resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
       return this;
@@ -85,15 +84,15 @@ public class ProductServiceVertxEBProxy implements ProductService {
   }
 
   @Override
-  public ProductService addProduct(Product product, Handler<AsyncResult<Void>> resultHandler) {
+  public ClientService addClient(Client client, Handler<AsyncResult<Void>> resultHandler) {
     if (closed) {
     resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
       return this;
     }
     JsonObject _json = new JsonObject();
-    _json.put("product", product == null ? null : product.toJson());
+    _json.put("client", client == null ? null : client.toJson());
     DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
-    _deliveryOptions.addHeader("action", "addProduct");
+    _deliveryOptions.addHeader("action", "addClient");
     _vertx.eventBus().<Void>send(_address, _json, _deliveryOptions, res -> {
       if (res.failed()) {
         resultHandler.handle(Future.failedFuture(res.cause()));
@@ -105,61 +104,21 @@ public class ProductServiceVertxEBProxy implements ProductService {
   }
 
   @Override
-  public ProductService retrieveProduct(String productId, Handler<AsyncResult<Product>> resultHandler) {
-    if (closed) {
-    resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
-      return this;
-    }
-    JsonObject _json = new JsonObject();
-    _json.put("productId", productId);
-    DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
-    _deliveryOptions.addHeader("action", "retrieveProduct");
-    _vertx.eventBus().<JsonObject>send(_address, _json, _deliveryOptions, res -> {
-      if (res.failed()) {
-        resultHandler.handle(Future.failedFuture(res.cause()));
-      } else {
-        resultHandler.handle(Future.succeededFuture(res.result().body() == null ? null : new Product(res.result().body())));
-                      }
-    });
-    return this;
-  }
-
-  @Override
-  public ProductService retrieveProductPrice(String productId, Handler<AsyncResult<JsonObject>> resultHandler) {
-    if (closed) {
-    resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
-      return this;
-    }
-    JsonObject _json = new JsonObject();
-    _json.put("productId", productId);
-    DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
-    _deliveryOptions.addHeader("action", "retrieveProductPrice");
-    _vertx.eventBus().<JsonObject>send(_address, _json, _deliveryOptions, res -> {
-      if (res.failed()) {
-        resultHandler.handle(Future.failedFuture(res.cause()));
-      } else {
-        resultHandler.handle(Future.succeededFuture(res.result().body()));
-      }
-    });
-    return this;
-  }
-
-  @Override
-  public ProductService retrieveAllProducts(Handler<AsyncResult<List<Product>>> resultHandler) {
+  public ClientService retrieveClients(Handler<AsyncResult<List<Client>>> resultHandler) {
     if (closed) {
     resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
       return this;
     }
     JsonObject _json = new JsonObject();
     DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
-    _deliveryOptions.addHeader("action", "retrieveAllProducts");
+    _deliveryOptions.addHeader("action", "retrieveClients");
     _vertx.eventBus().<JsonArray>send(_address, _json, _deliveryOptions, res -> {
       if (res.failed()) {
         resultHandler.handle(Future.failedFuture(res.cause()));
       } else {
         resultHandler.handle(Future.succeededFuture(res.result().body().stream()
             .map(o -> { if (o == null) return null;
-                        return o instanceof Map ? new Product(new JsonObject((Map) o)) : new Product((JsonObject) o);
+                        return o instanceof Map ? new Client(new JsonObject((Map) o)) : new Client((JsonObject) o);
                  })
             .collect(Collectors.toList())));
       }
@@ -168,58 +127,15 @@ public class ProductServiceVertxEBProxy implements ProductService {
   }
 
   @Override
-  public ProductService retrieveProductsByPage(int page, Handler<AsyncResult<List<Product>>> resultHandler) {
+  public ClientService removeClient(Client client, Handler<AsyncResult<Void>> resultHandler) {
     if (closed) {
     resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
       return this;
     }
     JsonObject _json = new JsonObject();
-    _json.put("page", page);
+    _json.put("client", client == null ? null : client.toJson());
     DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
-    _deliveryOptions.addHeader("action", "retrieveProductsByPage");
-    _vertx.eventBus().<JsonArray>send(_address, _json, _deliveryOptions, res -> {
-      if (res.failed()) {
-        resultHandler.handle(Future.failedFuture(res.cause()));
-      } else {
-        resultHandler.handle(Future.succeededFuture(res.result().body().stream()
-            .map(o -> { if (o == null) return null;
-                        return o instanceof Map ? new Product(new JsonObject((Map) o)) : new Product((JsonObject) o);
-                 })
-            .collect(Collectors.toList())));
-      }
-    });
-    return this;
-  }
-
-  @Override
-  public ProductService deleteProduct(String productId, Handler<AsyncResult<Void>> resultHandler) {
-    if (closed) {
-    resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
-      return this;
-    }
-    JsonObject _json = new JsonObject();
-    _json.put("productId", productId);
-    DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
-    _deliveryOptions.addHeader("action", "deleteProduct");
-    _vertx.eventBus().<Void>send(_address, _json, _deliveryOptions, res -> {
-      if (res.failed()) {
-        resultHandler.handle(Future.failedFuture(res.cause()));
-      } else {
-        resultHandler.handle(Future.succeededFuture(res.result().body()));
-      }
-    });
-    return this;
-  }
-
-  @Override
-  public ProductService deleteAllProducts(Handler<AsyncResult<Void>> resultHandler) {
-    if (closed) {
-    resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
-      return this;
-    }
-    JsonObject _json = new JsonObject();
-    DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
-    _deliveryOptions.addHeader("action", "deleteAllProducts");
+    _deliveryOptions.addHeader("action", "removeClient");
     _vertx.eventBus().<Void>send(_address, _json, _deliveryOptions, res -> {
       if (res.failed()) {
         resultHandler.handle(Future.failedFuture(res.cause()));

@@ -63,23 +63,6 @@ public class MySqlRepositoryWrapper {
 		));
 	}
 	
-	/*protected Integer insertReturnId(JsonArray params, String sql, Integer ret, Handler<AsyncResult<Integer>> resultHandler) {
-		client.getConnection(connHandler(resultHandler, connection -> 
-		connection.updateWithParams(sql, params, r -> {
-			if (r.succeeded()) {
-				log.info("r is " + r.result().getKeys().getInteger(0));
-				log.info("RET is " + ret);
-				resultHandler.handle(Future.succeededFuture(ret));
-				return r.result().getKeys().getInteger(0);
-			} else {
-				resultHandler.handle(Future.failedFuture(r.cause()));
-				return 0;
-			}
-			connection.close();
-		})
-	));
-	}*/
-	
 	protected Future<Optional<Integer>> executeReturnKey(JsonArray params, String sql) {
 		return getConnection().compose(connection -> {
 			Future<Optional<Integer>> future = Future.future();
@@ -142,6 +125,21 @@ public class MySqlRepositoryWrapper {
 		return getConnection().compose(connection -> {
 			Future<List<JsonObject>> future = Future.future();
 			connection.queryWithParams(sql, paramq, r -> {
+				if (r.succeeded()) {
+					future.complete(r.result().getRows());
+				} else {
+					future.fail(r.cause());
+				}
+				connection.close();
+			});
+			return future;
+		});
+	}
+	
+	protected Future<List<JsonObject>> retrieveMany(String sql) {
+		return getConnection().compose(connection -> {
+			Future<List<JsonObject>> future = Future.future();
+			connection.query(sql, r -> {
 				if (r.succeeded()) {
 					future.complete(r.result().getRows());
 				} else {
