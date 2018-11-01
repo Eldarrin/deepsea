@@ -225,5 +225,6 @@
 		<module>deepsea-underwriting</module>
 		<module>deepsea-shared</module>
 		<module>deepsea-admin</module>
+		<module>deepsea-ui</module>
 	</modules>
 </project>
