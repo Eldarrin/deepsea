@@ -1,7 +1,7 @@
 package io.ensure.deepsea.admin.enrolment.api;
 
-import io.ensure.deepsea.admin.enrolment.Enrolment;
 import io.ensure.deepsea.admin.enrolment.EnrolmentService;
+import io.ensure.deepsea.admin.enrolment.models.Enrolment;
 import io.ensure.deepsea.common.RestAPIVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.DeliveryOptions;
@@ -60,13 +60,17 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 	private void apiAdd(RoutingContext rc) {
 		try {
 			Enrolment enrolment = new Enrolment(new JsonObject(rc.getBodyAsString()));
-			service.addEnrolment(enrolment, resultHandler(rc, r -> {
-				enrolment.setEnrolmentId(1);
-				String result = new JsonObject().put("message", "enrolment_added")
-						.put("enrolmentId", enrolment.getEnrolmentId()).encodePrettily();
-				vertx.eventBus().publish("enrolment", enrolment.toJson(), options);
-				rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
-			}));
+			service.addEnrolment(enrolment, res -> {
+				if (res.succeeded()) {
+					enrolment.setEnrolmentId(res.result());
+					String result = new JsonObject().put("message", "enrolment_added")
+							.put("enrolmentId", enrolment.getEnrolmentId()).encodePrettily();
+					vertx.eventBus().publish("enrolment", enrolment.toJson(), options);
+					rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
+				} else {
+					rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
+				}
+			});
 		} catch (DecodeException e) {
 			badRequest(rc, e);
 		}

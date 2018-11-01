@@ -1,7 +1,7 @@
 package io.ensure.deepsea.admin.enrolment.impl;
 
-import io.ensure.deepsea.admin.enrolment.Enrolment;
 import io.ensure.deepsea.admin.enrolment.EnrolmentService;
+import io.ensure.deepsea.admin.enrolment.models.Enrolment;
 import io.ensure.deepsea.common.service.MySqlRepositoryWrapper;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -27,7 +27,7 @@ public class MySqlEnrolmentServiceImpl extends MySqlRepositoryWrapper implements
 	}
 
 	@Override
-	public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Void>> resultHandler) {
+	public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Integer>> resultHandler) {
 		JsonArray params = new JsonArray().add(enrolment.getClientId())
 				.add(enrolment.getFirstName())
 				.add(enrolment.getLastName())
@@ -36,7 +36,10 @@ public class MySqlEnrolmentServiceImpl extends MySqlRepositoryWrapper implements
 				.add(fromInstant(enrolment.getStartDate()))
 				.add(enrolment.getGrossPremium())
 				.add(enrolment.getIpt());
-		this.executeNoResult(params, INSERT_STATEMENT, resultHandler);
+		
+		this.executeReturnKey(params, INSERT_STATEMENT)
+		.map(option -> option.map(Integer::new).orElse(null))
+		.setHandler(resultHandler);
 		return this;
 	}
 	

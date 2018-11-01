@@ -19,9 +19,9 @@ package io.ensure.deepsea.admin.enrolment.rxjava;
 import java.util.Map;
 import rx.Observable;
 import rx.Single;
+import io.ensure.deepsea.admin.enrolment.models.Enrolment;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import io.ensure.deepsea.admin.enrolment.Enrolment;
 
 
 @io.vertx.lang.rxjava.RxGen(io.ensure.deepsea.admin.enrolment.EnrolmentService.class)
@@ -71,12 +71,12 @@ public class EnrolmentService {
     }));
   }
 
-  public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Void>> resultHandler) { 
+  public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Integer>> resultHandler) { 
     delegate.addEnrolment(enrolment, resultHandler);
     return this;
   }
 
-  public Single<Void> rxAddEnrolment(Enrolment enrolment) { 
+  public Single<Integer> rxAddEnrolment(Enrolment enrolment) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       addEnrolment(enrolment, fut);
     }));

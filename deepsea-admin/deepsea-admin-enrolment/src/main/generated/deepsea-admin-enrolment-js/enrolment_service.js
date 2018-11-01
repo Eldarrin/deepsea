@@ -20,7 +20,7 @@ var utils = require('vertx-js/util/utils');
 var io = Packages.io;
 var JsonObject = io.vertx.core.json.JsonObject;
 var JEnrolmentService = Java.type('io.ensure.deepsea.admin.enrolment.EnrolmentService');
-var Enrolment = Java.type('io.ensure.deepsea.admin.enrolment.Enrolment');
+var Enrolment = Java.type('io.ensure.deepsea.admin.enrolment.models.Enrolment');
 
 /**
  @class
@@ -60,9 +60,9 @@ var EnrolmentService = function(j_val) {
   this.addEnrolment = function(enrolment, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
-      j_enrolmentService["addEnrolment(io.ensure.deepsea.admin.enrolment.Enrolment,io.vertx.core.Handler)"](enrolment != null ? new Enrolment(new JsonObject(Java.asJSONCompatible(enrolment))) : null, function(ar) {
+      j_enrolmentService["addEnrolment(io.ensure.deepsea.admin.enrolment.models.Enrolment,io.vertx.core.Handler)"](enrolment != null ? new Enrolment(new JsonObject(Java.asJSONCompatible(enrolment))) : null, function(ar) {
       if (ar.succeeded()) {
-        resultHandler(null, null);
+        resultHandler(ar.result(), null);
       } else {
         resultHandler(null, ar.cause());
       }

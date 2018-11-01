@@ -39,10 +39,10 @@ import io.vertx.serviceproxy.ProxyHelper;
 import io.vertx.serviceproxy.ProxyHandler;
 import io.vertx.serviceproxy.ServiceException;
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
+import io.ensure.deepsea.admin.enrolment.models.Enrolment;
 import io.ensure.deepsea.admin.enrolment.EnrolmentService;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import io.ensure.deepsea.admin.enrolment.Enrolment;
 
 /*
   Generated Proxy code - DO NOT EDIT
@@ -120,7 +120,7 @@ public class EnrolmentServiceVertxProxyHandler extends ProxyHandler {
           break;
         }
         case "addEnrolment": {
-          service.addEnrolment(json.getJsonObject("enrolment") == null ? null : new io.ensure.deepsea.admin.enrolment.Enrolment(json.getJsonObject("enrolment")), createHandler(msg));
+          service.addEnrolment(json.getJsonObject("enrolment") == null ? null : new io.ensure.deepsea.admin.enrolment.models.Enrolment(json.getJsonObject("enrolment")), createHandler(msg));
           break;
         }
         default: {

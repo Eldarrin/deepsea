@@ -32,10 +32,10 @@ import java.util.function.Function;
 import io.vertx.serviceproxy.ProxyHelper;
 import io.vertx.serviceproxy.ServiceException;
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
+import io.ensure.deepsea.admin.enrolment.models.Enrolment;
 import io.ensure.deepsea.admin.enrolment.EnrolmentService;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import io.ensure.deepsea.admin.enrolment.Enrolment;
 
 /*
   Generated Proxy code - DO NOT EDIT
@@ -83,7 +83,7 @@ public class EnrolmentServiceVertxEBProxy implements EnrolmentService {
   }
 
   @Override
-  public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Void>> resultHandler) {
+  public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Integer>> resultHandler) {
     if (closed) {
     resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
       return this;
@@ -92,7 +92,7 @@ public class EnrolmentServiceVertxEBProxy implements EnrolmentService {
     _json.put("enrolment", enrolment == null ? null : enrolment.toJson());
     DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
     _deliveryOptions.addHeader("action", "addEnrolment");
-    _vertx.eventBus().<Void>send(_address, _json, _deliveryOptions, res -> {
+    _vertx.eventBus().<Integer>send(_address, _json, _deliveryOptions, res -> {
       if (res.failed()) {
         resultHandler.handle(Future.failedFuture(res.cause()));
       } else {

@@ -14,21 +14,35 @@
  * under the License.
  */
 
-package io.ensure.deepsea.admin.enrolment;
+package io.ensure.deepsea.admin.enrolment.models;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.json.JsonArray;
 
 /**
- * Converter for {@link io.ensure.deepsea.admin.enrolment.Enrolment}.
+ * Converter for {@link io.ensure.deepsea.admin.enrolment.models.Enrolment}.
  *
- * NOTE: This class has been automatically generated from the {@link io.ensure.deepsea.admin.enrolment.Enrolment} original class using Vert.x codegen.
+ * NOTE: This class has been automatically generated from the {@link io.ensure.deepsea.admin.enrolment.models.Enrolment} original class using Vert.x codegen.
  */
 public class EnrolmentConverter {
 
   public static void fromJson(JsonObject json, Enrolment obj) {
+    if (json.getValue("agreeTerms") instanceof Boolean) {
+      obj.setAgreeTerms((Boolean)json.getValue("agreeTerms"));
+    }
     if (json.getValue("clientId") instanceof String) {
       obj.setClientId((String)json.getValue("clientId"));
+    }
+    if (json.getValue("devices") instanceof JsonArray) {
+      java.util.ArrayList<io.ensure.deepsea.admin.enrolment.models.Device> list = new java.util.ArrayList<>();
+      json.getJsonArray("devices").forEach( item -> {
+        if (item instanceof JsonObject)
+          list.add(new io.ensure.deepsea.admin.enrolment.models.Device((JsonObject)item));
+      });
+      obj.setDevices(list);
+    }
+    if (json.getValue("email") instanceof String) {
+      obj.setEmail((String)json.getValue("email"));
     }
     if (json.getValue("enrolmentId") instanceof Number) {
       obj.setEnrolmentId(((Number)json.getValue("enrolmentId")).intValue());
@@ -51,11 +65,23 @@ public class EnrolmentConverter {
     if (json.getValue("productId") instanceof String) {
       obj.setProductId((String)json.getValue("productId"));
     }
+    if (json.getValue("title") instanceof String) {
+      obj.setTitle((String)json.getValue("title"));
+    }
   }
 
   public static void toJson(Enrolment obj, JsonObject json) {
+    json.put("agreeTerms", obj.isAgreeTerms());
     if (obj.getClientId() != null) {
       json.put("clientId", obj.getClientId());
+    }
+    if (obj.getDevices() != null) {
+      JsonArray array = new JsonArray();
+      obj.getDevices().forEach(item -> array.add(item.toJson()));
+      json.put("devices", array);
+    }
+    if (obj.getEmail() != null) {
+      json.put("email", obj.getEmail());
     }
     json.put("enrolmentId", obj.getEnrolmentId());
     if (obj.getFirstName() != null) {
@@ -71,6 +97,9 @@ public class EnrolmentConverter {
     }
     if (obj.getProductId() != null) {
       json.put("productId", obj.getProductId());
+    }
+    if (obj.getTitle() != null) {
+      json.put("title", obj.getTitle());
     }
   }
 }

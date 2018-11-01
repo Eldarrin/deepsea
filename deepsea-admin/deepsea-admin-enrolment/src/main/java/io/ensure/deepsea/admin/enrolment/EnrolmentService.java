@@ -1,5 +1,6 @@
 package io.ensure.deepsea.admin.enrolment;
 
+import io.ensure.deepsea.admin.enrolment.models.Enrolment;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.codegen.annotations.ProxyGen;
 import io.vertx.codegen.annotations.VertxGen;
@@ -18,6 +19,6 @@ public interface EnrolmentService {
 	EnrolmentService initializePersistence(Handler<AsyncResult<Void>> resultHandler);
 	
 	@Fluent
-	EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Void>> resultHandler);
+	EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Integer>> resultHandler);
 
 }

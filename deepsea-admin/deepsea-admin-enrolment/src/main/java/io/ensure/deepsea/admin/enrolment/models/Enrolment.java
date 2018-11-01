@@ -1,8 +1,10 @@
-package io.ensure.deepsea.admin.enrolment;
+package io.ensure.deepsea.admin.enrolment.models;
 
 import java.text.ParseException;
 import java.time.Instant;
+import java.util.List;
 
+import io.ensure.deepsea.admin.enrolment.models.EnrolmentConverter;
 import io.ensure.deepsea.common.helper.ISO8601DateParser;
 import io.vertx.codegen.annotations.DataObject;
 import io.vertx.core.json.JsonObject;
@@ -13,12 +15,17 @@ public class Enrolment {
 	private int enrolmentId;
 	private String clientId;
 	private String productId;
+	private String title;
 	private String firstName;
 	private String middleNames;
 	private String lastName;
+	private String email;
+	private Instant dateOfBirth;
+	private boolean termsAgreed;
 	private double grossPremium = 0.0d;
 	private double ipt = 0.0d;
 	private Instant startDate;
+	private List<Device> devices;
 	
 	public Enrolment() {
 		
@@ -27,13 +34,50 @@ public class Enrolment {
 	public Enrolment(Enrolment enrolment) {
 		this.enrolmentId = enrolment.enrolmentId;
 		this.clientId = enrolment.clientId;
+		this.title = enrolment.title;
 		this.firstName = enrolment.firstName;
 		this.middleNames = enrolment.middleNames;
 		this.lastName = enrolment.lastName;
+		this.email = enrolment.email;
+		this.dateOfBirth = enrolment.dateOfBirth;
+		this.termsAgreed = enrolment.termsAgreed;
 		this.grossPremium = enrolment.grossPremium;
 		this.ipt = enrolment.ipt;
 		this.startDate = enrolment.startDate;
 		this.productId = enrolment.productId;
+		this.devices = enrolment.devices;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Instant getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Instant dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public boolean isAgreeTerms() {
+		return termsAgreed;
+	}
+
+	public void setAgreeTerms(boolean agreeTerms) {
+		this.termsAgreed = agreeTerms;
 	}
 
 	public int getEnrolmentId() {
@@ -147,6 +191,14 @@ public class Enrolment {
 	@Override
 	public String toString() {
 		return this.toJson().encodePrettily();
+	}
+
+	public List<Device> getDevices() {
+		return devices;
+	}
+
+	public void setDevices(List<Device> devices) {
+		this.devices = devices;
 	}
 
 }
