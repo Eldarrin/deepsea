@@ -13,7 +13,6 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
@@ -67,10 +66,10 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 	}
 	
 	private void setupReplayConsumer() {
-		vertx.eventBus().<JsonObject>consumer("enrolment.mgr", msg -> {
-			enrolmentService.replayEnrolments(new JsonArray(), res -> {
+		vertx.eventBus().<JsonObject>consumer("enrolment.replay", msg -> {
+			enrolmentService.replayEnrolments(msg.body().getInteger("lastId"), res -> {
 				if (res.succeeded()) {
-					vertx.eventBus().publish("enrolment", res.result());
+					msg.reply(res.result());
 				}
 			});
 		});

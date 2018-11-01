@@ -47,20 +47,15 @@ public class MySqlEnrolmentServiceImpl extends MySqlRepositoryWrapper implements
 	}
 	
 	@Override
-	public EnrolmentService replayEnrolments(JsonArray specificIds,
+	public EnrolmentService replayEnrolments(Integer lastId,
 			Handler<AsyncResult<List<Enrolment>>> resultHandler) {
-		String sql = "";
-		for (int i = 0; i < specificIds.size(); i++) {
-			sql += specificIds.getInteger(i) + ",";
-		}
-		sql = sql.substring(1, sql.length() - 1);
-		
-		this.retrieveMany(REPLAY_STATEMENT + sql + REPLAY_STATEMENT_MID 
-				+ specificIds.getInteger(specificIds.size() - 1))
-			.map(rawList -> rawList.stream().map(Enrolment::new).collect(Collectors.toList()))
-			.setHandler(resultHandler);
+		JsonArray params = new JsonArray().add(lastId);
+		this.retrieveMany(params, REPLAY_STATEMENT)
+				.map(rawList -> rawList.stream().map(Enrolment::new).collect(Collectors.toList()))
+				.setHandler(resultHandler);
 		return this;
 	}
+	
 	
 	// SQL Statements
 	private static final String CREATE_STATEMENT = "CREATE TABLE IF NOT EXISTS `enrolment` (\n"
@@ -75,8 +70,8 @@ public class MySqlEnrolmentServiceImpl extends MySqlRepositoryWrapper implements
 			+ "  `firstName`, `lastName`, `middleNames`, `productId`, `startDate`, `grossPremium`, `ipt`) \n"
 			+ "  VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
-	private static final String REPLAY_STATEMENT = "SELECT * FROM enrolment WHERE id in (";
-	private static final String REPLAY_STATEMENT_MID = ") or id > ";
+	private static final String REPLAY_STATEMENT = "SELECT * FROM enrolment WHERE id > ?";
+
 
 
 }

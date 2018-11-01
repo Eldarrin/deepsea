@@ -53,6 +53,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
         				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
         		
         		setupConsumers();
+        		requestMissed();
         	} else {
         		log.error("Unable to find config map for deepsea-underwriting-actuarial MySQL");
         	}
@@ -70,18 +71,31 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	private void setupConsumers() {
 		vertx.eventBus().<JsonObject>consumer("enrolment", res -> {
 			// convert enrolment to bordereauline and add
-			BordereauLine bl = new BordereauLine();
-			bl.setBordereauLineId("enrolment-" + res.body().getInteger("enrolmentId"));
-			bl.setClientId(res.body().getString("clientId"));
-			bl.setCustomerName(res.body().getString("firstName").substring(1, 1)
-					+ res.body().getString("lastName"));
-			bl.setEvent(BordereauEvent.INCEPTION);
-			bl.setEventDate(Instant.now());
-			bl.setIpt(res.body().getDouble("ipt"));
-			bl.setValue(res.body().getDouble("grossPremium"));
-			bl.setStartDate(res.body().getInstant("startDate"));
-			bordereauService.addBordereauLine(bl, null);
+			addBordereauLineFromEnrolment(res.body());
 		});
+	}
+	
+	private void requestMissed() {
+		bordereauService.requestLastRecordBySource("enrolment", res -> {
+			vertx.eventBus().send("enrolment.replay", 
+					new JsonObject().put("lastId", res.result().getSourceId()));
+		});
+	}
+	
+	private void addBordereauLineFromEnrolment(JsonObject enrolment) {
+		BordereauLine bl = new BordereauLine();
+		bl.setSource("enrolment");
+		bl.setSourceId(enrolment.getInteger("enrolmentId"));
+		bl.setBordereauLineId("enrolment-" + enrolment.getInteger("enrolmentId"));
+		bl.setClientId(enrolment.getString("clientId"));
+		bl.setCustomerName(enrolment.getString("firstName").substring(1, 1)
+				+ enrolment.getString("lastName"));
+		bl.setEvent(BordereauEvent.INCEPTION);
+		bl.setEventDate(Instant.now());
+		bl.setIpt(enrolment.getDouble("ipt"));
+		bl.setValue(enrolment.getDouble("grossPremium"));
+		bl.setStartDate(enrolment.getInstant("startDate"));
+		bordereauService.addBordereauLine(bl, null);
 	}
 	
 	private Future<Void> deployRestVerticle() {

@@ -39,6 +39,9 @@ public interface BordereauService {
 	@Fluent
 	BordereauService retrieveBordereauByClientByPage(String clientId, int page,
 			Handler<AsyncResult<List<BordereauLine>>> resultHandler);
+	
+	@Fluent
+	BordereauService requestLastRecordBySource(String source, Handler<AsyncResult<BordereauLine>> resultHandler);
 
 	@Fluent
 	BordereauService removeBordereauLine(String bordereauLineId, Handler<AsyncResult<Void>> resultHandler);

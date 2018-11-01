@@ -8,7 +8,6 @@ import io.vertx.codegen.annotations.ProxyGen;
 import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonArray;
 
 @VertxGen
 @ProxyGen
@@ -25,6 +24,6 @@ public interface EnrolmentService {
 	EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Integer>> resultHandler);
 	
 	@Fluent
-	EnrolmentService replayEnrolments(JsonArray specificIds, Handler<AsyncResult<List<Enrolment>>> resultHandler);
+	EnrolmentService replayEnrolments(Integer lastId, Handler<AsyncResult<List<Enrolment>>> resultHandler);
 
 }

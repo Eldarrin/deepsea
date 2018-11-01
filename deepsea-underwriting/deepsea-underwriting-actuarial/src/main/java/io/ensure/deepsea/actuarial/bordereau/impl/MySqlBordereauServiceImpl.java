@@ -34,7 +34,9 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 
 	@Override
 	public BordereauService addBordereauLine(BordereauLine bordereauLine, Handler<AsyncResult<Void>> resultHandler) {
-		JsonArray params = new JsonArray().add(bordereauLine.getBordereauLineId())
+		JsonArray params = new JsonArray().add(bordereauLine.getSource())
+				.add(bordereauLine.getSourceId())
+				.add(bordereauLine.getBordereauLineId())
 				.add(bordereauLine.getClientId())
 				.add(bordereauLine.getCustomerName())
 				.add(bordereauLine.getValue())
@@ -76,6 +78,14 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 	}
 	
 	@Override
+	public BordereauService requestLastRecordBySource(String source, Handler<AsyncResult<BordereauLine>> resultHandler) {
+		this.retrieveOne(source, GET_LAST_ROW)
+			.map(option -> option.map(BordereauLine::new).orElse(null))
+			.setHandler(resultHandler);
+		return this;
+	}
+	
+	@Override
 	public BordereauService removeBordereauLine(String bordereauLineId, Handler<AsyncResult<Void>> resultHandler) {
 		this.removeOne(bordereauLineId, REMOVE_BORDEREAULINE, resultHandler);
 		return this;
@@ -83,15 +93,17 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 
 	// SQL Statements
 	private static final String CREATE_STATEMENT = "CREATE TABLE IF NOT EXISTS `bordereau` (\n"
+			+ "  `source` VARCHAR(60) NOT NULL, \n" + "  `sourceId` INT NOT NULL, \n"
 			+ "  `bordereauLineId` VARCHAR(60) NOT NULL, \n" + "  `clientId` VARCHAR(60) NOT NULL, \n"
 			+ "  `customerName` VARCHAR(255) NOT NULL, \n" + "  `value` double NOT NULL,\n"
 			+ "  `ipt` double NOT NULL,\n" + "  `startDate` DATETIME NOT NULL, \n" + "  `eventDate` DATETIME NOT NULL, \n"
 			+ "  `event` VARCHAR(30) NOT NULL, \n" + "  PRIMARY KEY (`bordereauLineId`),\n"
 			+ "  KEY `index_client` (`clientId`) )";
 
-	private static final String INSERT_STATEMENT = "INSERT INTO bordereau (`bordereauLineId`, `clientId`, \n"
+	private static final String INSERT_STATEMENT = "INSERT INTO bordereau ("
+			+ " `source`, `sourceId`, `bordereauLineId`, `clientId`, \n"
 			+ "  `customerName`, `value`, `ipt`, `startDate`, `eventDate`, `event`) \n"
-			+ "  VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+			+ "  VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	private static final String FETCH_STATEMENT = "SELECT * FROM bordereau WHERE bordereauLineId = ?";
 
@@ -100,5 +112,7 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 	private static final String FETCH_BY_CLIENT_WITH_PAGE_STATEMENT = "SELECT * FROM bordereau WHERE clientId = ? LIMIT ?, ?";
 	
 	private static final String REMOVE_BORDEREAULINE = "DELETE FROM bordereau WHERE bordereauLineId = ?";
+	
+	private static final String GET_LAST_ROW = "SELECT * FROM bordereau WHERE source = ? ORDER BY sourceId DESC LIMIT 1";
 	
 }

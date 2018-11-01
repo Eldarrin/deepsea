@@ -11,6 +11,8 @@ import io.vertx.core.json.JsonObject;
 @DataObject(generateConverter = true)
 public class BordereauLine {
 
+	private String source;
+	private Integer sourceId;
 	private String bordereauLineId;
 	private String clientId;
 	private String customerName;
@@ -26,6 +28,8 @@ public class BordereauLine {
 
 	public BordereauLine(BordereauLine bordereauLine) {
 		super();
+		this.source = bordereauLine.source;
+		this.sourceId = bordereauLine.sourceId;
 		this.bordereauLineId = bordereauLine.bordereauLineId;
 		this.clientId = bordereauLine.clientId;
 		this.customerName = bordereauLine.customerName;
@@ -34,6 +38,22 @@ public class BordereauLine {
 		this.startDate = bordereauLine.startDate;
 		this.eventDate = bordereauLine.eventDate;
 		this.event = bordereauLine.event;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public Integer getSourceId() {
+		return sourceId;
+	}
+
+	public void setSourceId(Integer sourceId) {
+		this.sourceId = sourceId;
 	}
 
 	public String getBordereauLineId() {
