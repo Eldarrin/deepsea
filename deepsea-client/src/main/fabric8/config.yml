@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${project.artifactId}
+  namespace: deepsea
+data:
+  mysql.username: user2BX
+  mysql.password: oYJosEPd3C2YHjwa
+  mysql.host: mysql
+  mysql.port: 3306
+  mysql.database: sampledb
+  client.host.address: 0.0.0.0
+  client.host.port: 8080
+  client.service.hostname: deepsea-shared.deepsea.svc
+  client.api.name: client
+  

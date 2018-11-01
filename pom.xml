@@ -223,7 +223,8 @@
 	<modules>
 		<module>deepsea-common</module>
 		<module>deepsea-underwriting</module>
-		<module>deepsea-shared</module>
+		<module>deepsea-client</module>
+		<module>deepsea-product</module>
 		<module>deepsea-admin</module>
 		<module>deepsea-ui</module>
 	</modules>
