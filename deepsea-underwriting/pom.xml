@@ -11,6 +11,5 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>deepsea-underwriting-actuarial</module>
-		<module>deepsea-underwriting-ui</module>
 	</modules>
 </project>
