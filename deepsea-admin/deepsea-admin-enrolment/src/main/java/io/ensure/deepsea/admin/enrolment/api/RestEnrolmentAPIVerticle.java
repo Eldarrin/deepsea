@@ -15,13 +15,15 @@ import io.vertx.ext.web.handler.BodyHandler;
 
 public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 
+	private static final String ENROLMENT = "enrolment";
+
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	public static final String SERVICE_NAME = "enrolment-rest-api";
 
 	private static final String API_ADD = "/add";
 	
-	private DeliveryOptions options = new DeliveryOptions().addHeader("source", "enrolment");
+	private DeliveryOptions options = new DeliveryOptions().addHeader("source", ENROLMENT);
 	
 	private final EnrolmentService service;
 	
@@ -47,7 +49,7 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 
 		// create HTTP server and publish REST service
 		createHttpServer(router, host, port)
-				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, "deepsea-admin-enrolment.deepsea.svc", port, "enrolment"))
+				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, "deepsea-admin-enrolment.deepsea.svc", port, ENROLMENT))
 				.setHandler(future.completer());
 	}
 	
@@ -59,7 +61,7 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 					enrolment.setEnrolmentId(res.result());
 					String result = new JsonObject().put("message", "enrolment_added")
 							.put("enrolmentId", enrolment.getEnrolmentId()).encodePrettily();
-					vertx.eventBus().publish("enrolment", enrolment.toJson(), options);
+					vertx.eventBus().publish(ENROLMENT, enrolment.toJson(), options);
 					rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
 				} else {
 					rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();

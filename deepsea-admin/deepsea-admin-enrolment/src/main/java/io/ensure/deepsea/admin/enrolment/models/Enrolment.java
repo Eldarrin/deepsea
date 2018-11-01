@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.util.List;
 
-import io.ensure.deepsea.admin.enrolment.models.EnrolmentConverter;
 import io.ensure.deepsea.common.helper.ISO8601DateParser;
 import io.vertx.codegen.annotations.DataObject;
 import io.vertx.core.json.JsonObject;

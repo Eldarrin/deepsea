@@ -19,6 +19,8 @@ import io.vertx.serviceproxy.ServiceBinder;
 
 public class BordereauVerticle extends BaseMicroserviceVerticle {
 
+	private static final String ENROLMENT_CHANNEL = "enrolment";
+
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	private BordereauService bordereauService;
@@ -69,22 +71,22 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	}
 	
 	private void setupConsumers() {
-		vertx.eventBus().<JsonObject>consumer("enrolment", res -> {
+		vertx.eventBus().<JsonObject>consumer(ENROLMENT_CHANNEL, res -> 
 			// convert enrolment to bordereauline and add
-			addBordereauLineFromEnrolment(res.body());
-		});
+			addBordereauLineFromEnrolment(res.body())
+		);
 	}
 	
 	private void requestMissed() {
-		bordereauService.requestLastRecordBySource("enrolment", res -> {
-			vertx.eventBus().send("enrolment.replay", 
-					new JsonObject().put("lastId", res.result().getSourceId()));
-		});
+		bordereauService.requestLastRecordBySource(ENROLMENT_CHANNEL, res -> 
+			vertx.eventBus().send(ENROLMENT_CHANNEL + ".replay", 
+					new JsonObject().put("lastId", res.result().getSourceId()))
+		);
 	}
 	
 	private void addBordereauLineFromEnrolment(JsonObject enrolment) {
 		BordereauLine bl = new BordereauLine();
-		bl.setSource("enrolment");
+		bl.setSource(ENROLMENT_CHANNEL);
 		bl.setSourceId(enrolment.getInteger("enrolmentId"));
 		bl.setBordereauLineId("enrolment-" + enrolment.getInteger("enrolmentId"));
 		bl.setClientId(enrolment.getString("clientId"));

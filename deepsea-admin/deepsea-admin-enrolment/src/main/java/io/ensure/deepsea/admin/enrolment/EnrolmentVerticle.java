@@ -49,8 +49,6 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
         				.register(EnrolmentService.class, enrolmentService);
 
         		initEnrolmentDatabase(enrolmentService);
-        		
-        		//vertx.eventBus().<JsonObject>consumer(SERVICE_ADDRESS, this::bordereauAdd);
 
         		// publish the service and REST endpoint in the discovery infrastructure
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, EnrolmentService.class)
@@ -66,13 +64,13 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 	}
 	
 	private void setupReplayConsumer() {
-		vertx.eventBus().<JsonObject>consumer("enrolment.replay", msg -> {
+		vertx.eventBus().<JsonObject>consumer("enrolment.replay", msg -> 
 			enrolmentService.replayEnrolments(msg.body().getInteger("lastId"), res -> {
 				if (res.succeeded()) {
 					msg.reply(res.result());
 				}
-			});
-		});
+			})
+		);
 	}
 	
 	private Future<Void> initEnrolmentDatabase(EnrolmentService service) {
