@@ -39,13 +39,7 @@ public class RestBordereauAPIVerticle extends RestAPIVerticle {
 		// body handler
 		router.route().handler(BodyHandler.create());
 		// API route handler
-		router.get(HEALTH).handler(rc -> {
-			if (future.succeeded()) {
-				rc.response().end("Ready");
-			} else {
-				rc.response().setStatusCode(503).end();
-			}
-		});
+		addHealthHandler(router, future);
 		router.post(API_ADD).handler(this::apiAdd);
 		router.get(API_RETRIEVE_BY_CLIENT).handler(this::apiRetrieveByClient);
 		router.get(API_RETRIEVE_BY_CLIENT_BY_PAGE).handler(this::apiRetrieveByClientByPage);

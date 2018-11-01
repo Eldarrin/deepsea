@@ -136,21 +136,6 @@ public class MySqlRepositoryWrapper {
 		});
 	}
 	
-	protected Future<List<JsonObject>> retrieveMany(String sql) {
-		return getConnection().compose(connection -> {
-			Future<List<JsonObject>> future = Future.future();
-			connection.query(sql, r -> {
-				if (r.succeeded()) {
-					future.complete(r.result().getRows());
-				} else {
-					future.fail(r.cause());
-				}
-				connection.close();
-			});
-			return future;
-		});
-	}
-
 	protected Future<List<JsonObject>> retrieveMany(JsonArray param, String sql) {
 		return getConnection().compose(connection -> {
 			Future<List<JsonObject>> future = Future.future();

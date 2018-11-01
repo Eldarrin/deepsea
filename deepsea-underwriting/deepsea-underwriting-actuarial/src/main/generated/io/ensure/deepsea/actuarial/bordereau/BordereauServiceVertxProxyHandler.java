@@ -166,6 +166,20 @@ public class BordereauServiceVertxProxyHandler extends ProxyHandler {
          });
           break;
         }
+        case "requestLastRecordBySource": {
+          service.requestLastRecordBySource((java.lang.String)json.getValue("source"), res -> {
+            if (res.failed()) {
+              if (res.cause() instanceof ServiceException) {
+                msg.reply(res.cause());
+              } else {
+                msg.reply(new ServiceException(-1, res.cause().getMessage()));
+              }
+            } else {
+              msg.reply(res.result() == null ? null : res.result().toJson());
+            }
+         });
+          break;
+        }
         case "removeBordereauLine": {
           service.removeBordereauLine((java.lang.String)json.getValue("bordereauLineId"), createHandler(msg));
           break;

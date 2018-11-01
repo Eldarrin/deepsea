@@ -42,6 +42,12 @@ public class BordereauLineConverter {
     if (json.getValue("ipt") instanceof Number) {
       obj.setIpt(((Number)json.getValue("ipt")).doubleValue());
     }
+    if (json.getValue("source") instanceof String) {
+      obj.setSource((String)json.getValue("source"));
+    }
+    if (json.getValue("sourceId") instanceof Number) {
+      obj.setSourceId(((Number)json.getValue("sourceId")).intValue());
+    }
     if (json.getValue("value") instanceof Number) {
       obj.setValue(((Number)json.getValue("value")).doubleValue());
     }
@@ -61,6 +67,12 @@ public class BordereauLineConverter {
       json.put("event", obj.getEvent().name());
     }
     json.put("ipt", obj.getIpt());
+    if (obj.getSource() != null) {
+      json.put("source", obj.getSource());
+    }
+    if (obj.getSourceId() != null) {
+      json.put("sourceId", obj.getSourceId());
+    }
     json.put("value", obj.getValue());
   }
 }

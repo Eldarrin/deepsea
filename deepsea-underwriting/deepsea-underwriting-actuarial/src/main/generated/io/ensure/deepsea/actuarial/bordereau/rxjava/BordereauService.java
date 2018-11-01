@@ -125,6 +125,17 @@ public class BordereauService {
     }));
   }
 
+  public BordereauService requestLastRecordBySource(String source, Handler<AsyncResult<BordereauLine>> resultHandler) { 
+    delegate.requestLastRecordBySource(source, resultHandler);
+    return this;
+  }
+
+  public Single<BordereauLine> rxRequestLastRecordBySource(String source) { 
+    return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+      requestLastRecordBySource(source, fut);
+    }));
+  }
+
   public BordereauService removeBordereauLine(String bordereauLineId, Handler<AsyncResult<Void>> resultHandler) { 
     delegate.removeBordereauLine(bordereauLineId, resultHandler);
     return this;

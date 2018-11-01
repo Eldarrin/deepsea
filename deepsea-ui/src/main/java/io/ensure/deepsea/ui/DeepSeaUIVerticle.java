@@ -47,13 +47,7 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
         }
         
 		Router router = Router.router(vertx);
-		router.get(HEALTH).handler(rc -> {
-			if (future.succeeded()) {
-				rc.response().end("Ready");
-			} else {
-				rc.response().setStatusCode(503).end();
-			}
-		});
+		addHealthHandler(router, future);
 
 		// event bus bridge
 		SockJSHandler sockJSHandler = SockJSHandler.create(vertx);

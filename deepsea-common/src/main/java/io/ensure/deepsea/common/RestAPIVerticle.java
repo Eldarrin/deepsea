@@ -76,6 +76,16 @@ public abstract class RestAPIVerticle extends BaseMicroserviceVerticle {
       .allowedHeaders(allowHeaders)
       .allowedMethods(allowMethods));
   }
+  
+  protected void addHealthHandler(Router router, Future<Void> future) {
+	  router.get(HEALTH).handler(rc -> {
+			if (future.succeeded()) {
+				rc.response().end("Ready");
+			} else {
+				rc.response().setStatusCode(503).end();
+			}
+		});
+  }
 
   /**
    * Enable local session storage in requests.

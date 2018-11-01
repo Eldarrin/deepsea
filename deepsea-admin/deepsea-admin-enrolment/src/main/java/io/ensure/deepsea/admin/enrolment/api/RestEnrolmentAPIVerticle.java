@@ -36,13 +36,7 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 		// body handler
 		router.route().handler(BodyHandler.create());
 		// API route handler
-		router.get(HEALTH).handler(rc -> {
-			if (future.succeeded()) {
-				rc.response().end("Ready");
-			} else {
-				rc.response().setStatusCode(503).end();
-			}
-		});
+		addHealthHandler(router, future);
 		router.post(API_ADD).handler(this::apiAdd);
 
 		// get HTTP host and port from configuration, or use default value
