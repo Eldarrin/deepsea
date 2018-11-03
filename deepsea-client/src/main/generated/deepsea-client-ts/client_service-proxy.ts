@@ -15,7 +15,7 @@
  */
 
 
-export class EnrolmentService {
+export class ClientService {
 
   private closed = false;
 
@@ -30,7 +30,7 @@ export class EnrolmentService {
   constructor (private eb: any, private address: string) {
   }
 
-  initializePersistence(resultHandler: (err: any, result: any) => any) : EnrolmentService {
+  initializePersistence(resultHandler: (err: any, result: any) => any) : ClientService {
     if (closed) {
       throw new Error('Proxy is closed');
     }
@@ -38,19 +38,27 @@ export class EnrolmentService {
       return this;
   }
 
-  addEnrolment(enrolment: any, resultHandler: (err: any, result: any) => any) : EnrolmentService {
+  addClient(client: any, resultHandler: (err: any, result: any) => any) : ClientService {
     if (closed) {
       throw new Error('Proxy is closed');
     }
-    this.eb.send(this.address, {"enrolment": enrolment}, {"action":"addEnrolment"}, function(err, result) { resultHandler(err, result &&result.body); });
+    this.eb.send(this.address, {"client": client}, {"action":"addClient"}, function(err, result) { resultHandler(err, result &&result.body); });
       return this;
   }
 
-  replayEnrolments(lastId: number, resultHandler: (err: any, result: any) => any) : EnrolmentService {
+  retrieveClients(resultHandler: (err: any, result: any) => any) : ClientService {
     if (closed) {
       throw new Error('Proxy is closed');
     }
-    this.eb.send(this.address, {"lastId": lastId}, {"action":"replayEnrolments"}, function(err, result) { resultHandler(err, result &&result.body); });
+    this.eb.send(this.address, {}, {"action":"retrieveClients"}, function(err, result) { resultHandler(err, result &&result.body); });
+      return this;
+  }
+
+  removeClient(client: any, resultHandler: (err: any, result: any) => any) : ClientService {
+    if (closed) {
+      throw new Error('Proxy is closed');
+    }
+    this.eb.send(this.address, {"client": client}, {"action":"removeClient"}, function(err, result) { resultHandler(err, result &&result.body); });
       return this;
   }
 

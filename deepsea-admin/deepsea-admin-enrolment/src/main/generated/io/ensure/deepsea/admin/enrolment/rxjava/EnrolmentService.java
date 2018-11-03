@@ -20,6 +20,7 @@ import java.util.Map;
 import rx.Observable;
 import rx.Single;
 import io.ensure.deepsea.admin.enrolment.models.Enrolment;
+import java.util.List;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
@@ -79,6 +80,17 @@ public class EnrolmentService {
   public Single<Integer> rxAddEnrolment(Enrolment enrolment) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       addEnrolment(enrolment, fut);
+    }));
+  }
+
+  public EnrolmentService replayEnrolments(Integer lastId, Handler<AsyncResult<List<Enrolment>>> resultHandler) { 
+    delegate.replayEnrolments(lastId, resultHandler);
+    return this;
+  }
+
+  public Single<List<Enrolment>> rxReplayEnrolments(Integer lastId) { 
+    return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+      replayEnrolments(lastId, fut);
     }));
   }
 

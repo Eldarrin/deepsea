@@ -287,7 +287,7 @@ vertxApp.controller('UserBordereauCtrl', ['$scope', '$rootScope', '$http', '$loc
     var fetchClients = () => {
     	$http({
     		method: 'GET',
-    		url: '/api/client/client/'
+    		url: '/api/client/'
     	}).success(data => {
     		$scope.client = data;
     	}).error((data, status, headers, config) => {

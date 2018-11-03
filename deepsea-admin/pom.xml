@@ -9,6 +9,5 @@
   <packaging>pom</packaging>
   <modules>
   	<module>deepsea-admin-enrolment</module>
-  	<module>deepsea-admin-db</module>
   </modules>
 </project>

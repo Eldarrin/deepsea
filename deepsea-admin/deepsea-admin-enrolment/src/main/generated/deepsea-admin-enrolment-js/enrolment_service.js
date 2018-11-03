@@ -71,6 +71,27 @@ var EnrolmentService = function(j_val) {
     } else throw new TypeError('function invoked with invalid arguments');
   };
 
+  /**
+
+   @public
+   @param lastId {number} 
+   @param resultHandler {function} 
+   @return {EnrolmentService}
+   */
+  this.replayEnrolments = function(lastId, resultHandler) {
+    var __args = arguments;
+    if (__args.length === 2 && typeof __args[0] ==='number' && typeof __args[1] === 'function') {
+      j_enrolmentService["replayEnrolments(java.lang.Integer,io.vertx.core.Handler)"](utils.convParamInteger(lastId), function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnListSetDataObject(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
+      return that;
+    } else throw new TypeError('function invoked with invalid arguments');
+  };
+
   // A reference to the underlying Java delegate
   // NOTE! This is an internal API and must not be used in user code.
   // If you rely on this property your code is likely to break if we change it / remove it without warning.

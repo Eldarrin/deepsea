@@ -33,7 +33,7 @@ public class ProductVerticle extends BaseMicroserviceVerticle {
 		super.start();
 
 		ConfigRetriever retriever = ConfigRetriever.create(vertx,
-				new ConfigRetrieverHelper().getOptions("deepsea", "deepsea-shared"));
+				new ConfigRetrieverHelper().getOptions("deepsea", "deepsea-product"));
 		retriever.getConfig(res -> {
 			if (res.succeeded()) {
 				// create the service instance

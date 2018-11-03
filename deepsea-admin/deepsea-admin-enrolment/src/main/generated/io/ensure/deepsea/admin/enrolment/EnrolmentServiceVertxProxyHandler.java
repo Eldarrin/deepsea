@@ -40,6 +40,7 @@ import io.vertx.serviceproxy.ProxyHandler;
 import io.vertx.serviceproxy.ServiceException;
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
 import io.ensure.deepsea.admin.enrolment.models.Enrolment;
+import java.util.List;
 import io.ensure.deepsea.admin.enrolment.EnrolmentService;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -121,6 +122,20 @@ public class EnrolmentServiceVertxProxyHandler extends ProxyHandler {
         }
         case "addEnrolment": {
           service.addEnrolment(json.getJsonObject("enrolment") == null ? null : new io.ensure.deepsea.admin.enrolment.models.Enrolment(json.getJsonObject("enrolment")), createHandler(msg));
+          break;
+        }
+        case "replayEnrolments": {
+          service.replayEnrolments(json.getValue("lastId") == null ? null : (json.getLong("lastId").intValue()), res -> {
+            if (res.failed()) {
+              if (res.cause() instanceof ServiceException) {
+                msg.reply(res.cause());
+              } else {
+                msg.reply(new ServiceException(-1, res.cause().getMessage()));
+              }
+            } else {
+              msg.reply(new JsonArray(res.result().stream().map(r -> r == null ? null : r.toJson()).collect(Collectors.toList())));
+            }
+         });
           break;
         }
         default: {

@@ -20,8 +20,8 @@ public class RestClientAPIVerticle extends RestAPIVerticle {
 	
 	public static final String SERVICE_NAME = "client-rest-api";
 	
-	private static final String API_ADD = "/client/add";
-	private static final String API_RETRIEVE = "/client/";
+	private static final String API_ADD = "/add";
+	private static final String API_RETRIEVE = "/";
 	
 	private final ClientService service;
 	
@@ -42,12 +42,12 @@ public class RestClientAPIVerticle extends RestAPIVerticle {
 
 		ConfigRetriever retriever = ConfigRetriever
 				.create(vertx, new ConfigRetrieverHelper()
-						.getOptions("deepsea", "deepsea-shared-client"));
+						.getOptions("deepsea", "deepsea-client"));
         retriever.getConfig(res -> {
         	if (res.succeeded()) {
         		String host = res.result().getString("client.http.address", "0.0.0.0");
         		int port = res.result().getInteger("client.http.port", 8080);
-        		String serviceHost = res.result().getString("client.service.hostname", "deepsea-shared.deepsea.svc");
+        		String serviceHost = res.result().getString("client.service.hostname", "deepsea-client.deepsea.svc");
         		String apiName = res.result().getString("client.api.name", "client");
         		
         		log.info("Starting Deepsea Client on host:port " + host + ":" + port);

@@ -70,6 +70,14 @@ export class BordereauService {
       return this;
   }
 
+  requestLastRecordBySource(source: string, resultHandler: (err: any, result: any) => any) : BordereauService {
+    if (closed) {
+      throw new Error('Proxy is closed');
+    }
+    this.eb.send(this.address, {"source": source}, {"action":"requestLastRecordBySource"}, function(err, result) { resultHandler(err, result &&result.body); });
+      return this;
+  }
+
   removeBordereauLine(bordereauLineId: string, resultHandler: (err: any, result: any) => any) : BordereauService {
     if (closed) {
       throw new Error('Proxy is closed');

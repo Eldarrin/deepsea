@@ -14,23 +14,23 @@
  * under the License.
  */
 
-/** @module deepsea-admin-enrolment-js/enrolment_service */
+/** @module deepsea-client-js/client_service */
 !function (factory) {
   if (typeof require === 'function' && typeof module !== 'undefined') {
     factory();
   } else if (typeof define === 'function' && define.amd) {
     // AMD loader
-    define('deepsea-admin-enrolment-js/enrolment_service-proxy', [], factory);
+    define('deepsea-client-js/client_service-proxy', [], factory);
   } else {
     // plain old include
-    EnrolmentService = factory();
+    ClientService = factory();
   }
 }(function () {
 
   /**
  @class
   */
-  var EnrolmentService = function(eb, address) {
+  var ClientService = function(eb, address) {
 
     var j_eb = eb;
     var j_address = address;
@@ -45,10 +45,11 @@
     };
 
     /**
+     Initialize the persistence.
 
      @public
-     @param resultHandler {function} 
-     @return {EnrolmentService}
+     @param resultHandler {function} the result handler will be called as soon as the initialization has been accomplished. The async result indicates whether the operation was successful or not. 
+     @return {ClientService}
      */
     this.initializePersistence = function(resultHandler) {
       var __args = arguments;
@@ -64,17 +65,17 @@
     /**
 
      @public
-     @param enrolment {Object} 
+     @param client {Object} 
      @param resultHandler {function} 
-     @return {EnrolmentService}
+     @return {ClientService}
      */
-    this.addEnrolment = function(enrolment, resultHandler) {
+    this.addClient = function(client, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"enrolment":__args[0]}, {"action":"addEnrolment"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {"client":__args[0]}, {"action":"addClient"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -82,17 +83,34 @@
     /**
 
      @public
-     @param lastId {number} 
      @param resultHandler {function} 
-     @return {EnrolmentService}
+     @return {ClientService}
      */
-    this.replayEnrolments = function(lastId, resultHandler) {
+    this.retrieveClients = function(resultHandler) {
       var __args = arguments;
-      if (__args.length === 2 && typeof __args[0] ==='number' && typeof __args[1] === 'function') {
+      if (__args.length === 1 && typeof __args[0] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"lastId":__args[0]}, {"action":"replayEnrolments"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {}, {"action":"retrieveClients"}, function(err, result) { __args[0](err, result &&result.body); });
+        return that;
+      } else throw new TypeError('function invoked with invalid arguments');
+    };
+
+    /**
+
+     @public
+     @param client {Object} 
+     @param resultHandler {function} 
+     @return {ClientService}
+     */
+    this.removeClient = function(client, resultHandler) {
+      var __args = arguments;
+      if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
+        if (closed) {
+          throw new Error('Proxy is closed');
+        }
+        j_eb.send(j_address, {"client":__args[0]}, {"action":"removeClient"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -101,11 +119,11 @@
 
   if (typeof exports !== 'undefined') {
     if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = EnrolmentService;
+      exports = module.exports = ClientService;
     } else {
-      exports.EnrolmentService = EnrolmentService;
+      exports.ClientService = ClientService;
     }
   } else {
-    return EnrolmentService;
+    return ClientService;
   }
 });

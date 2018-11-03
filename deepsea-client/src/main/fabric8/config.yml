@@ -11,6 +11,6 @@ data:
   mysql.database: sampledb
   client.host.address: 0.0.0.0
   client.host.port: 8080
-  client.service.hostname: deepsea-shared.deepsea.svc
+  client.service.hostname: deepsea-client.deepsea.svc
   client.api.name: client
   

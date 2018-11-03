@@ -139,6 +139,27 @@ var BordereauService = function(j_val) {
   /**
 
    @public
+   @param source {string} 
+   @param resultHandler {function} 
+   @return {BordereauService}
+   */
+  this.requestLastRecordBySource = function(source, resultHandler) {
+    var __args = arguments;
+    if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
+      j_bordereauService["requestLastRecordBySource(java.lang.String,io.vertx.core.Handler)"](source, function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
+      return that;
+    } else throw new TypeError('function invoked with invalid arguments');
+  };
+
+  /**
+
+   @public
    @param bordereauLineId {string} 
    @param resultHandler {function} 
    @return {BordereauService}

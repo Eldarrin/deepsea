@@ -13,6 +13,8 @@
 |[[customerName]]`customerName`|`String`|-
 |[[event]]`event`|`link:enums.html#BordereauEvent[BordereauEvent]`|-
 |[[ipt]]`ipt`|`Number (double)`|-
+|[[source]]`source`|`String`|-
+|[[sourceId]]`sourceId`|`Number (Integer)`|-
 |[[value]]`value`|`Number (double)`|-
 |===
 
