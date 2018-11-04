@@ -20,6 +20,7 @@ import io.vertx.serviceproxy.ServiceBinder;
 public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 	private static final String ENROLMENT_CHANNEL = "enrolment";
+	private static final String MTA_CHANNEL = "mta";
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 
@@ -75,6 +76,10 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 			// convert enrolment to bordereauline and add
 			addBordereauLineFromEnrolment(res.body())
 		);
+		vertx.eventBus().<JsonObject>consumer(MTA_CHANNEL, res -> 
+			// convert mta to bordereauline and add
+			addBordereauLineFromMTA(res.body())
+		);
 	}
 	
 	private void requestMissed() {
@@ -82,6 +87,15 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 			vertx.eventBus().send(ENROLMENT_CHANNEL + ".replay", 
 					new JsonObject().put("lastId", res.result().getSourceId()))
 		);
+	}
+	
+	private void addBordereauLineFromMTA(JsonObject mta) {
+		// TODO: WILL FAIL ATM
+		BordereauLine bl = new BordereauLine();
+		bl.setSource(MTA_CHANNEL);
+		bl.setSourceId(mta.getInteger("mtaId"));
+		bl.setBordereauLineId(MTA_CHANNEL + "-" + bl.getSourceId());
+		bordereauService.addBordereauLine(bl, null);
 	}
 	
 	private void addBordereauLineFromEnrolment(JsonObject enrolment) {
