@@ -1,0 +1,5 @@
+# ONLY FOR MINISHIFT EASE - NOT PRODUCTION
+oc policy add-role-to-user view admin -n deepsea
+oc policy add-role-to-user view -n deepsea -z default
+oc policy add-role-to-group view system:serviceaccounts -n deepsea
+oc policy add-role-to-group admin system:serviceaccounts -n deepsea
