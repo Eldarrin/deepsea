@@ -18,6 +18,7 @@ Thanks, Andy
 ###	Administration
 		Cash Settlement
 		Policy Management
+			Enrolment
 		Risk Management
 		Claims Adjudication
 		Loss Adjustment

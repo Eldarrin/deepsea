@@ -1,5 +1,12 @@
+kind: DeploymentConfig
+apiVersion: v1
+metadata:
+  name: ${project.artifactId}
 spec:
   template:
+    metadata:
+      labels:
+        name: ${project.artifactId}
     spec:
       containers:
         - name: vertx
@@ -13,3 +20,20 @@ spec:
               value: '-Dvertx.cacheDirBase=/tmp -Dvertx.jgroups.config=default-configs/default-jgroups-kubernetes.xml -Djava.net.preferIPv4Stack=true'
             - name: JAVA_ARGS
               value: '-Dvertx.cacheDirBase=/tmp -Dvertx.jgroups.config=default-configs/default-jgroups-kubernetes.xml -Djava.net.preferIPv4Stack=true -cluster'
+    replicas: 2
+    minReplicas: 1 
+    maxReplicas: 10 
+    cpuUtilization:
+      targetCPUUtilizationPercentage: 80     
+  selector:
+    name: ${project.artifactId}
+  triggers:
+    - type: "ConfigChange" 
+    - type: "ImageChange" 
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - "vertx"
+        from:
+          kind: "ImageStreamTag"
+          name: "deepsea-client:latest"

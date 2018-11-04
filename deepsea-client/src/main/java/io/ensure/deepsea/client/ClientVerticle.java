@@ -32,6 +32,7 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 	@Override
 	public void start(Future<Void> future) throws Exception {
 		super.start();
+		startEBCluster();
 
 		ConfigRetriever retriever = ConfigRetriever
 				.create(vertx, new ConfigRetrieverHelper()
@@ -57,6 +58,7 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
         		// publish the service and REST endpoint in the discovery infrastructure
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, ClientService.class)
         				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+        		vertx.eventBus().publish("client", new JsonObject().put("started", "true"));
         	} else {
         		log.error("Unable to find config map for deepsea-shared MySQL");
         	}

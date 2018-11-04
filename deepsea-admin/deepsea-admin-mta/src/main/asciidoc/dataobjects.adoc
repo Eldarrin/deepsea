@@ -1,0 +1,21 @@
+= Cheatsheets
+
+[[MidTermAdjustment]]
+== MidTermAdjustment
+
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[mtaEvent]]`mtaEvent`|`link:enums.html#MTAEvent[MTAEvent]`|-
+|[[mtaId]]`mtaId`|`Number (Integer)`|-
+|[[newCoverage]]`newCoverage`|`Number (double)`|-
+|[[newRiskId]]`newRiskId`|`String`|-
+|[[newproductId]]`newproductId`|`String`|-
+|[[oldCoverage]]`oldCoverage`|`Number (double)`|-
+|[[oldProductId]]`oldProductId`|`String`|-
+|[[oldRiskId]]`oldRiskId`|`String`|-
+|[[policyId]]`policyId`|`String`|-
+|===
+
