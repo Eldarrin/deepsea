@@ -23,7 +23,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 	private static final String ENROLMENT_CHANNEL = "enrolment";
 	private static final String MTA_CHANNEL = "mta";
-	private static final String REDIS_CHANNEL = "io.vertx.redis";
+	private static final String REDIS_CHANNEL = "io.vertx.redis.";
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 
@@ -82,39 +82,53 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	}
 
 	private void setupConsumers(RedisOptions redisOptions) {
-		vertx.eventBus().<JsonObject>consumer(REDIS_CHANNEL + "." + MTA_CHANNEL, received -> {
+		vertx.eventBus().<JsonObject>consumer(REDIS_CHANNEL + MTA_CHANNEL, received -> {
 			String message = received.body().getJsonObject("value").getString("message");
-			log.info(message);
+			log.trace(message);
+			addBordereauLineFromMTA(new JsonObject(message));
+		});
+		vertx.eventBus().<JsonObject>consumer(REDIS_CHANNEL + ENROLMENT_CHANNEL, received -> {
+			String message = received.body().getJsonObject("value").getString("message");
+			log.trace(message);
+			addBordereauLineFromEnrolment(new JsonObject(message));
 		});
 
 		RedisClient redis = RedisClient.create(vertx, redisOptions);
 
 		redis.subscribe(MTA_CHANNEL, res -> {
-			if (!res.succeeded()) {
+			if (res.succeeded()) {
+				//requestMissed();
+			} else {
 				log.error(res.result());
 			}
 		});
-
-		vertx.eventBus().<JsonObject>consumer(ENROLMENT_CHANNEL, res ->
-		// convert enrolment to bordereauline and add
-		addBordereauLineFromEnrolment(res.body()));
-		/*
-		 * vertx.eventBus().<JsonObject>consumer(MTA_CHANNEL, res -> // convert mta to
-		 * bordereauline and add addBordereauLineFromMTA(res.body()) );
-		 */
+		redis.subscribe(ENROLMENT_CHANNEL, res -> {
+			if (res.succeeded()) {
+				requestMissed();
+			} else {
+				log.error(res.result());
+			}
+		});
 	}
 
 	private void requestMissed() {
+		// TODO: switch to redis and use pub/sub or use vertx direct message?
 		bordereauService.requestLastRecordBySource(ENROLMENT_CHANNEL, res -> vertx.eventBus()
 				.send(ENROLMENT_CHANNEL + ".replay", new JsonObject().put("lastId", res.result().getSourceId())));
 	}
 
 	private void addBordereauLineFromMTA(JsonObject mta) {
-		// TODO: WILL FAIL ATM
 		BordereauLine bl = new BordereauLine();
 		bl.setSource(MTA_CHANNEL);
 		bl.setSourceId(mta.getInteger("mtaId"));
 		bl.setBordereauLineId(MTA_CHANNEL + "-" + bl.getSourceId());
+		bl.setClientId(mta.getString("clientId"));
+		bl.setCustomerName("AAA");  //TODO: mta.getString("firstName").substring(1, 1) + mta.getString("lastName"));
+		bl.setEvent(BordereauEvent.MTA);
+		bl.setEventDate(mta.getInstant("eventDate"));
+		bl.setIpt(0);
+		bl.setValue(0);
+		bl.setStartDate(mta.getInstant("eventDate")); // TODO: get from policy when built
 		bordereauService.addBordereauLine(bl, null);
 	}
 

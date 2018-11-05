@@ -1,4 +1,7 @@
 # deepsea
+
+## take note :) : This is an experimental project, so many things do not work!
+
 ## README
 
 This is a simple (at the moment) project to recreate an Open Source Insurance application based on Vertx and Openshift. A long way to go yet :)
@@ -6,6 +9,8 @@ This is a simple (at the moment) project to recreate an Open Source Insurance ap
 And special thanks to Clement Escoffier and Eric Zhao for the initial tutorials that pointed me this way.
 
 Thanks, Andy
+
+### Currently it is using Redis for Pub/sub, mongo for audit writes, mysql for reviewable data, infinispan for clustering. Also need to write tests for everything.
 
 ## Initial Layout
 ### Deepsea Insurance
