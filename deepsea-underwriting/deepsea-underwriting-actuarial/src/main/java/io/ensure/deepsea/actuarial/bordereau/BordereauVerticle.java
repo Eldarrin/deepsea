@@ -15,17 +15,20 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.redis.RedisClient;
+import io.vertx.redis.RedisOptions;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 	private static final String ENROLMENT_CHANNEL = "enrolment";
 	private static final String MTA_CHANNEL = "mta";
+	private static final String REDIS_CHANNEL = "redis.deepsea.svc";
 
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	private BordereauService bordereauService;
-
+	
 	@Override
 	public void start(Future<Void> future) throws Exception {
 		super.start();
@@ -54,13 +57,27 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
         		// publish the service and REST endpoint in the discovery infrastructure
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, BordereauService.class)
         				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
-        		
-        		setupConsumers();
-        		requestMissed();
+
         	} else {
         		log.error("Unable to find config map for deepsea-underwriting-actuarial MySQL");
         	}
         
+        });
+        
+        ConfigRetriever redisRetriever = ConfigRetriever
+				.create(vertx, new ConfigRetrieverHelper()
+						.getOptions("deepsea", "deepsea-redis"));
+        
+        redisRetriever.getConfig(res -> {
+        	if (res.succeeded()) {
+        		RedisOptions redisConfig = new RedisOptions()
+        				.setHost(res.result().getString("redis.host"))
+        				.setPort(res.result().getInteger("redis.port"))
+        				.setAuth(res.result().getString("redis.auth"));
+        		
+        		setupConsumers(redisConfig);                            
+        		requestMissed();
+        	}
         });
 
 	}
@@ -71,15 +88,32 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		return initFuture.map(v -> null);
 	}
 	
-	private void setupConsumers() {
+	private void setupConsumers(RedisOptions redisOptions) {
+		vertx.eventBus().<JsonObject>consumer(REDIS_CHANNEL + "." + MTA_CHANNEL, received -> {
+			  // do whatever you need to do with your message
+			  JsonObject value = received.body().getJsonObject("value");
+			  // the value is a JSON doc with the following properties
+			  // channel - The channel to which this message was sent
+			  // pattern - Pattern is present if you use psubscribe command and is the pattern that matched this message channel
+			  // message - The message payload
+			});
+
+			RedisClient redis = RedisClient.create(vertx, redisOptions);
+
+			redis.subscribe(MTA_CHANNEL, res -> {
+			  if (res.succeeded()) {
+			    log.info(res.result());
+			  }
+			});
+		
 		vertx.eventBus().<JsonObject>consumer(ENROLMENT_CHANNEL, res -> 
 			// convert enrolment to bordereauline and add
 			addBordereauLineFromEnrolment(res.body())
 		);
-		vertx.eventBus().<JsonObject>consumer(MTA_CHANNEL, res -> 
+		/*vertx.eventBus().<JsonObject>consumer(MTA_CHANNEL, res -> 
 			// convert mta to bordereauline and add
 			addBordereauLineFromMTA(res.body())
-		);
+		);*/
 	}
 	
 	private void requestMissed() {

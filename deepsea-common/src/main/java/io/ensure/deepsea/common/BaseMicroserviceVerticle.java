@@ -1,5 +1,9 @@
 package io.ensure.deepsea.common;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import io.vertx.circuitbreaker.CircuitBreaker;
 import io.vertx.circuitbreaker.CircuitBreakerOptions;
 import io.vertx.core.AbstractVerticle;
@@ -12,6 +16,8 @@ import io.vertx.core.impl.ConcurrentHashSet;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.redis.RedisClient;
+import io.vertx.redis.RedisOptions;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.ServiceDiscoveryOptions;
@@ -19,10 +25,6 @@ import io.vertx.servicediscovery.types.EventBusService;
 import io.vertx.servicediscovery.types.HttpEndpoint;
 import io.vertx.servicediscovery.types.JDBCDataSource;
 import io.vertx.servicediscovery.types.MessageSource;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * This verticle provides support for various microservice functionality like
@@ -42,6 +44,7 @@ public abstract class BaseMicroserviceVerticle extends AbstractVerticle {
 
 	protected ServiceDiscovery discovery;
 	protected CircuitBreaker circuitBreaker;
+	protected RedisClient redis;
 	protected Set<Record> registeredRecords = new ConcurrentHashSet<>();
 
 	@Override
@@ -50,8 +53,7 @@ public abstract class BaseMicroserviceVerticle extends AbstractVerticle {
 		discovery = ServiceDiscovery.create(vertx, new ServiceDiscoveryOptions().setBackendConfiguration(config()));
 
 		// init circuit breaker instance
-		JsonObject cbOptions = config().getJsonObject(CIRCUIT_BREAKER) != null
-				? config().getJsonObject(CIRCUIT_BREAKER)
+		JsonObject cbOptions = config().getJsonObject(CIRCUIT_BREAKER) != null ? config().getJsonObject(CIRCUIT_BREAKER)
 				: new JsonObject();
 		circuitBreaker = CircuitBreaker.create(cbOptions.getString("name", CIRCUIT_BREAKER), vertx,
 				new CircuitBreakerOptions().setMaxFailures(cbOptions.getInteger("max-failures", 5))
@@ -64,10 +66,9 @@ public abstract class BaseMicroserviceVerticle extends AbstractVerticle {
 				new JsonObject().put(API_NAME, config().getString(API_NAME, "")));
 		return publish(record);
 	}
-	
+
 	protected Future<Void> publishHttpEndpoint(String name, String host, int port, String apiName) {
-		Record record = HttpEndpoint.createRecord(name, host, port, "/",
-				new JsonObject().put(API_NAME, apiName));
+		Record record = HttpEndpoint.createRecord(name, host, port, "/", new JsonObject().put(API_NAME, apiName));
 		return publish(record);
 	}
 
@@ -162,7 +163,26 @@ public abstract class BaseMicroserviceVerticle extends AbstractVerticle {
 			});
 		}
 	}
-	
+
+	protected Future<Void> startEBCluster(RedisOptions redisOptions) {
+		Future<Void> future = Future.future();
+
+		RedisClient redis = RedisClient.create(vertx, redisOptions);
+
+		redis.ping(ar -> {
+			if (ar.succeeded()) {
+				logger.info("redis.started.succeed");
+				this.redis = redis;
+				future.complete();
+			} else {
+				logger.error("redis.started.failed");
+				future.fail(ar.cause());
+			}
+		});
+
+		return future;
+	}
+
 	protected Future<Void> startEBCluster() {
 		Future<Void> future = Future.future();
 		VertxOptions options = new VertxOptions();
