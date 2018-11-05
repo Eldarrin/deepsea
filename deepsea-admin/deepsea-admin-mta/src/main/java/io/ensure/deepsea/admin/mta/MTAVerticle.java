@@ -13,6 +13,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.redis.RedisClient;
 import io.vertx.redis.RedisOptions;
 import io.vertx.serviceproxy.ServiceBinder;
 
@@ -43,7 +44,29 @@ public class MTAVerticle extends BaseMicroserviceVerticle {
         		startEBCluster(redisConfig).setHandler(arRedis -> {
         			if (arRedis.succeeded()) {
         				redis.publish(MTA_CHANNEL, new JsonObject().put("started", "true").encodePrettily(), ar -> {
-                			if (!ar.succeeded()) {
+                			if (ar.succeeded()) {
+                				log.info("published to Redis");
+                				// create the service instance
+                        		JsonObject myMongoConfig = new JsonObject()
+                        				.put("host", res.result().getString("mongo.host"))
+                        				.put("port", res.result().getInteger("mongo.port"))
+                        				.put("username", res.result().getString("mongo.username"))
+                        				.put("password", res.result().getString("mongo.password"))
+                        				.put("db_name", res.result().getString("mongo.database"));
+
+                        		mtaService = new MongoMTAServiceImpl(vertx, myMongoConfig);
+                        		// Register the handler
+                        		new ServiceBinder(vertx)
+                        				.setAddress(SERVICE_ADDRESS)
+                        				.register(MTAService.class, mtaService);
+
+                        		initMTADatabase(mtaService);
+
+                        		// publish the service and REST endpoint in the discovery infrastructure
+                        		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, MTAService.class)
+                        				.compose(servicePublished -> deployRestVerticle(redis)).setHandler(future.completer());
+                        		
+                			} else {
                 				log.error("Cannot publish to Redis");
                 			}
                 		});
@@ -51,25 +74,6 @@ public class MTAVerticle extends BaseMicroserviceVerticle {
         			}
         		});
         				
-        		// create the service instance
-        		JsonObject myMongoConfig = new JsonObject()
-        				.put("host", res.result().getString("mongo.host"))
-        				.put("port", res.result().getInteger("mongo.port"))
-        				.put("username", res.result().getString("mongo.username"))
-        				.put("password", res.result().getString("mongo.password"))
-        				.put("db_name", res.result().getString("mongo.database"));
-
-        		mtaService = new MongoMTAServiceImpl(vertx, myMongoConfig);
-        		// Register the handler
-        		new ServiceBinder(vertx)
-        				.setAddress(SERVICE_ADDRESS)
-        				.register(MTAService.class, mtaService);
-
-        		initMTADatabase(mtaService);
-
-        		// publish the service and REST endpoint in the discovery infrastructure
-        		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, MTAService.class)
-        				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
         		
         		
         	} else {
@@ -102,9 +106,9 @@ public class MTAVerticle extends BaseMicroserviceVerticle {
 		return initFuture.map(v -> null);
 	}
 
-	private Future<Void> deployRestVerticle() {
+	private Future<Void> deployRestVerticle(RedisClient redis) {
 		Future<String> future = Future.future();
-		vertx.deployVerticle(new RestMTAAPIVerticle(mtaService),
+		vertx.deployVerticle(new RestMTAAPIVerticle(mtaService, redis),
 				new DeploymentOptions().setConfig(config()), future.completer());
 		return future.map(r -> null);
 	}

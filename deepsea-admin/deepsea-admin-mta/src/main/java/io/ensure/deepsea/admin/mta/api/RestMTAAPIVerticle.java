@@ -12,6 +12,7 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.redis.RedisClient;
 
 public class RestMTAAPIVerticle extends RestAPIVerticle {
 	
@@ -26,9 +27,11 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 	private DeliveryOptions options = new DeliveryOptions().addHeader("source", MTA);
 	
 	private final MTAService service;
+	private final RedisClient redis;
 	
-	public RestMTAAPIVerticle(MTAService service) {
+	public RestMTAAPIVerticle(MTAService service, RedisClient redis) {
 		this.service = service;
+		this.redis = redis;
 	}
 	
 	@Override
@@ -55,18 +58,38 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 	
 	private void apiAdd(RoutingContext rc) {
 		try {
+			log.info("Start Add");
 			MidTermAdjustment mta = new MidTermAdjustment(new JsonObject(rc.getBodyAsString()));
-			service.addMTA(mta, res -> {
-				if (res.succeeded()) {
-					mta.setMtaId(res.result());
-					String result = new JsonObject().put("message", "mta_added")
-							.put("mtaId", mta.getMtaId()).encodePrettily();
-					vertx.eventBus().publish(MTA, mta.toJson(), options);
-					rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
-				} else {
-					rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
+			log.info("Coerced MTA");
+			redis.pubsubChannels("", ar -> {
+				if (ar.succeeded()) {
+					log.error(ar.result());
 				}
 			});
+			redis.publish("mta", mta.toString(), ar -> {
+				log.info("trying to publish");
+    			if (ar.succeeded()) {
+    				log.info("Published to Redis");
+    				String result = new JsonObject().put("message", "mta_added")
+							.put("mtaId", mta.getMtaId()).encodePrettily();
+    				rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
+    			} else {
+    				log.error("failed to publish");
+    				rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
+    			}
+    		});
+			
+			//vertx.eventBus().publish(MTA, mta.toJson(), options);
+			/*service.addMTA(mta, res -> {
+				if (res.succeeded()) {
+					mta.setMtaId(res.result());
+					
+					vertx.eventBus().publish(MTA, mta.toJson(), options);
+					
+				} else {
+					
+				}
+			});*/
 		} catch (DecodeException e) {
 			badRequest(rc, e);
 		}

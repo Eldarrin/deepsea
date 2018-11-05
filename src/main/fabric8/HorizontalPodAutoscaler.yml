@@ -1,0 +1,14 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ${project.artifactId} 
+spec:
+  scaleTargetRef:
+    kind: DeploymentConfig 
+    name: ${project.artifactId} 
+    apiVersion: apps/v1 
+    subresource: scale
+  minReplicas: 1 
+  maxReplicas: 10 
+  cpuUtilization:
+    targetCPUUtilizationPercentage: 80 
