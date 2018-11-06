@@ -69,7 +69,6 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 						.setPort(res.result().getInteger("redis.port")).setAuth(res.result().getString("redis.auth"));
 
 				setupConsumers(redisConfig);
-				// requestMissed();
 			}
 		});
 
@@ -97,7 +96,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 		redis.subscribe(MTA_CHANNEL, res -> {
 			if (res.succeeded()) {
-				//requestMissed();
+				//TODO: requestMissed();
 			} else {
 				log.error(res.result());
 			}
@@ -149,7 +148,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 	private Future<Void> deployRestVerticle() {
 		Future<String> future = Future.future();
-		vertx.deployVerticle(new RestBordereauAPIVerticle(bordereauService),
+		vertx.deployVerticle(new RestBordereauAPIVerticle(bordereauService, redis),
 				new DeploymentOptions().setConfig(config()), future.completer());
 		return future.map(r -> null);
 	}

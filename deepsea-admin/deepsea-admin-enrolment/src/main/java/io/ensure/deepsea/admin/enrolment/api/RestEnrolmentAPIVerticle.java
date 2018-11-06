@@ -24,11 +24,10 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 	private static final String API_ADD = "/add";
 	
 	private final EnrolmentService service;
-	private final RedisClient redis;
 	
 	public RestEnrolmentAPIVerticle(EnrolmentService service, RedisClient redis) {
+		super(redis);
 		this.service = service;
-		this.redis = redis;
 	}
 	
 	@Override
@@ -55,32 +54,24 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 	
 	private void apiAdd(RoutingContext rc) {
 		try {
-			log.info("Start Add");
 			Enrolment enrolment = new Enrolment(new JsonObject(rc.getBodyAsString()));
-			log.info("Coerced Enrolment");
-			redis.pubsubChannels("", ar -> {
-				if (ar.succeeded()) {
-					log.error(ar.result());
-				}
-			});
+
 			service.addEnrolment(enrolment, res -> {
 				if (res.succeeded()) {
 					enrolment.setEnrolmentId(res.result());
 					redis.publish(ENROLMENT, enrolment.toString(), ar -> {
-						log.info("trying to publish");
 		    			if (ar.succeeded()) {
-		    				log.info("Published to Redis");
 		    				String result = new JsonObject().put("message", "enrolment_added")
 									.put("enrolmentId", enrolment.getEnrolmentId()).encodePrettily();
-		    				rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
+		    				rc.response().setStatusCode(201).putHeader(CONTENT_TYPE, APPLICATION_JSON).end(result);
 		    			} else {
 		    				log.error("failed to publish");
-		    				rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
+		    				rc.response().setStatusCode(400).putHeader(CONTENT_TYPE, APPLICATION_JSON).end();
 		    			}
 		    		});
 				} else {
 					log.error("failed to write to db");
-    				rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
+    				rc.response().setStatusCode(400).putHeader(CONTENT_TYPE, APPLICATION_JSON).end();
 				}
 			});
 		} catch (DecodeException e) {

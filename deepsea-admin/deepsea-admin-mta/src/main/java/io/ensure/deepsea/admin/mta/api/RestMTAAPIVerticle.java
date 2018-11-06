@@ -24,11 +24,10 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 	private static final String API_ADD = "/add";
 
 	private final MTAService service;
-	private final RedisClient redis;
 	
 	public RestMTAAPIVerticle(MTAService service, RedisClient redis) {
+		super(redis);
 		this.service = service;
-		this.redis = redis;
 	}
 	
 	@Override
@@ -55,32 +54,24 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 	
 	private void apiAdd(RoutingContext rc) {
 		try {
-			log.info("Start Add");
 			MidTermAdjustment mta = new MidTermAdjustment(new JsonObject(rc.getBodyAsString()));
-			log.info("Coerced MTA");
-			redis.pubsubChannels("", ar -> {
-				if (ar.succeeded()) {
-					log.error(ar.result());
-				}
-			});
+
 			service.addMTA(mta, res -> {
 				if (res.succeeded()) {
 					mta.setMtaId(res.result());
 					redis.publish(MTA, mta.toString(), ar -> {
-						log.info("trying to publish");
-		    			if (ar.succeeded()) {
-		    				log.info("Published to Redis : " + mta.toString());
+						if (ar.succeeded()) {
 		    				String result = new JsonObject().put("message", "mta_added")
 									.put("mtaId", mta.getMtaId()).encodePrettily();
-		    				rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
+		    				rc.response().setStatusCode(201).putHeader(CONTENT_TYPE, APPLICATION_JSON).end(result);
 		    			} else {
 		    				log.error("failed to publish");
-		    				rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
+		    				rc.response().setStatusCode(400).putHeader(CONTENT_TYPE, APPLICATION_JSON).end();
 		    			}
 		    		});
 				} else {
 					log.error("failed to write to db");
-    				rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
+    				rc.response().setStatusCode(400).putHeader(CONTENT_TYPE, APPLICATION_JSON).end();
 				}
 			});
 		} catch (DecodeException e) {

@@ -32,8 +32,6 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 	@Override
 	public void start(Future<Void> future) throws Exception {
 		super.start();
-		startEBCluster();
-
 		ConfigRetriever retriever = ConfigRetriever
 				.create(vertx, new ConfigRetrieverHelper()
 						.getOptions("deepsea", "deepsea-client"));
@@ -75,7 +73,7 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 
 	private Future<Void> deployRestVerticle() {
 		Future<String> future = Future.future();
-		vertx.deployVerticle(new RestClientAPIVerticle(clientService),
+		vertx.deployVerticle(new RestClientAPIVerticle(clientService, redis),
 				new DeploymentOptions().setConfig(config()), future.completer());
 		return future.map(r -> null);
 	}

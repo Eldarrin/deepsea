@@ -64,9 +64,9 @@ public class MidTermAdjustment {
 		if (o == null || getClass() != o.getClass())
 			return false;
 
-		MidTermAdjustment MidTermAdjustment = (MidTermAdjustment) o;
+		MidTermAdjustment midTermAdjustment = (MidTermAdjustment) o;
 
-		return mtaId == MidTermAdjustment.mtaId && policyId.equals(MidTermAdjustment.policyId);
+		return mtaId == midTermAdjustment.mtaId && policyId.equals(midTermAdjustment.policyId);
 	}
 
 	@Override

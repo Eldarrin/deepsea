@@ -14,6 +14,7 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.redis.RedisClient;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.types.HttpEndpoint;
 
@@ -43,7 +44,8 @@ public class RestProductAPIVerticle extends RestAPIVerticle {
 
 	private final ProductService service;
 
-	public RestProductAPIVerticle(ProductService service) {
+	public RestProductAPIVerticle(ProductService service, RedisClient redis) {
+		super(redis);
 		this.service = service;
 	}
 

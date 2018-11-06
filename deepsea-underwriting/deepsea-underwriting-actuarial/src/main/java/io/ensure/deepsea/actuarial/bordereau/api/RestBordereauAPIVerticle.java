@@ -3,7 +3,6 @@ package io.ensure.deepsea.actuarial.bordereau.api;
 import io.ensure.deepsea.actuarial.bordereau.BordereauLine;
 import io.ensure.deepsea.actuarial.bordereau.BordereauService;
 import io.ensure.deepsea.common.RestAPIVerticle;
-
 import io.vertx.core.Future;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.Json;
@@ -13,6 +12,7 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.redis.RedisClient;
 
 public class RestBordereauAPIVerticle extends RestAPIVerticle {
 	
@@ -28,7 +28,8 @@ public class RestBordereauAPIVerticle extends RestAPIVerticle {
 	
 	private final BordereauService service;
 	
-	public RestBordereauAPIVerticle(BordereauService service) {
+	public RestBordereauAPIVerticle(BordereauService service, RedisClient redis) {
+		super(redis);
 		this.service = service;
 	}
 	

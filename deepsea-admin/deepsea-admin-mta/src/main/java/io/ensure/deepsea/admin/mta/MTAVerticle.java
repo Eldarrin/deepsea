@@ -14,7 +14,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.redis.RedisClient;
-import io.vertx.redis.RedisOptions;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class MTAVerticle extends BaseMicroserviceVerticle {
@@ -36,50 +35,33 @@ public class MTAVerticle extends BaseMicroserviceVerticle {
 						.getOptions("deepsea", "deepsea-admin-mta"));
         retriever.getConfig(res -> {
         	if (res.succeeded()) {
-        		RedisOptions redisConfig = new RedisOptions()
-        				.setHost(res.result().getString("redis.host"))
-        				.setPort(res.result().getInteger("redis.port"))
-        				.setAuth(res.result().getString("redis.auth"));
-        				
-        		startEBCluster(redisConfig).setHandler(arRedis -> {
-        			if (arRedis.succeeded()) {
-        				redis.publish(MTA_CHANNEL, new JsonObject().put("started", "true").encodePrettily(), ar -> {
-                			if (ar.succeeded()) {
-                				log.info("published to Redis");
-                				// create the service instance
-                        		JsonObject myMongoConfig = new JsonObject()
-                        				.put("host", res.result().getString("mongo.host"))
-                        				.put("port", res.result().getInteger("mongo.port"))
-                        				.put("username", res.result().getString("mongo.username"))
-                        				.put("password", res.result().getString("mongo.password"))
-                        				.put("db_name", res.result().getString("mongo.database"));
+				// create the service instance
+        		JsonObject myMongoConfig = new JsonObject()
+        				.put("host", res.result().getString("mongo.host"))
+        				.put("port", res.result().getInteger("mongo.port"))
+        				.put("username", res.result().getString("mongo.username"))
+        				.put("password", res.result().getString("mongo.password"))
+        				.put("db_name", res.result().getString("mongo.database"));
 
-                        		mtaService = new MongoMTAServiceImpl(vertx, myMongoConfig);
-                        		// Register the handler
-                        		new ServiceBinder(vertx)
-                        				.setAddress(SERVICE_ADDRESS)
-                        				.register(MTAService.class, mtaService);
+        		mtaService = new MongoMTAServiceImpl(vertx, myMongoConfig);
+        		// Register the handler
+        		new ServiceBinder(vertx)
+        				.setAddress(SERVICE_ADDRESS)
+        				.register(MTAService.class, mtaService);
 
-                        		initMTADatabase(mtaService);
+        		initMTADatabase(mtaService);
 
-                        		// publish the service and REST endpoint in the discovery infrastructure
-                        		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, MTAService.class)
-                        				.compose(servicePublished -> deployRestVerticle(redis)).setHandler(future.completer());
-                        		
-                			} else {
-                				log.error("Cannot publish to Redis");
-                			}
-                		});
+        		// publish the service and REST endpoint in the discovery infrastructure
+        		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, MTAService.class)
+        				.compose(servicePublished -> deployRestVerticle(redis)).setHandler(future.completer());
+        		startRedisPubSub(MTA_CHANNEL).setHandler(ar -> {
+        			if (ar.succeeded()) {
         				setupReplayConsumer();
         			}
         		});
-        				
-        		
-        		
-        	} else {
-        		log.error("Unable to find config map for deepsea-admin-enrolment MySQL");
-        	}
-        
+			} else {
+				log.error("Unable to find config map for deepsea-admin-enrolment MySQL");
+			}
         });
 		
 	}

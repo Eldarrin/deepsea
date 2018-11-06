@@ -15,6 +15,7 @@ import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.sstore.ClusteredSessionStore;
 import io.vertx.ext.web.sstore.LocalSessionStore;
+import io.vertx.redis.RedisClient;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -30,11 +31,16 @@ import java.util.function.Function;
 public abstract class RestAPIVerticle extends BaseMicroserviceVerticle {
 	
 	private static final String ERROR = "error";
-	private static final String APPLICATION_JSON = "application/json";
-	private static final String CONTENT_TYPE = "content-type";
+	protected static final String APPLICATION_JSON = "application/json";
+	protected static final String CONTENT_TYPE = "content-type";
 	private static final String MESSAGE = "message";
 	protected static final String HEALTH = "/health";
+
 	private Logger log = LoggerFactory.getLogger(getClass());
+	
+	protected RestAPIVerticle(RedisClient redis) {
+		this.redis = redis;
+	}
 
   /**
    * Create http server for the REST service.

@@ -18,12 +18,21 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
+import io.vertx.redis.RedisClient;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.types.HttpEndpoint;
 
 public class DeepSeaUIVerticle extends RestAPIVerticle {
 	
+	public DeepSeaUIVerticle() {
+		super(null);
+	}
+	
+	protected DeepSeaUIVerticle(RedisClient redis) {
+		super(redis);
+	}
+
 	private static final String HOCON = "hocon";
     private static final String CONFIGMAP = "configmap";
     private static final String OPTIONAL = "optional";

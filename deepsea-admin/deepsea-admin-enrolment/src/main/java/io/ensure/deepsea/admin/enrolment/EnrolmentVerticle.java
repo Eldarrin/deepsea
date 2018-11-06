@@ -14,7 +14,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.redis.RedisOptions;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class EnrolmentVerticle extends BaseMicroserviceVerticle {
@@ -28,7 +27,6 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 	@Override
 	public void start(Future<Void> future) throws Exception {
 		super.start();
-		startEBCluster();
 		
 		ConfigRetriever retriever = ConfigRetriever
 				.create(vertx, new ConfigRetrieverHelper()
@@ -54,39 +52,16 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
         		// publish the service and REST endpoint in the discovery infrastructure
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, EnrolmentService.class)
         				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
-        		
-        		setupReplayConsumer();
+        		startRedisPubSub(ENROLMENT_CHANNEL).setHandler(ar -> {
+        			if (ar.succeeded()) {
+        				setupReplayConsumer();
+        			}
+        		});
         	} else {
         		log.error("Unable to find config map for deepsea-admin-enrolment MySQL");
         	}
         
         });
-        
-        ConfigRetriever redisRetriever = ConfigRetriever.create(vertx,
-				new ConfigRetrieverHelper().getOptions("deepsea", "deepsea-redis"));
-
-		redisRetriever.getConfig(res -> {
-			if (res.succeeded()) {
-				RedisOptions redisConfig = new RedisOptions()
-						.setHost(res.result().getString("redis.host"))
-						.setPort(res.result().getInteger("redis.port"))
-						.setAuth(res.result().getString("redis.auth"));
-				
-				startEBCluster(redisConfig).setHandler(redisResult -> {
-					if (redisResult.succeeded()) {
-						redis.publish(ENROLMENT_CHANNEL, new JsonObject().put("started", "true").encodePrettily(), ar -> {
-							log.info("Publish successful");
-							setupReplayConsumer();
-						});
-					} else {
-						log.error("Failed to connect to Redis");
-					}
-				});
-
-				
-				// requestMissed();
-			}
-		});
 		
 	}
 	
