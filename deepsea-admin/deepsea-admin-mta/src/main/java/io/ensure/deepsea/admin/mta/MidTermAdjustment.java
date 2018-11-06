@@ -10,7 +10,7 @@ import io.vertx.core.json.JsonObject;
 @DataObject(generateConverter = true)
 public class MidTermAdjustment {
 
-	private Integer mtaId;
+	private String mtaId;
 	private MTAEvent mtaEvent;
 	private Instant eventDate;
 	private String policyId;
@@ -71,7 +71,7 @@ public class MidTermAdjustment {
 
 	@Override
 	public int hashCode() {
-		int result = mtaId;
+		int result = mtaId.hashCode();
 		result = 31 * result + policyId.hashCode();
 		return result;
 	}
@@ -81,11 +81,11 @@ public class MidTermAdjustment {
 		return this.toJson().encodePrettily();
 	}
 	
-	public Integer getMtaId() {
+	public String getMtaId() {
 		return mtaId;
 	}
 
-	public void setMtaId(Integer mtaId) {
+	public void setMtaId(String mtaId) {
 		this.mtaId = mtaId;
 	}
 

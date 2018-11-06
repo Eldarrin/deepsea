@@ -93,8 +93,8 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 
 	// SQL Statements
 	private static final String CREATE_STATEMENT = "CREATE TABLE IF NOT EXISTS `bordereau` (\n"
-			+ "  `source` VARCHAR(60) NOT NULL, \n" + "  `sourceId` INT NOT NULL, \n"
-			+ "  `bordereauLineId` VARCHAR(60) NOT NULL, \n" + "  `clientId` VARCHAR(60) NOT NULL, \n"
+			+ "  `source` VARCHAR(60) NOT NULL, \n" + "  `sourceId` VARCHAR(60) NOT NULL, \n"
+			+ "  `bordereauLineId` VARCHAR(120) NOT NULL, \n" + "  `clientId` VARCHAR(60) NOT NULL, \n"
 			+ "  `customerName` VARCHAR(255) NOT NULL, \n" + "  `value` double NOT NULL,\n"
 			+ "  `ipt` double NOT NULL,\n" + "  `startDate` DATETIME NOT NULL, \n" + "  `eventDate` DATETIME NOT NULL, \n"
 			+ "  `event` VARCHAR(30) NOT NULL, \n" + "  PRIMARY KEY (`bordereauLineId`),\n"
@@ -113,6 +113,6 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 	
 	private static final String REMOVE_BORDEREAULINE = "DELETE FROM bordereau WHERE bordereauLineId = ?";
 	
-	private static final String GET_LAST_ROW = "SELECT * FROM bordereau WHERE source = ? ORDER BY sourceId DESC LIMIT 1";
+	private static final String GET_LAST_ROW = "SELECT * FROM bordereau WHERE source = ? ORDER BY eventDate DESC LIMIT 1";
 	
 }

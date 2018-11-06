@@ -14,7 +14,7 @@
 |[[event]]`event`|`link:enums.html#BordereauEvent[BordereauEvent]`|-
 |[[ipt]]`ipt`|`Number (double)`|-
 |[[source]]`source`|`String`|-
-|[[sourceId]]`sourceId`|`Number (Integer)`|-
+|[[sourceId]]`sourceId`|`String`|-
 |[[value]]`value`|`Number (double)`|-
 |===
 

@@ -3,9 +3,9 @@ pipeline {
       label 'maven'
   }
   stages {
-  	stage('Build Deepsea') {
+  	stage('Build Deepsea Images') {
       steps {
-        sh "mvn clean fabric8:deploy -Popenshift"
+        sh "mvn package fabric8:build -Popenshift"
       }
     }
   }

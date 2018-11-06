@@ -45,8 +45,8 @@ public class BordereauLineConverter {
     if (json.getValue("source") instanceof String) {
       obj.setSource((String)json.getValue("source"));
     }
-    if (json.getValue("sourceId") instanceof Number) {
-      obj.setSourceId(((Number)json.getValue("sourceId")).intValue());
+    if (json.getValue("sourceId") instanceof String) {
+      obj.setSourceId((String)json.getValue("sourceId"));
     }
     if (json.getValue("value") instanceof Number) {
       obj.setValue(((Number)json.getValue("value")).doubleValue());

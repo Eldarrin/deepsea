@@ -4,7 +4,6 @@ import io.ensure.deepsea.admin.enrolment.EnrolmentService;
 import io.ensure.deepsea.admin.enrolment.models.Enrolment;
 import io.ensure.deepsea.common.RestAPIVerticle;
 import io.vertx.core.Future;
-import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
@@ -12,6 +11,7 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.redis.RedisClient;
 
 public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 
@@ -23,12 +23,12 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 
 	private static final String API_ADD = "/add";
 	
-	private DeliveryOptions options = new DeliveryOptions().addHeader("source", ENROLMENT);
-	
 	private final EnrolmentService service;
+	private final RedisClient redis;
 	
-	public RestEnrolmentAPIVerticle(EnrolmentService service) {
+	public RestEnrolmentAPIVerticle(EnrolmentService service, RedisClient redis) {
 		this.service = service;
+		this.redis = redis;
 	}
 	
 	@Override
@@ -55,16 +55,32 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 	
 	private void apiAdd(RoutingContext rc) {
 		try {
+			log.info("Start Add");
 			Enrolment enrolment = new Enrolment(new JsonObject(rc.getBodyAsString()));
+			log.info("Coerced Enrolment");
+			redis.pubsubChannels("", ar -> {
+				if (ar.succeeded()) {
+					log.error(ar.result());
+				}
+			});
 			service.addEnrolment(enrolment, res -> {
 				if (res.succeeded()) {
 					enrolment.setEnrolmentId(res.result());
-					String result = new JsonObject().put("message", "enrolment_added")
-							.put("enrolmentId", enrolment.getEnrolmentId()).encodePrettily();
-					vertx.eventBus().publish(ENROLMENT, enrolment.toJson(), options);
-					rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
+					redis.publish(ENROLMENT, enrolment.toString(), ar -> {
+						log.info("trying to publish");
+		    			if (ar.succeeded()) {
+		    				log.info("Published to Redis");
+		    				String result = new JsonObject().put("message", "enrolment_added")
+									.put("enrolmentId", enrolment.getEnrolmentId()).encodePrettily();
+		    				rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
+		    			} else {
+		    				log.error("failed to publish");
+		    				rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
+		    			}
+		    		});
 				} else {
-					rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
+					log.error("failed to write to db");
+    				rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
 				}
 			});
 		} catch (DecodeException e) {

@@ -30,8 +30,8 @@ public class MidTermAdjustmentConverter {
     if (json.getValue("mtaEvent") instanceof String) {
       obj.setMtaEvent(io.ensure.deepsea.admin.mta.MTAEvent.valueOf((String)json.getValue("mtaEvent")));
     }
-    if (json.getValue("mtaId") instanceof Number) {
-      obj.setMtaId(((Number)json.getValue("mtaId")).intValue());
+    if (json.getValue("mtaId") instanceof String) {
+      obj.setMtaId((String)json.getValue("mtaId"));
     }
     if (json.getValue("newCoverage") instanceof Number) {
       obj.setNewCoverage(((Number)json.getValue("newCoverage")).doubleValue());

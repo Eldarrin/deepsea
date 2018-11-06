@@ -9,7 +9,7 @@
 |===
 ^|Name | Type ^| Description
 |[[mtaEvent]]`mtaEvent`|`link:enums.html#MTAEvent[MTAEvent]`|-
-|[[mtaId]]`mtaId`|`Number (Integer)`|-
+|[[mtaId]]`mtaId`|`String`|-
 |[[newCoverage]]`newCoverage`|`Number (double)`|-
 |[[newRiskId]]`newRiskId`|`String`|-
 |[[newproductId]]`newproductId`|`String`|-

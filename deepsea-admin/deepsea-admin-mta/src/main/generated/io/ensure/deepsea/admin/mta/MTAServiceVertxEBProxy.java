@@ -84,7 +84,7 @@ public class MTAServiceVertxEBProxy implements MTAService {
   }
 
   @Override
-  public MTAService addMTA(MidTermAdjustment mta, Handler<AsyncResult<Integer>> resultHandler) {
+  public MTAService addMTA(MidTermAdjustment mta, Handler<AsyncResult<String>> resultHandler) {
     if (closed) {
     resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
       return this;
@@ -93,7 +93,7 @@ public class MTAServiceVertxEBProxy implements MTAService {
     _json.put("mta", mta == null ? null : mta.toJson());
     DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
     _deliveryOptions.addHeader("action", "addMTA");
-    _vertx.eventBus().<Integer>send(_address, _json, _deliveryOptions, res -> {
+    _vertx.eventBus().<String>send(_address, _json, _deliveryOptions, res -> {
       if (res.failed()) {
         resultHandler.handle(Future.failedFuture(res.cause()));
       } else {

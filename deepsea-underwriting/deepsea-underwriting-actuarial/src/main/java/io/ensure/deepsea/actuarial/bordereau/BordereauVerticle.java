@@ -120,9 +120,9 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	private void addBordereauLineFromMTA(JsonObject mta) {
 		BordereauLine bl = new BordereauLine();
 		bl.setSource(MTA_CHANNEL);
-		bl.setSourceId(mta.getInteger("mtaId"));
+		bl.setSourceId(mta.getString("mtaId"));
 		bl.setBordereauLineId(MTA_CHANNEL + "-" + bl.getSourceId());
-		bl.setClientId(mta.getString("clientId"));
+		bl.setClientId("barclays"); //TODO: mta.getString("clientId"));
 		bl.setCustomerName("AAA");  //TODO: mta.getString("firstName").substring(1, 1) + mta.getString("lastName"));
 		bl.setEvent(BordereauEvent.MTA);
 		bl.setEventDate(mta.getInstant("eventDate"));
@@ -135,7 +135,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	private void addBordereauLineFromEnrolment(JsonObject enrolment) {
 		BordereauLine bl = new BordereauLine();
 		bl.setSource(ENROLMENT_CHANNEL);
-		bl.setSourceId(enrolment.getInteger("enrolmentId"));
+		bl.setSourceId(enrolment.getInteger("enrolmentId").toString());
 		bl.setBordereauLineId("enrolment-" + enrolment.getInteger("enrolmentId"));
 		bl.setClientId(enrolment.getString("clientId"));
 		bl.setCustomerName(enrolment.getString("firstName").substring(1, 1) + enrolment.getString("lastName"));

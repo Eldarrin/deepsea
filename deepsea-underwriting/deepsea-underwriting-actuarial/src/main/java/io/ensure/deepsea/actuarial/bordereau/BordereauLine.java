@@ -12,7 +12,7 @@ import io.vertx.core.json.JsonObject;
 public class BordereauLine {
 
 	private String source;
-	private Integer sourceId;
+	private String sourceId;
 	private String bordereauLineId;
 	private String clientId;
 	private String customerName;
@@ -48,11 +48,11 @@ public class BordereauLine {
 		this.source = source;
 	}
 
-	public Integer getSourceId() {
+	public String getSourceId() {
 		return sourceId;
 	}
 
-	public void setSourceId(Integer sourceId) {
+	public void setSourceId(String sourceId) {
 		this.sourceId = sourceId;
 	}
 

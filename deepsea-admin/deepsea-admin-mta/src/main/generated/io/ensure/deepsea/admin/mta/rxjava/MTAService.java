@@ -72,12 +72,12 @@ public class MTAService {
     }));
   }
 
-  public MTAService addMTA(MidTermAdjustment mta, Handler<AsyncResult<Integer>> resultHandler) { 
+  public MTAService addMTA(MidTermAdjustment mta, Handler<AsyncResult<String>> resultHandler) { 
     delegate.addMTA(mta, resultHandler);
     return this;
   }
 
-  public Single<Integer> rxAddMTA(MidTermAdjustment mta) { 
+  public Single<String> rxAddMTA(MidTermAdjustment mta) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       addMTA(mta, fut);
     }));

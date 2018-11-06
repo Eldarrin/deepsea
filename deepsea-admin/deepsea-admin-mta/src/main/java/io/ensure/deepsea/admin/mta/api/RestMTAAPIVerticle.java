@@ -4,7 +4,6 @@ import io.ensure.deepsea.admin.mta.MTAService;
 import io.ensure.deepsea.admin.mta.MidTermAdjustment;
 import io.ensure.deepsea.common.RestAPIVerticle;
 import io.vertx.core.Future;
-import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
@@ -23,9 +22,7 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 	public static final String SERVICE_NAME = "mta-rest-api";
 
 	private static final String API_ADD = "/add";
-	
-	private DeliveryOptions options = new DeliveryOptions().addHeader("source", MTA);
-	
+
 	private final MTAService service;
 	private final RedisClient redis;
 	
@@ -66,30 +63,26 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 					log.error(ar.result());
 				}
 			});
-			redis.publish("mta", mta.toString(), ar -> {
-				log.info("trying to publish");
-    			if (ar.succeeded()) {
-    				log.info("Published to Redis");
-    				String result = new JsonObject().put("message", "mta_added")
-							.put("mtaId", mta.getMtaId()).encodePrettily();
-    				rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
-    			} else {
-    				log.error("failed to publish");
-    				rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
-    			}
-    		});
-			
-			//vertx.eventBus().publish(MTA, mta.toJson(), options);
-			/*service.addMTA(mta, res -> {
+			service.addMTA(mta, res -> {
 				if (res.succeeded()) {
 					mta.setMtaId(res.result());
-					
-					vertx.eventBus().publish(MTA, mta.toJson(), options);
-					
+					redis.publish(MTA, mta.toString(), ar -> {
+						log.info("trying to publish");
+		    			if (ar.succeeded()) {
+		    				log.info("Published to Redis : " + mta.toString());
+		    				String result = new JsonObject().put("message", "mta_added")
+									.put("mtaId", mta.getMtaId()).encodePrettily();
+		    				rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
+		    			} else {
+		    				log.error("failed to publish");
+		    				rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
+		    			}
+		    		});
 				} else {
-					
+					log.error("failed to write to db");
+    				rc.response().setStatusCode(400).putHeader("content-type", "application/json").end();
 				}
-			});*/
+			});
 		} catch (DecodeException e) {
 			badRequest(rc, e);
 		}
