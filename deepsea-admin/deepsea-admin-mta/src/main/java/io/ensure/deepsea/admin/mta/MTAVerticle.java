@@ -27,9 +27,7 @@ public class MTAVerticle extends BaseMicroserviceVerticle {
 	@Override
 	public void start(Future<Void> future) throws Exception {
 		super.start();
-		
-		
-		
+
 		ConfigRetriever retriever = ConfigRetriever
 				.create(vertx, new ConfigRetrieverHelper()
 						.getOptions("deepsea", "deepsea-admin-mta"));
@@ -60,14 +58,14 @@ public class MTAVerticle extends BaseMicroserviceVerticle {
         			}
         		});
 			} else {
-				log.error("Unable to find config map for deepsea-admin-enrolment MySQL");
+				log.error("Unable to find config map for deepsea-admin-mta Mongo");
 			}
         });
 		
 	}
 	
 	private void setupReplayConsumer() {
-		vertx.eventBus().<JsonObject>consumer("mta.replay", msg -> 
+		vertx.eventBus().<JsonObject>consumer(MTA_CHANNEL + ".replay", msg -> 
 			mtaService.replayMTAs(msg.body().getInteger("lastId"), res -> {
 				if (res.succeeded()) {
 					for (MidTermAdjustment mta : res.result()) {
