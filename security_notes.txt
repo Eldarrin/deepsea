@@ -1,4 +1,10 @@
 # ONLY FOR MINISHIFT EASE - NOT PRODUCTION
+minishift addon apply admin-user
+minishift addon install prometheus
+minishift addon apply prometheus --addon-env namespace=kube-system
+oc login -u developer -p developer
+oc delete project myproject
+oc new-project deepsea --display-name="Deep Sea" --description="Deepsea Insurance Platform"
 oc policy add-role-to-user view admin -n deepsea
 oc policy add-role-to-user view -n deepsea -z default
 oc policy add-role-to-group view system:serviceaccounts -n deepsea

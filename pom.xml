@@ -21,6 +21,7 @@
 		<sonar.sources>src/main/java</sonar.sources>
 		<sonar.junit.reportPaths>target/surefire-reports</sonar.junit.reportPaths>
 		<sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>
+		<io.prometheus.version>0.5.0</io.prometheus.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -112,6 +113,36 @@
 			<artifactId>vertx-health-check</artifactId>
 		</dependency>
 
+		<!-- Prometheus Metrics dependencies -->
+		<!-- The client -->
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient</artifactId>
+			<version>${io.prometheus.version}</version>
+		</dependency>
+		<!-- Hotspot JVM metrics -->
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient_hotspot</artifactId>
+			<version>${io.prometheus.version}</version>
+		</dependency>
+		<!-- Exposition HTTPServer -->
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient_httpserver</artifactId>
+			<version>${io.prometheus.version}</version>
+		</dependency>
+		<!-- Pushgateway exposition -->
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient_pushgateway</artifactId>
+			<version>${io.prometheus.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient_vertx</artifactId>
+			<version>${io.prometheus.version}</version>
+		</dependency>
 
 		<!-- Test dependencies -->
 		<dependency>

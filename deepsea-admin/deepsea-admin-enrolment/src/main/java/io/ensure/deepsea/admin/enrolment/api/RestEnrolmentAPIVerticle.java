@@ -23,11 +23,11 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 
 	private static final String API_ADD = "/add";
 	
-	private final EnrolmentService service;
+	private final EnrolmentService enrolmentService;
 	
-	public RestEnrolmentAPIVerticle(EnrolmentService service, RedisClient redis) {
+	public RestEnrolmentAPIVerticle(EnrolmentService enrolmentService, RedisClient redis) {
 		super(redis);
-		this.service = service;
+		this.enrolmentService = enrolmentService;
 	}
 	
 	@Override
@@ -56,7 +56,7 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 		try {
 			Enrolment enrolment = new Enrolment(new JsonObject(rc.getBodyAsString()));
 
-			service.addEnrolment(enrolment, res -> {
+			enrolmentService.addEnrolment(enrolment, res -> {
 				if (res.succeeded()) {
 					enrolment.setEnrolmentId(res.result());
 					redis.publish(ENROLMENT, enrolment.toString(), ar -> {

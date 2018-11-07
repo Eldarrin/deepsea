@@ -23,11 +23,11 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 
 	private static final String API_ADD = "/add";
 
-	private final MTAService service;
+	private final MTAService mtaService;
 	
-	public RestMTAAPIVerticle(MTAService service, RedisClient redis) {
+	public RestMTAAPIVerticle(MTAService mtaService, RedisClient redis) {
 		super(redis);
-		this.service = service;
+		this.mtaService = mtaService;
 	}
 	
 	@Override
@@ -56,7 +56,7 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 		try {
 			MidTermAdjustment mta = new MidTermAdjustment(new JsonObject(rc.getBodyAsString()));
 
-			service.addMTA(mta, res -> {
+			mtaService.addMTA(mta, res -> {
 				if (res.succeeded()) {
 					mta.setMtaId(res.result());
 					redis.publish(MTA, mta.toString(), ar -> {
