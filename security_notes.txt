@@ -1,4 +1,6 @@
 # ONLY FOR MINISHIFT EASE - NOT PRODUCTION
+minishift config set vm-driver virtualbox
+minishift start --cpus 4 --disk-size 50GB --memory 8GB
 minishift addon apply admin-user
 minishift addon install prometheus
 minishift addon apply prometheus --addon-env namespace=kube-system
