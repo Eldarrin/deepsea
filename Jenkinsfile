@@ -5,7 +5,7 @@ pipeline {
   stages {
   	stage('Build Deepsea Images') {
       steps {
-        sh "mvn -f deepsea-underwriting/deepsea-underwriting-actuarial/pom.xml package fabric8:build -Popenshift"
+        sh "mvn clean fabric8:deploy -Popenshift"
       }
     }
   }
