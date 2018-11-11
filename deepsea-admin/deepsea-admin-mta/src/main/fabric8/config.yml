@@ -9,7 +9,4 @@ data:
   mongo.host: mongodb
   mongo.port: 27017
   mongo.database: sampledb
-  redis.host: redis
-  redis.port: 6379
-  redis.auth: KHiXN2XGSfem8HY5
   
