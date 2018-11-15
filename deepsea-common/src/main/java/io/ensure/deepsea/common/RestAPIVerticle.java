@@ -1,5 +1,13 @@
 package io.ensure.deepsea.common;
 
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+
+import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
+import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -10,18 +18,13 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CookieHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.sstore.ClusteredSessionStore;
 import io.vertx.ext.web.sstore.LocalSessionStore;
 import io.vertx.redis.RedisClient;
-
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
 
 /**
  * An abstract base verticle that provides several helper methods for REST API.
@@ -83,6 +86,35 @@ public abstract class RestAPIVerticle extends BaseMicroserviceVerticle {
       .allowedMethods(allowMethods));
   }
   
+  protected void startRestService(Router router, Future<Void> future, String serviceName, String serviceType,
+		  String namespace, String configMapName) {
+	  addBodyHealthHandler(router, future);
+	  ConfigRetriever retriever = ConfigRetriever
+				.create(vertx, new ConfigRetrieverHelper()
+						.getOptions(namespace, configMapName));
+      retriever.getConfig(res -> {
+			if (res.succeeded()) {
+				String host = res.result().getString(serviceType + ".http.address", "0.0.0.0");
+				int port = res.result().getInteger(serviceType + ".http.port", 8080);
+				String service = res.result().getString(serviceType + ".service", configMapName + "." + namespace + ".svc");
+
+				log.info("Starting Deepsea " + serviceType + " on host:port:service " + host + ":" + port + ":" + service);
+
+				// create HTTP server and publish REST service
+				createHttpServer(router, host, port)
+						.compose(serverCreated -> publishHttpEndpoint(serviceName, service, port, serviceType))
+						.setHandler(future.completer());
+			} else {
+	      		log.error("Cannot start " + serviceType + " REST API, no ConfigMap");
+	      	}
+      });
+  }
+  
+  protected void addBodyHealthHandler(Router router, Future<Void> future) {
+	  router.route().handler(BodyHandler.create());
+	  addHealthHandler(router, future);
+  }
+  
   protected void addHealthHandler(Router router, Future<Void> future) {
 	  router.get(HEALTH).handler(rc -> {
 			if (future.succeeded()) {
@@ -92,6 +124,7 @@ public abstract class RestAPIVerticle extends BaseMicroserviceVerticle {
 			}
 		});
   }
+  
 
   /**
    * Enable local session storage in requests.

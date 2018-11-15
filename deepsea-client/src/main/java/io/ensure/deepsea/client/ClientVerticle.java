@@ -38,12 +38,11 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
         retriever.getConfig(res -> {
         	if (res.succeeded()) {
         		// create the service instance
-        		JsonObject mySqlConfig = new JsonObject()
-        				.put("host", res.result().getString("mysql.host"))
-        				.put("port", res.result().getInteger("mysql.port"))
-        				.put("username", res.result().getString("mysql.username"))
-        				.put("password", res.result().getString("mysql.password"))
-        				.put("database", res.result().getString("mysql.database"));
+        		JsonObject mySqlConfig = new JsonObject().put("host", System.getenv("DB_HOST"))
+						.put("port", Integer.parseInt(System.getenv("DB_PORT")))
+						.put("username", System.getenv("DB_USERNAME"))
+						.put("password", System.getenv("DB_PASSWORD"))
+						.put("database", res.result().getString("database.name"));
 
         		clientService = new MySqlClientServiceImpl(vertx, mySqlConfig);
         		// Register the handler
@@ -58,7 +57,7 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
         				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
         		vertx.eventBus().publish("client", new JsonObject().put("started", "true"));
         	} else {
-        		log.error("Unable to find config map for deepsea-shared MySQL");
+        		log.error("Unable to find config map for deepsea-client MySQL");
         	}
         
         });

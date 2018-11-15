@@ -9,4 +9,7 @@ data:
   mongo.host: mongodb
   mongo.port: 27017
   mongo.database: sampledb
+  mta.http.address: 0.0.0.0
+  mta.http.port: 8080
+  mta.service: deepsea-admin-mta.deepsea.svc
   

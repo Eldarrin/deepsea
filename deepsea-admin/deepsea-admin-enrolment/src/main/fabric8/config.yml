@@ -9,3 +9,6 @@ data:
   mysql.host: mysql
   mysql.port: 3306
   mysql.database: sampledb
+  enrolment.http.address: 0.0.0.0
+  enrolment.http.port: 8080
+  enrolment.service: deepsea-admin-enrolment.deepsea.svc

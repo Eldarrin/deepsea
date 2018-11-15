@@ -13,3 +13,23 @@ spec:
               value: '-Dvertx.cacheDirBase=/tmp -Dvertx.jgroups.config=default-configs/default-jgroups-kubernetes.xml -Djava.net.preferIPv4Stack=true'
             - name: JAVA_ARGS
               value: '-Dvertx.cacheDirBase=/tmp -Dvertx.jgroups.config=default-configs/default-jgroups-kubernetes.xml -Djava.net.preferIPv4Stack=true -cluster'
+            - name: DB_USERNAME
+              valueFrom:
+                 secretKeyRef:
+                   name: mysql-database-config
+                   key: user
+            - name: DB_PASSWORD
+              valueFrom:
+                 secretKeyRef:
+                   name: mysql-database-config
+                   key: password
+            - name: DB_HOST
+              valueFrom:
+                 secretKeyRef:
+                   name: mysql-database-config
+                   key: host
+            - name: DB_PORT
+              valueFrom:
+                 secretKeyRef:
+                   name: mysql-database-config
+                   key: port

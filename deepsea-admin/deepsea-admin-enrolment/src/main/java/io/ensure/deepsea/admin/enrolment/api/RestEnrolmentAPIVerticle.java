@@ -10,7 +10,6 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.redis.RedisClient;
 
 public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
@@ -34,22 +33,8 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 	public void start(Future<Void> future) throws Exception {
 		super.start();
 		final Router router = Router.router(vertx);
-		// body handler
-		router.route().handler(BodyHandler.create());
-		// API route handler
-		addHealthHandler(router, future);
 		router.post(API_ADD).handler(this::apiAdd);
-
-		// get HTTP host and port from configuration, or use default value
-		String host = config().getString("enrolment.http.address", "0.0.0.0");
-		int port = config().getInteger("enrolment.http.port", 8080);
-		
-		log.info("Starting Deepsea Enrolment on host:port " + host + ":" + port);
-
-		// create HTTP server and publish REST service
-		createHttpServer(router, host, port)
-				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, "deepsea-admin-enrolment.deepsea.svc", port, ENROLMENT))
-				.setHandler(future.completer());
+		startRestService(router, future, SERVICE_NAME, ENROLMENT, "deepsea", "deepsea-admin-enrolment");
 	}
 	
 	private void apiAdd(RoutingContext rc) {
