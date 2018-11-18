@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import io.ensure.deepsea.common.service.MySqlRepositoryWrapper;
+import io.ensure.deepsea.common.service.RedisCacheWrapper;
 import io.ensure.deepsea.product.Product;
 import io.ensure.deepsea.product.ProductService;
 import io.vertx.core.AsyncResult;
@@ -13,21 +14,22 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.redis.RedisOptions;
 
-/**
- * JDBC implementation of
- * {@link io.vertx.blueprint.microservice.product.ProductService}.
- *
- * @author Eric Zhao
- */
 public class MySqlProductServiceImpl extends MySqlRepositoryWrapper implements ProductService {
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	private static final int PAGE_LIMIT = 10;
+	private RedisCacheWrapper redisCacheWrapper;
 
 	public MySqlProductServiceImpl(Vertx vertx, JsonObject config) {
 		super(vertx, config);
+	}
+	
+	public MySqlProductServiceImpl(Vertx vertx, JsonObject config, RedisOptions rOptions) {
+		super(vertx, config);
+		redisCacheWrapper = new RedisCacheWrapper(vertx, rOptions);
 	}
 
 	@Override
@@ -46,7 +48,17 @@ public class MySqlProductServiceImpl extends MySqlRepositoryWrapper implements P
 	public ProductService addProduct(Product product, Handler<AsyncResult<Void>> resultHandler) {
 		JsonArray params = new JsonArray().add(product.getProductId()).add(product.getClientId()).add(product.getName())
 				.add(product.getPrice()).add(product.getIllustration()).add(product.getType());
-		executeNoResult(params, INSERT_STATEMENT, resultHandler);
+		if (redisCacheWrapper == null) {
+			executeNoResult(params, INSERT_STATEMENT, resultHandler);
+		} else {
+			executeNoResult(params, INSERT_STATEMENT, res -> {
+				if (res.succeeded()) {
+					redisCacheWrapper.setCache(product.getProductId(), product.toJson(), resultHandler);
+				} else {
+					resultHandler.handle(res);
+				}
+			});
+		}
 		return this;
 	}
 
