@@ -122,7 +122,17 @@ public class ProductServiceVertxProxyHandler extends ProxyHandler {
           break;
         }
         case "addProduct": {
-          service.addProduct(json.getJsonObject("product") == null ? null : new io.ensure.deepsea.product.Product(json.getJsonObject("product")), createHandler(msg));
+          service.addProduct(json.getJsonObject("product") == null ? null : new io.ensure.deepsea.product.Product(json.getJsonObject("product")), res -> {
+            if (res.failed()) {
+              if (res.cause() instanceof ServiceException) {
+                msg.reply(res.cause());
+              } else {
+                msg.reply(new ServiceException(-1, res.cause().getMessage()));
+              }
+            } else {
+              msg.reply(res.result() == null ? null : res.result().toJson());
+            }
+         });
           break;
         }
         case "retrieveProduct": {

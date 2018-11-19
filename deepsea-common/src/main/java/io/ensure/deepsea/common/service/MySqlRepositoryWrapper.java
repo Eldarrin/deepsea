@@ -68,12 +68,7 @@ public class MySqlRepositoryWrapper {
 			Future<Optional<Integer>> future = Future.future();
 			connection.updateWithParams(sql, params, r -> {
 				if (r.succeeded()) {
-					Integer retKey = r.result().getKeys().getInteger(0);
-					if (retKey == null) {
-						future.complete(Optional.empty());
-					} else {
-						future.complete(Optional.of(retKey));
-					}
+					future.complete(Optional.of(r.result().getKeys().getInteger(0)));
 				} else {
 					future.fail(r.cause());
 				}

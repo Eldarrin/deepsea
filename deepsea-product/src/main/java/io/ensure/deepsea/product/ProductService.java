@@ -47,7 +47,7 @@ public interface ProductService {
    *                      whether the operation was successful or not.
    */
   @Fluent
-  ProductService addProduct(Product product, Handler<AsyncResult<Void>> resultHandler);
+  ProductService addProduct(Product product, Handler<AsyncResult<Product>> resultHandler);
 
   /**
    * Retrieve the product with certain `productId`.

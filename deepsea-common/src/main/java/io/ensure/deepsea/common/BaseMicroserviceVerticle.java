@@ -162,7 +162,7 @@ public abstract class BaseMicroserviceVerticle extends AbstractVerticle {
 			});
 		}
 	}
-
+	
 	protected Future<Void> startRedisPubSub(String channel) {
 		Future<Void> future = Future.future();
 

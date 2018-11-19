@@ -3,8 +3,7 @@ package io.ensure.deepsea.product.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import io.ensure.deepsea.common.service.MySqlRepositoryWrapper;
-import io.ensure.deepsea.common.service.RedisCacheWrapper;
+import io.ensure.deepsea.common.service.MySqlRedisRepositoryWrapper;
 import io.ensure.deepsea.product.Product;
 import io.ensure.deepsea.product.ProductService;
 import io.vertx.core.AsyncResult;
@@ -16,49 +15,37 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.redis.RedisOptions;
 
-public class MySqlProductServiceImpl extends MySqlRepositoryWrapper implements ProductService {
+public class MySqlProductServiceImpl extends MySqlRedisRepositoryWrapper implements ProductService {
 	
+	private static final String PRODUCT = "product";
+
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	private static final int PAGE_LIMIT = 10;
-	private RedisCacheWrapper redisCacheWrapper;
 
-	public MySqlProductServiceImpl(Vertx vertx, JsonObject config) {
-		super(vertx, config);
-	}
-	
 	public MySqlProductServiceImpl(Vertx vertx, JsonObject config, RedisOptions rOptions) {
-		super(vertx, config);
-		redisCacheWrapper = new RedisCacheWrapper(vertx, rOptions);
+		super(vertx, config, rOptions);
 	}
 
 	@Override
 	public ProductService initializePersistence(Handler<AsyncResult<Void>> resultHandler) {
-		log.info(CREATE_STATEMENT);
 		client.getConnection(connHandler(resultHandler, connection -> 
 			connection.execute(CREATE_STATEMENT, r -> {
 				resultHandler.handle(r);
 				connection.close();
 			})
 		));
+		log.info("Product Persistence Initialised");
 		return this;
 	}
 
 	@Override
-	public ProductService addProduct(Product product, Handler<AsyncResult<Void>> resultHandler) {
-		JsonArray params = new JsonArray().add(product.getProductId()).add(product.getClientId()).add(product.getName())
+	public ProductService addProduct(Product product, Handler<AsyncResult<Product>> resultHandler) {
+		JsonArray params = new JsonArray().add(product.getClientId()).add(product.getName())
 				.add(product.getPrice()).add(product.getIllustration()).add(product.getType());
-		if (redisCacheWrapper == null) {
-			executeNoResult(params, INSERT_STATEMENT, resultHandler);
-		} else {
-			executeNoResult(params, INSERT_STATEMENT, res -> {
-				if (res.succeeded()) {
-					redisCacheWrapper.setCache(product.getProductId(), product.toJson(), resultHandler);
-				} else {
-					resultHandler.handle(res);
-				}
-			});
-		}
+		execute(params, INSERT_STATEMENT, product.toJson(), PRODUCT)
+			.map(option -> option.map(Product::new).orElse(null))
+			.setHandler(resultHandler);
 		return this;
 	}
 
@@ -69,9 +56,10 @@ public class MySqlProductServiceImpl extends MySqlRepositoryWrapper implements P
 		return this;
 	}
 
+
 	@Override
 	public ProductService retrieveProductPrice(String productId, Handler<AsyncResult<JsonObject>> resultHandler) {
-		this.retrieveOne(productId, "SELECT price FROM product WHERE productId = ?").map(option -> option.orElse(null))
+		this.retrieveOne(getId(productId), "SELECT price FROM product WHERE productId = ?").map(option -> option.orElse(null))
 				.setHandler(resultHandler);
 		return this;
 	}
@@ -94,7 +82,7 @@ public class MySqlProductServiceImpl extends MySqlRepositoryWrapper implements P
 
 	@Override
 	public ProductService deleteProduct(String productId, Handler<AsyncResult<Void>> resultHandler) {
-		this.removeOne(productId, DELETE_STATEMENT, resultHandler);
+		this.removeOne(getId(productId), DELETE_STATEMENT, resultHandler);
 		return this;
 	}
 
@@ -103,15 +91,19 @@ public class MySqlProductServiceImpl extends MySqlRepositoryWrapper implements P
 		this.removeAll(DELETE_ALL_STATEMENT, resultHandler);
 		return this;
 	}
+	
+	private Integer getId(String productId) {
+		return Integer.parseInt(productId.substring(productId.indexOf("-") + 1));
+	}
 
 	// SQL statements
 
 	private static final String CREATE_STATEMENT = "CREATE TABLE IF NOT EXISTS `product` (\n"
-			+ "  `productId` VARCHAR(60) NOT NULL,\n" + " `clientId` varchar(30) NOT NULL,\n "
+			+ "  `productId` INT NOT NULL AUTO_INCREMENT,\n" + " `clientId` varchar(30) NOT NULL,\n "
 			+ "  `name` varchar(255) NOT NULL,\n" + "  `price` double NOT NULL,\n"
 			+ "  `illustration` MEDIUMTEXT NOT NULL,\n" + "  `type` varchar(45) NOT NULL,\n"
 			+ "  PRIMARY KEY (`productId`)\n" + " )";
-	private static final String INSERT_STATEMENT = "INSERT INTO product (`productId`, `clientId`, `name`, `price`, `illustration`, `type`) VALUES (?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_STATEMENT = "INSERT INTO product (`clientId`, `name`, `price`, `illustration`, `type`) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String FETCH_STATEMENT = "SELECT * FROM product WHERE productId = ?";
 	private static final String FETCH_ALL_STATEMENT = "SELECT * FROM product";
 	private static final String FETCH_WITH_PAGE_STATEMENT = "SELECT * FROM product LIMIT ?, ?";
