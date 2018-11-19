@@ -10,7 +10,7 @@ And special thanks to Clement Escoffier and Eric Zhao for the initial tutorials 
 
 Thanks, Andy
 
-### Currently it is using Redis for Pub/sub, mongo for audit writes, mysql for reviewable data, infinispan for clustering. Also need to write tests for everything.
+### Currently it is using Redis for Pub/sub, mongo for audit writes, mysql for reviewable data (with redis cache now implementing), infinispan for clustering. Also need to write tests for everything.
 
 ## Initial Layout
 ### Deepsea Insurance
