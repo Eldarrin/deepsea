@@ -28,6 +28,9 @@ public class Product {
 
 	public Product(JsonObject json) {
 		ProductConverter.fromJson(json, this);
+		if (json.getValue("productId") instanceof Integer) {
+			this.productId = "product-" + json.getInteger("productId").toString();
+		}
 	}
 
 	public JsonObject toJson() {

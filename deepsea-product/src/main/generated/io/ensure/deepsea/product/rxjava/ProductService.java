@@ -97,7 +97,7 @@ public class ProductService {
    * @param resultHandler the result handler will be called as soon as the product has been added. The async result indicates whether the operation was successful or not.
    * @return 
    */
-  public ProductService addProduct(Product product, Handler<AsyncResult<Void>> resultHandler) { 
+  public ProductService addProduct(Product product, Handler<AsyncResult<Product>> resultHandler) { 
     delegate.addProduct(product, resultHandler);
     return this;
   }
@@ -107,7 +107,7 @@ public class ProductService {
    * @param product a product entity that we want to add
    * @return 
    */
-  public Single<Void> rxAddProduct(Product product) { 
+  public Single<Product> rxAddProduct(Product product) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       addProduct(product, fut);
     }));

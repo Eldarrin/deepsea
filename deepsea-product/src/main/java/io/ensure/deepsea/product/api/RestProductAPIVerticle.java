@@ -92,7 +92,7 @@ public class RestProductAPIVerticle extends RestAPIVerticle {
 			Product product = new Product(new JsonObject(context.getBodyAsString()));
 			service.addProduct(product, resultHandler(context, r -> {
 				String result = new JsonObject().put("message", "product_added")
-						.put(PRODUCT_ID, product.getProductId()).encodePrettily();
+						.put("Product", r.toJson()).encodePrettily();
 				context.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
 			}));
 		} catch (DecodeException e) {

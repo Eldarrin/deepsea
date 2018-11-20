@@ -16,11 +16,11 @@ public class MySqlClientServiceImpl extends MySqlRepositoryWrapper implements Cl
 
 	// SQL Statements
 	private static final String CREATE_STATEMENT = "CREATE TABLE IF NOT EXISTS `client` (\n"
-			+ "  `clientId` VARCHAR(60) NOT NULL, \n" + "  `clientName` VARCHAR(100) NOT NULL, \n"
+			+ "  `clientId` INT NOT NULL AUTO_INCREMENT, \n" + "  `clientName` VARCHAR(100) NOT NULL, \n"
 			+ "  PRIMARY KEY (`clientId`))";
 
-	private static final String INSERT_STATEMENT = "INSERT INTO client (`clientId`, `clientName`) \n"
-			+ "  VALUES(?, ?)";
+	private static final String INSERT_STATEMENT = "INSERT INTO client (`clientName`) \n"
+			+ "  VALUES(?)";
 
 	private static final String FETCH_STATEMENT = "SELECT * FROM client";
 	
@@ -43,7 +43,7 @@ public class MySqlClientServiceImpl extends MySqlRepositoryWrapper implements Cl
 
 	@Override
 	public ClientService addClient(Client client, Handler<AsyncResult<Void>> resultHandler) {
-		JsonArray params = new JsonArray().add(client.getClientId())
+		JsonArray params = new JsonArray()
 				.add(client.getClientName());
 		executeNoResult(params, INSERT_STATEMENT, resultHandler);
 		return this;

@@ -13,6 +13,8 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.sql.SQLClient;
 import io.vertx.ext.sql.SQLConnection;
 import io.vertx.ext.asyncsql.MySQLClient;
@@ -23,6 +25,8 @@ import io.vertx.ext.asyncsql.MySQLClient;
  * @author Andy Ward (prev. Eric Zhao)
  */
 public class MySqlRepositoryWrapper {
+	
+	private Logger log = LoggerFactory.getLogger(getClass());
 
 	protected final SQLClient client;
 
@@ -82,6 +86,7 @@ public class MySqlRepositoryWrapper {
 
 	protected <K> Future<Optional<JsonObject>> retrieveOne(K param, String sql) {
 		return getConnection().compose(connection -> {
+			log.info("in retrieve one: " + param);
 			Future<Optional<JsonObject>> future = Future.future();
 			connection.queryWithParams(sql, new JsonArray().add(param), r -> {
 				if (r.succeeded()) {

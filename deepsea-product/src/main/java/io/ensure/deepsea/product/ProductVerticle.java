@@ -48,22 +48,24 @@ public class ProductVerticle extends BaseMicroserviceVerticle {
 				RedisHelper.getRedisOptions(vertx).setHandler(redisRes -> {
 					if (redisRes.succeeded()) {
 						productService = new MySqlProductServiceImpl(vertx, mySqlConfig, redisRes.result());
+						// Register the handler
+						new ServiceBinder(vertx).setAddress(SERVICE_ADDRESS).register(ProductService.class, productService);
+				
+						initProductDatabase(productService);
+				
+						// publish the service and REST endpoint in the discovery infrastructure
+						publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, ProductService.class)
+								.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+				
+						log.info("Product Verticle Started");
 					} else {
 						log.error("Redis Config not found");
+						future.fail(redisRes.cause());
 					}
 				});
 				
 				
-				// Register the handler
-				new ServiceBinder(vertx).setAddress(SERVICE_ADDRESS).register(ProductService.class, productService);
-		
-				initProductDatabase(productService);
-		
-				// publish the service and REST endpoint in the discovery infrastructure
-				publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, ProductService.class)
-						.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
-		
-				log.info("Product Verticle Started");
+				
         	} else {
         		log.error("Unable to find config map for deepsea-shared MySQL");
         	}

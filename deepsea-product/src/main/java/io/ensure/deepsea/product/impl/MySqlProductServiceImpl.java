@@ -24,11 +24,13 @@ public class MySqlProductServiceImpl extends MySqlRedisRepositoryWrapper impleme
 	private static final int PAGE_LIMIT = 10;
 
 	public MySqlProductServiceImpl(Vertx vertx, JsonObject config, RedisOptions rOptions) {
-		super(vertx, config, rOptions);
+		super(vertx, config, rOptions, PRODUCT);
 	}
 
 	@Override
 	public ProductService initializePersistence(Handler<AsyncResult<Void>> resultHandler) {
+		log.info(CREATE_STATEMENT);
+		
 		client.getConnection(connHandler(resultHandler, connection -> 
 			connection.execute(CREATE_STATEMENT, r -> {
 				resultHandler.handle(r);
@@ -43,7 +45,7 @@ public class MySqlProductServiceImpl extends MySqlRedisRepositoryWrapper impleme
 	public ProductService addProduct(Product product, Handler<AsyncResult<Product>> resultHandler) {
 		JsonArray params = new JsonArray().add(product.getClientId()).add(product.getName())
 				.add(product.getPrice()).add(product.getIllustration()).add(product.getType());
-		execute(params, INSERT_STATEMENT, product.toJson(), PRODUCT)
+		this.executeWithCache(params, INSERT_STATEMENT, product.toJson())
 			.map(option -> option.map(Product::new).orElse(null))
 			.setHandler(resultHandler);
 		return this;
@@ -51,7 +53,7 @@ public class MySqlProductServiceImpl extends MySqlRedisRepositoryWrapper impleme
 
 	@Override
 	public ProductService retrieveProduct(String productId, Handler<AsyncResult<Product>> resultHandler) {
-		this.retrieveOne(productId, FETCH_STATEMENT).map(option -> option.map(Product::new).orElse(null))
+		this.retrieveOneWithCache(getId(productId), FETCH_STATEMENT, productId).map(option -> option.map(Product::new).orElse(null))
 				.setHandler(resultHandler);
 		return this;
 	}
@@ -103,7 +105,7 @@ public class MySqlProductServiceImpl extends MySqlRedisRepositoryWrapper impleme
 			+ "  `name` varchar(255) NOT NULL,\n" + "  `price` double NOT NULL,\n"
 			+ "  `illustration` MEDIUMTEXT NOT NULL,\n" + "  `type` varchar(45) NOT NULL,\n"
 			+ "  PRIMARY KEY (`productId`)\n" + " )";
-	private static final String INSERT_STATEMENT = "INSERT INTO product (`clientId`, `name`, `price`, `illustration`, `type`) VALUES (?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_STATEMENT = "INSERT INTO product (`clientId`, `name`, `price`, `illustration`, `type`) VALUES (?, ?, ?, ?, ?)";
 	private static final String FETCH_STATEMENT = "SELECT * FROM product WHERE productId = ?";
 	private static final String FETCH_ALL_STATEMENT = "SELECT * FROM product";
 	private static final String FETCH_WITH_PAGE_STATEMENT = "SELECT * FROM product LIMIT ?, ?";
