@@ -9,6 +9,7 @@ import io.ensure.deepsea.actuarial.bordereau.api.RestBordereauAPIVerticle;
 import io.ensure.deepsea.actuarial.bordereau.impl.MySqlBordereauServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
+import io.ensure.deepsea.common.helper.RedisHelper;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
@@ -59,17 +60,9 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 			}
 
 		});
-
-		ConfigRetriever redisRetriever = ConfigRetriever.create(vertx,
-				new ConfigRetrieverHelper().getOptions("deepsea", "deepsea-redis"));
-
-		redisRetriever.getConfig(res -> {
-			if (res.succeeded()) {
-				RedisOptions redisConfig = new RedisOptions().setHost(res.result().getString("redis.host"))
-						.setPort(res.result().getInteger("redis.port")).setAuth(res.result().getString("redis.auth"));
-
-				setupConsumers(redisConfig);
-			}
+		
+		RedisHelper.getRedisOptions(vertx).setHandler(res -> {
+			setupConsumers(res.result());
 		});
 
 	}
@@ -96,31 +89,34 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 		redis.subscribe(MTA_CHANNEL, res -> {
 			if (res.succeeded()) {
-				//TODO: requestMissed();
+				redis.subscribe(ENROLMENT_CHANNEL, ar -> {
+					if (ar.succeeded()) {
+						requestMissed();
+					} else {
+						log.error(ar.result());
+					}
+				});
 			} else {
 				log.error(res.result());
 			}
 		});
-		redis.subscribe(ENROLMENT_CHANNEL, res -> {
-			if (res.succeeded()) {
-				requestMissed();
-			} else {
-				log.error(res.result());
-			}
-		});
+		
 	}
 
 	private void requestMissed() {
-		// TODO: switch to redis and use pub/sub or use vertx direct message?
 		bordereauService.requestLastRecordBySource(ENROLMENT_CHANNEL, res -> vertx.eventBus()
-				.send(ENROLMENT_CHANNEL + ".replay", new JsonObject().put("lastId", res.result().getSourceId())));
+				.send(ENROLMENT_CHANNEL + ".replay", 
+						new JsonObject().put("dateCreated", res.result().getDateSourceCreated())));
+		bordereauService.requestLastRecordBySource(MTA_CHANNEL, res -> vertx.eventBus()
+				.send(MTA_CHANNEL + ".replay", 
+						new JsonObject().put("dateCreated", res.result().getDateSourceCreated())));
 	}
 
 	private void addBordereauLineFromMTA(JsonObject mta) {
 		BordereauLine bl = new BordereauLine();
 		bl.setSource(MTA_CHANNEL);
 		bl.setSourceId(mta.getString("mtaId"));
-		bl.setBordereauLineId(MTA_CHANNEL + "-" + bl.getSourceId());
+		bl.setBordereauLineId(bl.getSourceId());
 		bl.setClientId("barclays"); //TODO: mta.getString("clientId"));
 		bl.setCustomerName("AAA");  //TODO: mta.getString("firstName").substring(1, 1) + mta.getString("lastName"));
 		bl.setEvent(BordereauEvent.MTA);
@@ -128,14 +124,15 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		bl.setIpt(0);
 		bl.setValue(0);
 		bl.setStartDate(mta.getInstant("eventDate")); // TODO: get from policy when built
+		bl.setDateSourceCreated(mta.getInstant("dateCreated"));
 		bordereauService.addBordereauLine(bl, null);
 	}
 
 	private void addBordereauLineFromEnrolment(JsonObject enrolment) {
 		BordereauLine bl = new BordereauLine();
 		bl.setSource(ENROLMENT_CHANNEL);
-		bl.setSourceId(enrolment.getInteger("enrolmentId").toString());
-		bl.setBordereauLineId("enrolment-" + enrolment.getInteger("enrolmentId"));
+		bl.setSourceId(enrolment.getString("enrolmentId"));
+		bl.setBordereauLineId(bl.getSourceId());
 		bl.setClientId(enrolment.getString("clientId"));
 		bl.setCustomerName(enrolment.getString("firstName").substring(1, 1) + enrolment.getString("lastName"));
 		bl.setEvent(BordereauEvent.INCEPTION);
@@ -143,6 +140,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		bl.setIpt(enrolment.getDouble("ipt"));
 		bl.setValue(enrolment.getDouble("grossPremium"));
 		bl.setStartDate(enrolment.getInstant("startDate"));
+		bl.setDateSourceCreated(enrolment.getInstant("dateCreated"));
 		bordereauService.addBordereauLine(bl, null);
 	}
 

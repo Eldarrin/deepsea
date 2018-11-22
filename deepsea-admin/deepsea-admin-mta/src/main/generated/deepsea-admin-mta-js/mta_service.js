@@ -62,7 +62,7 @@ var MTAService = function(j_val) {
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
       j_mTAService["addMTA(io.ensure.deepsea.admin.mta.MidTermAdjustment,io.vertx.core.Handler)"](mta != null ? new MidTermAdjustment(new JsonObject(Java.asJSONCompatible(mta))) : null, function(ar) {
       if (ar.succeeded()) {
-        resultHandler(ar.result(), null);
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
       } else {
         resultHandler(null, ar.cause());
       }

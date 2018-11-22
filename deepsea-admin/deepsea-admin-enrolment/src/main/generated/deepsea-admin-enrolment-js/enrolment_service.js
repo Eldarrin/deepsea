@@ -62,7 +62,7 @@ var EnrolmentService = function(j_val) {
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
       j_enrolmentService["addEnrolment(io.ensure.deepsea.admin.enrolment.models.Enrolment,io.vertx.core.Handler)"](enrolment != null ? new Enrolment(new JsonObject(Java.asJSONCompatible(enrolment))) : null, function(ar) {
       if (ar.succeeded()) {
-        resultHandler(ar.result(), null);
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
       } else {
         resultHandler(null, ar.cause());
       }
@@ -74,14 +74,14 @@ var EnrolmentService = function(j_val) {
   /**
 
    @public
-   @param lastId {number} 
+   @param lastDate {string} 
    @param resultHandler {function} 
    @return {EnrolmentService}
    */
-  this.replayEnrolments = function(lastId, resultHandler) {
+  this.replayEnrolments = function(lastDate, resultHandler) {
     var __args = arguments;
-    if (__args.length === 2 && typeof __args[0] ==='number' && typeof __args[1] === 'function') {
-      j_enrolmentService["replayEnrolments(java.lang.Integer,io.vertx.core.Handler)"](utils.convParamInteger(lastId), function(ar) {
+    if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
+      j_enrolmentService["replayEnrolments(java.lang.String,io.vertx.core.Handler)"](lastDate, function(ar) {
       if (ar.succeeded()) {
         resultHandler(utils.convReturnListSetDataObject(ar.result()), null);
       } else {

@@ -24,6 +24,6 @@ public interface EnrolmentService {
 	EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Enrolment>> resultHandler);
 	
 	@Fluent
-	EnrolmentService replayEnrolments(Integer lastId, Handler<AsyncResult<List<Enrolment>>> resultHandler);
+	EnrolmentService replayEnrolments(String lastDate, Handler<AsyncResult<List<Enrolment>>> resultHandler);
 
 }

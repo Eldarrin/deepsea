@@ -79,7 +79,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 	private void setupReplayConsumer() {
 		redisPubSub.listenForReplay(ENROLMENT_CHANNEL).setHandler(res -> {
 			if (res.succeeded()) {
-				enrolmentService.replayEnrolments(res.result().getInteger("lastId"), msgs -> {
+				enrolmentService.replayEnrolments(res.result().getString("dateCreated"), msgs -> {
 					if (msgs.succeeded()) {
 						List<JsonObject> msgJ = new ArrayList<>();
 						msgs.result().stream().forEach(msg -> {

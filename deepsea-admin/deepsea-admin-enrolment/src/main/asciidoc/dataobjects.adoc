@@ -24,7 +24,7 @@
 |[[clientId]]`clientId`|`String`|-
 |[[devices]]`devices`|`Array of link:dataobjects.html#Device[Device]`|-
 |[[email]]`email`|`String`|-
-|[[enrolmentId]]`enrolmentId`|`Number (int)`|-
+|[[enrolmentId]]`enrolmentId`|`String`|-
 |[[firstName]]`firstName`|`String`|-
 |[[grossPremium]]`grossPremium`|`Number (double)`|-
 |[[ipt]]`ipt`|`Number (double)`|-

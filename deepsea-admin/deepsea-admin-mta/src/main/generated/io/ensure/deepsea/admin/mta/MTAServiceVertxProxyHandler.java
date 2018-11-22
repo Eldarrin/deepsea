@@ -121,7 +121,17 @@ public class MTAServiceVertxProxyHandler extends ProxyHandler {
           break;
         }
         case "addMTA": {
-          service.addMTA(json.getJsonObject("mta") == null ? null : new io.ensure.deepsea.admin.mta.MidTermAdjustment(json.getJsonObject("mta")), createHandler(msg));
+          service.addMTA(json.getJsonObject("mta") == null ? null : new io.ensure.deepsea.admin.mta.MidTermAdjustment(json.getJsonObject("mta")), res -> {
+            if (res.failed()) {
+              if (res.cause() instanceof ServiceException) {
+                msg.reply(res.cause());
+              } else {
+                msg.reply(new ServiceException(-1, res.cause().getMessage()));
+              }
+            } else {
+              msg.reply(res.result() == null ? null : res.result().toJson());
+            }
+         });
           break;
         }
         case "replayMTAs": {

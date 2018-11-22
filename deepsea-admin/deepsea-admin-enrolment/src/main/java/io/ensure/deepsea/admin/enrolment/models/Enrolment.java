@@ -24,6 +24,7 @@ public class Enrolment {
 	private double grossPremium = 0.0d;
 	private double ipt = 0.0d;
 	private Instant startDate;
+	private Instant dateCreated;
 	private List<Device> devices;
 	
 	public Enrolment() {
@@ -43,6 +44,7 @@ public class Enrolment {
 		this.grossPremium = enrolment.grossPremium;
 		this.ipt = enrolment.ipt;
 		this.startDate = enrolment.startDate;
+		this.dateCreated = enrolment.dateCreated;
 		this.productId = enrolment.productId;
 		this.devices = enrolment.devices;
 	}
@@ -157,8 +159,18 @@ public class Enrolment {
 			this.enrolmentId = "enrolment-" + json.getInteger("enrolmentId").toString();
 		}
 		try {
-			this.startDate = ISO8601DateParser.parse(
-					json.getString("startDate")).toInstant();
+			if (json.containsKey("startDate")) {
+				this.startDate = ISO8601DateParser.parse(
+						json.getString("startDate")).toInstant();
+			}
+			if (json.containsKey("dateCreated")) {
+				this.dateCreated = ISO8601DateParser.parse(
+						json.getString("dateCreated")).toInstant();
+			}
+			if (json.containsKey("dateOfBirth")) {
+				this.dateOfBirth = ISO8601DateParser.parse(
+						json.getString("dateOfBirth")).toInstant();
+			}
 		} catch (ParseException pe) {
 			// zero the dates if an error
 			
@@ -168,7 +180,15 @@ public class Enrolment {
 	public JsonObject toJson() {
 		JsonObject json = new JsonObject();
 		EnrolmentConverter.toJson(this, json);
-		json.put("startDate", this.startDate);
+		if (this.startDate != null) {
+			json.put("startDate", this.startDate);
+		}
+		if (this.dateCreated != null) {
+			json.put("dateCreated", this.dateCreated);
+		}
+		if (this.dateOfBirth != null) {
+			json.put("dateOfBirth", this.dateOfBirth);
+		}
 		return json;
 	}
 
@@ -202,6 +222,14 @@ public class Enrolment {
 
 	public void setDevices(List<Device> devices) {
 		this.devices = devices;
+	}
+
+	public Instant getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Instant dateCreated) {
+		this.dateCreated = dateCreated;
 	}
 
 }

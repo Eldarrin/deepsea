@@ -1,10 +1,13 @@
 package io.ensure.deepsea.admin.enrolment.impl;
 
+import java.text.ParseException;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import io.ensure.deepsea.admin.enrolment.EnrolmentService;
 import io.ensure.deepsea.admin.enrolment.models.Enrolment;
+import io.ensure.deepsea.common.helper.ISO8601DateParser;
 import io.ensure.deepsea.common.service.MySqlRedisRepositoryWrapper;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -33,6 +36,7 @@ public class MySqlEnrolmentServiceImpl extends MySqlRedisRepositoryWrapper imple
 
 	@Override
 	public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Enrolment>> resultHandler) {
+		enrolment.setDateCreated(Instant.now());
 		JsonArray params = new JsonArray().add(enrolment.getClientId())
 				.add(enrolment.getFirstName())
 				.add(enrolment.getLastName())
@@ -40,7 +44,8 @@ public class MySqlEnrolmentServiceImpl extends MySqlRedisRepositoryWrapper imple
 				.add(enrolment.getProductId())
 				.add(fromInstant(enrolment.getStartDate()))
 				.add(enrolment.getGrossPremium())
-				.add(enrolment.getIpt());
+				.add(enrolment.getIpt())
+				.add(fromInstant(enrolment.getDateCreated()));
 		
 		this.executeWithPublish(params, INSERT_STATEMENT, enrolment.toJson())
 			.map(option -> option.map(Enrolment::new).orElse(null))
@@ -49,12 +54,16 @@ public class MySqlEnrolmentServiceImpl extends MySqlRedisRepositoryWrapper imple
 	}
 	
 	@Override
-	public EnrolmentService replayEnrolments(Integer lastId,
+	public EnrolmentService replayEnrolments(String lastDate,
 			Handler<AsyncResult<List<Enrolment>>> resultHandler) {
-		JsonArray params = new JsonArray().add(lastId);
-		this.retrieveMany(params, REPLAY_STATEMENT)
-				.map(rawList -> rawList.stream().map(Enrolment::new).collect(Collectors.toList()))
-				.setHandler(resultHandler);
+		try {
+			JsonArray params = new JsonArray().add(ISO8601DateParser.parse(lastDate).toInstant());
+			this.retrieveMany(params, REPLAY_STATEMENT)
+					.map(rawList -> rawList.stream().map(Enrolment::new).collect(Collectors.toList()))
+					.setHandler(resultHandler);
+		} catch (ParseException pe) {
+			// nothing happens
+		}
 		return this;
 	}
 	
@@ -65,14 +74,15 @@ public class MySqlEnrolmentServiceImpl extends MySqlRedisRepositoryWrapper imple
 			+ "  `firstName` VARCHAR(255) NOT NULL, \n" + "  `lastName` VARCHAR(255) NOT NULL, \n" 
 			+ "  `middleNames` VARCHAR(255) NOT NULL, \n" + "  `productId` VARCHAR(255) NOT NULL, \n" 
 			+ "  `startDate` DATETIME NOT NULL, \n" + "  `grossPremium` double NOT NULL,\n"
-			+ "  `ipt` double NOT NULL,\n" + "  PRIMARY KEY (`enrolmentId`),\n"
+			+ "  `ipt` double NOT NULL,\n" + "  `dateCreated` DATETIME NOT NULL,\n"
+			+ "  PRIMARY KEY (`enrolmentId`),\n"
 			+ "  KEY `index_client_product` (`clientId`, `productId`) )";
 
 	private static final String INSERT_STATEMENT = "INSERT INTO enrolment (`clientId`, \n"
-			+ "  `firstName`, `lastName`, `middleNames`, `productId`, `startDate`, `grossPremium`, `ipt`) \n"
-			+ "  VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+			+ "  `firstName`, `lastName`, `middleNames`, `productId`, `startDate`, `grossPremium`, `ipt`, `dateCreated`) \n"
+			+ "  VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-	private static final String REPLAY_STATEMENT = "SELECT * FROM enrolment WHERE id > ?";
+	private static final String REPLAY_STATEMENT = "SELECT * FROM enrolment WHERE dateCreated > ?";
 
 
 

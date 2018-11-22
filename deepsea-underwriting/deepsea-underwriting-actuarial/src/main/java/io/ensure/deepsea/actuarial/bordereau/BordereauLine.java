@@ -21,6 +21,7 @@ public class BordereauLine {
 	private Instant startDate;
 	private Instant eventDate;
 	private BordereauEvent event;
+	private Instant dateSourceCreated;
 
 	public BordereauLine() {
 
@@ -38,6 +39,7 @@ public class BordereauLine {
 		this.startDate = bordereauLine.startDate;
 		this.eventDate = bordereauLine.eventDate;
 		this.event = bordereauLine.event;
+		this.dateSourceCreated = bordereauLine.dateSourceCreated;
 	}
 
 	public String getSource() {
@@ -120,13 +122,29 @@ public class BordereauLine {
 		this.event = event;
 	}
 
+	public Instant getDateSourceCreated() {
+		return dateSourceCreated;
+	}
+
+	public void setDateSourceCreated(Instant dateSourceCreated) {
+		this.dateSourceCreated = dateSourceCreated;
+	}
+
 	public BordereauLine(JsonObject json) {
 		BordereauLineConverter.fromJson(json, this);
 		try {
-			this.startDate = ISO8601DateParser.parse(
-					json.getString("startDate")).toInstant();
-			this.eventDate = ISO8601DateParser.parse(
-					json.getString("eventDate")).toInstant();
+			if (json.containsKey("startDate")) {
+				this.startDate = ISO8601DateParser.parse(
+						json.getString("startDate")).toInstant();
+			}
+			if (json.containsKey("eventDate")) {
+				this.eventDate = ISO8601DateParser.parse(
+						json.getString("eventDate")).toInstant();
+			}
+			if (json.containsKey("dateSourceCreated")) {
+				this.dateSourceCreated = ISO8601DateParser.parse(
+						json.getString("dateSourceCreated")).toInstant();
+			}
 		} catch (ParseException pe) {
 			// zero the dates if an error
 		}
@@ -135,8 +153,15 @@ public class BordereauLine {
 	public JsonObject toJson() {
 		JsonObject json = new JsonObject();
 		BordereauLineConverter.toJson(this, json);
-		json.put("startDate", this.startDate);
-		json.put("eventDate", this.eventDate);
+		if (this.startDate != null) {
+			json.put("startDate", this.startDate);
+		}
+		if (this.eventDate != null) {
+			json.put("eventDate", this.eventDate);
+		}
+		if (this.dateSourceCreated != null) {
+			json.put("dateSourceCreated", this.dateSourceCreated);
+		}
 		return json;
 	}
 

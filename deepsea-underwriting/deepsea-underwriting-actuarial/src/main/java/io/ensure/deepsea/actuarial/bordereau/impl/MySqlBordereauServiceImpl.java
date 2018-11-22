@@ -43,7 +43,8 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 				.add(bordereauLine.getIpt())
 				.add(fromInstant(bordereauLine.getStartDate()))
 				.add(fromInstant(bordereauLine.getEventDate()))
-				.add(bordereauLine.getEvent().toString());
+				.add(bordereauLine.getEvent().toString())
+				.add(fromInstant(bordereauLine.getDateSourceCreated()));
 		executeNoResult(params, INSERT_STATEMENT, resultHandler);
 		return this;
 	}
@@ -96,14 +97,16 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 			+ "  `source` VARCHAR(60) NOT NULL, \n" + "  `sourceId` VARCHAR(60) NOT NULL, \n"
 			+ "  `bordereauLineId` VARCHAR(120) NOT NULL, \n" + "  `clientId` VARCHAR(60) NOT NULL, \n"
 			+ "  `customerName` VARCHAR(255) NOT NULL, \n" + "  `value` double NOT NULL,\n"
-			+ "  `ipt` double NOT NULL,\n" + "  `startDate` DATETIME NOT NULL, \n" + "  `eventDate` DATETIME NOT NULL, \n"
-			+ "  `event` VARCHAR(30) NOT NULL, \n" + "  PRIMARY KEY (`bordereauLineId`),\n"
+			+ "  `ipt` double NOT NULL,\n" + "  `startDate` DATETIME NOT NULL, \n" 
+			+ "  `eventDate` DATETIME NOT NULL, \n" + "  `event` VARCHAR(30) NOT NULL, \n" 
+			+ "  `dateSourceCreated` DATETIME NOT NULL, \n" 
+			+ "  PRIMARY KEY (`bordereauLineId`),\n"
 			+ "  KEY `index_client` (`clientId`) )";
 
 	private static final String INSERT_STATEMENT = "INSERT INTO bordereau ("
 			+ " `source`, `sourceId`, `bordereauLineId`, `clientId`, \n"
-			+ "  `customerName`, `value`, `ipt`, `startDate`, `eventDate`, `event`) \n"
-			+ "  VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ "  `customerName`, `value`, `ipt`, `startDate`, `eventDate`, `event`, `dateSourceCreated`) \n"
+			+ "  VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	private static final String FETCH_STATEMENT = "SELECT * FROM bordereau WHERE bordereauLineId = ?";
 
@@ -113,6 +116,6 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 	
 	private static final String REMOVE_BORDEREAULINE = "DELETE FROM bordereau WHERE bordereauLineId = ?";
 	
-	private static final String GET_LAST_ROW = "SELECT * FROM bordereau WHERE source = ? ORDER BY eventDate DESC LIMIT 1";
+	private static final String GET_LAST_ROW = "SELECT * FROM bordereau WHERE source = ? ORDER BY dateSourceCreated DESC LIMIT 1";
 	
 }

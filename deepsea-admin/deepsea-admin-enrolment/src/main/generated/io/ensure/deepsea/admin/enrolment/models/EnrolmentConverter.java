@@ -44,8 +44,8 @@ public class EnrolmentConverter {
     if (json.getValue("email") instanceof String) {
       obj.setEmail((String)json.getValue("email"));
     }
-    if (json.getValue("enrolmentId") instanceof Number) {
-      obj.setEnrolmentId(((Number)json.getValue("enrolmentId")).intValue());
+    if (json.getValue("enrolmentId") instanceof String) {
+      obj.setEnrolmentId((String)json.getValue("enrolmentId"));
     }
     if (json.getValue("firstName") instanceof String) {
       obj.setFirstName((String)json.getValue("firstName"));
@@ -83,7 +83,9 @@ public class EnrolmentConverter {
     if (obj.getEmail() != null) {
       json.put("email", obj.getEmail());
     }
-    json.put("enrolmentId", obj.getEnrolmentId());
+    if (obj.getEnrolmentId() != null) {
+      json.put("enrolmentId", obj.getEnrolmentId());
+    }
     if (obj.getFirstName() != null) {
       json.put("firstName", obj.getFirstName());
     }
