@@ -21,7 +21,7 @@ public interface EnrolmentService {
 	EnrolmentService initializePersistence(Handler<AsyncResult<Void>> resultHandler);
 	
 	@Fluent
-	EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Integer>> resultHandler);
+	EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Enrolment>> resultHandler);
 	
 	@Fluent
 	EnrolmentService replayEnrolments(Integer lastId, Handler<AsyncResult<List<Enrolment>>> resultHandler);

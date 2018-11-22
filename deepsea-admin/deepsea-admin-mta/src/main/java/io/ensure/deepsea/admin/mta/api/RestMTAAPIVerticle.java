@@ -10,7 +10,7 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.redis.RedisClient;
+import io.vertx.ext.web.handler.BodyHandler;
 
 public class RestMTAAPIVerticle extends RestAPIVerticle {
 	
@@ -24,8 +24,8 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 
 	private final MTAService mtaService;
 	
-	public RestMTAAPIVerticle(MTAService mtaService, RedisClient redis) {
-		super(redis);
+	public RestMTAAPIVerticle(MTAService mtaService) {
+		super();
 		this.mtaService = mtaService;
 	}
 	
@@ -33,7 +33,7 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 	public void start(Future<Void> future) throws Exception {
 		super.start();
 		final Router router = Router.router(vertx);
-		// API route handler
+		router.route().handler(BodyHandler.create());
 		router.post(API_ADD).handler(this::apiAdd);
 		
 		startRestService(router, future, SERVICE_NAME, MTA, "deepsea", "deepsea-admin-mta");
@@ -43,21 +43,13 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 	private void apiAdd(RoutingContext rc) {
 		try {
 			MidTermAdjustment mta = new MidTermAdjustment(new JsonObject(rc.getBodyAsString()));
+			log.info(rc.getBodyAsString());
 
 			mtaService.addMTA(mta, res -> {
 				if (res.succeeded()) {
-					mta.setMtaId(res.result());
-					redis.publish(MTA, mta.toString(), ar -> {
-						if (ar.succeeded()) {
-		    				String result = new JsonObject().put("message", "mta_added")
-									.put("mtaId", mta.getMtaId()).encodePrettily();
-		    				rc.response().setStatusCode(201).putHeader(CONTENT_TYPE, APPLICATION_JSON).end(result);
-		    			} else {
-		    				log.error("failed to publish");
-		    				rc.response().setStatusCode(400).putHeader(CONTENT_TYPE, APPLICATION_JSON).end();
-		    			}
-		    		});
+					rc.response().setStatusCode(201).putHeader(CONTENT_TYPE, APPLICATION_JSON).end(res.result().toString());
 				} else {
+					log.error(res.cause());
 					log.error("failed to write to db");
     				rc.response().setStatusCode(400).putHeader(CONTENT_TYPE, APPLICATION_JSON).end();
 				}

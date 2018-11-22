@@ -7,6 +7,10 @@ import io.vertx.core.Vertx;
 import io.vertx.redis.RedisOptions;
 
 public class RedisHelper {
+	
+	private RedisHelper() {
+	    throw new IllegalStateException("Redis Utility class");
+	  }
 
 	public static Future<RedisOptions> getRedisOptions(Vertx vertx) {
 		Future<RedisOptions> future = Future.future();

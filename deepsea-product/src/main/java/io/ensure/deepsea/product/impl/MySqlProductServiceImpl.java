@@ -24,7 +24,8 @@ public class MySqlProductServiceImpl extends MySqlRedisRepositoryWrapper impleme
 	private static final int PAGE_LIMIT = 10;
 
 	public MySqlProductServiceImpl(Vertx vertx, JsonObject config, RedisOptions rOptions) {
-		super(vertx, config, rOptions, PRODUCT);
+		super(vertx, config, rOptions);
+		this.typeName = PRODUCT;
 	}
 
 	@Override
@@ -95,7 +96,7 @@ public class MySqlProductServiceImpl extends MySqlRedisRepositoryWrapper impleme
 	}
 	
 	private Integer getId(String productId) {
-		return Integer.parseInt(productId.substring(productId.indexOf("-") + 1));
+		return Integer.parseInt(productId.substring(productId.indexOf('-') + 1));
 	}
 
 	// SQL statements

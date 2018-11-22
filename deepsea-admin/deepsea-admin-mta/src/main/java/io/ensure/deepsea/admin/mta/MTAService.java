@@ -20,7 +20,7 @@ public interface MTAService {
 	MTAService initializePersistence(Handler<AsyncResult<Void>> resultHandler);
 	
 	@Fluent
-	MTAService addMTA(MidTermAdjustment mta, Handler<AsyncResult<String>> resultHandler);
+	MTAService addMTA(MidTermAdjustment mta, Handler<AsyncResult<MidTermAdjustment>> resultHandler);
 	
 	@Fluent
 	MTAService replayMTAs(Integer lastId, Handler<AsyncResult<List<MidTermAdjustment>>> resultHandler);

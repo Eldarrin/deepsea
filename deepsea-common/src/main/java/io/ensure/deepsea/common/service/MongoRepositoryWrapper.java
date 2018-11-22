@@ -23,13 +23,7 @@ public class MongoRepositoryWrapper {
 	
 	protected Future<List<JsonObject>> selectDocuments(String collection, JsonObject query) {
 		Future<List<JsonObject>> future = Future.future();
-		client.find(collection, query, res -> {
-			if (res.succeeded()) {
-				future.complete(res.result());
-			} else {
-				future.fail(res.cause());
-			}
-		});
+		client.find(collection, query, future.completer());
 		
 		return future;
 	}

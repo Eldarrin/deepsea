@@ -5,17 +5,19 @@ import java.util.stream.Collectors;
 
 import io.ensure.deepsea.admin.enrolment.EnrolmentService;
 import io.ensure.deepsea.admin.enrolment.models.Enrolment;
-import io.ensure.deepsea.common.service.MySqlRepositoryWrapper;
+import io.ensure.deepsea.common.service.MySqlRedisRepositoryWrapper;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.redis.RedisOptions;
 
-public class MySqlEnrolmentServiceImpl extends MySqlRepositoryWrapper implements EnrolmentService {
+public class MySqlEnrolmentServiceImpl extends MySqlRedisRepositoryWrapper implements EnrolmentService {
 
-	public MySqlEnrolmentServiceImpl(Vertx vertx, JsonObject config) {
-		super(vertx, config);
+	public MySqlEnrolmentServiceImpl(Vertx vertx, JsonObject config, RedisOptions rOptions) {
+		super(vertx, config, rOptions);
+		this.typeName = "enrolment";
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class MySqlEnrolmentServiceImpl extends MySqlRepositoryWrapper implements
 	}
 
 	@Override
-	public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Integer>> resultHandler) {
+	public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Enrolment>> resultHandler) {
 		JsonArray params = new JsonArray().add(enrolment.getClientId())
 				.add(enrolment.getFirstName())
 				.add(enrolment.getLastName())
@@ -40,8 +42,8 @@ public class MySqlEnrolmentServiceImpl extends MySqlRepositoryWrapper implements
 				.add(enrolment.getGrossPremium())
 				.add(enrolment.getIpt());
 		
-		this.executeReturnKey(params, INSERT_STATEMENT)
-			.map(option -> option.map(Integer::new).orElse(null))
+		this.executeWithPublish(params, INSERT_STATEMENT, enrolment.toJson())
+			.map(option -> option.map(Enrolment::new).orElse(null))
 			.setHandler(resultHandler);
 		return this;
 	}

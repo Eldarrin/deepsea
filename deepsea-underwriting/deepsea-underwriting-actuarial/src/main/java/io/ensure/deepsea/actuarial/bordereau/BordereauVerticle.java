@@ -148,7 +148,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 	private Future<Void> deployRestVerticle() {
 		Future<String> future = Future.future();
-		vertx.deployVerticle(new RestBordereauAPIVerticle(bordereauService, redis),
+		vertx.deployVerticle(new RestBordereauAPIVerticle(bordereauService),
 				new DeploymentOptions().setConfig(config()), future.completer());
 		return future.map(r -> null);
 	}

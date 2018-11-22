@@ -42,7 +42,7 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 						.put("port", Integer.parseInt(System.getenv("DB_PORT")))
 						.put("username", System.getenv("DB_USERNAME"))
 						.put("password", System.getenv("DB_PASSWORD"))
-						.put("database", res.result().getString("database.name"));
+						.put("database", res.result().getString("mysql.database"));
 
         		clientService = new MySqlClientServiceImpl(vertx, mySqlConfig);
         		// Register the handler
@@ -72,7 +72,7 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 
 	private Future<Void> deployRestVerticle() {
 		Future<String> future = Future.future();
-		vertx.deployVerticle(new RestClientAPIVerticle(clientService, redis),
+		vertx.deployVerticle(new RestClientAPIVerticle(clientService),
 				new DeploymentOptions().setConfig(config()), future.completer());
 		return future.map(r -> null);
 	}

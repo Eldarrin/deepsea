@@ -72,12 +72,12 @@ public class EnrolmentService {
     }));
   }
 
-  public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Integer>> resultHandler) { 
+  public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Enrolment>> resultHandler) { 
     delegate.addEnrolment(enrolment, resultHandler);
     return this;
   }
 
-  public Single<Integer> rxAddEnrolment(Enrolment enrolment) { 
+  public Single<Enrolment> rxAddEnrolment(Enrolment enrolment) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       addEnrolment(enrolment, fut);
     }));

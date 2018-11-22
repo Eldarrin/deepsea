@@ -11,7 +11,7 @@ import io.vertx.core.json.JsonObject;
 @DataObject(generateConverter = true)
 public class Enrolment {
 
-	private int enrolmentId;
+	private String enrolmentId;
 	private String clientId;
 	private String productId;
 	private String title;
@@ -79,11 +79,11 @@ public class Enrolment {
 		this.termsAgreed = agreeTerms;
 	}
 
-	public int getEnrolmentId() {
+	public String getEnrolmentId() {
 		return enrolmentId;
 	}
 
-	public void setEnrolmentId(int enrolmentId) {
+	public void setEnrolmentId(String enrolmentId) {
 		this.enrolmentId = enrolmentId;
 	}
 
@@ -153,11 +153,15 @@ public class Enrolment {
 	
 	public Enrolment(JsonObject json) {
 		EnrolmentConverter.fromJson(json, this);
+		if (json.getValue("enrolmentId") instanceof Integer) {
+			this.enrolmentId = "enrolment-" + json.getInteger("enrolmentId").toString();
+		}
 		try {
 			this.startDate = ISO8601DateParser.parse(
 					json.getString("startDate")).toInstant();
 		} catch (ParseException pe) {
 			// zero the dates if an error
+			
 		}
 	}
 
@@ -182,7 +186,7 @@ public class Enrolment {
 
 	@Override
 	public int hashCode() {
-		int result = enrolmentId;
+		int result = enrolmentId.hashCode();
 		result = 38 * result + clientId.hashCode();
 		return result;
 	}

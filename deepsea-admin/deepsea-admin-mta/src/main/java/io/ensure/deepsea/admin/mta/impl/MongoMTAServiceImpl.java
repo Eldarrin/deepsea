@@ -6,16 +6,18 @@ import java.util.stream.Collectors;
 
 import io.ensure.deepsea.admin.mta.MTAService;
 import io.ensure.deepsea.admin.mta.MidTermAdjustment;
-import io.ensure.deepsea.common.service.MongoRepositoryWrapper;
+import io.ensure.deepsea.common.service.MongoRedisRepositoryWrapper;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.redis.RedisOptions;
 
-public class MongoMTAServiceImpl extends MongoRepositoryWrapper implements MTAService {
+public class MongoMTAServiceImpl extends MongoRedisRepositoryWrapper implements MTAService {
 	
-	public MongoMTAServiceImpl(Vertx vertx, JsonObject config) {
-		super(vertx, config);
+	public MongoMTAServiceImpl(Vertx vertx, JsonObject config, RedisOptions rOptions) {
+		super(vertx, config, rOptions);
+		this.typeName = "mta";
 	}
 
 	@Override
@@ -25,8 +27,10 @@ public class MongoMTAServiceImpl extends MongoRepositoryWrapper implements MTASe
 	}
 
 	@Override
-	public MTAService addMTA(MidTermAdjustment mta, Handler<AsyncResult<String>> resultHandler) {
-		this.upsertSingle(mta.toJson(), "mta", resultHandler);
+	public MTAService addMTA(MidTermAdjustment mta, Handler<AsyncResult<MidTermAdjustment>> resultHandler) {
+		this.upsertWithPublish(mta.toJson(), "mta")
+			.map(option -> option.map(MidTermAdjustment::new).orElse(null))
+			.setHandler(resultHandler);
 		return this;
 	}
 

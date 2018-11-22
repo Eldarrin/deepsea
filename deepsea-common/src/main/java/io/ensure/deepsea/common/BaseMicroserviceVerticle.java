@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
 import io.vertx.circuitbreaker.CircuitBreaker;
 import io.vertx.circuitbreaker.CircuitBreakerOptions;
-import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
@@ -15,8 +13,6 @@ import io.vertx.core.impl.ConcurrentHashSet;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.redis.RedisClient;
-import io.vertx.redis.RedisOptions;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.ServiceDiscoveryOptions;
@@ -43,7 +39,6 @@ public abstract class BaseMicroserviceVerticle extends AbstractVerticle {
 
 	protected ServiceDiscovery discovery;
 	protected CircuitBreaker circuitBreaker;
-	protected RedisClient redis;
 	protected Set<Record> registeredRecords = new ConcurrentHashSet<>();
 
 	@Override
@@ -163,56 +158,6 @@ public abstract class BaseMicroserviceVerticle extends AbstractVerticle {
 		}
 	}
 	
-	protected Future<Void> startRedisPubSub(String channel) {
-		Future<Void> future = Future.future();
-
-		ConfigRetriever redisRetriever = ConfigRetriever.create(vertx,
-				new ConfigRetrieverHelper().getOptions("deepsea", "deepsea-redis"));
-
-		redisRetriever.getConfig(res -> {
-			if (res.succeeded()) {
-				RedisOptions redisConfig = new RedisOptions()
-						.setHost(res.result().getString("redis.host"))
-						.setPort(res.result().getInteger("redis.port"))
-						.setAuth(res.result().getString("redis.auth"));
-
-				startEBCluster(redisConfig).setHandler(redisResult -> {
-					if (redisResult.succeeded()) {
-						redis.publish(channel, new JsonObject().put("started", "true").encodePrettily(),
-								ar -> {
-									future.complete();
-									logger.info("Redis startup successful");
-								});
-					} else {
-						future.fail(redisResult.cause());
-						logger.error("Failed to connect to Redis");
-					}
-				});
-			} else {
-				future.fail(res.cause());
-				logger.error("Failed to find Redis Config");
-			}
-		});
-		return future;
-
-	}
-
-	private Future<Void> startEBCluster(RedisOptions redisOptions) {
-		Future<Void> future = Future.future();
-
-		redis = RedisClient.create(vertx, redisOptions);
-
-		redis.ping(ar -> {
-			if (ar.succeeded()) {
-				logger.info("redis.started.succeed");
-				future.complete();
-			} else {
-				logger.error("redis.started.failed");
-				future.fail(ar.cause());
-			}
-		});
-
-		return future;
-	}
+	
 
 }

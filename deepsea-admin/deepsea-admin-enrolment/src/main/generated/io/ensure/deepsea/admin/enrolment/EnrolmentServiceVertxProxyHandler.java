@@ -121,7 +121,17 @@ public class EnrolmentServiceVertxProxyHandler extends ProxyHandler {
           break;
         }
         case "addEnrolment": {
-          service.addEnrolment(json.getJsonObject("enrolment") == null ? null : new io.ensure.deepsea.admin.enrolment.models.Enrolment(json.getJsonObject("enrolment")), createHandler(msg));
+          service.addEnrolment(json.getJsonObject("enrolment") == null ? null : new io.ensure.deepsea.admin.enrolment.models.Enrolment(json.getJsonObject("enrolment")), res -> {
+            if (res.failed()) {
+              if (res.cause() instanceof ServiceException) {
+                msg.reply(res.cause());
+              } else {
+                msg.reply(new ServiceException(-1, res.cause().getMessage()));
+              }
+            } else {
+              msg.reply(res.result() == null ? null : res.result().toJson());
+            }
+         });
           break;
         }
         case "replayEnrolments": {

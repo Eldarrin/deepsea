@@ -69,7 +69,7 @@ var ProductService = function(j_val) {
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
       j_productService["addProduct(io.ensure.deepsea.product.Product,io.vertx.core.Handler)"](product != null ? new Product(new JsonObject(Java.asJSONCompatible(product))) : null, function(ar) {
       if (ar.succeeded()) {
-        resultHandler(null, null);
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
       } else {
         resultHandler(null, ar.cause());
       }
