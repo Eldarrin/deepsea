@@ -135,7 +135,7 @@ public class EnrolmentServiceVertxProxyHandler extends ProxyHandler {
           break;
         }
         case "replayEnrolments": {
-          service.replayEnrolments(json.getValue("lastId") == null ? null : (json.getLong("lastId").intValue()), res -> {
+          service.replayEnrolments((java.lang.String)json.getValue("lastDate"), res -> {
             if (res.failed()) {
               if (res.cause() instanceof ServiceException) {
                 msg.reply(res.cause());

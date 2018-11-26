@@ -104,13 +104,13 @@ public class EnrolmentServiceVertxEBProxy implements EnrolmentService {
   }
 
   @Override
-  public EnrolmentService replayEnrolments(Integer lastId, Handler<AsyncResult<List<Enrolment>>> resultHandler) {
+  public EnrolmentService replayEnrolments(String lastDate, Handler<AsyncResult<List<Enrolment>>> resultHandler) {
     if (closed) {
     resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
       return this;
     }
     JsonObject _json = new JsonObject();
-    _json.put("lastId", lastId);
+    _json.put("lastDate", lastDate);
     DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
     _deliveryOptions.addHeader("action", "replayEnrolments");
     _vertx.eventBus().<JsonArray>send(_address, _json, _deliveryOptions, res -> {

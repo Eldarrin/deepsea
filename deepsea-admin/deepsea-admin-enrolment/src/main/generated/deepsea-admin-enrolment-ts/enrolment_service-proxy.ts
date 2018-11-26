@@ -46,11 +46,11 @@ export class EnrolmentService {
       return this;
   }
 
-  replayEnrolments(lastId: number, resultHandler: (err: any, result: any) => any) : EnrolmentService {
+  replayEnrolments(lastDate: string, resultHandler: (err: any, result: any) => any) : EnrolmentService {
     if (closed) {
       throw new Error('Proxy is closed');
     }
-    this.eb.send(this.address, {"lastId": lastId}, {"action":"replayEnrolments"}, function(err, result) { resultHandler(err, result &&result.body); });
+    this.eb.send(this.address, {"lastDate": lastDate}, {"action":"replayEnrolments"}, function(err, result) { resultHandler(err, result &&result.body); });
       return this;
   }
 

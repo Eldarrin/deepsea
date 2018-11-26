@@ -83,14 +83,14 @@ public class EnrolmentService {
     }));
   }
 
-  public EnrolmentService replayEnrolments(Integer lastId, Handler<AsyncResult<List<Enrolment>>> resultHandler) { 
-    delegate.replayEnrolments(lastId, resultHandler);
+  public EnrolmentService replayEnrolments(String lastDate, Handler<AsyncResult<List<Enrolment>>> resultHandler) { 
+    delegate.replayEnrolments(lastDate, resultHandler);
     return this;
   }
 
-  public Single<List<Enrolment>> rxReplayEnrolments(Integer lastId) { 
+  public Single<List<Enrolment>> rxReplayEnrolments(String lastDate) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-      replayEnrolments(lastId, fut);
+      replayEnrolments(lastDate, fut);
     }));
   }
 

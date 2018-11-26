@@ -82,17 +82,17 @@
     /**
 
      @public
-     @param lastId {number} 
+     @param lastDate {string} 
      @param resultHandler {function} 
      @return {EnrolmentService}
      */
-    this.replayEnrolments = function(lastId, resultHandler) {
+    this.replayEnrolments = function(lastDate, resultHandler) {
       var __args = arguments;
-      if (__args.length === 2 && typeof __args[0] ==='number' && typeof __args[1] === 'function') {
+      if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"lastId":__args[0]}, {"action":"replayEnrolments"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {"lastDate":__args[0]}, {"action":"replayEnrolments"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
