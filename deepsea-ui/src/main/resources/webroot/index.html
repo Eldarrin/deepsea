@@ -21,6 +21,10 @@ http://www.templatemo.com/tm-398-nature
         
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/templatemo_main.css">
+          <script src="assets/lib/angular/angular.js"></script>
+		  <script src="assets/lib/angular-route/angular-route.js"></script>
+		  <script src="app/app.js"></script>
+		  <script src="app/controller.js"></script>
     </head>
     <body>
         <div id="main-wrapper">
@@ -100,10 +104,9 @@ http://www.templatemo.com/tm-398-nature
                         </section><!-- /.services-text --> 
 
                         <section id="deepsea-text" class="inactive">
-                            <div class="col-sm-12 col-md-12 col-lg-12">
-                                <h2>Testimonials</h2>
-                                <p>Vestibulum sem purus, interdum sit amet varius id, porta sit amet sem. Mauris nec dui ut sapien finibus bibendum eget sit amet nulla. Proin condimentum urna quis tincidunt euismod. Vivamus eget sem at lorem varius pretium. Sed nisl lacus, sollicitudin sed elit et, convallis convallis arcu.</p>
-                                <p>Nulla ut consequat felis, et euismod enim. Etiam at tellus eget dui tristique eleifend pretium eu tellus. Integer eu facilisis velit. Proin in mollis metus, id vestibulum enim.</p>
+                        <!-- This is the actual application holder -->
+                            <div ng-view class="col-sm-12 col-md-12 col-lg-12">
+                                
                             </div>
                         </section><!-- /.testimonial-text --> 
 
