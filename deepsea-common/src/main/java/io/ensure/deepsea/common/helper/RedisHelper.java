@@ -39,14 +39,16 @@ public class RedisHelper {
 		return future;
 	}
 	
-	public static Future<Optional<JsonObject>> publishRedis(RedisClient redis, String keyName, String key, JsonObject jsonObject) {
+	public static Future<Optional<JsonObject>> publishRedis(RedisClient redis, String channel, JsonObject jsonObject) {
 		Future<Optional<JsonObject>> future = Future.future();
-		jsonObject.put(keyName, key);
-		redis.publish(key, jsonObject.toString(), ar -> {
+		log.info("Publishing in channel: " + channel + ":" + jsonObject.toString());
+		redis.publish(channel, jsonObject.toString(), ar -> {
 			if (ar.succeeded()) {
-				log.info("in publish");
+				log.info("publish succeeded");
+				log.info(jsonObject.encodePrettily());
 				future.complete(Optional.of(jsonObject));
 			} else {
+				log.error(ar.cause());
 				future.fail(ar.cause());
 			}
 		});

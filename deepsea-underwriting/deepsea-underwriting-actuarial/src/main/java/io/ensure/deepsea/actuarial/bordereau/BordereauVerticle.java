@@ -89,15 +89,17 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 		redis.subscribe(MTA_CHANNEL, res -> {
 			if (res.succeeded()) {
-				redis.subscribe(ENROLMENT_CHANNEL, ar -> {
-					if (ar.succeeded()) {
-						requestMissed();
-					} else {
-						log.error(ar.result());
-					}
-				});
+				
 			} else {
 				log.error(res.result());
+			}
+		});
+		
+		redis.subscribe(ENROLMENT_CHANNEL, ar -> {
+			if (ar.succeeded()) {
+				requestMissed();
+			} else {
+				log.error(ar.result());
 			}
 		});
 		

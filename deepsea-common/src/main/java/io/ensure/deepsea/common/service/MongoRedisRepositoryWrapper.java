@@ -30,7 +30,8 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		this.upsertSingle(jsonObject, collection, res -> {
 			if (res.succeeded()) {
 				jsonObject.remove("_id");
-				RedisHelper.publishRedis(redis, keyName, typeName + "-" + res.result(), jsonObject)
+				jsonObject.put(keyName, res.result());
+				RedisHelper.publishRedis(redis, typeName, jsonObject)
 						.setHandler(future.completer());
 			} else {
 				future.fail(res.cause());

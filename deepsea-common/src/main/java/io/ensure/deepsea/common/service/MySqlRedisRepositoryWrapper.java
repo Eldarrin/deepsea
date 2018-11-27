@@ -29,7 +29,10 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 		this.executeReturnKey(params, sql).setHandler(res -> {
 			if (res.succeeded()) {
 				String keyName = typeName + "Id";
-				RedisHelper.publishRedis(redis, keyName, typeName + "-" + res.result().get(), jsonObject)
+				jsonObject.put(keyName, typeName + "-" + res.result().get().toString());
+				log.info(keyName);
+				log.info(jsonObject.encodePrettily());
+				RedisHelper.publishRedis(redis, typeName, jsonObject)
 				.setHandler(future.completer());
 			} else {
 				future.fail(res.cause());
