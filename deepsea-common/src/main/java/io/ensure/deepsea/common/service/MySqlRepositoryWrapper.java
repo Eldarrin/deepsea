@@ -141,6 +141,10 @@ public class MySqlRepositoryWrapper {
 			Future<List<JsonObject>> future = Future.future();
 			connection.queryWithParams(sql, param, r -> {
 				if (r.succeeded()) {
+					log.info(r.result().getNumRows());
+					for (JsonObject j : r.result().getRows()) {
+						log.info(j.encodePrettily());
+					}
 					future.complete(r.result().getRows());
 				} else {
 					future.fail(r.cause());

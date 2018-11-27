@@ -14,9 +14,13 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.redis.RedisOptions;
 
 public class MySqlEnrolmentServiceImpl extends MySqlRedisRepositoryWrapper implements EnrolmentService {
+	
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	public MySqlEnrolmentServiceImpl(Vertx vertx, JsonObject config, RedisOptions rOptions) {
 		super(vertx, config, rOptions);
@@ -57,12 +61,15 @@ public class MySqlEnrolmentServiceImpl extends MySqlRedisRepositoryWrapper imple
 	public EnrolmentService replayEnrolments(String lastDate,
 			Handler<AsyncResult<List<Enrolment>>> resultHandler) {
 		try {
+			log.info(lastDate);
 			JsonArray params = new JsonArray().add(ISO8601DateParser.parse(lastDate).toInstant());
+			log.info(params);
+			log.info(REPLAY_STATEMENT);
 			this.retrieveMany(params, REPLAY_STATEMENT)
 					.map(rawList -> rawList.stream().map(Enrolment::new).collect(Collectors.toList()))
 					.setHandler(resultHandler);
 		} catch (ParseException pe) {
-			// nothing happens
+			log.error(pe);
 		}
 		return this;
 	}

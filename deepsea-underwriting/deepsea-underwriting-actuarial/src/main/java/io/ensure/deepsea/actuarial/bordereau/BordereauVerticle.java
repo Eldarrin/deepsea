@@ -110,7 +110,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 			log.info(res.result().toString());
 			
 			vertx.eventBus().send(ENROLMENT_CHANNEL + ".replay", 
-					new JsonObject().put("dateCreated", res.result().getDateSourceCreated()));
+					new JsonObject().put("dateCreated", res.result().getDateSourceCreated().plusMillis(2)));
 		});
 				
 		bordereauService.requestLastRecordBySource(MTA_CHANNEL, res -> vertx.eventBus()

@@ -77,8 +77,22 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 	}
 	
 	private void setupReplayConsumer() {
+		vertx.eventBus().<JsonObject>consumer(ENROLMENT_CHANNEL + ".replay", msg -> {
+			log.info(msg.body());
+			enrolmentService.replayEnrolments(msg.body().getString("dateCreated"), msgs -> {
+				if (msgs.succeeded()) {
+					List<JsonObject> msgJ = new ArrayList<>();
+					msgs.result().stream().forEach(msga -> {
+						msgJ.add(msga.toJson());
+					});
+					redisPubSub.replayMessages(ENROLMENT_CHANNEL, msgJ);
+				}
+			});
+		});
+		/*
 		redisPubSub.listenForReplay(ENROLMENT_CHANNEL).setHandler(res -> {
 			if (res.succeeded()) {
+				log.info(res.result());
 				enrolmentService.replayEnrolments(res.result().getString("dateCreated"), msgs -> {
 					if (msgs.succeeded()) {
 						List<JsonObject> msgJ = new ArrayList<>();
@@ -89,7 +103,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 					}
 				});
 			}
-		});
+		});*/
 	}
 		
 	private Future<Void> initEnrolmentDatabase(EnrolmentService service) {

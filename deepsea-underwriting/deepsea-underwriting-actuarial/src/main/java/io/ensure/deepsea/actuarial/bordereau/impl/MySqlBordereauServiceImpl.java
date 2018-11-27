@@ -99,7 +99,7 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 			+ "  `customerName` VARCHAR(255) NOT NULL, \n" + "  `value` double NOT NULL,\n"
 			+ "  `ipt` double NOT NULL,\n" + "  `startDate` DATETIME NOT NULL, \n" 
 			+ "  `eventDate` DATETIME NOT NULL, \n" + "  `event` VARCHAR(30) NOT NULL, \n" 
-			+ "  `dateSourceCreated` DATETIME NOT NULL, \n" 
+			+ "  `dateSourceCreated` DATETIME(3) NOT NULL, \n" 
 			+ "  PRIMARY KEY (`bordereauLineId`),\n"
 			+ "  KEY `index_client` (`clientId`) )";
 
