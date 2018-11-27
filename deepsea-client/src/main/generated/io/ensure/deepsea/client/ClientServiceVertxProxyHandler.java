@@ -121,7 +121,31 @@ public class ClientServiceVertxProxyHandler extends ProxyHandler {
           break;
         }
         case "addClient": {
-          service.addClient(json.getJsonObject("client") == null ? null : new io.ensure.deepsea.client.Client(json.getJsonObject("client")), createHandler(msg));
+          service.addClient(json.getJsonObject("client") == null ? null : new io.ensure.deepsea.client.Client(json.getJsonObject("client")), res -> {
+            if (res.failed()) {
+              if (res.cause() instanceof ServiceException) {
+                msg.reply(res.cause());
+              } else {
+                msg.reply(new ServiceException(-1, res.cause().getMessage()));
+              }
+            } else {
+              msg.reply(res.result() == null ? null : res.result().toJson());
+            }
+         });
+          break;
+        }
+        case "retrieveClient": {
+          service.retrieveClient((java.lang.String)json.getValue("id"), res -> {
+            if (res.failed()) {
+              if (res.cause() instanceof ServiceException) {
+                msg.reply(res.cause());
+              } else {
+                msg.reply(new ServiceException(-1, res.cause().getMessage()));
+              }
+            } else {
+              msg.reply(res.result() == null ? null : res.result().toJson());
+            }
+         });
           break;
         }
         case "retrieveClients": {

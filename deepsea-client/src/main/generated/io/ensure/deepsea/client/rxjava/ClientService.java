@@ -81,14 +81,25 @@ public class ClientService {
     }));
   }
 
-  public ClientService addClient(Client client, Handler<AsyncResult<Void>> resultHandler) { 
+  public ClientService addClient(Client client, Handler<AsyncResult<Client>> resultHandler) { 
     delegate.addClient(client, resultHandler);
     return this;
   }
 
-  public Single<Void> rxAddClient(Client client) { 
+  public Single<Client> rxAddClient(Client client) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       addClient(client, fut);
+    }));
+  }
+
+  public ClientService retrieveClient(String id, Handler<AsyncResult<Client>> resultHandler) { 
+    delegate.retrieveClient(id, resultHandler);
+    return this;
+  }
+
+  public Single<Client> rxRetrieveClient(String id) { 
+    return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+      retrieveClient(id, fut);
     }));
   }
 

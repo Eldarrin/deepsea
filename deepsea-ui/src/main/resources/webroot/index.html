@@ -2,168 +2,212 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
-        <title>Deepsea Insurance</title>
-    	<meta name="keywords" content="Insurance, Microservice, OpenShift, Vertx, Kubernetes" />
-		<meta name="description" content="This is a simple project to recreate an Open Source Insurance application based on Vertx and Openshift" />
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en" ng-app="vertxApp">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+<title>Deepsea Insurance</title>
+<meta name="keywords"
+	content="Insurance, Microservice, OpenShift, Vertx, Kubernetes" />
+<meta name="description"
+	content="This is a simple project to recreate an Open Source Insurance application based on Vertx and Openshift" />
 <!-- 
 original credit to:
 Nature Template 
 http://www.templatemo.com/tm-398-nature
 -->
-        <meta name="viewport" content="width=device-width">
-        
-        <!-- Google Web Font Embed -->
-        <link href='http://fonts.googleapis.com/css?family=Raleway:400,600,500,300,700' rel='stylesheet' type='text/css'>
-        
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/templatemo_main.css">
-          <script src="assets/lib/angular/angular.js"></script>
-		  <script src="assets/lib/angular-route/angular-route.js"></script>
-		  <script src="app/app.js"></script>
-		  <script src="app/controller.js"></script>
-    </head>
-    <body>
-        <div id="main-wrapper">
-            <!--[if lt IE 7]>
+<meta name="viewport" content="width=device-width">
+
+<!-- Google Web Font Embed -->
+<link
+	href='http://fonts.googleapis.com/css?family=Raleway:400,600,500,300,700'
+	rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/templatemo_main.css">
+<script src="assets/lib/angular/angular.js"></script>
+<script src="assets/lib/angular-route/angular-route.js"></script>
+<script src="app/app.js"></script>
+<script src="app/controller.js"></script>
+</head>
+<body>
+	<div id="main-wrapper">
+		<!--[if lt IE 7]>
                 <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a rel="nofollow" href="http://browsehappy.com">upgrade your browser</a> or <a rel="nofollow" href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
             <![endif]-->
 
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 affix text-center" style="z-index: 1;">
-                <h1 class="templatemo-site-title">
-                        <a href="#">DEEP SEA</a>
-                        <img src="images/btn-menu.png" alt="main menu" id="m-btn" class="pull-right visible-xs visible-sm" >
-                </h1>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 affix text-center"
+			style="z-index: 1;">
+			<h1 class="templatemo-site-title">
+				<a href="#">DEEP SEA</a> <img src="images/btn-menu.png"
+					alt="main menu" id="m-btn" class="pull-right visible-xs visible-sm">
+			</h1>
 
-                <ul id="responsive" style="display:none" class="hidden-lg hidden-md"></ul><!-- /.responsive -->
-            </div>
+			<ul id="responsive" style="display: none" class="hidden-lg hidden-md"></ul>
+			<!-- /.responsive -->
+		</div>
 
-            <div class="menu visible-md visible-lg">
-                <ul id="menu-list">
-                    <li class="active home-menu"><a href="#home">Home</a></li>
-                    <li class="about-menu"><a href="#about">About Us</a></li>
-                    <li class="services-menu"><a href="#services">Our Services</a></li>
-                    <li class="deepsea-menu"><a href="#deepsea">Deep Sea Application</a></li>
-                    <li class="contact-menu"><a href="#contact">Contact</a></li>
-                    <li><a rel="nofollow" target="_parent" href="https://github.com/Eldarrin/deepsea" class="external">GitHub Page</a></li>
-                </ul>
-            </div><!-- /.menu -->
+		<div class="menu visible-md visible-lg">
+			<ul id="menu-list">
+				<li class="active home-menu"><a href="#home">Home</a></li>
+				<li class="about-menu"><a href="#about">About Us</a></li>
+				<li class="services-menu"><a href="#services">Our Services</a></li>
+				<li class="deepsea-menu"><a href="#deepsea">Deep Sea
+						Application</a></li>
+				<li class="contact-menu"><a href="#contact">Contact</a></li>
+				<li><a rel="nofollow" target="_parent"
+					href="https://github.com/Eldarrin/deepsea" class="external">GitHub
+						Page</a></li>
+			</ul>
+		</div>
+		<!-- /.menu -->
 
-            <div class="image-section">
-                <div class="image-container">
-                    <img src="images/deepsea1.jpeg" id="home-img" class="main-img inactive" alt="Home">
-                    <img src="images/deepsea2.jpeg" id="about-img" class="inactive" alt="About">
-                    <img src="images/deepsea3.jpeg" id="services-img"  class="inactive" alt="Services">
-                    <img src="images/deepsea4.jpeg" id="deepsea-img" class="inactive" alt="Application">
-                    <img src="images/deepsea5.jpeg" id="contact-img" class="inactive" alt="Contact">
-                </div>
-            </div>
+		<div class="image-section">
+			<div class="image-container">
+				<img src="images/deepsea1.jpeg" id="home-img"
+					class="main-img inactive" alt="Home"> <img
+					src="images/deepsea2.jpeg" id="about-img" class="inactive"
+					alt="About"> <img src="images/deepsea3.jpeg"
+					id="services-img" class="inactive" alt="Services"> <img
+					src="images/deepsea4.jpeg" id="deepsea-img" class="inactive"
+					alt="Application"> <img src="images/deepsea5.jpeg"
+					id="contact-img" class="inactive" alt="Contact">
+			</div>
+		</div>
 
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-lg-offset-6 col-md-offset-6 templatemo-content-wrapper">
-                    <div class="templatemo-content">
-                        
-                        <section id="home-text" class="active templatemo-content-section">
-                            <div class="col-sm-12 col-md-12 col-lg-12">
-                                <h2>Welcome to Deepsea Insurance</h2>
-                                <p>This is a simple (at the moment) project to recreate an Open Source Insurance application based on Vertx and Openshift. A long way to go yet :)</p>
+		<div class="row">
+			<div
+				class="col-lg-6 col-md-6 col-sm-12 col-xs-12 col-lg-offset-6 col-md-offset-6 templatemo-content-wrapper">
+				<div class="templatemo-content">
 
-								<p>And special thanks to Clement Escoffier and Eric Zhao for the initial tutorials that pointed me this way.</p>
+					<section id="home-text" class="active templatemo-content-section">
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<h2>Welcome to Deepsea Insurance</h2>
+							<p>This is a simple (at the moment) project to recreate an
+								Open Source Insurance application based on Vertx and Openshift.
+								A long way to go yet :)</p>
 
-								<p>Thanks, Andy</p>
-                            </div>
-                        </section><!-- /.home-text -->    
+							<p>And special thanks to Clement Escoffier and Eric Zhao for
+								the initial tutorials that pointed me this way.</p>
 
-                        <section id="about-text" class="inactive">
-                            <h2 class="text-center">About Deep Sea</h2>
-                            <div class="col-sm-6 col-md-6">
-                                <p>This project was created as an openshift learning project using kubernetes, java and vertx. This is currently an experimental project so many things do not work.</p>
-                            </div>
-                            <div class="col-sm-6 col-md-6">
-                                <p>Currently it is using Redis for Pub/sub, mongo for document writes, mysql for reviewable data (with redis cache now implementing), infinispan for clustering. Also need to write tests for everything.</p>
-                            </div>
-                        </section><!-- /.about-text --> 
+							<p>Thanks, Andy</p>
+						</div>
+					</section>
+					<!-- /.home-text -->
 
-                        <section id="services-text" class="inactive">
-                            <h2 class="text-center">Our Services</h2>
-                            <div class="col-sm-4 col-md-4">
-                                <h3>Architecture</h3>
-                                <p>Fusce at accumsan elit. Sed ut urna pulvinar, ultricies orci eu, pretium lectus. Integer vulputate lorem ac nisi eleifend, at egestas mauris eleifend.</p>
-                            </div>
-                            <div class="col-sm-4 col-md-4">
-                                <h3>Development</h3>
-                                <p>Vivamus aliquam lectus non tortor pellentesque, sit amet ultricies ex rutrum. Nunc ut neque sem. Proin fermentum libero ac vestibulum sollicitudin.</p>
-                            </div>
-                            <div class="col-sm-4 col-md-4">
-                                <h3>Troubleshooting</h3>
-                                <p>In tellus ipsum, ullamcorper vitae justo sit amet, mattis consequat tortor. Suspendisse risus urna, posuere id orci ut, facilisis accumsan ipsum.</p>
-                            </div>
-                        </section><!-- /.services-text --> 
+					<section id="about-text" class="inactive">
+						<h2 class="text-center">About Deep Sea</h2>
+						<div class="col-sm-6 col-md-6">
+							<p>This project was created as an openshift learning project
+								using kubernetes, java and vertx. This is currently an
+								experimental project so many things do not work.</p>
+						</div>
+						<div class="col-sm-6 col-md-6">
+							<p>Currently it is using Redis for Pub/sub, mongo for
+								document writes, mysql for reviewable data (with redis cache now
+								implementing), infinispan for clustering. Also need to write
+								tests for everything.</p>
+						</div>
+					</section>
+					<!-- /.about-text -->
 
-                        <section id="deepsea-text" class="inactive">
-                        <!-- This is the actual application holder -->
-                            <div ng-view class="col-sm-12 col-md-12 col-lg-12">
-                                
-                            </div>
-                        </section><!-- /.testimonial-text --> 
+					<section id="services-text" class="inactive">
+						<h2 class="text-center">Our Services</h2>
+						<div class="col-sm-4 col-md-4">
+							<h3>Architecture</h3>
+							<p>Fusce at accumsan elit. Sed ut urna pulvinar, ultricies
+								orci eu, pretium lectus. Integer vulputate lorem ac nisi
+								eleifend, at egestas mauris eleifend.</p>
+						</div>
+						<div class="col-sm-4 col-md-4">
+							<h3>Development</h3>
+							<p>Vivamus aliquam lectus non tortor pellentesque, sit amet
+								ultricies ex rutrum. Nunc ut neque sem. Proin fermentum libero
+								ac vestibulum sollicitudin.</p>
+						</div>
+						<div class="col-sm-4 col-md-4">
+							<h3>Troubleshooting</h3>
+							<p>In tellus ipsum, ullamcorper vitae justo sit amet, mattis
+								consequat tortor. Suspendisse risus urna, posuere id orci ut,
+								facilisis accumsan ipsum.</p>
+						</div>
+					</section>
+					<!-- /.services-text -->
 
-                        <section id="contact-text" class="inactive">
-                            <div class="col-sm-12 col-md-12">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-12"><h2>Contact</h2></div>
-                                    <div class="clearfix"></div>
-                                </div>
-                                
-                                <div class="row">
+					<section id="deepsea-text" class="inactive">
+						<!-- This is the actual application holder -->
+						<div ng-view class="col-sm-12 col-md-12 col-lg-12"></div>
+					</section>
+					<!-- /.deepsea-text -->
 
-                                    <div class="col-sm-12 col-md-12">
-                                        <form action="#" method="post">
+					<section id="contact-text" class="inactive">
+						<div class="col-sm-12 col-md-12">
+							<div class="row">
+								<div class="col-sm-12 col-md-12">
+									<h2>Contact</h2>
+								</div>
+								<div class="clearfix"></div>
+							</div>
 
-                                                <div class="form-group">
-                                                    <!--<label for="contact_name">Name:</label>-->
-                                                    <input type="text" id="contact_name" class="form-control" placeholder="Name" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <!--<label for="contact_email">Email:</label>-->
-                                                    <input type="text" id="contact_email" class="form-control" placeholder="Email Address" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <!--<label for="contact_message">Message:</label>-->
-                                                    <textarea id="contact_message" class="form-control" rows="7" placeholder="Write a message"></textarea>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Send</button>
+							<div class="row">
 
-                                        </form>
-                                    </div>
-                                    
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
-                        </section><!-- /.contact-text --> 
-                    </div><!-- /.templatemo-content -->  
-                </div><!-- /.templatemo-content-wrapper --> 
-            </div><!-- /.row --> 
+								<div class="col-sm-12 col-md-12">
+									<form action="#" method="post">
 
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 footer">
-                    <p class="footer-text">
-                    	<span>2018 Eldarrin Deep Sea Project - Open Source Licensed</span>
-                	</p>
-                </div><!-- /.footer --> 
-            </div>
+										<div class="form-group">
+											<!--<label for="contact_name">Name:</label>-->
+											<input type="text" id="contact_name" class="form-control"
+												placeholder="Name" />
+										</div>
+										<div class="form-group">
+											<!--<label for="contact_email">Email:</label>-->
+											<input type="text" id="contact_email" class="form-control"
+												placeholder="Email Address" />
+										</div>
+										<div class="form-group">
+											<!--<label for="contact_message">Message:</label>-->
+											<textarea id="contact_message" class="form-control" rows="7"
+												placeholder="Write a message"></textarea>
+										</div>
+										<button type="submit" class="btn btn-primary">Send</button>
 
-	</div><!-- /#main-wrapper -->
-        
-        <div id="preloader">
-            <div id="status">&nbsp;</div>
-        </div><!-- /#preloader -->
-        
-        <script src="js/jquery.min.js"></script>
-        <script src="js/jquery.backstretch.min.js"></script>
-        <script src="js/templatemo_script.js"></script>
-        <!-- templatemo 398 nature -->
-    </body>
+									</form>
+								</div>
+
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</section>
+					<!-- /.contact-text -->
+				</div>
+				<!-- /.templatemo-content -->
+			</div>
+			<!-- /.templatemo-content-wrapper -->
+		</div>
+		<!-- /.row -->
+
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 footer">
+				<p class="footer-text">
+					<span>2018 Eldarrin Deep Sea Project - Open Source Licensed</span>
+				</p>
+			</div>
+			<!-- /.footer -->
+		</div>
+
+	</div>
+	<!-- /#main-wrapper -->
+
+	<div id="preloader">
+		<div id="status">&nbsp;</div>
+	</div>
+	<!-- /#preloader -->
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery.backstretch.min.js"></script>
+	<script src="js/templatemo_script.js"></script>
+	<!-- templatemo 398 nature -->
+</body>
 </html>

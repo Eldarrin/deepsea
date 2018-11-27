@@ -48,12 +48,6 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
         		
         		log.info(myMongoConfig);
         		
-        		JsonObject mySqlConfig = new JsonObject().put("host", System.getenv("DB_HOST"))
-						.put("port", Integer.parseInt(System.getenv("DB_PORT")))
-						.put("username", System.getenv("DB_USERNAME"))
-						.put("password", System.getenv("DB_PASSWORD"))
-						.put("database", res.result().getString("mysql.database"));
-        		
         		RedisHelper.getRedisOptions(vertx).setHandler(redisRes -> {
 
         		clientService = new MongoClientServiceImpl(vertx, myMongoConfig, redisRes.result());

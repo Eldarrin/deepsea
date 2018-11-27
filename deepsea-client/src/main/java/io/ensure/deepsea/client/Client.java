@@ -33,6 +33,9 @@ public class Client {
 	
 	public Client(JsonObject json) {
 		ClientConverter.fromJson(json, this);
+		if (json.containsKey("_id") && !json.containsKey("clientId")) {
+			this.clientId = json.getString("_id");
+		}
 	}
 
 	public JsonObject toJson() {
