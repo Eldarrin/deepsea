@@ -129,6 +129,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	}
 
 	private void addBordereauLineFromEnrolment(JsonObject enrolment) {
+		log.info(enrolment.encodePrettily());
 		BordereauLine bl = new BordereauLine();
 		bl.setSource(ENROLMENT_CHANNEL);
 		bl.setSourceId(enrolment.getString("enrolmentId"));

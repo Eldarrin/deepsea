@@ -33,6 +33,7 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 	public void start(Future<Void> future) throws Exception {
 		super.start();
 		final Router router = Router.router(vertx);
+		addHealthHandler(router, future);
 		router.route().handler(BodyHandler.create());
 		router.post(API_ADD).handler(this::apiAdd);
 		

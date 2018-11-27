@@ -63,7 +63,28 @@ var ClientService = function(j_val) {
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
       j_clientService["addClient(io.ensure.deepsea.client.Client,io.vertx.core.Handler)"](client != null ? new Client(new JsonObject(Java.asJSONCompatible(client))) : null, function(ar) {
       if (ar.succeeded()) {
-        resultHandler(null, null);
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
+      return that;
+    } else throw new TypeError('function invoked with invalid arguments');
+  };
+
+  /**
+
+   @public
+   @param id {string} 
+   @param resultHandler {function} 
+   @return {ClientService}
+   */
+  this.retrieveClient = function(id, resultHandler) {
+    var __args = arguments;
+    if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
+      j_clientService["retrieveClient(java.lang.String,io.vertx.core.Handler)"](id, function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
       } else {
         resultHandler(null, ar.cause());
       }

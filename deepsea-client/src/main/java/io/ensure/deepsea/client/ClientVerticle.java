@@ -1,9 +1,10 @@
 package io.ensure.deepsea.client;
 
 import io.ensure.deepsea.client.api.RestClientAPIVerticle;
-import io.ensure.deepsea.client.impl.MySqlClientServiceImpl;
+import io.ensure.deepsea.client.impl.MongoClientServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
+import io.ensure.deepsea.common.helper.RedisHelper;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
@@ -38,13 +39,24 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
         retriever.getConfig(res -> {
         	if (res.succeeded()) {
         		// create the service instance
+        		JsonObject myMongoConfig = new JsonObject()
+        				.put("host", res.result().getString("mongo.host"))
+        				.put("port", res.result().getInteger("mongo.port"))
+        				.put("username", res.result().getString("mongo.username"))
+        				.put("password", res.result().getString("mongo.password"))
+        				.put("db_name", res.result().getString("mongo.database"));
+        		
+        		log.info(myMongoConfig);
+        		
         		JsonObject mySqlConfig = new JsonObject().put("host", System.getenv("DB_HOST"))
 						.put("port", Integer.parseInt(System.getenv("DB_PORT")))
 						.put("username", System.getenv("DB_USERNAME"))
 						.put("password", System.getenv("DB_PASSWORD"))
 						.put("database", res.result().getString("mysql.database"));
+        		
+        		RedisHelper.getRedisOptions(vertx).setHandler(redisRes -> {
 
-        		clientService = new MySqlClientServiceImpl(vertx, mySqlConfig);
+        		clientService = new MongoClientServiceImpl(vertx, myMongoConfig, redisRes.result());
         		// Register the handler
         		new ServiceBinder(vertx)
         				.setAddress(SERVICE_ADDRESS)
@@ -56,6 +68,9 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, ClientService.class)
         				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
         		vertx.eventBus().publish("client", new JsonObject().put("started", "true"));
+        		
+        		});
+        		
         	} else {
         		log.error("Unable to find config map for deepsea-client MySQL");
         	}

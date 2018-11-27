@@ -2,6 +2,7 @@ package io.ensure.deepsea.common.service;
 
 import java.util.Optional;
 
+import io.ensure.deepsea.common.helper.RedisHelper;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
@@ -28,14 +29,8 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 		this.executeReturnKey(params, sql).setHandler(res -> {
 			if (res.succeeded()) {
 				String keyName = typeName + "Id";
-				jsonObject.put(keyName, typeName + "-" + res.result().get());
-				redis.publish(typeName, jsonObject.toString(), ar -> {
-	    			if (ar.succeeded()) {
-	    				future.complete(Optional.of(jsonObject));
-	    			} else {
-	    				future.fail(ar.cause());
-	    			}
-	    		});
+				RedisHelper.publishRedis(redis, keyName, typeName + "-" + res.result().get(), jsonObject)
+				.setHandler(future.completer());
 			} else {
 				future.fail(res.cause());
 			}

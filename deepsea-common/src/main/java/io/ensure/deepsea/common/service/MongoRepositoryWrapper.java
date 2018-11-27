@@ -1,6 +1,7 @@
 package io.ensure.deepsea.common.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -28,4 +29,19 @@ public class MongoRepositoryWrapper {
 		return future;
 	}
 	
+	protected Future<Optional<JsonObject>> retrieveDocument(String collection, String id) {
+		Future<Optional<JsonObject>> future = Future.future();
+		client.findOne(collection, new JsonObject().put("_id", id), null, res -> {
+			if (res.succeeded()) {
+				if (res.result() != null) {
+					future.complete(Optional.of(res.result()));
+				} else {
+					future.complete(Optional.empty());
+				}
+			} else {
+				future.fail(res.cause());
+			}
+		});
+		return future;
+	}
 }

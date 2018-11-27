@@ -46,6 +46,14 @@ export class ClientService {
       return this;
   }
 
+  retrieveClient(id: string, resultHandler: (err: any, result: any) => any) : ClientService {
+    if (closed) {
+      throw new Error('Proxy is closed');
+    }
+    this.eb.send(this.address, {"id": id}, {"action":"retrieveClient"}, function(err, result) { resultHandler(err, result &&result.body); });
+      return this;
+  }
+
   retrieveClients(resultHandler: (err: any, result: any) => any) : ClientService {
     if (closed) {
       throw new Error('Proxy is closed');

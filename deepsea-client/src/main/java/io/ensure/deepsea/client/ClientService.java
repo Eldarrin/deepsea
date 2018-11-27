@@ -23,8 +23,11 @@ public interface ClientService {
 	ClientService initializePersistence(Handler<AsyncResult<Void>> resultHandler);
 
 	@Fluent
-	ClientService addClient(Client client, Handler<AsyncResult<Void>> resultHandler);
+	ClientService addClient(Client client, Handler<AsyncResult<Client>> resultHandler);
 
+	@Fluent
+	ClientService retrieveClient(String id, Handler<AsyncResult<Client>> resultHandler);
+	
 	@Fluent
 	ClientService retrieveClients(Handler<AsyncResult<List<Client>>> resultHandler);
 	
