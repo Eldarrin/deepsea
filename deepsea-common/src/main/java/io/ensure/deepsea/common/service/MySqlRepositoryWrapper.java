@@ -13,8 +13,6 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.sql.SQLClient;
 import io.vertx.ext.sql.SQLConnection;
 import io.vertx.ext.asyncsql.MySQLClient;
@@ -26,8 +24,6 @@ import io.vertx.ext.asyncsql.MySQLClient;
  */
 public class MySqlRepositoryWrapper {
 	
-	private Logger log = LoggerFactory.getLogger(getClass());
-
 	protected final SQLClient client;
 
 	public MySqlRepositoryWrapper(Vertx vertx, JsonObject config) {
@@ -86,7 +82,6 @@ public class MySqlRepositoryWrapper {
 
 	protected <K> Future<Optional<JsonObject>> retrieveOne(K param, String sql) {
 		return getConnection().compose(connection -> {
-			log.info("in retrieve one: " + param);
 			Future<Optional<JsonObject>> future = Future.future();
 			connection.queryWithParams(sql, new JsonArray().add(param), r -> {
 				if (r.succeeded()) {
@@ -141,10 +136,6 @@ public class MySqlRepositoryWrapper {
 			Future<List<JsonObject>> future = Future.future();
 			connection.queryWithParams(sql, param, r -> {
 				if (r.succeeded()) {
-					log.info(r.result().getNumRows());
-					for (JsonObject j : r.result().getRows()) {
-						log.info(j.encodePrettily());
-					}
 					future.complete(r.result().getRows());
 				} else {
 					future.fail(r.cause());

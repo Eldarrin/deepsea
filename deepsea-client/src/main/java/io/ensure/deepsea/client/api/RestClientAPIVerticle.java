@@ -51,8 +51,6 @@ public class RestClientAPIVerticle extends RestAPIVerticle {
         		String serviceHost = res.result().getString("client.service.hostname", "deepsea-client.deepsea.svc");
         		String apiName = res.result().getString("client.api.name", "client");
         		
-        		log.info("Starting Deepsea Client on host:port " + host + ":" + port);
-        		
         		// create HTTP server and publish REST service
         		createHttpServer(router, host, port)
         				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, serviceHost, port, apiName))

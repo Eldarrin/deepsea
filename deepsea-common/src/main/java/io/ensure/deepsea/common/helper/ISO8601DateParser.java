@@ -1,7 +1,12 @@
 package io.ensure.deepsea.common.helper;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class ISO8601DateParser {
@@ -54,6 +59,15 @@ public class ISO8601DateParser {
 
 		return result;
 
+	}
+	
+	public static String toJsonString(Instant instant) {
+		DateTimeFormatter formatter =
+			    DateTimeFormatter.ofLocalizedDateTime( FormatStyle.SHORT )
+			                     .withLocale( Locale.getDefault() )
+			                     .withZone( ZoneId.systemDefault() );
+		String output = formatter.format( instant );
+		return output;
 	}
 
 }

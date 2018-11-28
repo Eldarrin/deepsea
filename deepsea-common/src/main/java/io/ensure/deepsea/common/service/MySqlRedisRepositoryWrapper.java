@@ -30,8 +30,6 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 			if (res.succeeded()) {
 				String keyName = typeName + "Id";
 				jsonObject.put(keyName, typeName + "-" + res.result().get().toString());
-				log.info(keyName);
-				log.info(jsonObject.encodePrettily());
 				RedisHelper.publishRedis(redis, typeName, jsonObject)
 				.setHandler(future.completer());
 			} else {
@@ -49,7 +47,6 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 				jsonObject.put(keyName, typeName + "-" + res.result().get());
 				redis.set(typeName + "-" + res.result().get(), jsonObject.toString(), redRes -> {
 					future.complete(Optional.of(jsonObject));
-					log.info("Redis Setting Cache");
 				});
 			} else {
 				future.fail(res.cause());
@@ -66,11 +63,9 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 				if (res.result() != null) {
 					future.complete(Optional.of(new JsonObject(res.result())));
 				} else {
-					log.info("running retrieve and add");
 					retrieveAndAdd(param, sql).setHandler(future);
 				}
 			} else {
-				log.error("Redis failing getting Cache");
 				future.fail(res.cause());
 			}
 		});

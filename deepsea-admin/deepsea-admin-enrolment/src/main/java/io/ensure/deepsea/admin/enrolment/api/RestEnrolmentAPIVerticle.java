@@ -41,10 +41,7 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 	
 	private void apiAdd(RoutingContext rc) {
 		try {
-			log.info("In API Add");
-			log.info(rc.getBodyAsString());
 			Enrolment enrolment = new Enrolment(new JsonObject(rc.getBodyAsString()));
-			log.info("In API JSON Coerce");
 			enrolmentService.addEnrolment(enrolment, res -> {
 				if (res.succeeded()) {
     				rc.response().setStatusCode(201).putHeader(CONTENT_TYPE, APPLICATION_JSON).end(res.result().toString());

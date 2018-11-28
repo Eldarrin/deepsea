@@ -11,15 +11,11 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.redis.RedisOptions;
 
 public class MySqlProductServiceImpl extends MySqlRedisRepositoryWrapper implements ProductService {
 	
 	private static final String PRODUCT = "product";
-
-	private Logger log = LoggerFactory.getLogger(getClass());
 
 	private static final int PAGE_LIMIT = 10;
 
@@ -30,15 +26,12 @@ public class MySqlProductServiceImpl extends MySqlRedisRepositoryWrapper impleme
 
 	@Override
 	public ProductService initializePersistence(Handler<AsyncResult<Void>> resultHandler) {
-		log.info(CREATE_STATEMENT);
-		
 		client.getConnection(connHandler(resultHandler, connection -> 
 			connection.execute(CREATE_STATEMENT, r -> {
 				resultHandler.handle(r);
 				connection.close();
 			})
 		));
-		log.info("Product Persistence Initialised");
 		return this;
 	}
 

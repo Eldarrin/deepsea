@@ -8,13 +8,9 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.mongo.MongoClient;
 
 public class MongoRepositoryWrapper {
-	
-	private Logger log = LoggerFactory.getLogger(getClass());
 
 	protected final MongoClient client;
 
@@ -31,10 +27,6 @@ public class MongoRepositoryWrapper {
 		//client.find(collection, query, future.completer());
 		client.find(collection, query, res -> {
 			if (res.succeeded()) {
-				List<JsonObject> clients = res.result();
-				for (JsonObject j : clients) {
-					log.info(j.encodePrettily());
-				}
 				future.complete(res.result());
 			} else {
 				future.fail(res.cause());

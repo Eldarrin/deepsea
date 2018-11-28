@@ -55,7 +55,7 @@ public class RedisPubSub {
 						redis.publish(channel, new JsonObject().put("started", "true").encodePrettily(),
 								ar -> {
 									future.complete();
-									log.info("Redis startup successful");
+									log.info("Redis PubSub startup successful");
 								});
 					} else {
 						future.fail(redisResult.cause());

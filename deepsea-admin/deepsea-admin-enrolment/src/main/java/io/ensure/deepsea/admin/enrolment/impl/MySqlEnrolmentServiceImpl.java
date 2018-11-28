@@ -61,10 +61,7 @@ public class MySqlEnrolmentServiceImpl extends MySqlRedisRepositoryWrapper imple
 	public EnrolmentService replayEnrolments(String lastDate,
 			Handler<AsyncResult<List<Enrolment>>> resultHandler) {
 		try {
-			log.info(lastDate);
 			JsonArray params = new JsonArray().add(ISO8601DateParser.parse(lastDate).toInstant());
-			log.info(params);
-			log.info(REPLAY_STATEMENT);
 			this.retrieveMany(params, REPLAY_STATEMENT)
 					.map(rawList -> rawList.stream().map(Enrolment::new).collect(Collectors.toList()))
 					.setHandler(resultHandler);

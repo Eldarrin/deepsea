@@ -9,6 +9,7 @@ import io.ensure.deepsea.actuarial.bordereau.api.RestBordereauAPIVerticle;
 import io.ensure.deepsea.actuarial.bordereau.impl.MySqlBordereauServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
+import io.ensure.deepsea.common.helper.ISO8601DateParser;
 import io.ensure.deepsea.common.helper.RedisHelper;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
@@ -55,15 +56,16 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 				publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, BordereauService.class)
 						.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
 
+				RedisHelper.getRedisOptions(vertx).setHandler(ar -> {
+					setupConsumers(ar.result());
+				});
 			} else {
 				log.error("Unable to find config map for deepsea-underwriting-actuarial MySQL");
 			}
 
 		});
 		
-		RedisHelper.getRedisOptions(vertx).setHandler(res -> {
-			setupConsumers(res.result());
-		});
+		
 
 	}
 
@@ -106,16 +108,15 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	}
 
 	private void requestMissed() {
-		bordereauService.requestLastRecordBySource(ENROLMENT_CHANNEL, res -> {
-			log.info(res.result().toString());
-			
-			vertx.eventBus().send(ENROLMENT_CHANNEL + ".replay", 
-					new JsonObject().put("dateCreated", res.result().getDateSourceCreated().plusMillis(2)));
-		});
-				
+		bordereauService.requestLastRecordBySource(ENROLMENT_CHANNEL, res -> vertx.eventBus()
+				.send(ENROLMENT_CHANNEL + ".replay", 
+					new JsonObject().put("dateCreated", 
+							ISO8601DateParser.toJsonString(res.result().getDateSourceCreated()))));
+		
 		bordereauService.requestLastRecordBySource(MTA_CHANNEL, res -> vertx.eventBus()
 				.send(MTA_CHANNEL + ".replay", 
-						new JsonObject().put("dateCreated", res.result().getDateSourceCreated())));
+						new JsonObject().put("dateCreated", 
+								ISO8601DateParser.toJsonString(res.result().getDateSourceCreated()))));
 	}
 
 	private void addBordereauLineFromMTA(JsonObject mta) {
@@ -135,7 +136,6 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	}
 
 	private void addBordereauLineFromEnrolment(JsonObject enrolment) {
-		log.info(enrolment.encodePrettily());
 		BordereauLine bl = new BordereauLine();
 		bl.setSource(ENROLMENT_CHANNEL);
 		bl.setSourceId(enrolment.getString("enrolmentId"));

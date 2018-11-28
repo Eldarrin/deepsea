@@ -46,8 +46,6 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 						.put("password", System.getenv("DB_PASSWORD"))
 						.put("db_name", res.result().getString("database.name"));
         		
-        		log.info(myMongoConfig);
-        		
         		RedisHelper.getRedisOptions(vertx).setHandler(redisRes -> {
 
         		clientService = new MongoClientServiceImpl(vertx, myMongoConfig, redisRes.result());

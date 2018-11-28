@@ -7,15 +7,11 @@ import io.vertx.core.Future;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 
 public class RestBordereauAPIVerticle extends RestAPIVerticle {
-	
-	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	public static final String SERVICE_NAME = "bordereau-rest-api";
 	
@@ -49,8 +45,6 @@ public class RestBordereauAPIVerticle extends RestAPIVerticle {
 		String host = config().getString("bordereau.http.address", "0.0.0.0");
 		int port = config().getInteger("bordereau.http.port", 8080);
 		
-		log.info("Starting Deepsea Bordereau on host:port " + host + ":" + port);
-
 		// create HTTP server and publish REST service
 		createHttpServer(router, host, port)
 				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, "deepsea-underwriting-actuarial.deepsea.svc", port, "bordereau"))

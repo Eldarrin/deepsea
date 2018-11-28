@@ -56,8 +56,7 @@ public class ProductVerticle extends BaseMicroserviceVerticle {
 						// publish the service and REST endpoint in the discovery infrastructure
 						publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, ProductService.class)
 								.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
-				
-						log.info("Product Verticle Started");
+
 					} else {
 						log.error("Redis Config not found");
 						future.fail(redisRes.cause());

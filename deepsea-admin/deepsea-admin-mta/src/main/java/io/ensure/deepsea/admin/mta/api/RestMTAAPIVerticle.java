@@ -44,7 +44,6 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 	private void apiAdd(RoutingContext rc) {
 		try {
 			MidTermAdjustment mta = new MidTermAdjustment(new JsonObject(rc.getBodyAsString()));
-			log.info(rc.getBodyAsString());
 
 			mtaService.addMTA(mta, res -> {
 				if (res.succeeded()) {
