@@ -2,8 +2,6 @@ package io.ensure.deepsea.common.helper;
 
 import java.util.Optional;
 
-import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
-import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
