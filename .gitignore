@@ -1,1 +1,10 @@
 target/
+deepsea-admin/target/
+deepsea-admin/deepsea-admin-enrolment/target/
+deepsea-admin/deepsea-admin-mta/target/
+deepsea-client/target/
+deepsea-common/target/
+deepsea-product/target/
+deepsea-ui/target/
+deepsea-underwriting/target/
+deepsea-underwriting/deepsea-underwriting-actuarial/target/
