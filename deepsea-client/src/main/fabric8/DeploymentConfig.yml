@@ -23,23 +23,38 @@ spec:
             - name: DB_USERNAME
               valueFrom:
                  secretKeyRef:
-                   name: mysql-database-config
+                   name: mongo-database-config
                    key: user
             - name: DB_PASSWORD
               valueFrom:
                  secretKeyRef:
-                   name: mysql-database-config
+                   name: mongo-database-config
                    key: password
             - name: DB_HOST
               valueFrom:
                  secretKeyRef:
-                   name: mysql-database-config
+                   name: mongo-database-config
                    key: host
             - name: DB_PORT
               valueFrom:
                  secretKeyRef:
-                   name: mysql-database-config
-                   key: port              
+                   name: mongo-database-config
+                   key: port             
+            - name: REDIS_HOST
+              valueFrom:
+                 secretKeyRef:
+                   name: redis-database-config
+                   key: host
+            - name: REDIS_PORT
+              valueFrom:
+                 secretKeyRef:
+                   name: redis-database-config
+                   key: port
+            - name: REDIS_AUTH
+              valueFrom:
+                 secretKeyRef:
+                   name: redis-database-config
+                   key: auth 
     replicas: 2
     minReplicas: 1 
     maxReplicas: 10 

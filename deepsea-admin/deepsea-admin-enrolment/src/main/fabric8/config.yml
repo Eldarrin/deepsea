@@ -4,11 +4,7 @@ metadata:
   name: ${project.artifactId}
   namespace: deepsea
 data:
-  mysql.username: user2BX
-  mysql.password: oYJosEPd3C2YHjwa
-  mysql.host: mysql
-  mysql.port: 3306
-  mysql.database: sampledb
+  database.name: sampledb
   enrolment.http.address: 0.0.0.0
   enrolment.http.port: 8080
   enrolment.service: deepsea-admin-enrolment.deepsea.svc

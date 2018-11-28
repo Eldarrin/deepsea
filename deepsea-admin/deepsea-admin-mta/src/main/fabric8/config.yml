@@ -4,11 +4,7 @@ metadata:
   name: ${project.artifactId}
   namespace: deepsea
 data:
-  mongo.username: userND8
-  mongo.password: kte876p60f6Y4LsM
-  mongo.host: mongodb
-  mongo.port: 27017
-  mongo.database: sampledb
+  database.name: sampledb
   mta.http.address: 0.0.0.0
   mta.http.port: 8080
   mta.service: deepsea-admin-mta.deepsea.svc

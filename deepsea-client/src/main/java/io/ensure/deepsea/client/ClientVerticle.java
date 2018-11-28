@@ -40,11 +40,11 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
         	if (res.succeeded()) {
         		// create the service instance
         		JsonObject myMongoConfig = new JsonObject()
-        				.put("host", res.result().getString("mongo.host"))
-        				.put("port", res.result().getInteger("mongo.port"))
-        				.put("username", res.result().getString("mongo.username"))
-        				.put("password", res.result().getString("mongo.password"))
-        				.put("db_name", res.result().getString("mongo.database"));
+        				.put("host", System.getenv("DB_HOST"))
+						.put("port", Integer.parseInt(System.getenv("DB_PORT")))
+						.put("username", System.getenv("DB_USERNAME"))
+						.put("password", System.getenv("DB_PASSWORD"))
+						.put("db_name", res.result().getString("database.name"));
         		
         		log.info(myMongoConfig);
         		

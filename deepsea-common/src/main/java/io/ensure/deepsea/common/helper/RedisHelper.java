@@ -22,20 +22,15 @@ public class RedisHelper {
 
 	public static Future<RedisOptions> getRedisOptions(Vertx vertx) {
 		Future<RedisOptions> future = Future.future();
-		ConfigRetriever redisRetriever = ConfigRetriever.create(vertx,
-				new ConfigRetrieverHelper().getOptions("deepsea", "deepsea-redis"));
-
-		redisRetriever.getConfig(res -> {
-			if (res.succeeded()) {
-				RedisOptions redisConfig = new RedisOptions()
-						.setHost(res.result().getString("redis.host"))
-						.setPort(res.result().getInteger("redis.port"))
-						.setAuth(res.result().getString("redis.auth"));
-				future.complete(redisConfig);
-			} else {
-				future.fail(res.cause());
-			}
-		});
+		try {
+			RedisOptions redisConfig = new RedisOptions()
+					.setHost(System.getenv("REDIS_HOST"))
+					.setPort(Integer.parseInt(System.getenv("REDIS_PORT")))
+					.setAuth(System.getenv("REDIS_AUTH"));
+			future.complete(redisConfig);
+		} catch (Exception e) {
+			future.fail(e);
+		}
 		return future;
 	}
 	

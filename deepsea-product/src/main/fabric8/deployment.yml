@@ -33,3 +33,18 @@ spec:
                  secretKeyRef:
                    name: mysql-database-config
                    key: port
+            - name: REDIS_HOST
+              valueFrom:
+                 secretKeyRef:
+                   name: redis-database-config
+                   key: host
+            - name: REDIS_PORT
+              valueFrom:
+                 secretKeyRef:
+                   name: redis-database-config
+                   key: port
+            - name: REDIS_AUTH
+              valueFrom:
+                 secretKeyRef:
+                   name: redis-database-config
+                   key: auth
