@@ -4,14 +4,14 @@ minishift start --cpus 4 --disk-size 50GB --memory 8GB
 minishift addon apply admin-user
 minishift addon install prometheus
 minishift addon apply prometheus --addon-env namespace=kube-system
-oc login -u developer -p developer
+oc login https://192.168.99.100:8443 -u developer -p developer
 oc delete project myproject
 oc new-project deepsea --display-name="Deep Sea" --description="Deepsea Insurance Platform"
 oc policy add-role-to-user view admin -n deepsea
 oc policy add-role-to-user view -n deepsea -z default
 oc policy add-role-to-group view system:serviceaccounts -n deepsea
 oc policy add-role-to-group admin system:serviceaccounts -n deepsea
-oc new-app src/main/fabric8/redis-ephemeral-template.json -v REDIS_PASSWORD=80obCfE4UGjBgKIc
+oc new-app src/main/fabric8/redis-ephemeral-template.json REDIS_PASSWORD=80obCfE4UGjBgKIc
 oc create -f src/main/fabric8/mongo-secret.yaml
 oc create -f src/main/fabric8/mysql-secret.yaml
 oc create -f src/main/fabric8/redis-secret.yaml
