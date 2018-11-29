@@ -25,7 +25,11 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		if (jsonObject.containsKey(keyName)) {
 			String id = jsonObject.getString(keyName);
 			jsonObject.remove(keyName);
-			jsonObject.put("_id", id.substring(typeName.length()));
+			if (id.startsWith(keyName)) {
+				jsonObject.put("_id", id.substring(typeName.length()));
+			} else {
+				jsonObject.put("_id", id);
+			}
 		}
 		this.upsertSingle(jsonObject, collection, res -> {
 			if (res.succeeded()) {
@@ -47,7 +51,11 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		if (jsonObject.containsKey(keyName)) {
 			String id = jsonObject.getString(keyName);
 			jsonObject.remove(keyName);
-			jsonObject.put("_id", id.substring(typeName.length()));
+			if (id.startsWith(keyName)) {
+				jsonObject.put("_id", id.substring(typeName.length()));
+			} else {
+				jsonObject.put("_id", id);
+			}
 		}
 		this.upsertSingle(jsonObject, collection, res -> {
 			if (res.succeeded()) {
