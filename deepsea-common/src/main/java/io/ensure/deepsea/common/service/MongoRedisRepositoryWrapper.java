@@ -18,6 +18,34 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		super(vertx, config);
 		this.redis = RedisClient.create(vertx, rOptions);
 	}
+	
+	protected Future<Optional<JsonObject>> upsertWithCache(JsonObject jsonObject, String collection) {
+		Future<Optional<JsonObject>> future = Future.future();
+		String keyName = typeName + "Id";
+		if (jsonObject.containsKey(keyName)) {
+			String id = jsonObject.getString(keyName);
+			jsonObject.remove(keyName);
+			jsonObject.put("_id", id.substring(typeName.length()));
+		}
+		this.upsertSingle(jsonObject, collection, res -> {
+			if (res.succeeded()) {
+				jsonObject.remove("_id");
+				jsonObject.put(keyName, typeName + "-" + res.result());
+				redis.set(typeName + "-" + res.result(), jsonObject.toString(), resRedis -> {
+					if (resRedis.succeeded()) {
+						future.complete(Optional.of(jsonObject));
+					} else {
+						future.fail(resRedis.cause());
+					}
+				});
+			} else {
+				future.fail(res.cause());
+			}
+		});
+		return future;
+
+	}
+
 
 	protected Future<Optional<JsonObject>> upsertWithPublish(JsonObject jsonObject, String collection) {
 		Future<Optional<JsonObject>> future = Future.future();
@@ -25,12 +53,12 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		if (jsonObject.containsKey(keyName)) {
 			String id = jsonObject.getString(keyName);
 			jsonObject.remove(keyName);
-			jsonObject.put("_id", id);
+			jsonObject.put("_id", id.substring(typeName.length()));
 		}
 		this.upsertSingle(jsonObject, collection, res -> {
 			if (res.succeeded()) {
 				jsonObject.remove("_id");
-				jsonObject.put(keyName, res.result());
+				jsonObject.put(keyName, typeName + "-" + res.result());
 				RedisHelper.publishRedis(redis, typeName, jsonObject)
 						.setHandler(future.completer());
 			} else {
