@@ -45,12 +45,10 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 			if (res.succeeded()) {
 				String keyName = typeName + "Id";
 				jsonObject.put(keyName, typeName + "-" + res.result().get());
-				redis.set(typeName + "-" + res.result().get(), jsonObject.toString(), redRes -> {
-					future.complete(Optional.of(jsonObject));
-				});
+				RedisHelper.setCache(redis, typeName + "Id", jsonObject).setHandler(future.completer());
 			} else {
 				future.fail(res.cause());
-				log.error("Redis Failing Setting Cache");
+				log.error("SQL Failing Accessing Data");
 			}
 		});
 		return future;
@@ -83,15 +81,7 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 					key = typeName + "-" + key;
 					json.remove(typeName + "Id");
 					json.put(typeName + "Id", key);
-					redis.set(key, 
-							json.toString(), resRedis -> {
-								if (resRedis.succeeded()) {
-									future.complete(Optional.of(json));
-								} else {
-									future.fail(resRedis.cause());
-								}
-					});
-					
+					RedisHelper.setCache(redis, typeName + "Id", json).setHandler(future.completer());
 				} else {
 					future.complete(Optional.empty());
 				}

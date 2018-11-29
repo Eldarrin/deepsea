@@ -45,4 +45,17 @@ public class RedisHelper {
 		return future;
 	
 	}
+	
+	public static Future<Optional<JsonObject>> setCache(RedisClient redis, String keyName, JsonObject jsonObject) {
+		Future<Optional<JsonObject>> future = Future.future();
+		redis.set(jsonObject.getString(keyName), jsonObject.toString(), resRedis -> {
+			if (resRedis.succeeded()) {
+				future.complete(Optional.of(jsonObject));
+			} else {
+				future.fail(resRedis.cause());
+			}
+		});
+		return future;
+	}
+	
 }

@@ -31,13 +31,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 			if (res.succeeded()) {
 				jsonObject.remove("_id");
 				jsonObject.put(keyName, typeName + "-" + res.result());
-				redis.set(typeName + "-" + res.result(), jsonObject.toString(), resRedis -> {
-					if (resRedis.succeeded()) {
-						future.complete(Optional.of(jsonObject));
-					} else {
-						future.fail(resRedis.cause());
-					}
-				});
+				RedisHelper.setCache(redis, keyName, jsonObject).setHandler(future.completer());
 			} else {
 				future.fail(res.cause());
 			}
@@ -96,14 +90,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 					key = typeName + "-" + key;
 					json.remove("_id");
 					json.put(typeName + "Id", key);
-					redis.set(key, json.toString(), resRedis -> {
-						if (resRedis.succeeded()) {
-							future.complete(Optional.of(json));
-						} else {
-							future.fail(resRedis.cause());
-						}
-					});
-
+					RedisHelper.setCache(redis, typeName + "Id", json).setHandler(future.completer());
 				} else {
 					future.complete(Optional.empty());
 				}
@@ -113,5 +100,22 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		});
 		return future;
 	}
-
+	
+	private JsonObject keyFix(JsonObject jsonObject) {
+		String keyName = typeName + "Id";
+		if (jsonObject.containsKey(keyName)) {
+			String key = jsonObject.getString(keyName);
+			key = key.substring(typeName.length());
+			jsonObject.remove(keyName);
+			jsonObject.put("_id", key);
+		}
+		if (jsonObject.containsKey("_id")) {
+			String key = jsonObject.getString("_id");
+			jsonObject.remove("_id");
+			jsonObject.put(keyName, typeName + "-" + key);
+		
+		}
+		return jsonObject;
+	}
+	
 }

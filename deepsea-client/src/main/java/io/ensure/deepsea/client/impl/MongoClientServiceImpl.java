@@ -27,7 +27,7 @@ public class MongoClientServiceImpl extends MongoRedisRepositoryWrapper implemen
 
 	@Override
 	public ClientService addClient(Client client, Handler<AsyncResult<Client>> resultHandler) {
-		this.upsertWithPublish(client.toJson(), "client")
+		this.upsertWithCache(client.toJson(), "client")
 			.map(option -> option.map(Client::new).orElse(null))
 			.setHandler(resultHandler);
 		return this;

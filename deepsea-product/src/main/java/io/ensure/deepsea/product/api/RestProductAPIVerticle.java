@@ -9,6 +9,7 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.BodyHandler;
 
 /**
  * This verticle exposes a HTTP endpoint to process shopping products management
@@ -43,6 +44,8 @@ public class RestProductAPIVerticle extends RestAPIVerticle {
 	public void start(Future<Void> future) throws Exception {
 		super.start();
 		final Router router = Router.router(vertx);
+		// body handler
+		router.route().handler(BodyHandler.create());
 		addHealthHandler(router, future);
 		router.post(API_ADD).handler(this::apiAdd);
 		router.get(API_RETRIEVE_BY_PAGE).handler(this::apiRetrieveByPage);
