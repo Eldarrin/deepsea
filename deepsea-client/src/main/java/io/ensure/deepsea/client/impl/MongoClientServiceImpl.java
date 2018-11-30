@@ -11,6 +11,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.redis.RedisOptions;
+import io.vertx.rxjava.core.Future;
 
 public class MongoClientServiceImpl extends MongoRedisRepositoryWrapper implements ClientService {
 
@@ -55,8 +56,8 @@ public class MongoClientServiceImpl extends MongoRedisRepositoryWrapper implemen
 
 	@Override
 	public ClientService removeClient(Client client, Handler<AsyncResult<Void>> resultHandler) {
-		
-		
+		Future<Void> future = Future.future();
+		this.removeWithCache(CLIENT_TYPE, client.getClientId()).setHandler(resultHandler);
 		return this;
 	}
 

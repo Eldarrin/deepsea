@@ -109,14 +109,14 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		return future;
 	}
 	
-	protected Future<Optional<JsonObject>> removeWithCache(String collection, String id) {
-		Future<Optional<JsonObject>> future = Future.future();
+	protected Future<Void> removeWithCache(String collection, String id) {
+		Future<Void> future = Future.future();
 		
 		this.removeDocument(collection, id.substring(collection.length())).setHandler(res -> {
 			if (res.succeeded()) {
 				redis.del(id, ar -> {
 					if (ar.succeeded()) {
-						future.complete(Optional.of(new JsonObject().put("deleted", id)));
+						future.complete();
 					} else {
 						future.fail(ar.cause());
 					}
