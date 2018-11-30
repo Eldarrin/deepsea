@@ -40,11 +40,12 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		retriever.getConfig(res -> {
 			if (res.succeeded()) {
 				// create the service instance
-        		JsonObject mySqlConfig = new JsonObject().put("host", System.getenv("DB_HOST"))
-						.put("port", Integer.parseInt(System.getenv("DB_PORT")))
+        		JsonObject mySqlConfig = new JsonObject()
+        				.put("host", res.result().getString("database.host"))
+						.put("port", res.result().getInteger("database.port"))
 						.put("username", System.getenv("DB_USERNAME"))
 						.put("password", System.getenv("DB_PASSWORD"))
-						.put("database", res.result().getString("database.name"));
+						.put("database", System.getenv("DB_NAME"));
 
 				bordereauService = new MySqlBordereauServiceImpl(vertx, mySqlConfig);
 				// Register the handler
@@ -56,7 +57,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 				publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, BordereauService.class)
 						.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
 
-				RedisHelper.getRedisOptions(vertx).setHandler(ar -> {
+				RedisHelper.getRedisOptions(vertx, "deepsea-underwriting-actuarial").setHandler(ar -> {
 					setupConsumers(ar.result());
 				});
 			} else {

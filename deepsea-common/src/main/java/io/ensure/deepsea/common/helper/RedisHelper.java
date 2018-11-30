@@ -2,6 +2,8 @@ package io.ensure.deepsea.common.helper;
 
 import java.util.Optional;
 
+import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
+import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -18,17 +20,21 @@ public class RedisHelper {
 	    throw new IllegalStateException("Redis Utility class");
 	  }
 
-	public static Future<RedisOptions> getRedisOptions(Vertx vertx) {
+	public static Future<RedisOptions> getRedisOptions(Vertx vertx, String configMap) {
 		Future<RedisOptions> future = Future.future();
-		try {
-			RedisOptions redisConfig = new RedisOptions()
-					.setHost(System.getenv("REDIS_HOST"))
-					.setPort(Integer.parseInt(System.getenv("REDIS_PORT")))
-					.setAuth(System.getenv("REDIS_AUTH"));
-			future.complete(redisConfig);
-		} catch (Exception e) {
-			future.fail(e);
-		}
+		ConfigRetriever retriever = ConfigRetriever.create(vertx,
+				new ConfigRetrieverHelper().getOptions("deepsea", configMap));
+		retriever.getConfig(res -> {
+			if (res.succeeded()) {
+				RedisOptions redisConfig = new RedisOptions()
+						.setHost(res.result().getString("redis.host"))
+						.setPort(res.result().getInteger("redis.port"))
+						.setAuth(System.getenv("REDIS_AUTH"));
+				future.complete(redisConfig);
+			} else {
+				future.fail(res.cause());
+			}
+		});
 		return future;
 	}
 	

@@ -39,13 +39,14 @@ public class ProductVerticle extends BaseMicroserviceVerticle {
 		        	if (res.succeeded()) {
 		
 				// create the service instance
-				JsonObject mySqlConfig = new JsonObject().put("host", System.getenv("DB_HOST"))
-						.put("port", Integer.parseInt(System.getenv("DB_PORT")))
-						.put("username", System.getenv("DB_USERNAME"))
-						.put("password", System.getenv("DB_PASSWORD"))
-						.put("database", res.result().getString("database.name"));
+		        		JsonObject mySqlConfig = new JsonObject()
+		        				.put("host", res.result().getString("database.host"))
+								.put("port", res.result().getInteger("database.port"))
+								.put("username", System.getenv("DB_USERNAME"))
+								.put("password", System.getenv("DB_PASSWORD"))
+								.put("database", System.getenv("DB_NAME"));
 				
-				RedisHelper.getRedisOptions(vertx).setHandler(redisRes -> {
+				RedisHelper.getRedisOptions(vertx, "deepsea-product").setHandler(redisRes -> {
 					if (redisRes.succeeded()) {
 						productService = new MySqlProductServiceImpl(vertx, mySqlConfig, redisRes.result());
 						// Register the handler

@@ -45,10 +45,10 @@ public class RedisPubSub {
 		return future;
 	}
 
-	public Future<Void> startRedisPubSub(String channel) {
+	public Future<Void> startRedisPubSub(String channel, String configMap) {
 		Future<Void> future = Future.future();
 		
-		RedisHelper.getRedisOptions(vertx).setHandler(res -> {
+		RedisHelper.getRedisOptions(vertx, configMap).setHandler(res -> {
 			if (res.succeeded()) {
 				startEBCluster(res.result()).setHandler(redisResult -> {
 					if (redisResult.succeeded()) {

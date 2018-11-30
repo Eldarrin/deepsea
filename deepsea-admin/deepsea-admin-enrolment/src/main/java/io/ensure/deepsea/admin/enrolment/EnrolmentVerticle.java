@@ -40,13 +40,14 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
         retriever.getConfig(res -> {
         	if (res.succeeded()) {
         		// create the service instance
-        		JsonObject mySqlConfig = new JsonObject().put("host", System.getenv("DB_HOST"))
-						.put("port", Integer.parseInt(System.getenv("DB_PORT")))
+        		JsonObject mySqlConfig = new JsonObject()
+        				.put("host", res.result().getString("database.host"))
+						.put("port", res.result().getInteger("database.port"))
 						.put("username", System.getenv("DB_USERNAME"))
 						.put("password", System.getenv("DB_PASSWORD"))
-						.put("database", res.result().getString("database.name"));
+						.put("database", System.getenv("DB_NAME"));
         		
-        		RedisHelper.getRedisOptions(vertx).setHandler(redisRes -> {
+        		RedisHelper.getRedisOptions(vertx, "deepsea-admin-enrolment").setHandler(redisRes -> {
         			enrolmentService = new MySqlEnrolmentServiceImpl(vertx, mySqlConfig, redisRes.result());
             		// Register the handler
             		new ServiceBinder(vertx)
@@ -59,7 +60,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
             		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, EnrolmentService.class)
             				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
             		redisPubSub = new RedisPubSub(vertx);
-            		redisPubSub.startRedisPubSub(ENROLMENT_CHANNEL).setHandler(ar -> {
+            		redisPubSub.startRedisPubSub(ENROLMENT_CHANNEL, "deepsea-admin-enrolment").setHandler(ar -> {
             			if (ar.succeeded()) {
             				setupReplayConsumer();
             			}

@@ -40,13 +40,13 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
         	if (res.succeeded()) {
         		// create the service instance
         		JsonObject myMongoConfig = new JsonObject()
-        				.put("host", System.getenv("DB_HOST"))
-						.put("port", Integer.parseInt(System.getenv("DB_PORT")))
+        				.put("host", res.result().getString("database.host"))
+						.put("port", res.result().getInteger("database.port"))
 						.put("username", System.getenv("DB_USERNAME"))
 						.put("password", System.getenv("DB_PASSWORD"))
-						.put("db_name", res.result().getString("database.name"));
+						.put("db_name", System.getenv("DB_NAME"));
         		
-        		RedisHelper.getRedisOptions(vertx).setHandler(redisRes -> {
+        		RedisHelper.getRedisOptions(vertx, "deepsea-client").setHandler(redisRes -> {
 
         		clientService = new MongoClientServiceImpl(vertx, myMongoConfig, redisRes.result());
         		// Register the handler
