@@ -8,6 +8,7 @@
 [frame="topbot"]
 |===
 ^|Name | Type ^| Description
+|[[ipt]]`ipt`|`Number (double)`|-
 |[[mtaEvent]]`mtaEvent`|`link:enums.html#MTAEvent[MTAEvent]`|-
 |[[mtaId]]`mtaId`|`String`|-
 |[[newCoverage]]`newCoverage`|`Number (double)`|-
@@ -17,5 +18,6 @@
 |[[oldProductId]]`oldProductId`|`String`|-
 |[[oldRiskId]]`oldRiskId`|`String`|-
 |[[policyId]]`policyId`|`String`|-
+|[[value]]`value`|`Number (double)`|-
 |===
 

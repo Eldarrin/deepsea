@@ -51,4 +51,18 @@ public class MongoRepositoryWrapper {
 		});
 		return future;
 	}
+	
+	protected Future<Optional<JsonObject>> removeDocument(String collection, String id) {
+		Future<Optional<JsonObject>> future = Future.future();
+		client.removeDocument(collection, new JsonObject().put("_ID", id), res -> {
+			if (res.succeeded()) {
+				future.complete(Optional.of(res.result().toJson().put("deleted", true)));
+			} else {
+				future.fail(res.cause());
+			}
+		});
+		
+		
+		return future;
+	}
 }

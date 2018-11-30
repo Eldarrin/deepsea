@@ -23,6 +23,7 @@ import io.vertx.serviceproxy.ServiceBinder;
 
 public class BordereauVerticle extends BaseMicroserviceVerticle {
 
+	private static final String REDIS_JSON_VALUE = "value";
 	private static final String REPLAY = ".replay";
 	private static final String DATE_CREATED = "dateCreated";
 	private static final String ENROLMENT_CHANNEL = "enrolment";
@@ -79,12 +80,12 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 	private void setupConsumers(RedisOptions redisOptions) {
 		vertx.eventBus().<JsonObject>consumer(REDIS_CHANNEL + MTA_CHANNEL, received -> {
-			String message = received.body().getJsonObject("value").getString("message");
+			String message = received.body().getJsonObject(REDIS_JSON_VALUE).getString("message");
 			log.trace(message);
 			addBordereauLineFromMTA(new JsonObject(message));
 		});
 		vertx.eventBus().<JsonObject>consumer(REDIS_CHANNEL + ENROLMENT_CHANNEL, received -> {
-			String message = received.body().getJsonObject("value").getString("message");
+			String message = received.body().getJsonObject(REDIS_JSON_VALUE).getString("message");
 			log.trace(message);
 			addBordereauLineFromEnrolment(new JsonObject(message));
 		});

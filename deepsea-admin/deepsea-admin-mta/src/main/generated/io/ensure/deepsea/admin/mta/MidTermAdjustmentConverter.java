@@ -27,6 +27,9 @@ import io.vertx.core.json.JsonArray;
 public class MidTermAdjustmentConverter {
 
   public static void fromJson(JsonObject json, MidTermAdjustment obj) {
+    if (json.getValue("ipt") instanceof Number) {
+      obj.setIpt(((Number)json.getValue("ipt")).doubleValue());
+    }
     if (json.getValue("mtaEvent") instanceof String) {
       obj.setMtaEvent(io.ensure.deepsea.admin.mta.MTAEvent.valueOf((String)json.getValue("mtaEvent")));
     }
@@ -54,9 +57,13 @@ public class MidTermAdjustmentConverter {
     if (json.getValue("policyId") instanceof String) {
       obj.setPolicyId((String)json.getValue("policyId"));
     }
+    if (json.getValue("value") instanceof Number) {
+      obj.setValue(((Number)json.getValue("value")).doubleValue());
+    }
   }
 
   public static void toJson(MidTermAdjustment obj, JsonObject json) {
+    json.put("ipt", obj.getIpt());
     if (obj.getMtaEvent() != null) {
       json.put("mtaEvent", obj.getMtaEvent().name());
     }
@@ -80,5 +87,6 @@ public class MidTermAdjustmentConverter {
     if (obj.getPolicyId() != null) {
       json.put("policyId", obj.getPolicyId());
     }
+    json.put("value", obj.getValue());
   }
 }

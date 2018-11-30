@@ -55,8 +55,9 @@ public class MongoClientServiceImpl extends MongoRedisRepositoryWrapper implemen
 
 	@Override
 	public ClientService removeClient(Client client, Handler<AsyncResult<Void>> resultHandler) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		
+		return this;
 	}
 
 }
