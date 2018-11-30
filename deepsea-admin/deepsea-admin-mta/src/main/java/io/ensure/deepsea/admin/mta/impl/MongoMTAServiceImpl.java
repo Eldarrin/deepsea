@@ -15,20 +15,22 @@ import io.vertx.redis.RedisOptions;
 
 public class MongoMTAServiceImpl extends MongoRedisRepositoryWrapper implements MTAService {
 	
+	private static final String MTA = "mta";
+
 	public MongoMTAServiceImpl(Vertx vertx, JsonObject config, RedisOptions rOptions) {
 		super(vertx, config, rOptions);
-		this.typeName = "mta";
+		this.typeName = MTA;
 	}
 
 	@Override
 	public MTAService initializePersistence(Handler<AsyncResult<Void>> resultHandler) {
-		// TODO Auto-generated method stub
+		// Not required
 		return null;
 	}
 
 	@Override
 	public MTAService addMTA(MidTermAdjustment mta, Handler<AsyncResult<MidTermAdjustment>> resultHandler) {
-		this.upsertWithPublish(mta.toJson(), "mta")
+		this.upsertWithPublish(mta.toJson(), MTA)
 			.map(option -> option.map(MidTermAdjustment::new).orElse(null))
 			.setHandler(resultHandler);
 		return this;
@@ -36,7 +38,7 @@ public class MongoMTAServiceImpl extends MongoRedisRepositoryWrapper implements 
 
 	@Override
 	public MTAService replayMTAs(Integer lastId, Handler<AsyncResult<List<MidTermAdjustment>>> resultHandler) {
-		this.selectDocuments("mta", new JsonObject().put("eventDate", Instant.now()))
+		this.selectDocuments(MTA, new JsonObject().put("eventDate", Instant.now()))
 			.map(rawList -> rawList.stream().map(MidTermAdjustment::new).collect(Collectors.toList()))
 			.setHandler(resultHandler);
 		return this;

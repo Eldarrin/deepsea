@@ -11,6 +11,10 @@ import io.vertx.core.json.JsonObject;
 @DataObject(generateConverter = true)
 public class Enrolment {
 
+	private static final String ENROLMENT_ID = "enrolmentId";
+	private static final String DATE_OF_BIRTH = "dateOfBirth";
+	private static final String DATE_CREATED = "dateCreated";
+	private static final String START_DATE = "startDate";
 	private String enrolmentId;
 	private String clientId;
 	private String productId;
@@ -155,21 +159,21 @@ public class Enrolment {
 	
 	public Enrolment(JsonObject json) {
 		EnrolmentConverter.fromJson(json, this);
-		if (json.getValue("enrolmentId") instanceof Integer) {
-			this.enrolmentId = "enrolment-" + json.getInteger("enrolmentId").toString();
+		if (json.getValue(ENROLMENT_ID) instanceof Integer) {
+			this.enrolmentId = "enrolment-" + json.getInteger(ENROLMENT_ID).toString();
 		}
 		try {
-			if (json.containsKey("startDate")) {
+			if (json.containsKey(START_DATE)) {
 				this.startDate = ISO8601DateParser.parse(
-						json.getString("startDate")).toInstant();
+						json.getString(START_DATE)).toInstant();
 			}
-			if (json.containsKey("dateCreated")) {
+			if (json.containsKey(DATE_CREATED)) {
 				this.dateCreated = ISO8601DateParser.parse(
-						json.getString("dateCreated")).toInstant();
+						json.getString(DATE_CREATED)).toInstant();
 			}
-			if (json.containsKey("dateOfBirth")) {
+			if (json.containsKey(DATE_OF_BIRTH)) {
 				this.dateOfBirth = ISO8601DateParser.parse(
-						json.getString("dateOfBirth")).toInstant();
+						json.getString(DATE_OF_BIRTH)).toInstant();
 			}
 		} catch (ParseException pe) {
 			// zero the dates if an error
@@ -181,13 +185,13 @@ public class Enrolment {
 		JsonObject json = new JsonObject();
 		EnrolmentConverter.toJson(this, json);
 		if (this.startDate != null) {
-			json.put("startDate", this.startDate);
+			json.put(START_DATE, this.startDate);
 		}
 		if (this.dateCreated != null) {
-			json.put("dateCreated", this.dateCreated);
+			json.put(DATE_CREATED, this.dateCreated);
 		}
 		if (this.dateOfBirth != null) {
-			json.put("dateOfBirth", this.dateOfBirth);
+			json.put(DATE_OF_BIRTH, this.dateOfBirth);
 		}
 		return json;
 	}

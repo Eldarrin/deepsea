@@ -14,20 +14,22 @@ import io.vertx.redis.RedisOptions;
 
 public class MongoClientServiceImpl extends MongoRedisRepositoryWrapper implements ClientService {
 
+	private static final String CLIENT_TYPE = "client";
+
 	public MongoClientServiceImpl(Vertx vertx, JsonObject config, RedisOptions rOptions) {
 		super(vertx, config, rOptions);
-		this.typeName = "client";
+		this.typeName = CLIENT_TYPE;
 	}
 
 	@Override
 	public ClientService initializePersistence(Handler<AsyncResult<Void>> resultHandler) {
-		// TODO Auto-generated method stub
+		// Not required
 		return null;
 	}
 
 	@Override
 	public ClientService addClient(Client client, Handler<AsyncResult<Client>> resultHandler) {
-		this.upsertWithCache(client.toJson(), "client")
+		this.upsertWithCache(client.toJson(), CLIENT_TYPE)
 			.map(option -> option.map(Client::new).orElse(null))
 			.setHandler(resultHandler);
 		return this;
@@ -35,7 +37,7 @@ public class MongoClientServiceImpl extends MongoRedisRepositoryWrapper implemen
 
 	@Override
 	public ClientService retrieveClient(String id, Handler<AsyncResult<Client>> resultHandler) {
-		this.retrieveDocumentWithCache("client", id)
+		this.retrieveDocumentWithCache(CLIENT_TYPE, id)
 			.map(option -> option.map(Client::new).orElse(null))
 			.setHandler(resultHandler);
 		return this;
@@ -43,7 +45,7 @@ public class MongoClientServiceImpl extends MongoRedisRepositoryWrapper implemen
 
 	@Override
 	public ClientService retrieveClients(Handler<AsyncResult<List<Client>>> resultHandler) {
-		this.selectDocuments("client", new JsonObject())
+		this.selectDocuments(CLIENT_TYPE, new JsonObject())
 			.map(rawList -> rawList.stream().map(Client::new).collect(Collectors.toList()))
 			.setHandler(resultHandler);
 		

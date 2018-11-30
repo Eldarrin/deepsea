@@ -22,6 +22,8 @@ import io.vertx.serviceproxy.ServiceBinder;
 
 public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 
+	private static final String DEEPSEA_ADMIN_ENROLMENT = "deepsea-admin-enrolment";
+
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	private static final String ENROLMENT_CHANNEL = "enrolment";
@@ -36,7 +38,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 		
 		ConfigRetriever retriever = ConfigRetriever
 				.create(vertx, new ConfigRetrieverHelper()
-						.getOptions("deepsea", "deepsea-admin-enrolment"));
+						.getOptions("deepsea", DEEPSEA_ADMIN_ENROLMENT));
         retriever.getConfig(res -> {
         	if (res.succeeded()) {
         		// create the service instance
@@ -47,7 +49,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 						.put("password", System.getenv("DB_PASSWORD"))
 						.put("database", System.getenv("DB_NAME"));
         		
-        		RedisHelper.getRedisOptions(vertx, "deepsea-admin-enrolment").setHandler(redisRes -> {
+        		RedisHelper.getRedisOptions(vertx, DEEPSEA_ADMIN_ENROLMENT).setHandler(redisRes -> {
         			enrolmentService = new MySqlEnrolmentServiceImpl(vertx, mySqlConfig, redisRes.result());
             		// Register the handler
             		new ServiceBinder(vertx)
@@ -60,7 +62,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
             		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, EnrolmentService.class)
             				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
             		redisPubSub = new RedisPubSub(vertx);
-            		redisPubSub.startRedisPubSub(ENROLMENT_CHANNEL, "deepsea-admin-enrolment").setHandler(ar -> {
+            		redisPubSub.startRedisPubSub(ENROLMENT_CHANNEL, DEEPSEA_ADMIN_ENROLMENT).setHandler(ar -> {
             			if (ar.succeeded()) {
             				setupReplayConsumer();
             			}
@@ -77,17 +79,14 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 	}
 	
 	private void setupReplayConsumer() {
-		vertx.eventBus().<JsonObject>consumer(ENROLMENT_CHANNEL + ".replay", msg -> {
+		vertx.eventBus().<JsonObject>consumer(ENROLMENT_CHANNEL + ".replay", msg -> 
 			enrolmentService.replayEnrolments(msg.body().getString("dateCreated"), msgs -> {
 				if (msgs.succeeded()) {
 					List<JsonObject> msgJ = new ArrayList<>();
-					msgs.result().stream().forEach(msga -> {
-						msgJ.add(msga.toJson());
-					});
+					msgs.result().stream().forEach(msga -> msgJ.add(msga.toJson()));
 					redisPubSub.replayMessages(ENROLMENT_CHANNEL, msgJ);
 				}
-			});
-		});
+			}));
 	}
 		
 	private Future<Void> initEnrolmentDatabase(EnrolmentService service) {

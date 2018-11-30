@@ -23,6 +23,8 @@ import io.vertx.serviceproxy.ServiceBinder;
 
 public class BordereauVerticle extends BaseMicroserviceVerticle {
 
+	private static final String REPLAY = ".replay";
+	private static final String DATE_CREATED = "dateCreated";
 	private static final String ENROLMENT_CHANNEL = "enrolment";
 	private static final String MTA_CHANNEL = "mta";
 	private static final String REDIS_CHANNEL = "io.vertx.redis.";
@@ -57,9 +59,8 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 				publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, BordereauService.class)
 						.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
 
-				RedisHelper.getRedisOptions(vertx, "deepsea-underwriting-actuarial").setHandler(ar -> {
-					setupConsumers(ar.result());
-				});
+				RedisHelper.getRedisOptions(vertx, "deepsea-underwriting-actuarial").setHandler(ar -> 
+					setupConsumers(ar.result()));
 			} else {
 				log.error("Unable to find config map for deepsea-underwriting-actuarial MySQL");
 			}
@@ -90,34 +91,28 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 		RedisClient redis = RedisClient.create(vertx, redisOptions);
 
-		redis.subscribe(MTA_CHANNEL, res -> {
-			if (res.succeeded()) {
-				
-			} else {
-				log.error(res.result());
-			}
-		});
-		
-		redis.subscribe(ENROLMENT_CHANNEL, ar -> {
+		redis.subscribe(MTA_CHANNEL, ar -> {
 			if (ar.succeeded()) {
-				requestMissed();
+				bordereauService.requestLastRecordBySource(MTA_CHANNEL, res -> vertx.eventBus()
+						.send(MTA_CHANNEL + REPLAY, 
+								new JsonObject().put(DATE_CREATED, 
+										ISO8601DateParser.toJsonString(res.result().getDateSourceCreated()))));
 			} else {
 				log.error(ar.result());
 			}
 		});
 		
-	}
-
-	private void requestMissed() {
-		bordereauService.requestLastRecordBySource(ENROLMENT_CHANNEL, res -> vertx.eventBus()
-				.send(ENROLMENT_CHANNEL + ".replay", 
-					new JsonObject().put("dateCreated", 
-							ISO8601DateParser.toJsonString(res.result().getDateSourceCreated()))));
+		redis.subscribe(ENROLMENT_CHANNEL, ar -> {
+			if (ar.succeeded()) {
+				bordereauService.requestLastRecordBySource(ENROLMENT_CHANNEL, res -> vertx.eventBus()
+						.send(ENROLMENT_CHANNEL + REPLAY, 
+							new JsonObject().put(DATE_CREATED, 
+									ISO8601DateParser.toJsonString(res.result().getDateSourceCreated()))));
+			} else {
+				log.error(ar.result());
+			}
+		});
 		
-		bordereauService.requestLastRecordBySource(MTA_CHANNEL, res -> vertx.eventBus()
-				.send(MTA_CHANNEL + ".replay", 
-						new JsonObject().put("dateCreated", 
-								ISO8601DateParser.toJsonString(res.result().getDateSourceCreated()))));
 	}
 
 	private void addBordereauLineFromMTA(JsonObject mta) {
@@ -132,7 +127,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		bl.setIpt(0);
 		bl.setValue(0);
 		bl.setStartDate(mta.getInstant("eventDate")); // TODO: get from policy when built
-		bl.setDateSourceCreated(mta.getInstant("dateCreated"));
+		bl.setDateSourceCreated(mta.getInstant(DATE_CREATED));
 		bordereauService.addBordereauLine(bl, null);
 	}
 
@@ -148,7 +143,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		bl.setIpt(enrolment.getDouble("ipt"));
 		bl.setValue(enrolment.getDouble("grossPremium"));
 		bl.setStartDate(enrolment.getInstant("startDate"));
-		bl.setDateSourceCreated(enrolment.getInstant("dateCreated"));
+		bl.setDateSourceCreated(enrolment.getInstant(DATE_CREATED));
 		bordereauService.addBordereauLine(bl, null);
 	}
 

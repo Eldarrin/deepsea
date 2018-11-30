@@ -88,7 +88,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 
 	}
 
-	private <K> Future<Optional<JsonObject>> retrieveAndAdd(String collection, String id) {
+	private Future<Optional<JsonObject>> retrieveAndAdd(String collection, String id) {
 		Future<Optional<JsonObject>> future = Future.future();
 		this.retrieveDocument(collection, id).setHandler(res -> {
 			if (res.succeeded()) {

@@ -66,8 +66,7 @@ public class ISO8601DateParser {
 			    DateTimeFormatter.ofLocalizedDateTime( FormatStyle.SHORT )
 			                     .withLocale( Locale.getDefault() )
 			                     .withZone( ZoneId.systemDefault() );
-		String output = formatter.format( instant );
-		return output;
+		return formatter.format( instant );
 	}
 
 }

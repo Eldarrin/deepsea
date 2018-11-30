@@ -11,6 +11,9 @@ import io.vertx.core.json.JsonObject;
 @DataObject(generateConverter = true)
 public class BordereauLine {
 
+	private static final String DATE_SOURCE_CREATED = "dateSourceCreated";
+	private static final String EVENT_DATE = "eventDate";
+	private static final String START_DATE = "startDate";
 	private String source;
 	private String sourceId;
 	private String bordereauLineId;
@@ -133,17 +136,17 @@ public class BordereauLine {
 	public BordereauLine(JsonObject json) {
 		BordereauLineConverter.fromJson(json, this);
 		try {
-			if (json.containsKey("startDate")) {
+			if (json.containsKey(START_DATE)) {
 				this.startDate = ISO8601DateParser.parse(
-						json.getString("startDate")).toInstant();
+						json.getString(START_DATE)).toInstant();
 			}
-			if (json.containsKey("eventDate")) {
+			if (json.containsKey(EVENT_DATE)) {
 				this.eventDate = ISO8601DateParser.parse(
-						json.getString("eventDate")).toInstant();
+						json.getString(EVENT_DATE)).toInstant();
 			}
-			if (json.containsKey("dateSourceCreated")) {
+			if (json.containsKey(DATE_SOURCE_CREATED)) {
 				this.dateSourceCreated = ISO8601DateParser.parse(
-						json.getString("dateSourceCreated")).toInstant();
+						json.getString(DATE_SOURCE_CREATED)).toInstant();
 			}
 		} catch (ParseException pe) {
 			// zero the dates if an error
@@ -154,13 +157,13 @@ public class BordereauLine {
 		JsonObject json = new JsonObject();
 		BordereauLineConverter.toJson(this, json);
 		if (this.startDate != null) {
-			json.put("startDate", this.startDate);
+			json.put(START_DATE, this.startDate);
 		}
 		if (this.eventDate != null) {
-			json.put("eventDate", this.eventDate);
+			json.put(EVENT_DATE, this.eventDate);
 		}
 		if (this.dateSourceCreated != null) {
-			json.put("dateSourceCreated", this.dateSourceCreated);
+			json.put(DATE_SOURCE_CREATED, this.dateSourceCreated);
 		}
 		return json;
 	}
