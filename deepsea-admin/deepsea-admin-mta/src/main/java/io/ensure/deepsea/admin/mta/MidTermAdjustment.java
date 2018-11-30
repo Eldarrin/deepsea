@@ -20,6 +20,8 @@ public class MidTermAdjustment {
 	private String newRiskId;
 	private double oldCoverage;
 	private double newCoverage;
+	private double value;
+	private double ipt;
 
 	public MidTermAdjustment() {
 		
@@ -37,6 +39,8 @@ public class MidTermAdjustment {
 		this.newRiskId = midTermAdjustment.newRiskId;
 		this.oldCoverage = midTermAdjustment.oldCoverage;
 		this.newCoverage = midTermAdjustment.newCoverage;
+		this.value = midTermAdjustment.value;
+		this.ipt = midTermAdjustment.ipt;
 		
 	}
 	
@@ -159,6 +163,22 @@ public class MidTermAdjustment {
 
 	public void setNewCoverage(double newCoverage) {
 		this.newCoverage = newCoverage;
+	}
+
+	public double getValue() {
+		return value;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
+	}
+
+	public double getIpt() {
+		return ipt;
+	}
+
+	public void setIpt(double ipt) {
+		this.ipt = ipt;
 	}
 
 

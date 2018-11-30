@@ -117,16 +117,17 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 	private void addBordereauLineFromMTA(JsonObject mta) {
 		BordereauLine bl = new BordereauLine();
+		Policy policy = new Policy();
 		bl.setSource(MTA_CHANNEL);
 		bl.setSourceId(mta.getString("mtaId"));
 		bl.setBordereauLineId(bl.getSourceId());
-		bl.setClientId("barclays"); //TODO: mta.getString("clientId"));
-		bl.setCustomerName("AAA");  //TODO: mta.getString("firstName").substring(1, 1) + mta.getString("lastName"));
+		bl.setClientId(policy.getClientid()); 
+		bl.setCustomerName(policy.getCustomerName());  
 		bl.setEvent(BordereauEvent.MTA);
 		bl.setEventDate(mta.getInstant("eventDate"));
-		bl.setIpt(0);
-		bl.setValue(0);
-		bl.setStartDate(mta.getInstant("eventDate")); // TODO: get from policy when built
+		bl.setIpt(mta.getDouble("ipt"));
+		bl.setValue(mta.getDouble("value"));
+		bl.setStartDate(policy.getStartDate());
 		bl.setDateSourceCreated(mta.getInstant(DATE_CREATED));
 		bordereauService.addBordereauLine(bl, null);
 	}
@@ -152,5 +153,30 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		vertx.deployVerticle(new RestBordereauAPIVerticle(bordereauService),
 				new DeploymentOptions().setConfig(config()), future.completer());
 		return future.map(r -> null);
+	}
+	
+	class Policy {
+		
+		private String clientid;
+		private Instant startDate;
+		private String customerName;
+		
+		Policy() {
+			this.clientid = "barclays";
+			this.startDate = Instant.now();
+			this.customerName = "PolTest";
+		}
+
+		public String getClientid() {
+			return clientid;
+		}
+
+		public Instant getStartDate() {
+			return startDate;
+		}
+
+		public String getCustomerName() {
+			return customerName;
+		}
 	}
 }
