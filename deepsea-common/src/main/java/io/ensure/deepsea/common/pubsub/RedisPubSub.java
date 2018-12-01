@@ -26,9 +26,8 @@ public class RedisPubSub {
 	
 	public Future<JsonObject> listenForReplay(String channel) {
 		Future<JsonObject> future = Future.future();
-		vertx.eventBus().<JsonObject>consumer(channel + REPLAY_SUFFIX, msg -> {
-			future.complete(msg.body());
-		});
+		vertx.eventBus().<JsonObject>consumer(channel + REPLAY_SUFFIX, msg -> 
+			future.complete(msg.body()));
 		return future;
 	}
 	
