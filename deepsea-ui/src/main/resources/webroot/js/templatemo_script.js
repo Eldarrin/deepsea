@@ -13,8 +13,6 @@ jQuery(function($) {
     
     $(document).ready( function() {
 
-        loadGoogleMap();
-        
         // backstretch for background image
         var defaultImgSrc = $('img.main-img').attr('src');
         $.backstretch(defaultImgSrc, {speed: 500});
@@ -70,7 +68,6 @@ jQuery(function($) {
                     $(name+"-text").animate({left:leftPix},400,function(){
                         $(this).addClass("active");
                         
-                        google.maps.event.trigger(map, 'resize'); // resize map
                         $.backstretch("resize"); // resize the background image
                         
                         menuDisabled = false; // enable the menu
