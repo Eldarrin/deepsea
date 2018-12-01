@@ -56,7 +56,6 @@ public class MongoClientServiceImpl extends MongoRedisRepositoryWrapper implemen
 
 	@Override
 	public ClientService removeClient(Client client, Handler<AsyncResult<Void>> resultHandler) {
-		Future<Void> future = Future.future();
 		this.removeWithCache(CLIENT_TYPE, client.getClientId()).setHandler(resultHandler);
 		return this;
 	}
