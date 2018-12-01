@@ -22,18 +22,8 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 	protected Future<Optional<JsonObject>> upsertWithCache(JsonObject jsonObject, String collection) {
 		Future<Optional<JsonObject>> future = Future.future();
 		String keyName = typeName + "Id";
-		if (jsonObject.containsKey(keyName)) {
-			String id = jsonObject.getString(keyName);
-			jsonObject.remove(keyName);
-			if (id.startsWith(keyName)) {
-				jsonObject.put("_id", id.substring(typeName.length()));
-			} else {
-				jsonObject.put("_id", id);
-			}
-		}
-		this.upsertSingle(jsonObject, collection, res -> {
+		this.upsertSingle(keyFix(jsonObject), collection, res -> {
 			if (res.succeeded()) {
-				jsonObject.remove("_id");
 				jsonObject.put(keyName, typeName + "-" + res.result());
 				RedisHelper.setCache(redis, keyName, jsonObject).setHandler(future.completer());
 			} else {
@@ -48,18 +38,8 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 	protected Future<Optional<JsonObject>> upsertWithPublish(JsonObject jsonObject, String collection) {
 		Future<Optional<JsonObject>> future = Future.future();
 		String keyName = typeName + "Id";
-		if (jsonObject.containsKey(keyName)) {
-			String id = jsonObject.getString(keyName);
-			jsonObject.remove(keyName);
-			if (id.startsWith(keyName)) {
-				jsonObject.put("_id", id.substring(typeName.length()));
-			} else {
-				jsonObject.put("_id", id);
-			}
-		}
-		this.upsertSingle(jsonObject, collection, res -> {
+		this.upsertSingle(keyFix(jsonObject), collection, res -> {
 			if (res.succeeded()) {
-				jsonObject.remove("_id");
 				jsonObject.put(keyName, typeName + "-" + res.result());
 				RedisHelper.publishRedis(redis, typeName, jsonObject)
 						.setHandler(future.completer());
@@ -93,12 +73,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		this.retrieveDocument(collection, id).setHandler(res -> {
 			if (res.succeeded()) {
 				if (res.result().isPresent()) {
-					JsonObject json = res.result().get();
-					String key = json.getString("_id");
-					key = typeName + "-" + key;
-					json.remove("_id");
-					json.put(typeName + "Id", key);
-					RedisHelper.setCache(redis, typeName + "Id", json).setHandler(future.completer());
+					RedisHelper.setCache(redis, typeName + "Id", keyFix(res.result().get())).setHandler(future.completer());
 				} else {
 					future.complete(Optional.empty());
 				}
