@@ -3,7 +3,9 @@ package io.ensure.deepsea.common.service;
 import java.util.Optional;
 
 import io.ensure.deepsea.common.helper.RedisHelper;
+import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -87,6 +89,18 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 				}
 			} else {
 				future.fail(res.cause());
+			}
+		});
+		return future;
+	}
+	
+	protected <K> Future<Void> removeWithCache(K id, String redisKey, String sql, Handler<AsyncResult<Void>> resultHandler) {
+		Future<Void> future = Future.future();
+		redis.del(redisKey, ar -> {
+			if (ar.succeeded()) {
+				this.removeOne(id, sql, resultHandler);
+			} else {
+				future.fail(ar.cause());
 			}
 		});
 		return future;
