@@ -1,0 +1,17 @@
+= Cheatsheets
+
+[[MenuItem]]
+== MenuItem
+
+
+[cols=">25%,^25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[childrenMenuItems]]`childrenMenuItems`|`Array of link:dataobjects.html#MenuItem[MenuItem]`|-
+|[[menuItemId]]`menuItemId`|`String`|-
+|[[name]]`name`|`String`|-
+|[[parentMenuItem]]`parentMenuItem`|`link:dataobjects.html#MenuItem[MenuItem]`|-
+|[[url]]`url`|`String`|-
+|===
+

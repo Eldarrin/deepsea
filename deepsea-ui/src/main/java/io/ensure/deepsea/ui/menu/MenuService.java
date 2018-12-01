@@ -10,12 +10,12 @@ public interface MenuService {
 	MenuService initializePersistence(Handler<AsyncResult<Void>> resultHandler);
 
 	@Fluent
-	MenuService addMenuItem(MenuItem menuItem, Handler<AsyncResult<Menu>> resultHandler);
+	MenuService addMenu(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler);
 
 	@Fluent
-	MenuService retrieveSubMenu(Handler<AsyncResult<Menu>> resultHandler);
+	MenuService retrieveSubMenu(Handler<AsyncResult<MenuItem>> resultHandler);
 	
 	@Fluent
-	MenuService retrieveMenu(Handler<AsyncResult<Menu>> resultHandler);
+	MenuService retrieveMenu(Handler<AsyncResult<MenuItem>> resultHandler);
 	
 }

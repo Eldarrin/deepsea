@@ -53,6 +53,14 @@ public class MenuItem {
 	public void setChildrenMenuItems(List<MenuItem> childrenMenuItems) {
 		this.childrenMenuItems = childrenMenuItems;
 	}
+	
+	public boolean hasChildren() {
+		if (childrenMenuItems == null || childrenMenuItems.size() == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	public MenuItem(JsonObject json) {
 		MenuItemConverter.fromJson(json, this);
