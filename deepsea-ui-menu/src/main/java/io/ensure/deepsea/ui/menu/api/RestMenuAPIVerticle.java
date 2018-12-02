@@ -56,7 +56,7 @@ private Logger log = LoggerFactory.getLogger(getClass());
         				.setHandler(future.completer());
         		
         	} else {
-        		log.error("Unable to find config map for Deepsea Client");
+        		log.error("Unable to find config map for Deepsea Menu");
         	}
         
         });
