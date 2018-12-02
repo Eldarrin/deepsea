@@ -22,6 +22,7 @@ private Logger log = LoggerFactory.getLogger(getClass());
 	
 	private static final String API_ADD = "/add";
 	private static final String API_RETRIEVE = "/";
+	private static final String API_RETRIEVE_ITEM = "/:menuItemId";
 
 	private final MenuService service;
 	
@@ -39,6 +40,7 @@ private Logger log = LoggerFactory.getLogger(getClass());
 		addHealthHandler(router, future);
 		router.post(API_ADD).handler(this::apiAdd);
 		router.get(API_RETRIEVE).handler(this::apiRetrieve);
+		router.get(API_RETRIEVE_ITEM).handler(this::apiRetrieveItem);
 
 		ConfigRetriever retriever = ConfigRetriever
 				.create(vertx, new ConfigRetrieverHelper()
@@ -73,6 +75,11 @@ private Logger log = LoggerFactory.getLogger(getClass());
 		} catch (DecodeException e) {
 			badRequest(rc, e);
 		}
+	}
+	
+	private void apiRetrieveItem(RoutingContext context) {
+		String menuItemId = context.request().getParam("menuItemId");
+		service.retrieveSubMenu(menuItemId, resultHandlerNonEmpty(context));
 	}
 	
 	private void apiRetrieve(RoutingContext rc) {
