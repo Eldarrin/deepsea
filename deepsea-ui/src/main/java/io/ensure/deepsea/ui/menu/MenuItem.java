@@ -13,6 +13,18 @@ public class MenuItem {
 	private String url;
 	private MenuItem parentMenuItem;
 	private List<MenuItem> childrenMenuItems;
+	
+	public MenuItem() {
+		
+	}
+	
+	public MenuItem(MenuItem menuItem) {
+		this.menuItemId = menuItem.menuItemId;
+		this.name = menuItem.name;
+		this.url = menuItem.url;
+		this.parentMenuItem = menuItem.parentMenuItem;
+		this.childrenMenuItems = menuItem.childrenMenuItems;
+	}
 
 	public String getMenuItemId() {
 		return menuItemId;

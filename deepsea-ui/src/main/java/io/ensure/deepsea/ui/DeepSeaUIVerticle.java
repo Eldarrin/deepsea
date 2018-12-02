@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import io.ensure.deepsea.common.RestAPIVerticle;
-
+import io.ensure.deepsea.ui.menu.MenuService;
+import io.ensure.deepsea.ui.menu.MenuVerticle;
+import io.ensure.deepsea.ui.menu.impl.MongoMenuServiceImpl;
 import io.vertx.config.ConfigRetrieverOptions;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
@@ -76,7 +78,11 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 			}
 		});
 		
-
+		MenuService menuService = new MongoMenuServiceImpl(vertx, null, null); 
+		
+		MenuVerticle menuVerticle = new MenuVerticle(menuService);
+		
+		vertx.deployVerticle(menuVerticle);
 	}
 
 	private void dispatchRequests(RoutingContext context) {

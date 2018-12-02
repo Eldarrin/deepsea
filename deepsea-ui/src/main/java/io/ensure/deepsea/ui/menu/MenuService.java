@@ -13,7 +13,7 @@ public interface MenuService {
 	MenuService addMenu(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler);
 
 	@Fluent
-	MenuService retrieveSubMenu(Handler<AsyncResult<MenuItem>> resultHandler);
+	MenuService retrieveSubMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler);
 	
 	@Fluent
 	MenuService retrieveMenu(Handler<AsyncResult<MenuItem>> resultHandler);

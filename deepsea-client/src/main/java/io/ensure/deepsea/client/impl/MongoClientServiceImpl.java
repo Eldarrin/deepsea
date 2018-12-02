@@ -11,7 +11,6 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.redis.RedisOptions;
-import io.vertx.rxjava.core.Future;
 
 public class MongoClientServiceImpl extends MongoRedisRepositoryWrapper implements ClientService {
 
