@@ -1,9 +1,13 @@
 package io.ensure.deepsea.ui.menu;
 
 import io.vertx.codegen.annotations.Fluent;
+import io.vertx.codegen.annotations.ProxyGen;
+import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
+@VertxGen
+@ProxyGen
 public interface MenuService {
 
 	@Fluent

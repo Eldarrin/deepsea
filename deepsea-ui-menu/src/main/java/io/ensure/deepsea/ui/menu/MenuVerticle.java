@@ -1,79 +1,86 @@
 package io.ensure.deepsea.ui.menu;
 
-import io.ensure.deepsea.common.RestAPIVerticle;
+import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
+import io.ensure.deepsea.common.helper.RedisHelper;
+import io.ensure.deepsea.ui.menu.api.RestMenuAPIVerticle;
+import io.ensure.deepsea.ui.menu.impl.MongoMenuServiceImpl;
 import io.vertx.config.ConfigRetriever;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
-import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.ext.web.Router;
-import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.serviceproxy.ServiceBinder;
 
-public class MenuVerticle extends RestAPIVerticle {
-	
-private Logger log = LoggerFactory.getLogger(getClass());
-	
-	public static final String SERVICE_NAME = "menu-rest-api";
-	
-	private static final String API_ADD = "/add";
-	private static final String API_RETRIEVE = "/";
+public class MenuVerticle extends BaseMicroserviceVerticle {
 
-	private final MenuService service;
+	/**
+	 * The name of the event bus service.
+	 */
+	private static final String SERVICE_NAME = "menu-service";
+
+	/**
+	 * The address on which the service is published.
+	 */
+	private static final String SERVICE_ADDRESS = "service.menu";
+
 	
-	public MenuVerticle(MenuService service) {
-		this.service = service;
-	}
+	private Logger log = LoggerFactory.getLogger(getClass());
+
+	private MenuService menuService;
 	
 	@Override
 	public void start(Future<Void> future) throws Exception {
 		super.start();
-		final Router router = Router.router(vertx);
-		// body handler
-		router.route().handler(BodyHandler.create());
-		// API route handler
-		addHealthHandler(router, future);
-		router.post(API_ADD).handler(this::apiAdd);
-		router.get(API_RETRIEVE).handler(this::apiRetrieve);
-
 		ConfigRetriever retriever = ConfigRetriever
 				.create(vertx, new ConfigRetrieverHelper()
-						.getOptions("deepsea", "deepsea-menu"));
+						.getOptions("deepsea", "deepsea-ui-menu"));
         retriever.getConfig(res -> {
         	if (res.succeeded()) {
-        		String host = res.result().getString("menu.http.address", "0.0.0.0");
-        		int port = res.result().getInteger("menu.http.port", 8080);
-        		String serviceHost = res.result().getString("menu.service.hostname", "deepsea-ui.deepsea.svc");
-        		String apiName = res.result().getString("menu.api.name", "menu");
+        		// create the service instance
+        		JsonObject myMongoConfig = new JsonObject()
+        				.put("host", res.result().getString("database.host"))
+						.put("port", res.result().getInteger("database.port"))
+						.put("username", System.getenv("DB_USERNAME"))
+						.put("password", System.getenv("DB_PASSWORD"))
+						.put("db_name", System.getenv("DB_NAME"));
         		
-        		// create HTTP server and publish REST service
-        		createHttpServer(router, host, port)
-        				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, serviceHost, port, apiName))
-        				.setHandler(future.completer());
+        		RedisHelper.getRedisOptions(vertx, "deepsea-ui-menu").setHandler(redisRes -> {
+
+        		menuService = new MongoMenuServiceImpl(vertx, myMongoConfig, redisRes.result());
+        		// Register the handler
+        		new ServiceBinder(vertx)
+        				.setAddress(SERVICE_ADDRESS)
+        				.register(MenuService.class, menuService);
+
+        		initMenuDatabase(menuService);
+
+        		// publish the service and REST endpoint in the discovery infrastructure
+        		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, MenuService.class)
+        				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+        		vertx.eventBus().publish("client", new JsonObject().put("started", "true"));
+        		
+        		});
         		
         	} else {
-        		log.error("Unable to find config map for Deepsea Client");
+        		log.error("Unable to find config map for deepsea-client MySQL");
         	}
         
         });
+		
 	}
-	
-	private void apiAdd(RoutingContext rc) {
-		try {
-			MenuItem menuItem = new MenuItem(new JsonObject(rc.getBodyAsString()));
-			service.addMenu(menuItem, resultHandler(rc, r -> {
-				String result = new JsonObject().put("message", "menu added")
-						.put("menuItemId", menuItem.getMenuItemId()).encodePrettily();
-				rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
-			}));
-		} catch (DecodeException e) {
-			badRequest(rc, e);
-		}
+
+	private Future<Void> initMenuDatabase(MenuService service) {
+		Future<Void> initFuture = Future.future();
+		service.initializePersistence(initFuture.completer());
+		return initFuture.map(v -> null);
 	}
-	
-	private void apiRetrieve(RoutingContext rc) {
-		service.retrieveMenu(resultHandlerNonEmpty(rc));
+
+	private Future<Void> deployRestVerticle() {
+		Future<String> future = Future.future();
+		vertx.deployVerticle(new RestMenuAPIVerticle(menuService),
+				new DeploymentOptions().setConfig(config()), future.completer());
+		return future.map(r -> null);
 	}
 }
