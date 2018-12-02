@@ -268,5 +268,6 @@
 		<module>deepsea-product</module>
 		<module>deepsea-admin</module>
 		<module>deepsea-ui</module>
+		<module>deepsea-ui-menu</module>
 	</modules>
 </project>

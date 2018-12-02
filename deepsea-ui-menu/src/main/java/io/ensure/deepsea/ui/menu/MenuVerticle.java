@@ -44,7 +44,7 @@ private Logger log = LoggerFactory.getLogger(getClass());
         retriever.getConfig(res -> {
         	if (res.succeeded()) {
         		String host = res.result().getString("menu.http.address", "0.0.0.0");
-        		int port = res.result().getInteger("menu.http.port", 8081);
+        		int port = res.result().getInteger("menu.http.port", 8080);
         		String serviceHost = res.result().getString("menu.service.hostname", "deepsea-ui.deepsea.svc");
         		String apiName = res.result().getString("menu.api.name", "menu");
         		
