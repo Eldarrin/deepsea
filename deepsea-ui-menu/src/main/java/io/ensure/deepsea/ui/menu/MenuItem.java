@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 @DataObject(generateConverter = true)
 public class MenuItem {
 
-	private String menuItemId;
+	private String menuId;
 	private String name;
 	private String url;
 	private MenuItem parentMenuItem;
@@ -19,7 +19,7 @@ public class MenuItem {
 	}
 	
 	public MenuItem(MenuItem menuItem) {
-		this.menuItemId = menuItem.menuItemId;
+		this.menuId = menuItem.menuId;
 		this.name = menuItem.name;
 		this.url = menuItem.url;
 		this.parentMenuItem = menuItem.parentMenuItem;
@@ -27,11 +27,11 @@ public class MenuItem {
 	}
 
 	public String getMenuItemId() {
-		return menuItemId;
+		return menuId;
 	}
 
 	public void setMenuItemId(String menuItemId) {
-		this.menuItemId = menuItemId;
+		this.menuId = menuItemId;
 	}
 
 	public String getName() {
@@ -76,8 +76,8 @@ public class MenuItem {
 
 	public MenuItem(JsonObject json) {
 		MenuItemConverter.fromJson(json, this);
-		if (json.containsKey("_id") && !json.containsKey("menuItemId")) {
-			this.menuItemId = json.getString("_id");
+		if (json.containsKey("_id") && !json.containsKey("menuId")) {
+			this.menuId = json.getString("_id");
 		}
 	}
 
@@ -96,13 +96,13 @@ public class MenuItem {
 
 		MenuItem menuItem = (MenuItem) o;
 
-		return name.equals(menuItem.name) && menuItemId.equals(menuItem.menuItemId);
+		return name.equals(menuItem.name) && menuId.equals(menuItem.menuId);
 	}
 
 	@Override
 	public int hashCode() {
-		int result = menuItemId.hashCode();
-		result = 31 * result + menuItemId.hashCode();
+		int result = menuId.hashCode();
+		result = 31 * result + menuId.hashCode();
 		return result;
 	}
 
