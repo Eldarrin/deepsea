@@ -26,7 +26,6 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 		MenuItem menuItem = new MenuItem();
 		menuItem.setName("Home");
 		menuItem.setUrl("#");
-		menuItem.setMenuItemId("home-first");
 		addMenu(menuItem, res -> {
 			if (res.succeeded()) {
 				future.succeeded();
@@ -55,7 +54,7 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 
 	@Override
 	public MenuService retrieveMenu(Handler<AsyncResult<MenuItem>> resultHandler) {
-		this.retrieveDocumentWithCache(MENU, "home-first")
+		this.retrieveDocumentWithCache(MENU, new JsonObject().put("name", "Home"))
 		.map(option -> option.map(MenuItem::new).orElse(null))
 		.setHandler(resultHandler);
 		return this;

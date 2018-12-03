@@ -65,7 +65,22 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 			}
 		});
 		return future;
-
+	}
+	
+	protected Future<Optional<JsonObject>> retrieveDocumentWithCache(String collection, JsonObject query) {
+		Future<Optional<JsonObject>> future = Future.future();
+		redis.get(query.getString(typeName + "Id"), res -> {
+			if (res.succeeded()) {
+				if (res.result() != null) {
+					future.complete(Optional.of(new JsonObject(res.result())));
+				} else {
+					retrieveAndAdd(collection, query).setHandler(future);
+				}
+			} else {
+				future.fail(res.cause());
+			}
+		});
+		return future;
 	}
 
 	private Future<Optional<JsonObject>> retrieveAndAdd(String collection, String id) {
@@ -74,6 +89,22 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 			if (res.succeeded()) {
 				if (res.result().isPresent()) {
 					RedisHelper.setCache(redis, typeName + "Id", keyFix(res.result().get())).setHandler(future.completer());
+				} else {
+					future.complete(Optional.empty());
+				}
+			} else {
+				future.fail(res.cause());
+			}
+		});
+		return future;
+	}
+	
+	private Future<Optional<JsonObject>> retrieveAndAdd(String collection, JsonObject query) {
+		Future<Optional<JsonObject>> future = Future.future();
+		this.selectDocuments(collection, query).setHandler(res -> {
+			if (res.succeeded()) {
+				if (res.result().size() > 0) {
+					RedisHelper.setCache(redis, typeName + "Id", keyFix(res.result().get(0))).setHandler(future.completer());
 				} else {
 					future.complete(Optional.empty());
 				}

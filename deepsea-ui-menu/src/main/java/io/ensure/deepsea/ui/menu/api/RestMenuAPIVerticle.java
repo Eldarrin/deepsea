@@ -49,7 +49,7 @@ private Logger log = LoggerFactory.getLogger(getClass());
         	if (res.succeeded()) {
         		String host = res.result().getString("menu.http.address", "0.0.0.0");
         		int port = res.result().getInteger("menu.http.port", 8080);
-        		String serviceHost = res.result().getString("menu.service.hostname", "deepsea-ui.deepsea.svc");
+        		String serviceHost = res.result().getString("menu.service.hostname", "deepsea-ui-menu.deepsea.svc");
         		String apiName = res.result().getString("menu.api.name", "menu");
         		
         		// create HTTP server and publish REST service
