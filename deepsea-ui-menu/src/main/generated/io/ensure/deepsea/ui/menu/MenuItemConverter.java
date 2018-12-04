@@ -35,8 +35,8 @@ public class MenuItemConverter {
       });
       obj.setChildrenMenuItems(list);
     }
-    if (json.getValue("menuItemId") instanceof String) {
-      obj.setMenuItemId((String)json.getValue("menuItemId"));
+    if (json.getValue("menuId") instanceof String) {
+      obj.setMenuId((String)json.getValue("menuId"));
     }
     if (json.getValue("name") instanceof String) {
       obj.setName((String)json.getValue("name"));
@@ -55,8 +55,8 @@ public class MenuItemConverter {
       obj.getChildrenMenuItems().forEach(item -> array.add(item.toJson()));
       json.put("childrenMenuItems", array);
     }
-    if (obj.getMenuItemId() != null) {
-      json.put("menuItemId", obj.getMenuItemId());
+    if (obj.getMenuId() != null) {
+      json.put("menuId", obj.getMenuId());
     }
     if (obj.getName() != null) {
       json.put("name", obj.getName());

@@ -6,6 +6,8 @@ import io.ensure.deepsea.common.helper.RedisHelper;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 import io.vertx.redis.RedisClient;
 import io.vertx.redis.RedisOptions;
 
@@ -13,6 +15,8 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 
 	protected String typeName;
 	private RedisClient redis;
+	
+	private Logger log = LoggerFactory.getLogger(getClass());
 
 	public MongoRedisRepositoryWrapper(Vertx vertx, JsonObject config, RedisOptions rOptions) {
 		super(vertx, config);
@@ -22,10 +26,14 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 	protected Future<Optional<JsonObject>> upsertWithCache(JsonObject jsonObject, String collection) {
 		Future<Optional<JsonObject>> future = Future.future();
 		String keyName = typeName + "Id";
+		//log.info(jsonObject);
+		//log.info(keyFix(jsonObject));
 		this.upsertSingle(keyFix(jsonObject), collection, res -> {
 			if (res.succeeded()) {
+				//log.info(keyFix(jsonObject));
+				//log.info(jsonObject);
 				jsonObject.put(keyName, typeName + "-" + res.result());
-				RedisHelper.setCache(redis, keyName, jsonObject).setHandler(future.completer());
+				RedisHelper.setCache(redis, keyName, keyFix(jsonObject)).setHandler(future.completer());
 			} else {
 				future.fail(res.cause());
 			}
@@ -69,17 +77,21 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 	
 	protected Future<Optional<JsonObject>> retrieveDocumentWithCache(String collection, JsonObject query) {
 		Future<Optional<JsonObject>> future = Future.future();
-		redis.get(query.getString(typeName + "Id"), res -> {
-			if (res.succeeded()) {
-				if (res.result() != null) {
-					future.complete(Optional.of(new JsonObject(res.result())));
+		if (query.containsKey(typeName + "Id")) {
+			redis.get(query.getString(typeName + "Id"), res -> {
+				if (res.succeeded()) {
+					if (res.result() != null) {
+						future.complete(Optional.of(new JsonObject(res.result())));
+					} else {
+						retrieveAndAdd(collection, query).setHandler(future);
+					}
 				} else {
-					retrieveAndAdd(collection, query).setHandler(future);
+					future.fail(res.cause());
 				}
-			} else {
-				future.fail(res.cause());
-			}
-		});
+			});
+		} else {
+			retrieveAndAdd(collection, query).setHandler(future);
+		}
 		return future;
 	}
 
@@ -137,11 +149,10 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		String keyName = typeName + "Id";
 		if (jsonObject.containsKey(keyName)) {
 			String key = jsonObject.getString(keyName);
-			key = key.substring(typeName.length());
+			key = key.substring(typeName.length() + 1);
 			jsonObject.remove(keyName);
 			jsonObject.put("_id", key);
-		}
-		if (jsonObject.containsKey("_id")) {
+		} else if (jsonObject.containsKey("_id")) {
 			String key = jsonObject.getString("_id");
 			jsonObject.remove("_id");
 			jsonObject.put(keyName, typeName + "-" + key);

@@ -26,6 +26,7 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 		MenuItem menuItem = new MenuItem();
 		menuItem.setName("Home");
 		menuItem.setUrl("#");
+		menuItem.setMenuId("menu-home");
 		addMenu(menuItem, res -> {
 			if (res.succeeded()) {
 				future.succeeded();

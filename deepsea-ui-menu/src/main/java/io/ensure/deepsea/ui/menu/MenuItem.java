@@ -26,12 +26,12 @@ public class MenuItem {
 		this.childrenMenuItems = menuItem.childrenMenuItems;
 	}
 
-	public String getMenuItemId() {
+	public String getMenuId() {
 		return menuId;
 	}
 
-	public void setMenuItemId(String menuItemId) {
-		this.menuId = menuItemId;
+	public void setMenuId(String menuId) {
+		this.menuId = menuId;
 	}
 
 	public String getName() {

@@ -16,7 +16,7 @@ import io.vertx.ext.web.handler.BodyHandler;
 
 public class RestMenuAPIVerticle extends RestAPIVerticle {
 	
-private Logger log = LoggerFactory.getLogger(getClass());
+	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	public static final String SERVICE_NAME = "menu-rest-api";
 	
@@ -69,7 +69,7 @@ private Logger log = LoggerFactory.getLogger(getClass());
 			MenuItem menuItem = new MenuItem(new JsonObject(rc.getBodyAsString()));
 			service.addMenu(menuItem, resultHandler(rc, r -> {
 				String result = new JsonObject().put("message", "menu added")
-						.put("menuItemId", menuItem.getMenuItemId()).encodePrettily();
+						.put("menuId", menuItem.getMenuId()).encodePrettily();
 				rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
 			}));
 		} catch (DecodeException e) {
