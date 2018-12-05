@@ -11,6 +11,8 @@ public class MenuItem {
 	private String menuId;
 	private String name;
 	private String url;
+	private String parent;
+	private List<String> children;
 	private MenuItem parentMenuItem;
 	private List<MenuItem> childrenMenuItems;
 	
@@ -24,6 +26,8 @@ public class MenuItem {
 		this.url = menuItem.url;
 		this.parentMenuItem = menuItem.parentMenuItem;
 		this.childrenMenuItems = menuItem.childrenMenuItems;
+		this.parent = menuItem.parent;
+		this.children = menuItem.children;
 	}
 
 	public String getMenuId() {
@@ -109,6 +113,22 @@ public class MenuItem {
 	@Override
 	public String toString() {
 		return this.toJson().encodePrettily();
+	}
+
+	public List<String> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<String> children) {
+		this.children = children;
+	}
+
+	public String getParent() {
+		return parent;
+	}
+
+	public void setParent(String parent) {
+		this.parent = parent;
 	}
 	
 }
