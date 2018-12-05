@@ -15,8 +15,7 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 	private static final String MENU = "menu";
 
 	public MongoMenuServiceImpl(Vertx vertx, JsonObject config, RedisOptions rOptions) {
-		super(vertx, config, rOptions);
-		this.typeName = MENU;
+		super(vertx, config, rOptions, MENU);
 	}
 
 	@Override

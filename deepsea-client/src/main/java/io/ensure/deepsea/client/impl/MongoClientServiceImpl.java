@@ -17,8 +17,7 @@ public class MongoClientServiceImpl extends MongoRedisRepositoryWrapper implemen
 	private static final String CLIENT_TYPE = "client";
 
 	public MongoClientServiceImpl(Vertx vertx, JsonObject config, RedisOptions rOptions) {
-		super(vertx, config, rOptions);
-		this.typeName = CLIENT_TYPE;
+		super(vertx, config, rOptions, CLIENT_TYPE);
 	}
 
 	@Override

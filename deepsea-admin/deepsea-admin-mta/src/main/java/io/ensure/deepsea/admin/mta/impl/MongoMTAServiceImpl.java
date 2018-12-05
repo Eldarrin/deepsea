@@ -18,8 +18,7 @@ public class MongoMTAServiceImpl extends MongoRedisRepositoryWrapper implements 
 	private static final String MTA = "mta";
 
 	public MongoMTAServiceImpl(Vertx vertx, JsonObject config, RedisOptions rOptions) {
-		super(vertx, config, rOptions);
-		this.typeName = MTA;
+		super(vertx, config, rOptions, MTA);
 	}
 
 	@Override

@@ -69,7 +69,7 @@ public class RestMenuAPIVerticle extends RestAPIVerticle {
 			MenuItem menuItem = new MenuItem(new JsonObject(rc.getBodyAsString()));
 			service.addMenu(menuItem, resultHandler(rc, r -> {
 				String result = new JsonObject().put("message", "menu added")
-						.put("menuId", menuItem.getMenuId()).encodePrettily();
+						.put("menuItem", r.toJson()).encodePrettily();
 				rc.response().setStatusCode(201).putHeader("content-type", "application/json").end(result);
 			}));
 		} catch (DecodeException e) {
