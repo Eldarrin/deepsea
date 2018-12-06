@@ -6,5 +6,6 @@ deepsea-client/target/
 deepsea-common/target/
 deepsea-product/target/
 deepsea-ui/target/
+deepsea-ui-menu/target
 deepsea-underwriting/target/
 deepsea-underwriting/deepsea-underwriting-actuarial/target/
