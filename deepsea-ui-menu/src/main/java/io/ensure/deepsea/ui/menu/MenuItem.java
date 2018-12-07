@@ -71,11 +71,7 @@ public class MenuItem {
 	}
 	
 	public boolean hasChildren() {
-		if (childrenMenuItems == null || childrenMenuItems.size() == 0) {
-			return false;
-		} else {
-			return true;
-		}
+		return (childrenMenuItems != null || !childrenMenuItems.isEmpty());
 	}
 
 	public MenuItem(JsonObject json) {
