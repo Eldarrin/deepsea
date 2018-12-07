@@ -11,10 +11,6 @@ import io.vertx.core.Handler;
 @VertxGen
 @ProxyGen
 public interface MTAService {
-	
-	String SERVICE_NAME = "mta-eb-service";
-
-	String SERVICE_ADDRESS = "service.mta";
 
 	@Fluent
 	MTAService initializePersistence(Handler<AsyncResult<Void>> resultHandler);

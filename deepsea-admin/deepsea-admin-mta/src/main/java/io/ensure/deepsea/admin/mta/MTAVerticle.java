@@ -1,8 +1,5 @@
 package io.ensure.deepsea.admin.mta;
 
-import static io.ensure.deepsea.admin.mta.MTAService.SERVICE_ADDRESS;
-import static io.ensure.deepsea.admin.mta.MTAService.SERVICE_NAME;
-
 import io.ensure.deepsea.admin.mta.api.RestMTAAPIVerticle;
 import io.ensure.deepsea.admin.mta.impl.MongoMTAServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
@@ -17,6 +14,10 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class MTAVerticle extends BaseMicroserviceVerticle {
+	
+	
+	private static final String SERVICE_NAME = "mta-eb-service";
+	private static final String SERVICE_ADDRESS = "service.mta";
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
