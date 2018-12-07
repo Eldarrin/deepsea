@@ -2,6 +2,8 @@
 
 ## take note :) : This is an experimental project, so many things do not work!
 
+![SonarCloud Quality](https://sonarcloud.io/api/project_badges/measure?project=io.ensure%3Adeepsea&metric=alert_status)
+
 ## README
 
 This is a simple (at the moment) project to recreate an Open Source Insurance application based on Vertx and Openshift. A long way to go yet :)
