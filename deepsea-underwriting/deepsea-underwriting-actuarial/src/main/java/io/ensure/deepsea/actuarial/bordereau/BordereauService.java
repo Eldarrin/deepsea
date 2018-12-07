@@ -12,10 +12,6 @@ import io.vertx.core.Handler;
 @ProxyGen
 public interface BordereauService {
 
-	String SERVICE_NAME = "bordereau-eb-service";
-
-	String SERVICE_ADDRESS = "service.bordereau";
-
 	/**
 	 * Initialize the persistence.
 	 *

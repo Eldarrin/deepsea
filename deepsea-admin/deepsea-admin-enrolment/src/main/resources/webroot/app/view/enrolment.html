@@ -1,0 +1,89 @@
+<div class="container" ng-model="enrolment">
+	<div class="row">
+		<div>
+			<ol class="breadcrumb">
+				<li><a href="#home">Home</a></li>
+			</ol>
+		</div>
+	</div>
+	<div class="row">
+		<div class="panel panel-primary">
+			<form id="myform" method="post">
+				<p>
+					<label>Client</label><br> <label> <input type="radio"
+						name="clientId" value="barclays"> Barclays
+					</label>
+				</p>
+				<p>
+					<label>Product</label><br> <label> <input type="radio"
+						name="productId" value="product-1"> Barclays Premier MPI
+					</label>
+				</p>
+				<p>
+					<label>Title</label><br> <label> <input type="radio"
+						name="title" value="mr"> Mr
+					</label> <label> <input type="radio" name="title" value="mrs">
+						Mrs
+					</label> <label> <input type="radio" name="title" value="miss">
+						Miss
+					</label>
+				</p>
+				<p>
+					<label>First name</label><br> <input type="text"
+						name="firstName">
+				</p>
+				<p>
+					<label>Last name</label><br> <input type="text"
+						name="lastName">
+				</p>
+				<p>
+					<label>Email</label><br> <input type="email" name="email"
+						required>
+				</p>
+
+				<p>
+					<label> <input type="checkbox" value="termsAgreed"> I
+						agree to the <a href="/terms">terms and conditions</a>
+					</label>
+				</p>
+				<p>
+					<button id="btn">Sign up</button>
+					<button type="reset">Reset form</button>
+				</p>
+			</form>
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+  $("#btn").click(function(e){
+     var jsonData = {};
+
+   var formData = $("#myform").serializeArray();
+  // console.log(formData);
+
+   $.each(formData, function() {
+        if (jsonData[this.name]) {
+           if (!jsonData[this.name].push) {
+               jsonData[this.name] = [jsonData[this.name]];
+           }
+           jsonData[this.name].push(this.value || '');
+       } else {
+           jsonData[this.name] = this.value || '';
+       }
+
+
+   });
+   console.log(jsonData);
+    $.ajax(
+    {
+        url : "/add",
+        type: "POST",
+        data : jsonData,
+
+    });
+    e.preventDefault(); 
+});
+});
+</script>

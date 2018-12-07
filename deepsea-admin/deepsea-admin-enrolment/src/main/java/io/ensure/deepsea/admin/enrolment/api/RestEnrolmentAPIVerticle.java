@@ -11,6 +11,7 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.ext.web.handler.StaticHandler;
 
 public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 	
@@ -36,6 +37,7 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 		addHealthHandler(router, future);
 		router.route().handler(BodyHandler.create());
 		router.post(API_ADD).handler(this::apiAdd);
+		router.route("/*").handler(StaticHandler.create());
 		startRestService(router, future, SERVICE_NAME, ENROLMENT, "deepsea", "deepsea-admin-enrolment");
 	}
 	

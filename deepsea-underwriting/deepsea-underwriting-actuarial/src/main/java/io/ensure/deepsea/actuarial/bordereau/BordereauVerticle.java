@@ -1,8 +1,5 @@
 package io.ensure.deepsea.actuarial.bordereau;
 
-import static io.ensure.deepsea.actuarial.bordereau.BordereauService.SERVICE_ADDRESS;
-import static io.ensure.deepsea.actuarial.bordereau.BordereauService.SERVICE_NAME;
-
 import java.time.Instant;
 
 import io.ensure.deepsea.actuarial.bordereau.api.RestBordereauAPIVerticle;
@@ -22,7 +19,9 @@ import io.vertx.redis.RedisOptions;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class BordereauVerticle extends BaseMicroserviceVerticle {
-
+	
+	private static final String SERVICE_NAME = "bordereau-eb-service";
+	private static final String SERVICE_ADDRESS = "service.bordereau";
 	private static final String REDIS_JSON_VALUE = "value";
 	private static final String REPLAY = ".replay";
 	private static final String DATE_CREATED = "dateCreated";
