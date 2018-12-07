@@ -81,7 +81,7 @@ public class MenuItem {
 	public MenuItem(JsonObject json) {
 		MenuItemConverter.fromJson(json, this);
 		if (json.containsKey("_id") && !json.containsKey("menuId")) {
-			this.menuId = json.getString("_id");
+			this.menuId = "menu-" + json.getString("_id");
 		}
 	}
 

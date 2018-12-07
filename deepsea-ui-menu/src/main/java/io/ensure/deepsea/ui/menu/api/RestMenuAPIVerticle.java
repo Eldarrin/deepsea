@@ -79,7 +79,7 @@ public class RestMenuAPIVerticle extends RestAPIVerticle {
 	
 	private void apiRetrieveItem(RoutingContext context) {
 		String menuItemId = context.request().getParam("menuItemId");
-		service.retrieveSubMenu(menuItemId, resultHandlerNonEmpty(context));
+		service.retrieveMenuChildren(menuItemId, resultHandlerNonEmpty(context));
 	}
 	
 	private void apiRetrieve(RoutingContext rc) {

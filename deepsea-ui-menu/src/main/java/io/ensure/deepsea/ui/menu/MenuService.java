@@ -1,5 +1,7 @@
 package io.ensure.deepsea.ui.menu;
 
+import java.util.List;
+
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.codegen.annotations.ProxyGen;
 import io.vertx.codegen.annotations.VertxGen;
@@ -18,6 +20,9 @@ public interface MenuService {
 
 	@Fluent
 	MenuService retrieveSubMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler);
+	
+	@Fluent
+	MenuService retrieveMenuChildren(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler);
 	
 	@Fluent
 	MenuService retrieveMenu(Handler<AsyncResult<MenuItem>> resultHandler);

@@ -1,5 +1,6 @@
 package io.ensure.deepsea.ui.menu.impl;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import io.ensure.deepsea.common.service.MongoRedisRepositoryWrapper;
@@ -76,6 +77,17 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 				future.setHandler(resultHandler).fail(res.cause());
 			}
 		});
+		return this;
+	}
+
+	@Override
+	public MenuService retrieveMenuChildren(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) {
+		if (parentID.startsWith("menu-")) {
+			parentID = parentID.substring(5);
+		}
+		this.selectDocuments(MENU, new JsonObject().put("parent", parentID))
+		.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList()))
+		.setHandler(resultHandler);
 		return this;
 	}
 
