@@ -6,6 +6,19 @@ const API_URI = '/api';
 
 vertxApp.controller('AppIndexCtrl', ['$scope', '$http', '$templateCache', '$routeParams',
   function ($scope, $http, $templateCache, $routeParams) {
+	$scope.menu = [];
+    var fetchMenu = () => {
+    	$http({
+    		method: 'GET',
+    		url: '/api/menu/home'
+    	}).success(data => {
+    		$scope.menu = data;
+    	}).error((data, status, headers, config) => {
+    		
+    	})
+    };
+    fetchMenu();
+    
     $scope.products = [];
     $scope.reqUrl = "/api/product/products";
     if ($routeParams.p) {

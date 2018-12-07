@@ -123,6 +123,7 @@ img.slide {
 	right: 20px;
     background-color: rgba(255,255,255,0.75);
     padding-bottom: 20px;
+    border-radius: 5px;
 }
 
 .templatemo-content-wrapper {

@@ -2,8 +2,10 @@
 <div class="row">
     <div>
       <ol class="breadcrumb">
-        <li><a href="/#/bordereau">Bordereau</a></li>
-        <li><a href="#deepsea">Products</a></li>
+        <li ng-repeat="menuitem in menu"><a href="{{menuitem.url}}">{{menuitem.name}}</a></li>
+      
+      <!--   <li><a href="/#/bordereau">Bordereau</a></li>
+        <li><a href="#deepsea">Products</a></li> -->
       </ol>
     </div>
   </div>
