@@ -1,5 +1,7 @@
 package io.ensure.deepsea.ui.menu.impl;
 
+import java.util.stream.Collectors;
+
 import io.ensure.deepsea.common.service.MongoRedisRepositoryWrapper;
 import io.ensure.deepsea.ui.menu.MenuItem;
 import io.ensure.deepsea.ui.menu.MenuService;
@@ -54,9 +56,26 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 
 	@Override
 	public MenuService retrieveMenu(Handler<AsyncResult<MenuItem>> resultHandler) {
+		Future<MenuItem> future = Future.future();
 		this.retrieveDocumentWithCache(MENU, new JsonObject().put("name", "Home"))
 		.map(option -> option.map(MenuItem::new).orElse(null))
-		.setHandler(resultHandler);
+		.setHandler(res -> {
+			if (res.succeeded()) {
+				this.selectDocuments(MENU, new JsonObject().put("parent", "home"))
+				.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList()))
+				.setHandler(ar -> {
+					if (ar.succeeded()) {
+						MenuItem mItem = res.result();
+						mItem.setChildrenMenuItems(ar.result());
+						future.setHandler(resultHandler).complete(mItem);
+					} else {
+						future.setHandler(resultHandler).fail(ar.cause());
+					}
+				});
+			} else {
+				future.setHandler(resultHandler).fail(res.cause());
+			}
+		});
 		return this;
 	}
 
