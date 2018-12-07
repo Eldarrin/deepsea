@@ -31,10 +31,12 @@ public class BordereauLineTest {
 		bordereauLine.setIpt(2d);
 		bordereauLine.setValue(10d);
 		bordereauLine.setStartDate(testInstant);
+		bordereauLine.setDateSourceCreated(testInstant);
 
 		jBordereauLine = new JsonObject().put("bordereauLineId", LINE_ID).put("clientId", CLIENT_ID)
 				.put("customerName", CUSTOMER_NAME).put("event", BordereauEvent.INCEPTION.toString())
-				.put("eventDate", testInstant).put("ipt", 2d).put("value", 10d).put("startDate", testInstant);
+				.put("eventDate", testInstant).put("ipt", 2d).put("value", 10d).put("startDate", testInstant)
+				.put("dateSourceCreated", testInstant);
 	}
 
 	@After
@@ -59,6 +61,7 @@ public class BordereauLineTest {
 		assertEquals(2d, checkBL.getIpt(), 0);
 		assertEquals(10d, checkBL.getValue(), 0);
 		assertEquals(testInstant, checkBL.getStartDate());
+		assertEquals(testInstant, checkBL.getDateSourceCreated());
 	}
 
 	@Test
