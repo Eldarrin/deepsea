@@ -27,7 +27,7 @@ public interface BordereauService {
 	BordereauService initializePersistence(Handler<AsyncResult<Void>> resultHandler);
 
 	@Fluent
-	BordereauService addBordereauLine(BordereauLine bordereauLine, Handler<AsyncResult<Void>> resultHandler);
+	BordereauService addBordereauLine(BordereauLine bordereauLine, Handler<AsyncResult<BordereauLine>> resultHandler);
 
 	@Fluent
 	BordereauService retrieveBordereauLine(String bordereauLineId, Handler<AsyncResult<BordereauLine>> resultHandler);

@@ -6,12 +6,12 @@ import java.util.stream.Collectors;
 import io.ensure.deepsea.actuarial.bordereau.BordereauLine;
 import io.ensure.deepsea.actuarial.bordereau.BordereauService;
 import io.ensure.deepsea.common.service.MySqlRepositoryWrapper;
-
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.rxjava.core.Future;
 
 public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements BordereauService {
 	
@@ -33,7 +33,8 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 	}
 
 	@Override
-	public BordereauService addBordereauLine(BordereauLine bordereauLine, Handler<AsyncResult<Void>> resultHandler) {
+	public BordereauService addBordereauLine(BordereauLine bordereauLine, Handler<AsyncResult<BordereauLine>> resultHandler) {
+		Future<BordereauLine> future = Future.future();
 		JsonArray params = new JsonArray().add(bordereauLine.getSource())
 				.add(bordereauLine.getSourceId())
 				.add(bordereauLine.getBordereauLineId())
@@ -45,7 +46,14 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 				.add(fromInstant(bordereauLine.getEventDate()))
 				.add(bordereauLine.getEvent().toString())
 				.add(fromInstant(bordereauLine.getDateSourceCreated()));
-		executeNoResult(params, INSERT_STATEMENT, resultHandler);
+		this.executeReturnKey(params, INSERT_STATEMENT).setHandler(res -> {
+			if (res.succeeded()) {
+				bordereauLine.setBordereauLineId("bordereauline-" + res.result().get());
+				future.setHandler(resultHandler).complete(bordereauLine);
+			} else {
+				future.setHandler(resultHandler).fail(res.cause());
+			}
+		});
 		return this;
 	}
 	
