@@ -6,8 +6,6 @@ import io.ensure.deepsea.common.helper.RedisHelper;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.redis.RedisClient;
 import io.vertx.redis.RedisOptions;
 
@@ -16,8 +14,6 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 	protected String typeName;
 	private RedisClient redis;
 	private String keyName;
-	
-	private Logger log = LoggerFactory.getLogger(getClass());
 
 	public MongoRedisRepositoryWrapper(Vertx vertx, JsonObject config, RedisOptions rOptions, String typeName) {
 		super(vertx, config);
@@ -111,7 +107,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		Future<Optional<JsonObject>> future = Future.future();
 		this.selectDocuments(collection, query).setHandler(res -> {
 			if (res.succeeded()) {
-				if (res.result().size() > 0) {
+				if (!res.result().isEmpty()) {
 					RedisHelper.setCache(redis, keyName, keyFix(res.result().get(0))).setHandler(future.completer());
 				} else {
 					future.complete(Optional.empty());
