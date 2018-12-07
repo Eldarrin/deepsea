@@ -1,6 +1,12 @@
 'use strict';
 
-var vertxApp = angular.module('vertxApp', [ 'ngRoute', 'appControllers' ]);
+var vertxApp = angular.module('vertxApp', [ 'ngRoute', 'appControllers' ]).config(function($sceProvider) {
+	  // Completely disable SCE.  For demonstration purposes only!
+	  // Do not use in new projects or libraries.
+	  $sceProvider.enabled(false);
+	});
+
+
 
 /**
  * Config routes

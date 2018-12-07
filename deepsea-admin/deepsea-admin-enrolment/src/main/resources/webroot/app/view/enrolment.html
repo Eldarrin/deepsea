@@ -8,7 +8,7 @@
 	</div>
 	<div class="row">
 		<div class="panel panel-primary">
-			<form id="myform" method="post">
+			<form id="myform">
 				<p>
 					<label>Client</label><br> <label> <input type="radio"
 						name="clientId" value="barclays"> Barclays
@@ -78,7 +78,7 @@
    console.log(jsonData);
     $.ajax(
     {
-        url : "/add",
+        url : "/api/enrolment/add",
         type: "POST",
         data : jsonData,
 

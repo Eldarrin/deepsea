@@ -34,6 +34,7 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 	public void start(Future<Void> future) throws Exception {
 		super.start();
 		final Router router = Router.router(vertx);
+		this.enableCorsSupport(router);
 		addHealthHandler(router, future);
 		router.route().handler(BodyHandler.create());
 		router.post(API_ADD).handler(this::apiAdd);
