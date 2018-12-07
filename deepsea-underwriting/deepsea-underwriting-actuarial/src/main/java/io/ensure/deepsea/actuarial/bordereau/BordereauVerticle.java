@@ -105,10 +105,18 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		
 		redis.subscribe(ENROLMENT_CHANNEL, ar -> {
 			if (ar.succeeded()) {
-				bordereauService.requestLastRecordBySource(ENROLMENT_CHANNEL, res -> vertx.eventBus()
-						.send(ENROLMENT_CHANNEL + REPLAY, 
-							new JsonObject().put(DATE_CREATED, 
-									ISO8601DateParser.toJsonString(res.result().getDateSourceCreated()))));
+				bordereauService.requestLastRecordBySource(ENROLMENT_CHANNEL, res -> {
+					if (res.succeeded()) {
+						String dateRequired = "1970-01-01T00:00:00.000Z"; 
+						if (res.result() != null) {
+							dateRequired = ISO8601DateParser.toJsonString(res.result().getDateSourceCreated());
+						}
+						vertx.eventBus().send(ENROLMENT_CHANNEL + REPLAY, 
+								new JsonObject().put(DATE_CREATED, dateRequired));
+					}
+					
+				});
+						
 			} else {
 				log.error(ar.result());
 			}
