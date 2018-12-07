@@ -71,7 +71,11 @@ public class MenuItem {
 	}
 	
 	public boolean hasChildren() {
-		return (childrenMenuItems != null || !childrenMenuItems.isEmpty());
+		try {
+			return (!childrenMenuItems.isEmpty());
+		} catch (NullPointerException n) {
+			return false;
+		}
 	}
 
 	public MenuItem(JsonObject json) {
