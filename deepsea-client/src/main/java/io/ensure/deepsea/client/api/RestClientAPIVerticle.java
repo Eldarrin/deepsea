@@ -3,20 +3,14 @@ package io.ensure.deepsea.client.api;
 import io.ensure.deepsea.client.Client;
 import io.ensure.deepsea.client.ClientService;
 import io.ensure.deepsea.common.RestAPIVerticle;
-import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
-import io.vertx.config.ConfigRetriever;
 import io.vertx.core.Future;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.logging.Logger;
-import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 
 public class RestClientAPIVerticle extends RestAPIVerticle {
-	
-	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	public static final String SERVICE_NAME = "client-rest-api";
 	
@@ -40,27 +34,8 @@ public class RestClientAPIVerticle extends RestAPIVerticle {
 		addHealthHandler(router, future);
 		router.post(API_ADD).handler(this::apiAdd);
 		router.get(API_RETRIEVE).handler(this::apiRetrieve);
-
-		ConfigRetriever retriever = ConfigRetriever
-				.create(vertx, new ConfigRetrieverHelper()
-						.getOptions("deepsea", "deepsea-client"));
-        retriever.getConfig(res -> {
-        	if (res.succeeded()) {
-        		String host = res.result().getString("client.http.address", "0.0.0.0");
-        		int port = res.result().getInteger("client.http.port", 8080);
-        		String serviceHost = res.result().getString("client.service.hostname", "deepsea-client.deepsea.svc");
-        		String apiName = res.result().getString("client.api.name", "client");
-        		
-        		// create HTTP server and publish REST service
-        		createHttpServer(router, host, port)
-        				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, serviceHost, port, apiName))
-        				.setHandler(future.completer());
-        		
-        	} else {
-        		log.error("Unable to find config map for Deepsea Client");
-        	}
-        
-        });
+		
+		startRestService(router, future, SERVICE_NAME, "client", "deepsea", "deepsea-client");
 	}
 	
 	private void apiAdd(RoutingContext rc) {
