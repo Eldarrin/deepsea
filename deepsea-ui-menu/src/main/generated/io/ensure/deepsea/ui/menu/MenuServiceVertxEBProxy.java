@@ -33,6 +33,7 @@ import io.vertx.serviceproxy.ProxyHelper;
 import io.vertx.serviceproxy.ServiceException;
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
 import io.ensure.deepsea.ui.menu.MenuItem;
+import java.util.List;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.ensure.deepsea.ui.menu.MenuService;
@@ -103,6 +104,26 @@ public class MenuServiceVertxEBProxy implements MenuService {
   }
 
   @Override
+  public MenuService changeMenuState(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler) {
+    if (closed) {
+    resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
+      return this;
+    }
+    JsonObject _json = new JsonObject();
+    _json.put("menuItem", menuItem == null ? null : menuItem.toJson());
+    DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
+    _deliveryOptions.addHeader("action", "changeMenuState");
+    _vertx.eventBus().<JsonObject>send(_address, _json, _deliveryOptions, res -> {
+      if (res.failed()) {
+        resultHandler.handle(Future.failedFuture(res.cause()));
+      } else {
+        resultHandler.handle(Future.succeededFuture(res.result().body() == null ? null : new MenuItem(res.result().body())));
+                      }
+    });
+    return this;
+  }
+
+  @Override
   public MenuService retrieveSubMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler) {
     if (closed) {
     resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
@@ -118,6 +139,30 @@ public class MenuServiceVertxEBProxy implements MenuService {
       } else {
         resultHandler.handle(Future.succeededFuture(res.result().body() == null ? null : new MenuItem(res.result().body())));
                       }
+    });
+    return this;
+  }
+
+  @Override
+  public MenuService retrieveMenuChildren(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) {
+    if (closed) {
+    resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
+      return this;
+    }
+    JsonObject _json = new JsonObject();
+    _json.put("parentID", parentID);
+    DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
+    _deliveryOptions.addHeader("action", "retrieveMenuChildren");
+    _vertx.eventBus().<JsonArray>send(_address, _json, _deliveryOptions, res -> {
+      if (res.failed()) {
+        resultHandler.handle(Future.failedFuture(res.cause()));
+      } else {
+        resultHandler.handle(Future.succeededFuture(res.result().body().stream()
+            .map(o -> { if (o == null) return null;
+                        return o instanceof Map ? new MenuItem(new JsonObject((Map) o)) : new MenuItem((JsonObject) o);
+                 })
+            .collect(Collectors.toList())));
+      }
     });
     return this;
   }

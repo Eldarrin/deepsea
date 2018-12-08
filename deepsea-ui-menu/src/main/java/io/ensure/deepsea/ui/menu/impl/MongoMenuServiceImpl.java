@@ -85,10 +85,19 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 		if (parentID.startsWith("menu-")) {
 			parentID = parentID.substring(5);
 		}
+		Future <List<MenuItem>> future = Future.future();
 		this.selectDocuments(MENU, new JsonObject().put("parent", parentID))
 		.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList()))
-		.setHandler(resultHandler);
+		.setHandler(res -> {
+			
+		});
 		return this;
+	}
+
+	@Override
+	public MenuService changeMenuState(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

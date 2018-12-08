@@ -81,12 +81,12 @@ public class BordereauService {
     }));
   }
 
-  public BordereauService addBordereauLine(BordereauLine bordereauLine, Handler<AsyncResult<Void>> resultHandler) { 
+  public BordereauService addBordereauLine(BordereauLine bordereauLine, Handler<AsyncResult<BordereauLine>> resultHandler) { 
     delegate.addBordereauLine(bordereauLine, resultHandler);
     return this;
   }
 
-  public Single<Void> rxAddBordereauLine(BordereauLine bordereauLine) { 
+  public Single<BordereauLine> rxAddBordereauLine(BordereauLine bordereauLine) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       addBordereauLine(bordereauLine, fut);
     }));

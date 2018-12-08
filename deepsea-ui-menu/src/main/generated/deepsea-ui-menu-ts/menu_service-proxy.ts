@@ -46,11 +46,27 @@ export class MenuService {
       return this;
   }
 
+  changeMenuState(menuItem: any, resultHandler: (err: any, result: any) => any) : MenuService {
+    if (closed) {
+      throw new Error('Proxy is closed');
+    }
+    this.eb.send(this.address, {"menuItem": menuItem}, {"action":"changeMenuState"}, function(err, result) { resultHandler(err, result &&result.body); });
+      return this;
+  }
+
   retrieveSubMenu(id: string, resultHandler: (err: any, result: any) => any) : MenuService {
     if (closed) {
       throw new Error('Proxy is closed');
     }
     this.eb.send(this.address, {"id": id}, {"action":"retrieveSubMenu"}, function(err, result) { resultHandler(err, result &&result.body); });
+      return this;
+  }
+
+  retrieveMenuChildren(parentID: string, resultHandler: (err: any, result: any) => any) : MenuService {
+    if (closed) {
+      throw new Error('Proxy is closed');
+    }
+    this.eb.send(this.address, {"parentID": parentID}, {"action":"retrieveMenuChildren"}, function(err, result) { resultHandler(err, result &&result.body); });
       return this;
   }
 

@@ -63,7 +63,7 @@ var BordereauService = function(j_val) {
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
       j_bordereauService["addBordereauLine(io.ensure.deepsea.actuarial.bordereau.BordereauLine,io.vertx.core.Handler)"](bordereauLine != null ? new BordereauLine(new JsonObject(Java.asJSONCompatible(bordereauLine))) : null, function(ar) {
       if (ar.succeeded()) {
-        resultHandler(null, null);
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
       } else {
         resultHandler(null, ar.cause());
       }

@@ -20,6 +20,7 @@ import java.util.Map;
 import rx.Observable;
 import rx.Single;
 import io.ensure.deepsea.ui.menu.MenuItem;
+import java.util.List;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
@@ -82,6 +83,17 @@ public class MenuService {
     }));
   }
 
+  public MenuService changeMenuState(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler) { 
+    delegate.changeMenuState(menuItem, resultHandler);
+    return this;
+  }
+
+  public Single<MenuItem> rxChangeMenuState(MenuItem menuItem) { 
+    return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+      changeMenuState(menuItem, fut);
+    }));
+  }
+
   public MenuService retrieveSubMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler) { 
     delegate.retrieveSubMenu(id, resultHandler);
     return this;
@@ -90,6 +102,17 @@ public class MenuService {
   public Single<MenuItem> rxRetrieveSubMenu(String id) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       retrieveSubMenu(id, fut);
+    }));
+  }
+
+  public MenuService retrieveMenuChildren(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) { 
+    delegate.retrieveMenuChildren(parentID, resultHandler);
+    return this;
+  }
+
+  public Single<List<MenuItem>> rxRetrieveMenuChildren(String parentID) { 
+    return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+      retrieveMenuChildren(parentID, fut);
     }));
   }
 

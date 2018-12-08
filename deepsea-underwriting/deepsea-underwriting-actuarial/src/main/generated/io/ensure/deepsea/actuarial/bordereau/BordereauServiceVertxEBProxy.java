@@ -84,7 +84,7 @@ public class BordereauServiceVertxEBProxy implements BordereauService {
   }
 
   @Override
-  public BordereauService addBordereauLine(BordereauLine bordereauLine, Handler<AsyncResult<Void>> resultHandler) {
+  public BordereauService addBordereauLine(BordereauLine bordereauLine, Handler<AsyncResult<BordereauLine>> resultHandler) {
     if (closed) {
     resultHandler.handle(Future.failedFuture(new IllegalStateException("Proxy is closed")));
       return this;
@@ -93,12 +93,12 @@ public class BordereauServiceVertxEBProxy implements BordereauService {
     _json.put("bordereauLine", bordereauLine == null ? null : bordereauLine.toJson());
     DeliveryOptions _deliveryOptions = (_options != null) ? new DeliveryOptions(_options) : new DeliveryOptions();
     _deliveryOptions.addHeader("action", "addBordereauLine");
-    _vertx.eventBus().<Void>send(_address, _json, _deliveryOptions, res -> {
+    _vertx.eventBus().<JsonObject>send(_address, _json, _deliveryOptions, res -> {
       if (res.failed()) {
         resultHandler.handle(Future.failedFuture(res.cause()));
       } else {
-        resultHandler.handle(Future.succeededFuture(res.result().body()));
-      }
+        resultHandler.handle(Future.succeededFuture(res.result().body() == null ? null : new BordereauLine(res.result().body())));
+                      }
     });
     return this;
   }

@@ -19,6 +19,7 @@ import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
+import io.vertx.servicediscovery.types.EventBusService;
 import io.vertx.servicediscovery.types.HttpEndpoint;
 
 public class DeepSeaUIVerticle extends RestAPIVerticle {
@@ -74,7 +75,7 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 				future.fail(ar.cause());
 			}
 		});
-		
+		listAllEndpoints();
 		
 	}
 
@@ -127,6 +128,23 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 		Future<List<Record>> future = Future.future();
 		discovery.getRecords(record -> record.getType().equals(HttpEndpoint.TYPE), future.completer());
 		return future;
+	}
+	
+	private void listAllEndpoints() {
+		discovery.getRecords(record -> record.getType().equals(HttpEndpoint.TYPE), ar -> {
+			if (ar.succeeded()) {
+				for (Record rec : ar.result()) {
+					logger.info(rec.getName() + "|" + rec.getLocation() + "|" + rec.getStatus());
+				}
+			}
+		});
+		discovery.getRecords(record -> record.getType().equals(EventBusService.TYPE), ar -> {
+			if (ar.succeeded()) {
+				for (Record rec : ar.result()) {
+					logger.info(rec.getName() + "|" + rec.getLocation() + "|" + rec.getStatus());
+				}
+			}
+		});
 	}
 	
 	/**

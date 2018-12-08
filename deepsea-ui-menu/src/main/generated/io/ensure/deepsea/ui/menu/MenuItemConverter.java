@@ -27,6 +27,17 @@ import io.vertx.core.json.JsonArray;
 public class MenuItemConverter {
 
   public static void fromJson(JsonObject json, MenuItem obj) {
+    if (json.getValue("available") instanceof Boolean) {
+      obj.setAvailable((Boolean)json.getValue("available"));
+    }
+    if (json.getValue("children") instanceof JsonArray) {
+      java.util.ArrayList<java.lang.String> list = new java.util.ArrayList<>();
+      json.getJsonArray("children").forEach( item -> {
+        if (item instanceof String)
+          list.add((String)item);
+      });
+      obj.setChildren(list);
+    }
     if (json.getValue("childrenMenuItems") instanceof JsonArray) {
       java.util.ArrayList<io.ensure.deepsea.ui.menu.MenuItem> list = new java.util.ArrayList<>();
       json.getJsonArray("childrenMenuItems").forEach( item -> {
@@ -41,8 +52,14 @@ public class MenuItemConverter {
     if (json.getValue("name") instanceof String) {
       obj.setName((String)json.getValue("name"));
     }
+    if (json.getValue("parent") instanceof String) {
+      obj.setParent((String)json.getValue("parent"));
+    }
     if (json.getValue("parentMenuItem") instanceof JsonObject) {
       obj.setParentMenuItem(new io.ensure.deepsea.ui.menu.MenuItem((JsonObject)json.getValue("parentMenuItem")));
+    }
+    if (json.getValue("serviceName") instanceof String) {
+      obj.setServiceName((String)json.getValue("serviceName"));
     }
     if (json.getValue("url") instanceof String) {
       obj.setUrl((String)json.getValue("url"));
@@ -50,6 +67,12 @@ public class MenuItemConverter {
   }
 
   public static void toJson(MenuItem obj, JsonObject json) {
+    json.put("available", obj.isAvailable());
+    if (obj.getChildren() != null) {
+      JsonArray array = new JsonArray();
+      obj.getChildren().forEach(item -> array.add(item));
+      json.put("children", array);
+    }
     if (obj.getChildrenMenuItems() != null) {
       JsonArray array = new JsonArray();
       obj.getChildrenMenuItems().forEach(item -> array.add(item.toJson()));
@@ -61,8 +84,14 @@ public class MenuItemConverter {
     if (obj.getName() != null) {
       json.put("name", obj.getName());
     }
+    if (obj.getParent() != null) {
+      json.put("parent", obj.getParent());
+    }
     if (obj.getParentMenuItem() != null) {
       json.put("parentMenuItem", obj.getParentMenuItem().toJson());
+    }
+    if (obj.getServiceName() != null) {
+      json.put("serviceName", obj.getServiceName());
     }
     if (obj.getUrl() != null) {
       json.put("url", obj.getUrl());

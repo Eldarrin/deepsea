@@ -15,6 +15,8 @@ public class MenuItem {
 	private List<String> children;
 	private MenuItem parentMenuItem;
 	private List<MenuItem> childrenMenuItems;
+	private boolean isAvailable;
+	private String serviceName;
 	
 	public MenuItem() {
 		
@@ -129,6 +131,22 @@ public class MenuItem {
 
 	public void setParent(String parent) {
 		this.parent = parent;
+	}
+
+	public boolean isAvailable() {
+		return isAvailable;
+	}
+
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
+	}
+
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
 	}
 	
 }

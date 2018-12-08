@@ -11,6 +11,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.redis.RedisClient;
+import io.vertx.redis.RedisOptions;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class MenuVerticle extends BaseMicroserviceVerticle {
@@ -25,6 +27,9 @@ public class MenuVerticle extends BaseMicroserviceVerticle {
 	 */
 	private static final String SERVICE_ADDRESS = "service.menu";
 
+	private static final String REDIS_JSON_VALUE = "value";
+	private static final String REDIS_CHANNEL = "io.vertx.redis.";
+	private static final String MENU_CHANNEL = "menu";
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 
@@ -60,7 +65,7 @@ public class MenuVerticle extends BaseMicroserviceVerticle {
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, MenuService.class)
         				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
         		vertx.eventBus().publish("client", new JsonObject().put("started", "true"));
-        		
+        		setupConsumer(redisRes.result());
         		});
         		
         	} else {
@@ -69,6 +74,32 @@ public class MenuVerticle extends BaseMicroserviceVerticle {
         
         });
 		
+	}
+	
+	private void setupConsumer(RedisOptions redisOptions) {
+		vertx.eventBus().<JsonObject>consumer(REDIS_CHANNEL + MENU_CHANNEL, received -> {
+			String message = received.body().getJsonObject(REDIS_JSON_VALUE).getString("message");
+			log.trace(message);
+			addMenuItem(new JsonObject(message));
+		});
+
+		RedisClient redis = RedisClient.create(vertx, redisOptions);
+
+		redis.subscribe(MENU_CHANNEL, ar -> {
+			if (!ar.succeeded()) {
+				log.error(ar.result());
+			}
+		});
+		
+	}
+	
+	private void addMenuItem(JsonObject menuJson) {
+		MenuItem menuItem = new MenuItem(menuJson);
+		menuService.addMenu(menuItem, ar -> {
+			if (!ar.succeeded()) {
+				log.error(ar.cause());
+			}
+		});
 	}
 
 	private Future<Void> initMenuDatabase(MenuService service) {

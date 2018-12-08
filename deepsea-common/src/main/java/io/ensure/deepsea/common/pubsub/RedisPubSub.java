@@ -43,6 +43,22 @@ public class RedisPubSub {
 		future.complete();
 		return future;
 	}
+	
+	public Future<Void> publish(String channel, JsonObject message) {
+		Future<Void> future = Future.future();
+		if (redis == null) {
+			future.fail(new NullPointerException("Redis Not Instatntiated, start PUBSUB"));
+		} else {
+			redis.publish(channel, message.encode(), ar -> {
+				if (ar.succeeded()) {
+					future.complete();
+				} else {
+					future.fail(ar.cause());
+				}
+			});
+		}
+		return future;
+	}
 
 	public Future<Void> startRedisPubSub(String channel, String configMap) {
 		Future<Void> future = Future.future();

@@ -17,6 +17,9 @@ public interface MenuService {
 
 	@Fluent
 	MenuService addMenu(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler);
+	
+	@Fluent
+	MenuService changeMenuState(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler);
 
 	@Fluent
 	MenuService retrieveSubMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler);

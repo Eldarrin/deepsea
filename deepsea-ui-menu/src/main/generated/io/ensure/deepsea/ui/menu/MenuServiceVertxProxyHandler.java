@@ -40,6 +40,7 @@ import io.vertx.serviceproxy.ProxyHandler;
 import io.vertx.serviceproxy.ServiceException;
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
 import io.ensure.deepsea.ui.menu.MenuItem;
+import java.util.List;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.ensure.deepsea.ui.menu.MenuService;
@@ -133,6 +134,20 @@ public class MenuServiceVertxProxyHandler extends ProxyHandler {
          });
           break;
         }
+        case "changeMenuState": {
+          service.changeMenuState(json.getJsonObject("menuItem") == null ? null : new io.ensure.deepsea.ui.menu.MenuItem(json.getJsonObject("menuItem")), res -> {
+            if (res.failed()) {
+              if (res.cause() instanceof ServiceException) {
+                msg.reply(res.cause());
+              } else {
+                msg.reply(new ServiceException(-1, res.cause().getMessage()));
+              }
+            } else {
+              msg.reply(res.result() == null ? null : res.result().toJson());
+            }
+         });
+          break;
+        }
         case "retrieveSubMenu": {
           service.retrieveSubMenu((java.lang.String)json.getValue("id"), res -> {
             if (res.failed()) {
@@ -143,6 +158,20 @@ public class MenuServiceVertxProxyHandler extends ProxyHandler {
               }
             } else {
               msg.reply(res.result() == null ? null : res.result().toJson());
+            }
+         });
+          break;
+        }
+        case "retrieveMenuChildren": {
+          service.retrieveMenuChildren((java.lang.String)json.getValue("parentID"), res -> {
+            if (res.failed()) {
+              if (res.cause() instanceof ServiceException) {
+                msg.reply(res.cause());
+              } else {
+                msg.reply(new ServiceException(-1, res.cause().getMessage()));
+              }
+            } else {
+              msg.reply(new JsonArray(res.result().stream().map(r -> r == null ? null : r.toJson()).collect(Collectors.toList())));
             }
          });
           break;

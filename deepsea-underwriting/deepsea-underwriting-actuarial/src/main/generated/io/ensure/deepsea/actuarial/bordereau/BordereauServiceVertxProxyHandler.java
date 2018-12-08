@@ -121,7 +121,17 @@ public class BordereauServiceVertxProxyHandler extends ProxyHandler {
           break;
         }
         case "addBordereauLine": {
-          service.addBordereauLine(json.getJsonObject("bordereauLine") == null ? null : new io.ensure.deepsea.actuarial.bordereau.BordereauLine(json.getJsonObject("bordereauLine")), createHandler(msg));
+          service.addBordereauLine(json.getJsonObject("bordereauLine") == null ? null : new io.ensure.deepsea.actuarial.bordereau.BordereauLine(json.getJsonObject("bordereauLine")), res -> {
+            if (res.failed()) {
+              if (res.cause() instanceof ServiceException) {
+                msg.reply(res.cause());
+              } else {
+                msg.reply(new ServiceException(-1, res.cause().getMessage()));
+              }
+            } else {
+              msg.reply(res.result() == null ? null : res.result().toJson());
+            }
+         });
           break;
         }
         case "retrieveBordereauLine": {

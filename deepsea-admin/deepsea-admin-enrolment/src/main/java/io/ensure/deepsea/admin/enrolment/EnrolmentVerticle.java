@@ -65,6 +65,12 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
             		redisPubSub.startRedisPubSub(ENROLMENT_CHANNEL, DEEPSEA_ADMIN_ENROLMENT).setHandler(ar -> {
             			if (ar.succeeded()) {
             				setupReplayConsumer();
+            				JsonObject menu = new JsonObject()
+            						.put("parent", "home")
+            						.put("name", "Enrolment")
+            						.put("url", "/#/enrolment")
+            						.put("serviceName", "service.enrolment");
+            				redisPubSub.publish("menu", menu);
             			}
             		});
         		});

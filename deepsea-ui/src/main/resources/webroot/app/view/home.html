@@ -1,32 +1,51 @@
 <div class="container">
-<div class="row">
-    <div>
-      <ol class="breadcrumb">
-        <li ng-repeat="menuitem in menu"><a href="{{menuitem.url}}">{{menuitem.name}}</a></li>
-      
-      <!--   <li><a href="/#/bordereau">Bordereau</a></li>
-        <li><a href="#deepsea">Products</a></li> -->
-      </ol>
-    </div>
-  </div>
-  <div class="row clearfix">
-    <div ng-repeat="product in products" class="col-md-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-        
-        </div>
-        <ul class="list-group">
-          <li class="list-group-item text-center">
-            <div class="pic-center">
-              <img class="limited-size" ng-src="/assets/img/posters/{{product.productId}}.jpg" alt="{{product.name}}">
-            </div>
-            <div>
-              <a href="/#/products/{{product.productId}}">{{product.name}}</a>
-              <p class="text-out-of-stock">{{product.price | currency}}</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Brand</a>
+			</div>
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li ng-repeat="menuitem in menu"><a href="{{menuitem.url}}">{{menuitem.name}}</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="row">
+		<div>
+			<ol class="breadcrumb">
+				<li ng-repeat="menuitem in menu"><a href="{{menuitem.url}}">{{menuitem.name}}</a></li>
+			</ol>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div ng-repeat="product in products" class="col-md-4">
+			<div class="panel panel-primary">
+				<div class="panel-heading"></div>
+				<ul class="list-group">
+					<li class="list-group-item text-center">
+						<div class="pic-center">
+							<img class="limited-size"
+								ng-src="/assets/img/posters/{{product.productId}}.jpg"
+								alt="{{product.name}}">
+						</div>
+						<div>
+							<a href="/#/products/{{product.productId}}">{{product.name}}</a>
+							<p class="text-out-of-stock">{{product.price | currency}}</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 </div>
