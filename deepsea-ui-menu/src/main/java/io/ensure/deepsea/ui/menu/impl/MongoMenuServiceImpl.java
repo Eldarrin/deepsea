@@ -58,7 +58,7 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 	@Override
 	public MenuService retrieveMenu(Handler<AsyncResult<MenuItem>> resultHandler) {
 		Future<MenuItem> future = Future.future();
-		this.retrieveDocumentWithCache(MENU, new JsonObject().put("name", "Home"))
+		this.retrieveDocumentWithCache(MENU, new JsonObject().put("_id", "menu-home"))
 		.map(option -> option.map(MenuItem::new).orElse(null))
 		.setHandler(res -> {
 			if (res.succeeded()) {
@@ -80,17 +80,35 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 		return this;
 	}
 
+	public MenuService retrieveMenuChildren2(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) {
+		if (parentID.startsWith("menu-")) {
+			parentID = parentID.substring(5);
+		}
+		this.selectDocuments(MENU, new JsonObject().put("parent", parentID))
+		.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList()))
+		.setHandler(res -> {
+			if (res.succeeded()) {
+				for (MenuItem mItem : res.result()) {
+					retrieveMenuChildren2(mItem.getMenuId(), ar -> {
+						if (ar.succeeded() && !ar.result().isEmpty()) {
+							mItem.setChildrenMenuItems(ar.result());
+						}
+					});
+				}
+
+			}
+		});
+		return this;
+	}
+
 	@Override
 	public MenuService retrieveMenuChildren(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) {
 		if (parentID.startsWith("menu-")) {
 			parentID = parentID.substring(5);
 		}
-		Future <List<MenuItem>> future = Future.future();
 		this.selectDocuments(MENU, new JsonObject().put("parent", parentID))
 		.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList()))
-		.setHandler(res -> {
-			
-		});
+		.setHandler(resultHandler);
 		return this;
 	}
 
