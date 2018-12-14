@@ -27,7 +27,10 @@ public interface MenuService {
 	@Fluent
 	MenuService retrieveMenuChildren(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler);
 	
+	//@Fluent
+	//MenuService retrieveMenu(Handler<AsyncResult<MenuItem>> resultHandler);
+	
 	@Fluent
-	MenuService retrieveMenu(Handler<AsyncResult<MenuItem>> resultHandler);
+	MenuService retrieveMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler);
 	
 }

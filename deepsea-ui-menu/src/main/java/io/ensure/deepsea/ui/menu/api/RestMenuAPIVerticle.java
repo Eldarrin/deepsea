@@ -58,6 +58,6 @@ public class RestMenuAPIVerticle extends RestAPIVerticle {
 	}
 	
 	private void apiRetrieve(RoutingContext rc) {
-		service.retrieveMenu(resultHandlerNonEmpty(rc));
+		service.retrieveMenu("home", resultHandlerNonEmpty(rc));
 	}
 }
