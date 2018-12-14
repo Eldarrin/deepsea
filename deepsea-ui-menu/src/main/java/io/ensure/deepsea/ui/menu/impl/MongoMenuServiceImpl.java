@@ -1,6 +1,7 @@
 package io.ensure.deepsea.ui.menu.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import io.ensure.deepsea.common.service.MongoRedisRepositoryWrapper;
@@ -81,30 +82,32 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 		return this;
 	}*/
 	
-	@Override
-	public MenuService retrieveMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler) {
-		Future<MenuItem> future = Future.future();
-		this.retrieveDocument(MENU, id)
-		.map(option -> option.map(this::assignChildren).orElse(null))
-		.setHandler(resultHandler);
-		;
-		return this;
-	}
 	
-	private MenuItem assignChildren(JsonObject j) {
-		MenuItem m = new MenuItem(j);
-		String parentId = m.getParent();
-		if (parentId.startsWith("menu-")) {
-			parentId = parentId.substring(5);
+	
+	
+	
+	private void assignChildren(Optional<JsonObject> j, Handler<AsyncResult<MenuItem>> resultHandler) {
+		Future<MenuItem> future = Future.future();
+		if (!j.isPresent()) {
+			future.setHandler(resultHandler).complete();
+		} else {
+			MenuItem m = new MenuItem(j.get());
+			String parentId = m.getMenuId();
+			if (parentId.startsWith("menu-")) {
+				parentId = parentId.substring(5);
+			}
+			this.selectDocuments(MENU, new JsonObject().put("parent", parentId))
+				.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList()))
+				.setHandler(res -> {
+					if (res.succeeded()) {
+						m.setChildrenMenuItems(res.result());
+						future.setHandler(resultHandler).complete(m);
+					} else {
+						future.setHandler(resultHandler).fail(res.cause());
+					}
+				});
 		}
-		this.selectDocuments(MENU, new JsonObject().put("parent", parentId))
-			.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList()))
-			.setHandler(res -> {
-				if (res.succeeded()) {
-					m.setChildrenMenuItems(res.result());
-				}
-			});
-		return m;
+		//return future;
 	}
 	
 	private MenuItem assignChildren(MenuItem m) {
@@ -124,33 +127,116 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 
 	@Override
 	public MenuService retrieveMenuChildren(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) {
-		if (parentID.startsWith("menu-")) {
-			parentID = parentID.substring(5);
-		}
-		Future<List<MenuItem>> future = Future.future();
-		this.selectDocuments(MENU, new JsonObject().put("parent", parentID))
-				.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList())).setHandler(res -> {
-					if (res.succeeded()) {
-						/*res.result().forEach((mItem) -> {
-							retrieveMenuChildren(mItem.getMenuId(), ar -> {
-								if (ar.succeeded()) {
-									mItem.setChildrenMenuItems(ar.result());
-								} else {
-									future.setHandler(resultHandler).fail(ar.cause());
-								}
-							});
-						});
-						future.setHandler(resultHandler).complete(res.result());*/
-						
-						List<MenuItem> mitems = 
-								res.result().stream().map(this::test).collect(Collectors.toList());
-
-						future.setHandler(resultHandler).complete(mitems);
-					} else {
-						future.setHandler(resultHandler).fail(res.cause());
+		Future<MenuItem> future = Future.future();
+		this.retrieveDocument(MENU, parentID)
+		.setHandler(res -> {
+			if (res.succeeded()) {
+				log.info("rMC" + res.result().isPresent());
+				if (res.result().isPresent()) {
+					log.info(res.result().get());
+					//build(new MenuItem(res.result().get()).getMenuId()).setHandler(resultHandler);
+				} else {
+					log.info("not present");
+				}
+			}
+		});
+		;
+		return this;
+	}
+	
+	@Override
+	public MenuService retrieveMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler) {
+		Future<MenuItem> future = Future.future();
+		this.retrieveDocument(MENU, id)
+		.setHandler(res -> {
+			if (res.succeeded()) {
+				MenuItem m = new MenuItem(res.result().get());
+				build(m).setHandler(ar -> {
+					if (ar.succeeded()) {
+						future.setHandler(resultHandler).complete(ar.result());
 					}
 				});
+			}
+		});
 		return this;
+	}
+	
+	private Future<MenuItem> build(MenuItem m) {
+		Future<MenuItem> future = Future.future();
+		String parentId = m.getMenuId();
+		if (parentId.startsWith("menu-")) {
+			parentId = parentId.substring(5);
+		}
+		log.info("building for " + parentId);
+		this.selectDocuments(MENU, new JsonObject().put("parent", parentId))
+		.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList()))
+		.setHandler(res -> {
+			if (res.succeeded()) {
+				if (res.result().isEmpty()) {
+					log.info("build is empty");
+					future.complete();
+					//resultHandler.handle(res); // first already written
+				} else {
+					log.info("it has " + res.result().size() + " children");
+					for (int i = 0 ; i < res.result().size(); i++) {
+						log.info("recommanding build for " + res.result().get(i).getName());
+						final int addTo = i;
+						build(res.result().get(addTo).getMenuId()).setHandler(ar -> {
+							if (ar.succeeded()) {
+								res.result().get(addTo).setChildrenMenuItems(ar.result());
+							}
+						});
+					}
+					m.setChildrenMenuItems(res.result());
+					future.complete(m);
+					//resultHandler.handle(res); // other already written
+				}
+			} else {
+				//new Future<List<MenuItem>>().setHandler(resultHandler).fail(res.cause());
+				//Future.resultHandler.handle(Future.failedFuture(res.cause()));
+				future.fail(res.cause());
+			}
+				
+		});
+		return future;
+	}
+	
+	private Future<List<MenuItem>> build(String parentId) {
+		Future<List<MenuItem>> future = Future.future();
+		if (parentId.startsWith("menu-")) {
+			parentId = parentId.substring(5);
+		}
+		log.info("building for " + parentId);
+		this.selectDocuments(MENU, new JsonObject().put("parent", parentId))
+		.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList()))
+		.setHandler(res -> {
+			if (res.succeeded()) {
+				if (res.result().isEmpty()) {
+					log.info("build is empty");
+					future.complete();
+					//resultHandler.handle(res); // first already written
+				} else {
+					log.info("it has " + res.result().size() + " children");
+					for (int i = 0 ; i < res.result().size(); i++) {
+						log.info("recommanding build for " + res.result().get(i).getName());
+						final int addTo = i;
+						build(res.result().get(addTo).getMenuId()).setHandler(ar -> {
+							if (ar.succeeded()) {
+								res.result().get(addTo).setChildrenMenuItems(ar.result());
+							}
+						});
+					}
+					future.complete(res.result());
+					//resultHandler.handle(res); // other already written
+				}
+			} else {
+				//new Future<List<MenuItem>>().setHandler(resultHandler).fail(res.cause());
+				//Future.resultHandler.handle(Future.failedFuture(res.cause()));
+				future.fail(res.cause());
+			}
+				
+		});
+		return future;
 	}
 	
 	private MenuItem test(MenuItem m) {
