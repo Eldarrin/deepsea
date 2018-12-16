@@ -39,55 +39,57 @@ import io.vertx.serviceproxy.ProxyHelper;
 import io.vertx.serviceproxy.ProxyHandler;
 import io.vertx.serviceproxy.ServiceException;
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec;
+import io.vertx.serviceproxy.HelperUtils;
+
 import java.util.List;
 import io.ensure.deepsea.product.Product;
 import io.ensure.deepsea.product.ProductService;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-
 /*
   Generated Proxy code - DO NOT EDIT
   @author Roger the Robot
 */
+
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class ProductServiceVertxProxyHandler extends ProxyHandler {
 
   public static final long DEFAULT_CONNECTION_TIMEOUT = 5 * 60; // 5 minutes 
-
   private final Vertx vertx;
   private final ProductService service;
   private final long timerID;
   private long lastAccessed;
   private final long timeoutSeconds;
 
-  public ProductServiceVertxProxyHandler(Vertx vertx, ProductService service) {
+  public ProductServiceVertxProxyHandler(Vertx vertx, ProductService service){
     this(vertx, service, DEFAULT_CONNECTION_TIMEOUT);
   }
 
-  public ProductServiceVertxProxyHandler(Vertx vertx, ProductService service, long timeoutInSecond) {
+  public ProductServiceVertxProxyHandler(Vertx vertx, ProductService service, long timeoutInSecond){
     this(vertx, service, true, timeoutInSecond);
   }
 
   public ProductServiceVertxProxyHandler(Vertx vertx, ProductService service, boolean topLevel, long timeoutSeconds) {
-    this.vertx = vertx;
-    this.service = service;
-    this.timeoutSeconds = timeoutSeconds;
-    try {
-      this.vertx.eventBus().registerDefaultCodec(ServiceException.class,
-          new ServiceExceptionMessageCodec());
-    } catch (IllegalStateException ex) {}
-    if (timeoutSeconds != -1 && !topLevel) {
-      long period = timeoutSeconds * 1000 / 2;
-      if (period > 10000) {
-        period = 10000;
+      this.vertx = vertx;
+      this.service = service;
+      this.timeoutSeconds = timeoutSeconds;
+      try {
+        this.vertx.eventBus().registerDefaultCodec(ServiceException.class,
+            new ServiceExceptionMessageCodec());
+      } catch (IllegalStateException ex) {}
+      if (timeoutSeconds != -1 && !topLevel) {
+        long period = timeoutSeconds * 1000 / 2;
+        if (period > 10000) {
+          period = 10000;
+        }
+        this.timerID = vertx.setPeriodic(period, this::checkTimedOut);
+      } else {
+        this.timerID = -1;
       }
-      this.timerID = vertx.setPeriodic(period, this::checkTimedOut);
-    } else {
-      this.timerID = -1;
+      accessed();
     }
-    accessed();
-  }
+
 
   private void checkTimedOut(long id) {
     long now = System.nanoTime();
@@ -96,200 +98,107 @@ public class ProductServiceVertxProxyHandler extends ProxyHandler {
     }
   }
 
-  @Override
-  public void close() {
-    if (timerID != -1) {
-      vertx.cancelTimer(timerID);
+    @Override
+    public void close() {
+      if (timerID != -1) {
+        vertx.cancelTimer(timerID);
+      }
+      super.close();
     }
-    super.close();
-  }
 
-  private void accessed() {
-    this.lastAccessed = System.nanoTime();
-  }
+    private void accessed() {
+      this.lastAccessed = System.nanoTime();
+    }
 
   public void handle(Message<JsonObject> msg) {
-    try {
+    try{
       JsonObject json = msg.body();
       String action = msg.headers().get("action");
-      if (action == null) {
-        throw new IllegalStateException("action not specified");
-      }
+      if (action == null) throw new IllegalStateException("action not specified");
       accessed();
       switch (action) {
         case "initializePersistence": {
-          service.initializePersistence(createHandler(msg));
+          service.initializePersistence(HelperUtils.createHandler(msg));
           break;
         }
         case "addProduct": {
-          service.addProduct(json.getJsonObject("product") == null ? null : new io.ensure.deepsea.product.Product(json.getJsonObject("product")), res -> {
-            if (res.failed()) {
-              if (res.cause() instanceof ServiceException) {
-                msg.reply(res.cause());
-              } else {
-                msg.reply(new ServiceException(-1, res.cause().getMessage()));
-              }
-            } else {
-              msg.reply(res.result() == null ? null : res.result().toJson());
-            }
-         });
+          service.addProduct(json.getJsonObject("product") == null ? null : new io.ensure.deepsea.product.Product(json.getJsonObject("product")),
+                        res -> {
+                        if (res.failed()) {
+                          if (res.cause() instanceof ServiceException) {
+                            msg.reply(res.cause());
+                          } else {
+                            msg.reply(new ServiceException(-1, res.cause().getMessage()));
+                          }
+                        } else {
+                          msg.reply(res.result() == null ? null : res.result().toJson());
+                        }
+                     });
           break;
         }
         case "retrieveProduct": {
-          service.retrieveProduct((java.lang.String)json.getValue("productId"), res -> {
-            if (res.failed()) {
-              if (res.cause() instanceof ServiceException) {
-                msg.reply(res.cause());
-              } else {
-                msg.reply(new ServiceException(-1, res.cause().getMessage()));
-              }
-            } else {
-              msg.reply(res.result() == null ? null : res.result().toJson());
-            }
-         });
+          service.retrieveProduct((java.lang.String)json.getValue("productId"),
+                        res -> {
+                        if (res.failed()) {
+                          if (res.cause() instanceof ServiceException) {
+                            msg.reply(res.cause());
+                          } else {
+                            msg.reply(new ServiceException(-1, res.cause().getMessage()));
+                          }
+                        } else {
+                          msg.reply(res.result() == null ? null : res.result().toJson());
+                        }
+                     });
           break;
         }
         case "retrieveProductPrice": {
-          service.retrieveProductPrice((java.lang.String)json.getValue("productId"), createHandler(msg));
+          service.retrieveProductPrice((java.lang.String)json.getValue("productId"),
+                        HelperUtils.createHandler(msg));
           break;
         }
         case "retrieveAllProducts": {
           service.retrieveAllProducts(res -> {
-            if (res.failed()) {
-              if (res.cause() instanceof ServiceException) {
-                msg.reply(res.cause());
-              } else {
-                msg.reply(new ServiceException(-1, res.cause().getMessage()));
-              }
-            } else {
-              msg.reply(new JsonArray(res.result().stream().map(r -> r == null ? null : r.toJson()).collect(Collectors.toList())));
-            }
-         });
+                        if (res.failed()) {
+                          if (res.cause() instanceof ServiceException) {
+                            msg.reply(res.cause());
+                          } else {
+                            msg.reply(new ServiceException(-1, res.cause().getMessage()));
+                          }
+                        } else {
+                          msg.reply(new JsonArray(res.result().stream().map(r -> r == null ? null : r.toJson()).collect(Collectors.toList())));
+                        }
+                     });
           break;
         }
         case "retrieveProductsByPage": {
-          service.retrieveProductsByPage(json.getValue("page") == null ? null : (json.getLong("page").intValue()), res -> {
-            if (res.failed()) {
-              if (res.cause() instanceof ServiceException) {
-                msg.reply(res.cause());
-              } else {
-                msg.reply(new ServiceException(-1, res.cause().getMessage()));
-              }
-            } else {
-              msg.reply(new JsonArray(res.result().stream().map(r -> r == null ? null : r.toJson()).collect(Collectors.toList())));
-            }
-         });
+          service.retrieveProductsByPage(json.getValue("page") == null ? null : (json.getLong("page").intValue()),
+                        res -> {
+                        if (res.failed()) {
+                          if (res.cause() instanceof ServiceException) {
+                            msg.reply(res.cause());
+                          } else {
+                            msg.reply(new ServiceException(-1, res.cause().getMessage()));
+                          }
+                        } else {
+                          msg.reply(new JsonArray(res.result().stream().map(r -> r == null ? null : r.toJson()).collect(Collectors.toList())));
+                        }
+                     });
           break;
         }
         case "deleteProduct": {
-          service.deleteProduct((java.lang.String)json.getValue("productId"), createHandler(msg));
+          service.deleteProduct((java.lang.String)json.getValue("productId"),
+                        HelperUtils.createHandler(msg));
           break;
         }
         case "deleteAllProducts": {
-          service.deleteAllProducts(createHandler(msg));
+          service.deleteAllProducts(HelperUtils.createHandler(msg));
           break;
         }
-        default: {
-          throw new IllegalStateException("Invalid action: " + action);
-        }
+        default: throw new IllegalStateException("Invalid action: " + action);
       }
     } catch (Throwable t) {
       msg.reply(new ServiceException(500, t.getMessage()));
       throw t;
     }
-  }
-
-  private <T> Handler<AsyncResult<T>> createHandler(Message msg) {
-    return res -> {
-      if (res.failed()) {
-        if (res.cause() instanceof ServiceException) {
-          msg.reply(res.cause());
-        } else {
-          msg.reply(new ServiceException(-1, res.cause().getMessage()));
-        }
-      } else {
-        if (res.result() != null  && res.result().getClass().isEnum()) {
-          msg.reply(((Enum) res.result()).name());
-        } else {
-          msg.reply(res.result());
-        }
-      }
-    };
-  }
-
-  private <T> Handler<AsyncResult<List<T>>> createListHandler(Message msg) {
-    return res -> {
-      if (res.failed()) {
-        if (res.cause() instanceof ServiceException) {
-          msg.reply(res.cause());
-        } else {
-          msg.reply(new ServiceException(-1, res.cause().getMessage()));
-        }
-      } else {
-        msg.reply(new JsonArray(res.result()));
-      }
-    };
-  }
-
-  private <T> Handler<AsyncResult<Set<T>>> createSetHandler(Message msg) {
-    return res -> {
-      if (res.failed()) {
-        if (res.cause() instanceof ServiceException) {
-          msg.reply(res.cause());
-        } else {
-          msg.reply(new ServiceException(-1, res.cause().getMessage()));
-        }
-      } else {
-        msg.reply(new JsonArray(new ArrayList<>(res.result())));
-      }
-    };
-  }
-
-  private Handler<AsyncResult<List<Character>>> createListCharHandler(Message msg) {
-    return res -> {
-      if (res.failed()) {
-        if (res.cause() instanceof ServiceException) {
-          msg.reply(res.cause());
-        } else {
-          msg.reply(new ServiceException(-1, res.cause().getMessage()));
-        }
-      } else {
-        JsonArray arr = new JsonArray();
-        for (Character chr: res.result()) {
-          arr.add((int) chr);
-        }
-        msg.reply(arr);
-      }
-    };
-  }
-
-  private Handler<AsyncResult<Set<Character>>> createSetCharHandler(Message msg) {
-    return res -> {
-      if (res.failed()) {
-        if (res.cause() instanceof ServiceException) {
-          msg.reply(res.cause());
-        } else {
-          msg.reply(new ServiceException(-1, res.cause().getMessage()));
-        }
-      } else {
-        JsonArray arr = new JsonArray();
-        for (Character chr: res.result()) {
-          arr.add((int) chr);
-        }
-        msg.reply(arr);
-      }
-    };
-  }
-
-  private <T> Map<String, T> convertMap(Map map) {
-    return (Map<String, T>)map;
-  }
-
-  private <T> List<T> convertList(List list) {
-    return (List<T>)list;
-  }
-
-  private <T> Set<T> convertSet(List list) {
-    return new HashSet<T>((List<T>)list);
   }
 }

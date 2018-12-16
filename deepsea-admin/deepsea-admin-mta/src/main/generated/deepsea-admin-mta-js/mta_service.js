@@ -30,24 +30,30 @@ var MTAService = function(j_val) {
   var j_mTAService = j_val;
   var that = this;
 
+  var __super_initializePersistence = this.initializePersistence;
+  var __super_addMTA = this.addMTA;
+  var __super_replayMTAs = this.replayMTAs;
   /**
 
    @public
    @param resultHandler {function} 
    @return {MTAService}
    */
-  this.initializePersistence = function(resultHandler) {
+  this.initializePersistence =  function(resultHandler) {
     var __args = arguments;
     if (__args.length === 1 && typeof __args[0] === 'function') {
       j_mTAService["initializePersistence(io.vertx.core.Handler)"](function(ar) {
-      if (ar.succeeded()) {
-        resultHandler(null, null);
-      } else {
-        resultHandler(null, ar.cause());
-      }
-    });
+        if (ar.succeeded()) {
+          __args[0](null, null);
+        } else {
+          __args[0](null, ar.cause());
+        }
+      }) ;
       return that;
-    } else throw new TypeError('function invoked with invalid arguments');
+    } else if (typeof __super_initializePersistence != 'undefined') {
+      return __super_initializePersistence.apply(this, __args);
+    }
+    else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -57,18 +63,21 @@ var MTAService = function(j_val) {
    @param resultHandler {function} 
    @return {MTAService}
    */
-  this.addMTA = function(mta, resultHandler) {
+  this.addMTA =  function(mta, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
-      j_mTAService["addMTA(io.ensure.deepsea.admin.mta.MidTermAdjustment,io.vertx.core.Handler)"](mta != null ? new MidTermAdjustment(new JsonObject(Java.asJSONCompatible(mta))) : null, function(ar) {
-      if (ar.succeeded()) {
-        resultHandler(utils.convReturnDataObject(ar.result()), null);
-      } else {
-        resultHandler(null, ar.cause());
-      }
-    });
+      j_mTAService["addMTA(io.ensure.deepsea.admin.mta.MidTermAdjustment,io.vertx.core.Handler)"](__args[0]  != null ? new MidTermAdjustment(new JsonObject(Java.asJSONCompatible(__args[0]))) : null, function(ar) {
+        if (ar.succeeded()) {
+          __args[1](utils.convReturnDataObject(ar.result()), null);
+        } else {
+          __args[1](null, ar.cause());
+        }
+      }) ;
       return that;
-    } else throw new TypeError('function invoked with invalid arguments');
+    } else if (typeof __super_addMTA != 'undefined') {
+      return __super_addMTA.apply(this, __args);
+    }
+    else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -78,18 +87,21 @@ var MTAService = function(j_val) {
    @param resultHandler {function} 
    @return {MTAService}
    */
-  this.replayMTAs = function(lastId, resultHandler) {
+  this.replayMTAs =  function(lastId, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && typeof __args[0] ==='number' && typeof __args[1] === 'function') {
-      j_mTAService["replayMTAs(java.lang.Integer,io.vertx.core.Handler)"](utils.convParamInteger(lastId), function(ar) {
-      if (ar.succeeded()) {
-        resultHandler(utils.convReturnListSetDataObject(ar.result()), null);
-      } else {
-        resultHandler(null, ar.cause());
-      }
-    });
+      j_mTAService["replayMTAs(java.lang.Integer,io.vertx.core.Handler)"](utils.convParamInteger(__args[0]), function(ar) {
+        if (ar.succeeded()) {
+          __args[1](utils.convReturnListSetDataObject(ar.result()), null);
+        } else {
+          __args[1](null, ar.cause());
+        }
+      }) ;
       return that;
-    } else throw new TypeError('function invoked with invalid arguments');
+    } else if (typeof __super_replayMTAs != 'undefined') {
+      return __super_replayMTAs.apply(this, __args);
+    }
+    else throw new TypeError('function invoked with invalid arguments');
   };
 
   // A reference to the underlying Java delegate
@@ -99,11 +111,9 @@ var MTAService = function(j_val) {
 };
 
 MTAService._jclass = utils.getJavaClass("io.ensure.deepsea.admin.mta.MTAService");
-MTAService._jtype = {
-  accept: function(obj) {
+MTAService._jtype = {accept: function(obj) {
     return MTAService._jclass.isInstance(obj._jdel);
-  },
-  wrap: function(jdel) {
+  },wrap: function(jdel) {
     var obj = Object.create(MTAService.prototype, {});
     MTAService.apply(obj, arguments);
     return obj;
@@ -112,8 +122,7 @@ MTAService._jtype = {
     return obj._jdel;
   }
 };
-MTAService._create = function(jdel) {
-  var obj = Object.create(MTAService.prototype, {});
+MTAService._create = function(jdel) {var obj = Object.create(MTAService.prototype, {});
   MTAService.apply(obj, arguments);
   return obj;
 }

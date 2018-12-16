@@ -25,7 +25,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
 
-@io.vertx.lang.rxjava.RxGen(io.ensure.deepsea.admin.mta.MTAService.class)
+@io.vertx.lang.rx.RxGen(io.ensure.deepsea.admin.mta.MTAService.class)
 public class MTAService {
 
   @Override
@@ -46,8 +46,7 @@ public class MTAService {
     return delegate.hashCode();
   }
 
-  public static final io.vertx.lang.rxjava.TypeArg<MTAService> __TYPE_ARG = new io.vertx.lang.rxjava.TypeArg<>(
-    obj -> new MTAService((io.ensure.deepsea.admin.mta.MTAService) obj),
+  public static final io.vertx.lang.rx.TypeArg<MTAService> __TYPE_ARG = new io.vertx.lang.rx.TypeArg<>(    obj -> new MTAService((io.ensure.deepsea.admin.mta.MTAService) obj),
     MTAService::getDelegate
   );
 
@@ -61,34 +60,34 @@ public class MTAService {
     return delegate;
   }
 
-  public MTAService initializePersistence(Handler<AsyncResult<Void>> resultHandler) { 
+  public io.ensure.deepsea.admin.mta.rxjava.MTAService initializePersistence(Handler<AsyncResult<Void>> resultHandler) { 
     delegate.initializePersistence(resultHandler);
     return this;
   }
 
-  public Single<Void> rxInitializePersistence() { 
+    public Single<Void> rxInitializePersistence() { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       initializePersistence(fut);
     }));
   }
 
-  public MTAService addMTA(MidTermAdjustment mta, Handler<AsyncResult<MidTermAdjustment>> resultHandler) { 
+  public io.ensure.deepsea.admin.mta.rxjava.MTAService addMTA(MidTermAdjustment mta, Handler<AsyncResult<MidTermAdjustment>> resultHandler) { 
     delegate.addMTA(mta, resultHandler);
     return this;
   }
 
-  public Single<MidTermAdjustment> rxAddMTA(MidTermAdjustment mta) { 
+    public Single<MidTermAdjustment> rxAddMTA(MidTermAdjustment mta) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       addMTA(mta, fut);
     }));
   }
 
-  public MTAService replayMTAs(Integer lastId, Handler<AsyncResult<List<MidTermAdjustment>>> resultHandler) { 
+  public io.ensure.deepsea.admin.mta.rxjava.MTAService replayMTAs(Integer lastId, Handler<AsyncResult<List<MidTermAdjustment>>> resultHandler) { 
     delegate.replayMTAs(lastId, resultHandler);
     return this;
   }
 
-  public Single<List<MidTermAdjustment>> rxReplayMTAs(Integer lastId) { 
+    public Single<List<MidTermAdjustment>> rxReplayMTAs(Integer lastId) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       replayMTAs(lastId, fut);
     }));

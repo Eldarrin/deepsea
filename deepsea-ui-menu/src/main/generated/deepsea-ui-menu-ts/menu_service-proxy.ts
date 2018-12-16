@@ -70,11 +70,11 @@ export class MenuService {
       return this;
   }
 
-  retrieveMenu(resultHandler: (err: any, result: any) => any) : MenuService {
+  retrieveMenu(id: string, resultHandler: (err: any, result: any) => any) : MenuService {
     if (closed) {
       throw new Error('Proxy is closed');
     }
-    this.eb.send(this.address, {}, {"action":"retrieveMenu"}, function(err, result) { resultHandler(err, result &&result.body); });
+    this.eb.send(this.address, {"id": id}, {"action":"retrieveMenu"}, function(err, result) { resultHandler(err, result &&result.body); });
       return this;
   }
 

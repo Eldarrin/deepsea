@@ -35,7 +35,7 @@ import io.vertx.core.Handler;
  * NOTE: This class has been automatically generated from the {@link io.ensure.deepsea.product.ProductService original} non RX-ified interface using Vert.x codegen.
  */
 
-@io.vertx.lang.rxjava.RxGen(io.ensure.deepsea.product.ProductService.class)
+@io.vertx.lang.rx.RxGen(io.ensure.deepsea.product.ProductService.class)
 public class ProductService {
 
   @Override
@@ -56,8 +56,7 @@ public class ProductService {
     return delegate.hashCode();
   }
 
-  public static final io.vertx.lang.rxjava.TypeArg<ProductService> __TYPE_ARG = new io.vertx.lang.rxjava.TypeArg<>(
-    obj -> new ProductService((io.ensure.deepsea.product.ProductService) obj),
+  public static final io.vertx.lang.rx.TypeArg<ProductService> __TYPE_ARG = new io.vertx.lang.rx.TypeArg<>(    obj -> new ProductService((io.ensure.deepsea.product.ProductService) obj),
     ProductService::getDelegate
   );
 
@@ -76,12 +75,12 @@ public class ProductService {
    * @param resultHandler the result handler will be called as soon as the initialization has been accomplished. The async result indicates whether the operation was successful or not.
    * @return 
    */
-  public ProductService initializePersistence(Handler<AsyncResult<Void>> resultHandler) { 
+  public io.ensure.deepsea.product.rxjava.ProductService initializePersistence(Handler<AsyncResult<Void>> resultHandler) { 
     delegate.initializePersistence(resultHandler);
     return this;
   }
 
-  /**
+    /**
    * Initialize the persistence.
    * @return 
    */
@@ -97,12 +96,12 @@ public class ProductService {
    * @param resultHandler the result handler will be called as soon as the product has been added. The async result indicates whether the operation was successful or not.
    * @return 
    */
-  public ProductService addProduct(Product product, Handler<AsyncResult<Product>> resultHandler) { 
+  public io.ensure.deepsea.product.rxjava.ProductService addProduct(Product product, Handler<AsyncResult<Product>> resultHandler) { 
     delegate.addProduct(product, resultHandler);
     return this;
   }
 
-  /**
+    /**
    * Add a product to the persistence.
    * @param product a product entity that we want to add
    * @return 
@@ -119,12 +118,12 @@ public class ProductService {
    * @param resultHandler the result handler will be called as soon as the product has been retrieved. The async result indicates whether the operation was successful or not.
    * @return 
    */
-  public ProductService retrieveProduct(String productId, Handler<AsyncResult<Product>> resultHandler) { 
+  public io.ensure.deepsea.product.rxjava.ProductService retrieveProduct(String productId, Handler<AsyncResult<Product>> resultHandler) { 
     delegate.retrieveProduct(productId, resultHandler);
     return this;
   }
 
-  /**
+    /**
    * Retrieve the product with certain `productId`.
    * @param productId product id
    * @return 
@@ -141,12 +140,12 @@ public class ProductService {
    * @param resultHandler the result handler will be called as soon as the product has been retrieved. The async result indicates whether the operation was successful or not.
    * @return 
    */
-  public ProductService retrieveProductPrice(String productId, Handler<AsyncResult<JsonObject>> resultHandler) { 
+  public io.ensure.deepsea.product.rxjava.ProductService retrieveProductPrice(String productId, Handler<AsyncResult<JsonObject>> resultHandler) { 
     delegate.retrieveProductPrice(productId, resultHandler);
     return this;
   }
 
-  /**
+    /**
    * Retrieve the product price with certain `productId`.
    * @param productId product id
    * @return 
@@ -162,12 +161,12 @@ public class ProductService {
    * @param resultHandler the result handler will be called as soon as the products have been retrieved. The async result indicates whether the operation was successful or not.
    * @return 
    */
-  public ProductService retrieveAllProducts(Handler<AsyncResult<List<Product>>> resultHandler) { 
+  public io.ensure.deepsea.product.rxjava.ProductService retrieveAllProducts(Handler<AsyncResult<List<Product>>> resultHandler) { 
     delegate.retrieveAllProducts(resultHandler);
     return this;
   }
 
-  /**
+    /**
    * Retrieve all products.
    * @return 
    */
@@ -183,12 +182,12 @@ public class ProductService {
    * @param resultHandler the result handler will be called as soon as the products have been retrieved. The async result indicates whether the operation was successful or not.
    * @return 
    */
-  public ProductService retrieveProductsByPage(int page, Handler<AsyncResult<List<Product>>> resultHandler) { 
+  public io.ensure.deepsea.product.rxjava.ProductService retrieveProductsByPage(int page, Handler<AsyncResult<List<Product>>> resultHandler) { 
     delegate.retrieveProductsByPage(page, resultHandler);
     return this;
   }
 
-  /**
+    /**
    * Retrieve products by page.
    * @param page 
    * @return 
@@ -205,12 +204,12 @@ public class ProductService {
    * @param resultHandler the result handler will be called as soon as the product has been removed. The async result indicates whether the operation was successful or not.
    * @return 
    */
-  public ProductService deleteProduct(String productId, Handler<AsyncResult<Void>> resultHandler) { 
+  public io.ensure.deepsea.product.rxjava.ProductService deleteProduct(String productId, Handler<AsyncResult<Void>> resultHandler) { 
     delegate.deleteProduct(productId, resultHandler);
     return this;
   }
 
-  /**
+    /**
    * Delete a product from the persistence
    * @param productId product id
    * @return 
@@ -226,12 +225,12 @@ public class ProductService {
    * @param resultHandler the result handler will be called as soon as the products have been removed. The async result indicates whether the operation was successful or not.
    * @return 
    */
-  public ProductService deleteAllProducts(Handler<AsyncResult<Void>> resultHandler) { 
+  public io.ensure.deepsea.product.rxjava.ProductService deleteAllProducts(Handler<AsyncResult<Void>> resultHandler) { 
     delegate.deleteAllProducts(resultHandler);
     return this;
   }
 
-  /**
+    /**
    * Delete all products from the persistence
    * @return 
    */

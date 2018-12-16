@@ -14,6 +14,8 @@
  * under the License.
  */
 
+/// <reference path="./bordereau_service-proxy.d.ts" />
+
 /** @module deepsea-actuarial-bordereau-js/bordereau_service */
 !function (factory) {
   if (typeof require === 'function' && typeof module !== 'undefined') {
@@ -28,10 +30,9 @@
 }(function () {
 
   /**
- @class
+   @class
   */
   var BordereauService = function(eb, address) {
-
     var j_eb = eb;
     var j_address = address;
     var closed = false;
@@ -51,13 +52,13 @@
      @param resultHandler {function} the result handler will be called as soon as the initialization has been accomplished. The async result indicates whether the operation was successful or not. 
      @return {BordereauService}
      */
-    this.initializePersistence = function(resultHandler) {
+    this.initializePersistence =  function(resultHandler) {
       var __args = arguments;
       if (__args.length === 1 && typeof __args[0] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {}, {"action":"initializePersistence"}, function(err, result) { __args[0](err, result &&result.body); });
+        j_eb.send(j_address, {}, {"action":"initializePersistence"}, function(err, result) { __args[0](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -69,13 +70,13 @@
      @param resultHandler {function} 
      @return {BordereauService}
      */
-    this.addBordereauLine = function(bordereauLine, resultHandler) {
+    this.addBordereauLine =  function(bordereauLine, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"bordereauLine":__args[0]}, {"action":"addBordereauLine"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {"bordereauLine":__args[0]}, {"action":"addBordereauLine"}, function(err, result) { __args[1](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -87,13 +88,13 @@
      @param resultHandler {function} 
      @return {BordereauService}
      */
-    this.retrieveBordereauLine = function(bordereauLineId, resultHandler) {
+    this.retrieveBordereauLine =  function(bordereauLineId, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"bordereauLineId":__args[0]}, {"action":"retrieveBordereauLine"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {"bordereauLineId":__args[0]}, {"action":"retrieveBordereauLine"}, function(err, result) { __args[1](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -105,13 +106,13 @@
      @param resultHandler {function} 
      @return {BordereauService}
      */
-    this.retrieveBordereauByClient = function(clientId, resultHandler) {
+    this.retrieveBordereauByClient =  function(clientId, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"clientId":__args[0]}, {"action":"retrieveBordereauByClient"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {"clientId":__args[0]}, {"action":"retrieveBordereauByClient"}, function(err, result) { __args[1](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -124,13 +125,13 @@
      @param resultHandler {function} 
      @return {BordereauService}
      */
-    this.retrieveBordereauByClientByPage = function(clientId, page, resultHandler) {
+    this.retrieveBordereauByClientByPage =  function(clientId, page, resultHandler) {
       var __args = arguments;
       if (__args.length === 3 && typeof __args[0] === 'string' && typeof __args[1] ==='number' && typeof __args[2] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"clientId":__args[0], "page":__args[1]}, {"action":"retrieveBordereauByClientByPage"}, function(err, result) { __args[2](err, result &&result.body); });
+        j_eb.send(j_address, {"clientId":__args[0], "page":__args[1]}, {"action":"retrieveBordereauByClientByPage"}, function(err, result) { __args[2](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -142,13 +143,13 @@
      @param resultHandler {function} 
      @return {BordereauService}
      */
-    this.requestLastRecordBySource = function(source, resultHandler) {
+    this.requestLastRecordBySource =  function(source, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"source":__args[0]}, {"action":"requestLastRecordBySource"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {"source":__args[0]}, {"action":"requestLastRecordBySource"}, function(err, result) { __args[1](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -160,13 +161,13 @@
      @param resultHandler {function} 
      @return {BordereauService}
      */
-    this.removeBordereauLine = function(bordereauLineId, resultHandler) {
+    this.removeBordereauLine =  function(bordereauLineId, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"bordereauLineId":__args[0]}, {"action":"removeBordereauLine"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {"bordereauLineId":__args[0]}, {"action":"removeBordereauLine"}, function(err, result) { __args[1](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };

@@ -30,24 +30,30 @@ var EnrolmentService = function(j_val) {
   var j_enrolmentService = j_val;
   var that = this;
 
+  var __super_initializePersistence = this.initializePersistence;
+  var __super_addEnrolment = this.addEnrolment;
+  var __super_replayEnrolments = this.replayEnrolments;
   /**
 
    @public
    @param resultHandler {function} 
    @return {EnrolmentService}
    */
-  this.initializePersistence = function(resultHandler) {
+  this.initializePersistence =  function(resultHandler) {
     var __args = arguments;
     if (__args.length === 1 && typeof __args[0] === 'function') {
       j_enrolmentService["initializePersistence(io.vertx.core.Handler)"](function(ar) {
-      if (ar.succeeded()) {
-        resultHandler(null, null);
-      } else {
-        resultHandler(null, ar.cause());
-      }
-    });
+        if (ar.succeeded()) {
+          __args[0](null, null);
+        } else {
+          __args[0](null, ar.cause());
+        }
+      }) ;
       return that;
-    } else throw new TypeError('function invoked with invalid arguments');
+    } else if (typeof __super_initializePersistence != 'undefined') {
+      return __super_initializePersistence.apply(this, __args);
+    }
+    else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -57,18 +63,21 @@ var EnrolmentService = function(j_val) {
    @param resultHandler {function} 
    @return {EnrolmentService}
    */
-  this.addEnrolment = function(enrolment, resultHandler) {
+  this.addEnrolment =  function(enrolment, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
-      j_enrolmentService["addEnrolment(io.ensure.deepsea.admin.enrolment.models.Enrolment,io.vertx.core.Handler)"](enrolment != null ? new Enrolment(new JsonObject(Java.asJSONCompatible(enrolment))) : null, function(ar) {
-      if (ar.succeeded()) {
-        resultHandler(utils.convReturnDataObject(ar.result()), null);
-      } else {
-        resultHandler(null, ar.cause());
-      }
-    });
+      j_enrolmentService["addEnrolment(io.ensure.deepsea.admin.enrolment.models.Enrolment,io.vertx.core.Handler)"](__args[0]  != null ? new Enrolment(new JsonObject(Java.asJSONCompatible(__args[0]))) : null, function(ar) {
+        if (ar.succeeded()) {
+          __args[1](utils.convReturnDataObject(ar.result()), null);
+        } else {
+          __args[1](null, ar.cause());
+        }
+      }) ;
       return that;
-    } else throw new TypeError('function invoked with invalid arguments');
+    } else if (typeof __super_addEnrolment != 'undefined') {
+      return __super_addEnrolment.apply(this, __args);
+    }
+    else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -78,18 +87,21 @@ var EnrolmentService = function(j_val) {
    @param resultHandler {function} 
    @return {EnrolmentService}
    */
-  this.replayEnrolments = function(lastDate, resultHandler) {
+  this.replayEnrolments =  function(lastDate, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
-      j_enrolmentService["replayEnrolments(java.lang.String,io.vertx.core.Handler)"](lastDate, function(ar) {
-      if (ar.succeeded()) {
-        resultHandler(utils.convReturnListSetDataObject(ar.result()), null);
-      } else {
-        resultHandler(null, ar.cause());
-      }
-    });
+      j_enrolmentService["replayEnrolments(java.lang.String,io.vertx.core.Handler)"](__args[0], function(ar) {
+        if (ar.succeeded()) {
+          __args[1](utils.convReturnListSetDataObject(ar.result()), null);
+        } else {
+          __args[1](null, ar.cause());
+        }
+      }) ;
       return that;
-    } else throw new TypeError('function invoked with invalid arguments');
+    } else if (typeof __super_replayEnrolments != 'undefined') {
+      return __super_replayEnrolments.apply(this, __args);
+    }
+    else throw new TypeError('function invoked with invalid arguments');
   };
 
   // A reference to the underlying Java delegate
@@ -99,11 +111,9 @@ var EnrolmentService = function(j_val) {
 };
 
 EnrolmentService._jclass = utils.getJavaClass("io.ensure.deepsea.admin.enrolment.EnrolmentService");
-EnrolmentService._jtype = {
-  accept: function(obj) {
+EnrolmentService._jtype = {accept: function(obj) {
     return EnrolmentService._jclass.isInstance(obj._jdel);
-  },
-  wrap: function(jdel) {
+  },wrap: function(jdel) {
     var obj = Object.create(EnrolmentService.prototype, {});
     EnrolmentService.apply(obj, arguments);
     return obj;
@@ -112,9 +122,10 @@ EnrolmentService._jtype = {
     return obj._jdel;
   }
 };
-EnrolmentService._create = function(jdel) {
-  var obj = Object.create(EnrolmentService.prototype, {});
+EnrolmentService._create = function(jdel) {var obj = Object.create(EnrolmentService.prototype, {});
   EnrolmentService.apply(obj, arguments);
   return obj;
 }
+EnrolmentService.SERVICE_NAME = JEnrolmentService.SERVICE_NAME;
+EnrolmentService.SERVICE_ADDRESS = JEnrolmentService.SERVICE_ADDRESS;
 module.exports = EnrolmentService;

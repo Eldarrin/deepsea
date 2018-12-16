@@ -25,7 +25,7 @@ import io.vertx.core.Handler;
 import io.ensure.deepsea.client.Client;
 
 
-@io.vertx.lang.rxjava.RxGen(io.ensure.deepsea.client.ClientService.class)
+@io.vertx.lang.rx.RxGen(io.ensure.deepsea.client.ClientService.class)
 public class ClientService {
 
   @Override
@@ -46,8 +46,7 @@ public class ClientService {
     return delegate.hashCode();
   }
 
-  public static final io.vertx.lang.rxjava.TypeArg<ClientService> __TYPE_ARG = new io.vertx.lang.rxjava.TypeArg<>(
-    obj -> new ClientService((io.ensure.deepsea.client.ClientService) obj),
+  public static final io.vertx.lang.rx.TypeArg<ClientService> __TYPE_ARG = new io.vertx.lang.rx.TypeArg<>(    obj -> new ClientService((io.ensure.deepsea.client.ClientService) obj),
     ClientService::getDelegate
   );
 
@@ -66,12 +65,12 @@ public class ClientService {
    * @param resultHandler the result handler will be called as soon as the initialization has been accomplished. The async result indicates whether the operation was successful or not.
    * @return 
    */
-  public ClientService initializePersistence(Handler<AsyncResult<Void>> resultHandler) { 
+  public io.ensure.deepsea.client.rxjava.ClientService initializePersistence(Handler<AsyncResult<Void>> resultHandler) { 
     delegate.initializePersistence(resultHandler);
     return this;
   }
 
-  /**
+    /**
    * Initialize the persistence.
    * @return 
    */
@@ -81,45 +80,45 @@ public class ClientService {
     }));
   }
 
-  public ClientService addClient(Client client, Handler<AsyncResult<Client>> resultHandler) { 
+  public io.ensure.deepsea.client.rxjava.ClientService addClient(Client client, Handler<AsyncResult<Client>> resultHandler) { 
     delegate.addClient(client, resultHandler);
     return this;
   }
 
-  public Single<Client> rxAddClient(Client client) { 
+    public Single<Client> rxAddClient(Client client) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       addClient(client, fut);
     }));
   }
 
-  public ClientService retrieveClient(String id, Handler<AsyncResult<Client>> resultHandler) { 
+  public io.ensure.deepsea.client.rxjava.ClientService retrieveClient(String id, Handler<AsyncResult<Client>> resultHandler) { 
     delegate.retrieveClient(id, resultHandler);
     return this;
   }
 
-  public Single<Client> rxRetrieveClient(String id) { 
+    public Single<Client> rxRetrieveClient(String id) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       retrieveClient(id, fut);
     }));
   }
 
-  public ClientService retrieveClients(Handler<AsyncResult<List<Client>>> resultHandler) { 
+  public io.ensure.deepsea.client.rxjava.ClientService retrieveClients(Handler<AsyncResult<List<Client>>> resultHandler) { 
     delegate.retrieveClients(resultHandler);
     return this;
   }
 
-  public Single<List<Client>> rxRetrieveClients() { 
+    public Single<List<Client>> rxRetrieveClients() { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       retrieveClients(fut);
     }));
   }
 
-  public ClientService removeClient(Client client, Handler<AsyncResult<Void>> resultHandler) { 
+  public io.ensure.deepsea.client.rxjava.ClientService removeClient(Client client, Handler<AsyncResult<Void>> resultHandler) { 
     delegate.removeClient(client, resultHandler);
     return this;
   }
 
-  public Single<Void> rxRemoveClient(Client client) { 
+    public Single<Void> rxRemoveClient(Client client) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       removeClient(client, fut);
     }));

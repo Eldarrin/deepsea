@@ -14,6 +14,8 @@
  * under the License.
  */
 
+/// <reference path="./enrolment_service-proxy.d.ts" />
+
 /** @module deepsea-admin-enrolment-js/enrolment_service */
 !function (factory) {
   if (typeof require === 'function' && typeof module !== 'undefined') {
@@ -28,10 +30,9 @@
 }(function () {
 
   /**
- @class
+   @class
   */
   var EnrolmentService = function(eb, address) {
-
     var j_eb = eb;
     var j_address = address;
     var closed = false;
@@ -50,13 +51,13 @@
      @param resultHandler {function} 
      @return {EnrolmentService}
      */
-    this.initializePersistence = function(resultHandler) {
+    this.initializePersistence =  function(resultHandler) {
       var __args = arguments;
       if (__args.length === 1 && typeof __args[0] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {}, {"action":"initializePersistence"}, function(err, result) { __args[0](err, result &&result.body); });
+        j_eb.send(j_address, {}, {"action":"initializePersistence"}, function(err, result) { __args[0](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -68,13 +69,13 @@
      @param resultHandler {function} 
      @return {EnrolmentService}
      */
-    this.addEnrolment = function(enrolment, resultHandler) {
+    this.addEnrolment =  function(enrolment, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"enrolment":__args[0]}, {"action":"addEnrolment"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {"enrolment":__args[0]}, {"action":"addEnrolment"}, function(err, result) { __args[1](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -86,13 +87,13 @@
      @param resultHandler {function} 
      @return {EnrolmentService}
      */
-    this.replayEnrolments = function(lastDate, resultHandler) {
+    this.replayEnrolments =  function(lastDate, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"lastDate":__args[0]}, {"action":"replayEnrolments"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {"lastDate":__args[0]}, {"action":"replayEnrolments"}, function(err, result) { __args[1](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };

@@ -1,59 +1,83 @@
-/*
- * Copyright (c) 2014 Red Hat, Inc. and others
- *
- * Red Hat licenses this file to you under the Apache License, version 2.0
- * (the "License"); you may not use this file except in compliance with the
- * License.  You may obtain a copy of the License at:
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
- * License for the specific language governing permissions and limitations
- * under the License.
- */
-
 package io.ensure.deepsea.actuarial.bordereau;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.json.JsonArray;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Converter for {@link io.ensure.deepsea.actuarial.bordereau.BordereauLine}.
- *
  * NOTE: This class has been automatically generated from the {@link io.ensure.deepsea.actuarial.bordereau.BordereauLine} original class using Vert.x codegen.
  */
 public class BordereauLineConverter {
 
-  public static void fromJson(JsonObject json, BordereauLine obj) {
-    if (json.getValue("bordereauLineId") instanceof String) {
-      obj.setBordereauLineId((String)json.getValue("bordereauLineId"));
-    }
-    if (json.getValue("clientId") instanceof String) {
-      obj.setClientId((String)json.getValue("clientId"));
-    }
-    if (json.getValue("customerName") instanceof String) {
-      obj.setCustomerName((String)json.getValue("customerName"));
-    }
-    if (json.getValue("event") instanceof String) {
-      obj.setEvent(io.ensure.deepsea.actuarial.bordereau.BordereauEvent.valueOf((String)json.getValue("event")));
-    }
-    if (json.getValue("ipt") instanceof Number) {
-      obj.setIpt(((Number)json.getValue("ipt")).doubleValue());
-    }
-    if (json.getValue("source") instanceof String) {
-      obj.setSource((String)json.getValue("source"));
-    }
-    if (json.getValue("sourceId") instanceof String) {
-      obj.setSourceId((String)json.getValue("sourceId"));
-    }
-    if (json.getValue("value") instanceof Number) {
-      obj.setValue(((Number)json.getValue("value")).doubleValue());
+  public static void fromJson(Iterable<java.util.Map.Entry<String, Object>> json, BordereauLine obj) {
+    for (java.util.Map.Entry<String, Object> member : json) {
+      switch (member.getKey()) {
+        case "bordereauLineId":
+          if (member.getValue() instanceof String) {
+            obj.setBordereauLineId((String)member.getValue());
+          }
+          break;
+        case "clientId":
+          if (member.getValue() instanceof String) {
+            obj.setClientId((String)member.getValue());
+          }
+          break;
+        case "customerName":
+          if (member.getValue() instanceof String) {
+            obj.setCustomerName((String)member.getValue());
+          }
+          break;
+        case "dateSourceCreated":
+          if (member.getValue() instanceof String) {
+            obj.setDateSourceCreated(Instant.from(DateTimeFormatter.ISO_INSTANT.parse((String)member.getValue())));
+          }
+          break;
+        case "event":
+          if (member.getValue() instanceof String) {
+            obj.setEvent(io.ensure.deepsea.actuarial.bordereau.BordereauEvent.valueOf((String)member.getValue()));
+          }
+          break;
+        case "eventDate":
+          if (member.getValue() instanceof String) {
+            obj.setEventDate(Instant.from(DateTimeFormatter.ISO_INSTANT.parse((String)member.getValue())));
+          }
+          break;
+        case "ipt":
+          if (member.getValue() instanceof Number) {
+            obj.setIpt(((Number)member.getValue()).doubleValue());
+          }
+          break;
+        case "source":
+          if (member.getValue() instanceof String) {
+            obj.setSource((String)member.getValue());
+          }
+          break;
+        case "sourceId":
+          if (member.getValue() instanceof String) {
+            obj.setSourceId((String)member.getValue());
+          }
+          break;
+        case "startDate":
+          if (member.getValue() instanceof String) {
+            obj.setStartDate(Instant.from(DateTimeFormatter.ISO_INSTANT.parse((String)member.getValue())));
+          }
+          break;
+        case "value":
+          if (member.getValue() instanceof Number) {
+            obj.setValue(((Number)member.getValue()).doubleValue());
+          }
+          break;
+      }
     }
   }
 
   public static void toJson(BordereauLine obj, JsonObject json) {
+    toJson(obj, json.getMap());
+  }
+
+  public static void toJson(BordereauLine obj, java.util.Map<String, Object> json) {
     if (obj.getBordereauLineId() != null) {
       json.put("bordereauLineId", obj.getBordereauLineId());
     }
@@ -63,8 +87,14 @@ public class BordereauLineConverter {
     if (obj.getCustomerName() != null) {
       json.put("customerName", obj.getCustomerName());
     }
+    if (obj.getDateSourceCreated() != null) {
+      json.put("dateSourceCreated", DateTimeFormatter.ISO_INSTANT.format(obj.getDateSourceCreated()));
+    }
     if (obj.getEvent() != null) {
       json.put("event", obj.getEvent().name());
+    }
+    if (obj.getEventDate() != null) {
+      json.put("eventDate", DateTimeFormatter.ISO_INSTANT.format(obj.getEventDate()));
     }
     json.put("ipt", obj.getIpt());
     if (obj.getSource() != null) {
@@ -72,6 +102,9 @@ public class BordereauLineConverter {
     }
     if (obj.getSourceId() != null) {
       json.put("sourceId", obj.getSourceId());
+    }
+    if (obj.getStartDate() != null) {
+      json.put("startDate", DateTimeFormatter.ISO_INSTANT.format(obj.getStartDate()));
     }
     json.put("value", obj.getValue());
   }

@@ -4,20 +4,21 @@
 == MidTermAdjustment
 
 
-[cols=">25%,^25%,50%"]
+[cols=">25%,25%,50%"]
 [frame="topbot"]
 |===
 ^|Name | Type ^| Description
-|[[ipt]]`ipt`|`Number (double)`|-
-|[[mtaEvent]]`mtaEvent`|`link:enums.html#MTAEvent[MTAEvent]`|-
-|[[mtaId]]`mtaId`|`String`|-
-|[[newCoverage]]`newCoverage`|`Number (double)`|-
-|[[newRiskId]]`newRiskId`|`String`|-
-|[[newproductId]]`newproductId`|`String`|-
-|[[oldCoverage]]`oldCoverage`|`Number (double)`|-
-|[[oldProductId]]`oldProductId`|`String`|-
-|[[oldRiskId]]`oldRiskId`|`String`|-
-|[[policyId]]`policyId`|`String`|-
-|[[value]]`value`|`Number (double)`|-
+|[[eventDate]]`@eventDate`|`Instant`|-
+|[[ipt]]`@ipt`|`Number (double)`|-
+|[[mtaEvent]]`@mtaEvent`|`link:enums.html#MTAEvent[MTAEvent]`|-
+|[[mtaId]]`@mtaId`|`String`|-
+|[[newCoverage]]`@newCoverage`|`Number (double)`|-
+|[[newRiskId]]`@newRiskId`|`String`|-
+|[[newproductId]]`@newproductId`|`String`|-
+|[[oldCoverage]]`@oldCoverage`|`Number (double)`|-
+|[[oldProductId]]`@oldProductId`|`String`|-
+|[[oldRiskId]]`@oldRiskId`|`String`|-
+|[[policyId]]`@policyId`|`String`|-
+|[[value]]`@value`|`Number (double)`|-
 |===
 

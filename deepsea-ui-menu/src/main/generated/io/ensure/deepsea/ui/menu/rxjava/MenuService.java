@@ -25,7 +25,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
 
-@io.vertx.lang.rxjava.RxGen(io.ensure.deepsea.ui.menu.MenuService.class)
+@io.vertx.lang.rx.RxGen(io.ensure.deepsea.ui.menu.MenuService.class)
 public class MenuService {
 
   @Override
@@ -46,8 +46,7 @@ public class MenuService {
     return delegate.hashCode();
   }
 
-  public static final io.vertx.lang.rxjava.TypeArg<MenuService> __TYPE_ARG = new io.vertx.lang.rxjava.TypeArg<>(
-    obj -> new MenuService((io.ensure.deepsea.ui.menu.MenuService) obj),
+  public static final io.vertx.lang.rx.TypeArg<MenuService> __TYPE_ARG = new io.vertx.lang.rx.TypeArg<>(    obj -> new MenuService((io.ensure.deepsea.ui.menu.MenuService) obj),
     MenuService::getDelegate
   );
 
@@ -61,69 +60,69 @@ public class MenuService {
     return delegate;
   }
 
-  public MenuService initializePersistence(Handler<AsyncResult<Void>> resultHandler) { 
+  public io.ensure.deepsea.ui.menu.rxjava.MenuService initializePersistence(Handler<AsyncResult<Void>> resultHandler) { 
     delegate.initializePersistence(resultHandler);
     return this;
   }
 
-  public Single<Void> rxInitializePersistence() { 
+    public Single<Void> rxInitializePersistence() { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       initializePersistence(fut);
     }));
   }
 
-  public MenuService addMenu(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler) { 
+  public io.ensure.deepsea.ui.menu.rxjava.MenuService addMenu(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler) { 
     delegate.addMenu(menuItem, resultHandler);
     return this;
   }
 
-  public Single<MenuItem> rxAddMenu(MenuItem menuItem) { 
+    public Single<MenuItem> rxAddMenu(MenuItem menuItem) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       addMenu(menuItem, fut);
     }));
   }
 
-  public MenuService changeMenuState(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler) { 
+  public io.ensure.deepsea.ui.menu.rxjava.MenuService changeMenuState(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler) { 
     delegate.changeMenuState(menuItem, resultHandler);
     return this;
   }
 
-  public Single<MenuItem> rxChangeMenuState(MenuItem menuItem) { 
+    public Single<MenuItem> rxChangeMenuState(MenuItem menuItem) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       changeMenuState(menuItem, fut);
     }));
   }
 
-  public MenuService retrieveSubMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler) { 
+  public io.ensure.deepsea.ui.menu.rxjava.MenuService retrieveSubMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler) { 
     delegate.retrieveSubMenu(id, resultHandler);
     return this;
   }
 
-  public Single<MenuItem> rxRetrieveSubMenu(String id) { 
+    public Single<MenuItem> rxRetrieveSubMenu(String id) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       retrieveSubMenu(id, fut);
     }));
   }
 
-  public MenuService retrieveMenuChildren(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) { 
+  public io.ensure.deepsea.ui.menu.rxjava.MenuService retrieveMenuChildren(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) { 
     delegate.retrieveMenuChildren(parentID, resultHandler);
     return this;
   }
 
-  public Single<List<MenuItem>> rxRetrieveMenuChildren(String parentID) { 
+    public Single<List<MenuItem>> rxRetrieveMenuChildren(String parentID) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       retrieveMenuChildren(parentID, fut);
     }));
   }
 
-  public MenuService retrieveMenu(Handler<AsyncResult<MenuItem>> resultHandler) { 
-    delegate.retrieveMenu(resultHandler);
+  public io.ensure.deepsea.ui.menu.rxjava.MenuService retrieveMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler) { 
+    delegate.retrieveMenu(id, resultHandler);
     return this;
   }
 
-  public Single<MenuItem> rxRetrieveMenu() { 
+    public Single<MenuItem> rxRetrieveMenu(String id) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-      retrieveMenu(fut);
+      retrieveMenu(id, fut);
     }));
   }
 

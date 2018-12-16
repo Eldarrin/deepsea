@@ -1,5 +1,6 @@
 package io.ensure.deepsea.ui.menu.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -125,8 +126,8 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 		return m;
 	}
 
-	@Override
-	public MenuService retrieveMenuChildren(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) {
+	
+	public MenuService retrieveMenuChildren2(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) {
 		Future<MenuItem> future = Future.future();
 		this.retrieveDocument(MENU, parentID)
 		.setHandler(res -> {
@@ -147,13 +148,16 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 	@Override
 	public MenuService retrieveMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler) {
 		Future<MenuItem> future = Future.future();
+		List<Future<MenuItem>> futList = new ArrayList<>();
 		this.retrieveDocument(MENU, id)
 		.setHandler(res -> {
 			if (res.succeeded()) {
 				MenuItem m = new MenuItem(res.result().get());
-				build(m).setHandler(ar -> {
+				build(m.getMenuId()).setHandler(ar -> {
 					if (ar.succeeded()) {
-						future.setHandler(resultHandler).complete(ar.result());
+						
+						m.setChildrenMenuItems(ar.result());
+						future.setHandler(resultHandler).complete(m);
 					}
 				});
 			}
@@ -161,7 +165,7 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 		return this;
 	}
 	
-	private Future<MenuItem> build(MenuItem m) {
+	private Future<MenuItem> build(MenuItem m, List<Future<MenuItem>> futList) {
 		Future<MenuItem> future = Future.future();
 		String parentId = m.getMenuId();
 		if (parentId.startsWith("menu-")) {
@@ -178,12 +182,15 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 					//resultHandler.handle(res); // first already written
 				} else {
 					log.info("it has " + res.result().size() + " children");
+					// create future array
 					for (int i = 0 ; i < res.result().size(); i++) {
+						// add a future
 						log.info("recommanding build for " + res.result().get(i).getName());
 						final int addTo = i;
-						build(res.result().get(addTo).getMenuId()).setHandler(ar -> {
+						// set future to build
+						build(res.result().get(addTo), futList).setHandler(ar -> {
 							if (ar.succeeded()) {
-								res.result().get(addTo).setChildrenMenuItems(ar.result());
+								//res.result().get(addTo).setChildrenMenuItems(ar.result());
 							}
 						});
 					}
@@ -226,6 +233,7 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 							}
 						});
 					}
+					log.info("COMPLETING IT NOW!");
 					future.complete(res.result());
 					//resultHandler.handle(res); // other already written
 				}
@@ -250,7 +258,8 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 		return m;
 	}
 
-	public MenuService retrieveMenuChildren2(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) {
+	@Override
+	public MenuService retrieveMenuChildren(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) {
 		if (parentID.startsWith("menu-")) {
 			parentID = parentID.substring(5);
 		}

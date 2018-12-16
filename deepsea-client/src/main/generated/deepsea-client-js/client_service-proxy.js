@@ -14,6 +14,8 @@
  * under the License.
  */
 
+/// <reference path="./client_service-proxy.d.ts" />
+
 /** @module deepsea-client-js/client_service */
 !function (factory) {
   if (typeof require === 'function' && typeof module !== 'undefined') {
@@ -28,10 +30,9 @@
 }(function () {
 
   /**
- @class
+   @class
   */
   var ClientService = function(eb, address) {
-
     var j_eb = eb;
     var j_address = address;
     var closed = false;
@@ -51,13 +52,13 @@
      @param resultHandler {function} the result handler will be called as soon as the initialization has been accomplished. The async result indicates whether the operation was successful or not. 
      @return {ClientService}
      */
-    this.initializePersistence = function(resultHandler) {
+    this.initializePersistence =  function(resultHandler) {
       var __args = arguments;
       if (__args.length === 1 && typeof __args[0] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {}, {"action":"initializePersistence"}, function(err, result) { __args[0](err, result &&result.body); });
+        j_eb.send(j_address, {}, {"action":"initializePersistence"}, function(err, result) { __args[0](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -69,13 +70,13 @@
      @param resultHandler {function} 
      @return {ClientService}
      */
-    this.addClient = function(client, resultHandler) {
+    this.addClient =  function(client, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"client":__args[0]}, {"action":"addClient"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {"client":__args[0]}, {"action":"addClient"}, function(err, result) { __args[1](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -87,13 +88,13 @@
      @param resultHandler {function} 
      @return {ClientService}
      */
-    this.retrieveClient = function(id, resultHandler) {
+    this.retrieveClient =  function(id, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"id":__args[0]}, {"action":"retrieveClient"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {"id":__args[0]}, {"action":"retrieveClient"}, function(err, result) { __args[1](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -104,13 +105,13 @@
      @param resultHandler {function} 
      @return {ClientService}
      */
-    this.retrieveClients = function(resultHandler) {
+    this.retrieveClients =  function(resultHandler) {
       var __args = arguments;
       if (__args.length === 1 && typeof __args[0] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {}, {"action":"retrieveClients"}, function(err, result) { __args[0](err, result &&result.body); });
+        j_eb.send(j_address, {}, {"action":"retrieveClients"}, function(err, result) { __args[0](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -122,13 +123,13 @@
      @param resultHandler {function} 
      @return {ClientService}
      */
-    this.removeClient = function(client, resultHandler) {
+    this.removeClient =  function(client, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"client":__args[0]}, {"action":"removeClient"}, function(err, result) { __args[1](err, result &&result.body); });
+        j_eb.send(j_address, {"client":__args[0]}, {"action":"removeClient"}, function(err, result) { __args[1](err, result && result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
