@@ -215,47 +215,36 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 		}
 		log.info("building for " + parentId);
 		this.selectDocuments(MENU, new JsonObject().put("parent", parentId))
-		.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList()))
-		.setHandler(res -> {
-			if (res.succeeded()) {
-				if (res.result().isEmpty()) {
-					log.info("build is empty");
-					future.complete();
-					//resultHandler.handle(res); // first already written
-				} else {
-					log.info("it has " + res.result().size() + " children");
-					for (int i = 0 ; i < res.result().size(); i++) {
-						log.info("recommanding build for " + res.result().get(i).getName());
-						final int addTo = i;
-						build(res.result().get(addTo).getMenuId()).setHandler(ar -> {
-							if (ar.succeeded()) {
-								res.result().get(addTo).setChildrenMenuItems(ar.result());
+				.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList()))
+				.setHandler(res -> {
+					if (res.succeeded()) {
+						if (res.result().isEmpty()) {
+							log.info("build is empty");
+							future.complete();
+							//resultHandler.handle(res); // first already written
+						} else {
+							log.info("it has " + res.result().size() + " children");
+							for (int i = 0; i < res.result().size(); i++) {
+								log.info("recommanding build for " + res.result().get(i).getName());
+								final int addTo = i;
+								build(res.result().get(addTo).getMenuId()).setHandler(ar -> {
+									if (ar.succeeded()) {
+										res.result().get(addTo).setChildrenMenuItems(ar.result());
+									}
+								});
 							}
-						});
+							log.info("COMPLETING IT NOW!");
+							future.complete(res.result());
+							//resultHandler.handle(res); // other already written
+						}
+					} else {
+						//new Future<List<MenuItem>>().setHandler(resultHandler).fail(res.cause());
+						//Future.resultHandler.handle(Future.failedFuture(res.cause()));
+						future.fail(res.cause());
 					}
-					log.info("COMPLETING IT NOW!");
-					future.complete(res.result());
-					//resultHandler.handle(res); // other already written
-				}
-			} else {
-				//new Future<List<MenuItem>>().setHandler(resultHandler).fail(res.cause());
-				//Future.resultHandler.handle(Future.failedFuture(res.cause()));
-				future.fail(res.cause());
-			}
-				
-		});
+
+				});
 		return future;
-	}
-	
-	private MenuItem test(MenuItem m) {
-		retrieveMenuChildren(m.getMenuId(), ar -> {
-			if (ar.succeeded() && !ar.result().isEmpty()) {
-				log.info(ar.result().get(0).getName());
-				m.setChildrenMenuItems(ar.result());
-			} 
-		});
-		log.info(m.toString());
-		return m;
 	}
 
 	@Override

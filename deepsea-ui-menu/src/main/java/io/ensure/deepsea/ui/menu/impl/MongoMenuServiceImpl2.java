@@ -1,6 +1,7 @@
 package io.ensure.deepsea.ui.menu.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import io.ensure.deepsea.common.service.MongoRedisRepositoryWrapper;
 import io.ensure.deepsea.ui.menu.MenuItem;
@@ -32,6 +33,7 @@ public class MongoMenuServiceImpl2 extends MongoRedisRepositoryWrapper implement
 		mainMenu.setMenuId("menu-home");
 		addMenu(mainMenu, res -> {
 			if (res.succeeded()) {
+				//assignChildren(mainMenu);
 				future.succeeded();
 			} else {
 				future.fail(res.cause());
@@ -39,6 +41,25 @@ public class MongoMenuServiceImpl2 extends MongoRedisRepositoryWrapper implement
 		});
 		return this;
 	}
+
+	private void stepper(MenuItem mParent) {
+		List<MenuItem> childrenMenuItems = mParent.getChildrenMenuItems();
+		for (int i = 0, childrenMenuItemsSize = childrenMenuItems.size(); i < childrenMenuItemsSize; i++)
+			assignChildren(childrenMenuItems.get(i));
+	}
+
+	private void assignChildren(MenuItem m) {
+		String parentId = m.getMenuId();
+		if (parentId.startsWith("menu-")) parentId = parentId.substring(5);
+		this.selectDocuments(MENU, new JsonObject().put("parent", parentId))
+				.map(rawList -> rawList.stream().map(MenuItem::new).collect(Collectors.toList()))
+				.setHandler(res -> {
+					if (res.succeeded()) {
+						m.setChildrenMenuItems(res.result());
+					}
+		});
+	}
+
 
 	@Override
 	public MenuService addMenu(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler) {
@@ -55,19 +76,22 @@ public class MongoMenuServiceImpl2 extends MongoRedisRepositoryWrapper implement
 
 	@Override
 	public MenuService retrieveSubMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler) {
-		// TODO Auto-generated method stub
+		Future<MenuItem> future = Future.future();
+		future.complete(mainMenu);
 		return this;
 	}
 
 	@Override
 	public MenuService retrieveMenuChildren(String parentID, Handler<AsyncResult<List<MenuItem>>> resultHandler) {
-		// TODO Auto-generated method stub
+		Future<MenuItem> future = Future.future();
+		future.complete(mainMenu);
 		return this;
 	}
 
 	@Override
 	public MenuService retrieveMenu(String id, Handler<AsyncResult<MenuItem>> resultHandler) {
-		// TODO Auto-generated method stub
+		Future<MenuItem> future = Future.future();
+		future.complete(mainMenu);
 		return this;
 	}
 
