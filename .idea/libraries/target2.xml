@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="target2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/deepsea-admin/deepsea-admin-enrolment/target/deepsea-admin-enrolment.original.jar!/" />
+      <root url="jar://$PROJECT_DIR$/deepsea-admin/deepsea-admin-enrolment/target/deepsea-admin-enrolment.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

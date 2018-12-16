@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/deepsea.iml" filepath="$PROJECT_DIR$/deepsea.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-admin/deepsea-admin.iml" filepath="$PROJECT_DIR$/deepsea-admin/deepsea-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-admin/deepsea-admin-enrolment/deepsea-admin-enrolment.iml" filepath="$PROJECT_DIR$/deepsea-admin/deepsea-admin-enrolment/deepsea-admin-enrolment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-admin/deepsea-admin-mta/deepsea-admin-mta.iml" filepath="$PROJECT_DIR$/deepsea-admin/deepsea-admin-mta/deepsea-admin-mta.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-client/deepsea-client.iml" filepath="$PROJECT_DIR$/deepsea-client/deepsea-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-common/deepsea-common.iml" filepath="$PROJECT_DIR$/deepsea-common/deepsea-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-product/deepsea-product.iml" filepath="$PROJECT_DIR$/deepsea-product/deepsea-product.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-ui/deepsea-ui.iml" filepath="$PROJECT_DIR$/deepsea-ui/deepsea-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-ui-menu/deepsea-ui-menu.iml" filepath="$PROJECT_DIR$/deepsea-ui-menu/deepsea-ui-menu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-underwriting/deepsea-underwriting.iml" filepath="$PROJECT_DIR$/deepsea-underwriting/deepsea-underwriting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-underwriting/deepsea-underwriting-actuarial/deepsea-underwriting-actuarial.iml" filepath="$PROJECT_DIR$/deepsea-underwriting/deepsea-underwriting-actuarial/deepsea-underwriting-actuarial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-underwriting/deepsea-underwriting-actuarial/src/test/test.iml" filepath="$PROJECT_DIR$/deepsea-underwriting/deepsea-underwriting-actuarial/src/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-common/src/test/test1.iml" filepath="$PROJECT_DIR$/deepsea-common/src/test/test1.iml" />
+    </modules>
+  </component>
+</project>

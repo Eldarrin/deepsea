@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="target3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/deepsea-underwriting/deepsea-underwriting-actuarial/target/deepsea-underwriting-actuarial.jar!/" />
+      <root url="jar://$PROJECT_DIR$/deepsea-underwriting/deepsea-underwriting-actuarial/target/deepsea-underwriting-actuarial.original.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

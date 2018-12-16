@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="target6">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/deepsea-ui-menu/target/deepsea-ui-menu.jar!/" />
+      <root url="jar://$PROJECT_DIR$/deepsea-ui-menu/target/deepsea-ui-menu.original.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

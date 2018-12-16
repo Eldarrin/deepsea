@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="deepsea-product">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/deepsea-product/target/docker/deepsea-product/latest/build/maven/deepsea-product.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

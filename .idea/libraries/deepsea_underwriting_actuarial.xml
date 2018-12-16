@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="deepsea-underwriting-actuarial">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/deepsea-underwriting/deepsea-underwriting-actuarial/target/docker/deepsea-underwriting-actuarial/latest/build/maven/deepsea-underwriting-actuarial.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

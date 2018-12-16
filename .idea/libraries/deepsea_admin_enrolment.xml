@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="deepsea-admin-enrolment">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/deepsea-admin/deepsea-admin-enrolment/target/docker/deepsea-admin-enrolment/latest/build/maven/deepsea-admin-enrolment.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

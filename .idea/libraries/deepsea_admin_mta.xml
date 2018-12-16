@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="deepsea-admin-mta">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/deepsea-admin/deepsea-admin-mta/target/docker/deepsea-admin-mta/latest/build/maven/deepsea-admin-mta.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
