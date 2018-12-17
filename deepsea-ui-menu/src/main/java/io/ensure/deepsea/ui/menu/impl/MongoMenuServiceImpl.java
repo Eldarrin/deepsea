@@ -29,8 +29,8 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 		Future<Void> future = Future.future();
 		future.setHandler(resultHandler);
 		mainMenu = new MenuItem();
-		mainMenu.setName("Home");
-		mainMenu.setUrl("#");
+		mainMenu.setName("Deepsea");
+		mainMenu.setUrl("/#");
 		mainMenu.setMenuId("menu-home");
 		addMenu(mainMenu, res -> {
 			if (res.succeeded()) {

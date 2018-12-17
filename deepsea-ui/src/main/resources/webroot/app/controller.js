@@ -10,9 +10,9 @@ vertxApp.controller('AppIndexCtrl', ['$scope', '$http', '$templateCache', '$rout
     var fetchMenu = () => {
     	$http({
     		method: 'GET',
-    		url: '/api/menu/home'
+    		url: '/api/menu/'
     	}).success(data => {
-    		$scope.menu = data;
+    		$scope.menu = data.childrenMenuItems;
     	}).error((data, status, headers, config) => {
     		
     	})
