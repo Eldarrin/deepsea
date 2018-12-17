@@ -4,7 +4,7 @@ import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
 import io.ensure.deepsea.common.helper.RedisHelper;
 import io.ensure.deepsea.ui.menu.api.RestMenuAPIVerticle;
-import io.ensure.deepsea.ui.menu.impl.MongoMenuServiceImpl2;
+import io.ensure.deepsea.ui.menu.impl.MongoMenuServiceImpl;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
@@ -53,7 +53,7 @@ public class MenuVerticle extends BaseMicroserviceVerticle {
         		
         		RedisHelper.getRedisOptions(vertx, "deepsea-ui-menu").setHandler(redisRes -> {
 
-        		menuService = new MongoMenuServiceImpl2(vertx, myMongoConfig, redisRes.result());
+        		menuService = new MongoMenuServiceImpl(vertx, myMongoConfig, redisRes.result());
         		// Register the handler
         		new ServiceBinder(vertx)
         				.setAddress(SERVICE_ADDRESS)
