@@ -102,6 +102,7 @@
 							<mode>openshift</mode>
 							<enricher>
 								<includes>
+									<include>f8-prometheus</include>
 									<include>vertx-health-check</include>
 								</includes>
 								<config>

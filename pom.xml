@@ -10,7 +10,7 @@
 	<properties>
 		<vertx.version>3.6.2</vertx.version>
 		<fabric8-vertx-maven-plugin.version>1.0.13</fabric8-vertx-maven-plugin.version>
-		<fabric8-maven-plugin.version>4.0.0-M2</fabric8-maven-plugin.version>
+		<fabric8-maven-plugin.version>3.5.41</fabric8-maven-plugin.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -231,18 +231,11 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
-					<!-- <release>10</release> -->
+					<!-- <release>8</release> -->
 					<encoding>${project.build.sourceEncoding}</encoding>
 					<generatedSourcesDirectory>src/main/generated</generatedSourcesDirectory>
 					<generatedTestSourcesDirectory>src/test/generated</generatedTestSourcesDirectory>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.ow2.asm</groupId>
-						<artifactId>asm</artifactId>
-						<version>7.0</version>
-					</dependency>
-				</dependencies>
 				<executions>
 					<execution>
 						<id>default-compile</id>
