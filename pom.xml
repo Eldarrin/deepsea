@@ -8,9 +8,9 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
-		<vertx.version>3.6.2</vertx.version>
-		<fabric8-vertx-maven-plugin.version>1.0.13</fabric8-vertx-maven-plugin.version>
-		<fabric8-maven-plugin.version>3.5.41</fabric8-maven-plugin.version>
+		<vertx.version>3.5.4</vertx.version>
+		<fabric8-vertx-maven-plugin.version>1.0.6</fabric8-vertx-maven-plugin.version>
+		<fabric8-maven-plugin.version>3.5.35</fabric8-maven-plugin.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -21,7 +21,7 @@
 		<sonar.sources>src/main/java</sonar.sources>
 		<sonar.junit.reportPaths>target/surefire-reports</sonar.junit.reportPaths>
 		<sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>
-		<io.prometheus.version>0.6.0</io.prometheus.version>
+		<io.prometheus.version>0.5.0</io.prometheus.version>
 		<io.rest-assured.version>3.2.0</io.rest-assured.version>
 	</properties>
 	<dependencyManagement>
@@ -76,7 +76,7 @@
 		<dependency>
 			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-cloud</artifactId>
-			<version>9.4.0.Final</version>
+			<version>9.1.3.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jgroups.kubernetes</groupId>
