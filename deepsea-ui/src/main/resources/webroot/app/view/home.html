@@ -15,6 +15,18 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li ng-repeat="menuitem in menu"><a href="{{menuitem.url}}">{{menuitem.name}}</a></li>
+
+					<li ng-repeat="mitem in menuitem.childrenMenuItems"><a
+						href="{{menuitem.url}}">{{menuitem.name}}</a></li>
+
+					<li ng-repeat="menuitem in menu" class="dropdown">
+						<a href="{{menuitem.url}}" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">{{menuitem.name}} <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li ng-repeat="mitem in menuitem.childrenMenuItems"><a href="{{mitem.url}}">{{mitem.name}}</a></li>
+						</ul></li>
+
 				</ul>
 			</div>
 		</div>
