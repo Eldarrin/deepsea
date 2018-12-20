@@ -13,10 +13,14 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.ext.auth.oauth2.OAuth2Auth;
+import io.vertx.ext.auth.oauth2.OAuth2FlowType;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.OAuth2AuthHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
+import io.vertx.ext.auth.oauth2.providers.KeycloakAuth;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.types.EventBusService;
@@ -30,6 +34,7 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void start(Future<Void> future) throws Exception {
 		super.start();
@@ -58,6 +63,42 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 		router.route("/api/*").handler(this::dispatchRequests);
 
 		router.route("/eventbus/*").handler(sockJSHandler);
+		
+		JsonObject keyCloakJson = new JsonObject("{\n" + 
+				"  \"realm\": \"master\",\n" + 
+				"  \"auth-server-url\": \"https://secure-keycloak-deepsea.192.168.99.100.nip.io/auth\",\n" + 
+				"  \"ssl-required\": \"external\",\n" + 
+				"  \"resource\": \"deepsea\",\n" + 
+				"  \"credentials\": {\n" + 
+				"    \"secret\": \"10f6386d-a087-4f11-aec9-fe03cb9cbaeb\"\n" + 
+				"  },\n" + 
+				"  \"confidential-port\": 0\n" + 
+				"}");
+		
+		OAuth2Auth oauth2 = KeycloakAuth.create(vertx, keyCloakJson);
+		
+		String authorization_uri = oauth2.authorizeURL(new JsonObject()
+				  .put("redirect_uri", "http://deepsea-ui-deepsea.192.168.99.100.nip.io/callback")
+				  .put("scope", "notifications")
+				  .put("state", "3(#0/!~"));
+		
+		String code = "xxxxxxxxxxxxxxxxxxxxxxxx";
+		
+		router.get("/callback").handler(rc -> {
+			oauth2.authenticate(new JsonObject().put("code", code).put("redirect_uri", "http://localhost:8080/callback"), res -> {
+				  if (res.failed()) {
+				    // error, the code provided is not valid
+				  } else {
+				    // save the token and continue...
+				  }
+				});
+		});
+		
+		router.route("/protected/*").handler(oauth2);
+		
+		router.route("/protected/somepage").handler(rc -> {
+			rc.response().end("Welcome to the protected resource!");
+		});
 
 		// static content
 		router.route("/*").handler(StaticHandler.create());

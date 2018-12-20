@@ -15,6 +15,10 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-auth-oauth2</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>deepsea-common</artifactId>
 			<version>${project.version}</version>
