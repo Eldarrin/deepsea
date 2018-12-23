@@ -13,13 +13,19 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.ext.auth.User;
+import io.vertx.ext.auth.oauth2.AccessToken;
 import io.vertx.ext.auth.oauth2.OAuth2Auth;
 import io.vertx.ext.auth.oauth2.OAuth2FlowType;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.CookieHandler;
 import io.vertx.ext.web.handler.OAuth2AuthHandler;
+import io.vertx.ext.web.handler.SessionHandler;
 import io.vertx.ext.web.handler.StaticHandler;
+import io.vertx.ext.web.handler.UserSessionHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
+import io.vertx.ext.web.sstore.LocalSessionStore;
 import io.vertx.ext.auth.oauth2.providers.KeycloakAuth;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
@@ -31,10 +37,11 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 	private static final String HOCON = "hocon";
     private static final String CONFIGMAP = "configmap";
     private static final String OPTIONAL = "optional";
+    
+    private User token;
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void start(Future<Void> future) throws Exception {
 		super.start();
@@ -52,7 +59,11 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
         }
         
 		Router router = Router.router(vertx);
+		
 		addHealthHandler(router, future);
+		
+		router.route().handler(CookieHandler.create());
+	    router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 
 		// event bus bridge
 		SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
@@ -66,43 +77,49 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 		
 		JsonObject keyCloakJson = new JsonObject("{\n" + 
 				"  \"realm\": \"master\",\n" + 
-				"  \"auth-server-url\": \"https://secure-keycloak-deepsea.192.168.99.100.nip.io/auth\",\n" + 
-				"  \"ssl-required\": \"external\",\n" + 
+				"  \"auth-server-url\": \"http://keycloak-deepsea.192.168.99.100.nip.io/auth\",\n" + 
+				"  \"ssl-required\": \"none\",\n" + 
 				"  \"resource\": \"deepsea\",\n" + 
 				"  \"credentials\": {\n" + 
-				"    \"secret\": \"10f6386d-a087-4f11-aec9-fe03cb9cbaeb\"\n" + 
+				"    \"secret\": \"625abf1c-cdf8-48d0-9b7b-cdb2f95c5841\"\n" + 
 				"  },\n" + 
 				"  \"confidential-port\": 0\n" + 
 				"}");
 		
-		OAuth2Auth oauth2 = KeycloakAuth.create(vertx, keyCloakJson);
+		OAuth2Auth authProvider = KeycloakAuth.create(vertx, OAuth2FlowType.AUTH_CODE, keyCloakJson);
 		
-		String authorization_uri = oauth2.authorizeURL(new JsonObject()
-				  .put("redirect_uri", "http://deepsea-ui-deepsea.192.168.99.100.nip.io/callback")
-				  .put("scope", "notifications")
-				  .put("state", "3(#0/!~"));
+		router.route().handler(UserSessionHandler.create(authProvider));
 		
-		String code = "xxxxxxxxxxxxxxxxxxxxxxxx";
-		
-		router.get("/callback").handler(rc -> {
-			oauth2.authenticate(new JsonObject().put("code", code).put("redirect_uri", "http://localhost:8080/callback"), res -> {
-				  if (res.failed()) {
-				    // error, the code provided is not valid
-				  } else {
-				    // save the token and continue...
-				  }
-				});
-		});
-		
-		router.route("/protected/*").handler(oauth2);
-		
-		router.route("/protected/somepage").handler(rc -> {
-			rc.response().end("Welcome to the protected resource!");
-		});
+		router.route("/protected").handler(
+			 OAuth2AuthHandler.create(authProvider)
+		        .setupCallback(router.route("/callback"))
+		        .addAuthority("user:email")
 
+		);
+		
 		// static content
 		router.route("/*").handler(StaticHandler.create());
+		
+		router.route("/protected").handler(rc -> {
+			AccessToken user = (AccessToken) rc.user();
+			rc.response().end("Welcome to the protected resource, " + user.userInfo(res -> {
+				 if (res.failed()) {
+			          // request didn't succeed because the token was revoked so we
+			          // invalidate the token stored in the session and render the
+			          // index page so that the user can start the OAuth flow again
+			          rc.session().destroy();
+			          rc.fail(res.cause());
+			          logger.error(res.cause());
+			        } else {
+			          // the request succeeded, so we use the API to fetch the user's emails
+			          final JsonObject userInfo = res.result();
+			          logger.info(userInfo);
 
+			        }
+			}));
+			
+		});
+		
 		// get HTTP host and port from configuration, or use default value
 		String host = config().getString("deepsea.ui.http.address", "0.0.0.0");
 		int port = config().getInteger("deepsea.ui.http.port", 8080);

@@ -14,8 +14,6 @@
  * under the License.
  */
 
-/// <reference path="./menu_service-proxy.d.ts" />
-
 /** @module deepsea-ui-menu-js/menu_service */
 !function (factory) {
   if (typeof require === 'function' && typeof module !== 'undefined') {
@@ -30,9 +28,10 @@
 }(function () {
 
   /**
-   @class
+ @class
   */
   var MenuService = function(eb, address) {
+
     var j_eb = eb;
     var j_address = address;
     var closed = false;
@@ -51,13 +50,13 @@
      @param resultHandler {function} 
      @return {MenuService}
      */
-    this.initializePersistence =  function(resultHandler) {
+    this.initializePersistence = function(resultHandler) {
       var __args = arguments;
       if (__args.length === 1 && typeof __args[0] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {}, {"action":"initializePersistence"}, function(err, result) { __args[0](err, result && result.body); });
+        j_eb.send(j_address, {}, {"action":"initializePersistence"}, function(err, result) { __args[0](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -69,13 +68,13 @@
      @param resultHandler {function} 
      @return {MenuService}
      */
-    this.addMenu =  function(menuItem, resultHandler) {
+    this.addMenu = function(menuItem, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"menuItem":__args[0]}, {"action":"addMenu"}, function(err, result) { __args[1](err, result && result.body); });
+        j_eb.send(j_address, {"menuItem":__args[0]}, {"action":"addMenu"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -87,13 +86,13 @@
      @param resultHandler {function} 
      @return {MenuService}
      */
-    this.changeMenuState =  function(menuItem, resultHandler) {
+    this.changeMenuState = function(menuItem, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"menuItem":__args[0]}, {"action":"changeMenuState"}, function(err, result) { __args[1](err, result && result.body); });
+        j_eb.send(j_address, {"menuItem":__args[0]}, {"action":"changeMenuState"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -105,13 +104,13 @@
      @param resultHandler {function} 
      @return {MenuService}
      */
-    this.retrieveSubMenu =  function(id, resultHandler) {
+    this.retrieveSubMenu = function(id, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"id":__args[0]}, {"action":"retrieveSubMenu"}, function(err, result) { __args[1](err, result && result.body); });
+        j_eb.send(j_address, {"id":__args[0]}, {"action":"retrieveSubMenu"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -123,13 +122,13 @@
      @param resultHandler {function} 
      @return {MenuService}
      */
-    this.retrieveMenuChildren =  function(parentID, resultHandler) {
+    this.retrieveMenuChildren = function(parentID, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"parentID":__args[0]}, {"action":"retrieveMenuChildren"}, function(err, result) { __args[1](err, result && result.body); });
+        j_eb.send(j_address, {"parentID":__args[0]}, {"action":"retrieveMenuChildren"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -141,13 +140,13 @@
      @param resultHandler {function} 
      @return {MenuService}
      */
-    this.retrieveMenu =  function(id, resultHandler) {
+    this.retrieveMenu = function(id, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"id":__args[0]}, {"action":"retrieveMenu"}, function(err, result) { __args[1](err, result && result.body); });
+        j_eb.send(j_address, {"id":__args[0]}, {"action":"retrieveMenu"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };

@@ -14,8 +14,6 @@
  * under the License.
  */
 
-/// <reference path="./product_service-proxy.d.ts" />
-
 /** @module deepsea-product-js/product_service */
 !function (factory) {
   if (typeof require === 'function' && typeof module !== 'undefined') {
@@ -30,14 +28,15 @@
 }(function () {
 
   /**
-   A service interface managing products.
-   <p>
-   This service is an event bus service (aka. service proxy)
-   </p>
+ A service interface managing products.
+ <p>
+ This service is an event bus service (aka. service proxy)
+ </p>
 
-   @class
+ @class
   */
   var ProductService = function(eb, address) {
+
     var j_eb = eb;
     var j_address = address;
     var closed = false;
@@ -57,13 +56,13 @@
      @param resultHandler {function} the result handler will be called as soon as the initialization has been accomplished. The async result indicates whether the operation was successful or not. 
      @return {ProductService}
      */
-    this.initializePersistence =  function(resultHandler) {
+    this.initializePersistence = function(resultHandler) {
       var __args = arguments;
       if (__args.length === 1 && typeof __args[0] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {}, {"action":"initializePersistence"}, function(err, result) { __args[0](err, result && result.body); });
+        j_eb.send(j_address, {}, {"action":"initializePersistence"}, function(err, result) { __args[0](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -76,13 +75,13 @@
      @param resultHandler {function} the result handler will be called as soon as the product has been added. The async result indicates whether the operation was successful or not. 
      @return {ProductService}
      */
-    this.addProduct =  function(product, resultHandler) {
+    this.addProduct = function(product, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"product":__args[0]}, {"action":"addProduct"}, function(err, result) { __args[1](err, result && result.body); });
+        j_eb.send(j_address, {"product":__args[0]}, {"action":"addProduct"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -95,13 +94,13 @@
      @param resultHandler {function} the result handler will be called as soon as the product has been retrieved. The async result indicates whether the operation was successful or not. 
      @return {ProductService}
      */
-    this.retrieveProduct =  function(productId, resultHandler) {
+    this.retrieveProduct = function(productId, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"productId":__args[0]}, {"action":"retrieveProduct"}, function(err, result) { __args[1](err, result && result.body); });
+        j_eb.send(j_address, {"productId":__args[0]}, {"action":"retrieveProduct"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -114,13 +113,13 @@
      @param resultHandler {function} the result handler will be called as soon as the product has been retrieved. The async result indicates whether the operation was successful or not. 
      @return {ProductService}
      */
-    this.retrieveProductPrice =  function(productId, resultHandler) {
+    this.retrieveProductPrice = function(productId, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"productId":__args[0]}, {"action":"retrieveProductPrice"}, function(err, result) { __args[1](err, result && result.body); });
+        j_eb.send(j_address, {"productId":__args[0]}, {"action":"retrieveProductPrice"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -132,13 +131,13 @@
      @param resultHandler {function} the result handler will be called as soon as the products have been retrieved. The async result indicates whether the operation was successful or not. 
      @return {ProductService}
      */
-    this.retrieveAllProducts =  function(resultHandler) {
+    this.retrieveAllProducts = function(resultHandler) {
       var __args = arguments;
       if (__args.length === 1 && typeof __args[0] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {}, {"action":"retrieveAllProducts"}, function(err, result) { __args[0](err, result && result.body); });
+        j_eb.send(j_address, {}, {"action":"retrieveAllProducts"}, function(err, result) { __args[0](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -151,13 +150,13 @@
      @param resultHandler {function} the result handler will be called as soon as the products have been retrieved. The async result indicates whether the operation was successful or not. 
      @return {ProductService}
      */
-    this.retrieveProductsByPage =  function(page, resultHandler) {
+    this.retrieveProductsByPage = function(page, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] ==='number' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"page":__args[0]}, {"action":"retrieveProductsByPage"}, function(err, result) { __args[1](err, result && result.body); });
+        j_eb.send(j_address, {"page":__args[0]}, {"action":"retrieveProductsByPage"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -170,13 +169,13 @@
      @param resultHandler {function} the result handler will be called as soon as the product has been removed. The async result indicates whether the operation was successful or not. 
      @return {ProductService}
      */
-    this.deleteProduct =  function(productId, resultHandler) {
+    this.deleteProduct = function(productId, resultHandler) {
       var __args = arguments;
       if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {"productId":__args[0]}, {"action":"deleteProduct"}, function(err, result) { __args[1](err, result && result.body); });
+        j_eb.send(j_address, {"productId":__args[0]}, {"action":"deleteProduct"}, function(err, result) { __args[1](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };
@@ -188,13 +187,13 @@
      @param resultHandler {function} the result handler will be called as soon as the products have been removed. The async result indicates whether the operation was successful or not. 
      @return {ProductService}
      */
-    this.deleteAllProducts =  function(resultHandler) {
+    this.deleteAllProducts = function(resultHandler) {
       var __args = arguments;
       if (__args.length === 1 && typeof __args[0] === 'function') {
         if (closed) {
           throw new Error('Proxy is closed');
         }
-        j_eb.send(j_address, {}, {"action":"deleteAllProducts"}, function(err, result) { __args[0](err, result && result.body); });
+        j_eb.send(j_address, {}, {"action":"deleteAllProducts"}, function(err, result) { __args[0](err, result &&result.body); });
         return that;
       } else throw new TypeError('function invoked with invalid arguments');
     };

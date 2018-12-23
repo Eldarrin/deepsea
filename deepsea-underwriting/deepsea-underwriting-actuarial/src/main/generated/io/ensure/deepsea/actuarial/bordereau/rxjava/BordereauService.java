@@ -25,7 +25,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
 
-@io.vertx.lang.rx.RxGen(io.ensure.deepsea.actuarial.bordereau.BordereauService.class)
+@io.vertx.lang.rxjava.RxGen(io.ensure.deepsea.actuarial.bordereau.BordereauService.class)
 public class BordereauService {
 
   @Override
@@ -46,7 +46,8 @@ public class BordereauService {
     return delegate.hashCode();
   }
 
-  public static final io.vertx.lang.rx.TypeArg<BordereauService> __TYPE_ARG = new io.vertx.lang.rx.TypeArg<>(    obj -> new BordereauService((io.ensure.deepsea.actuarial.bordereau.BordereauService) obj),
+  public static final io.vertx.lang.rxjava.TypeArg<BordereauService> __TYPE_ARG = new io.vertx.lang.rxjava.TypeArg<>(
+    obj -> new BordereauService((io.ensure.deepsea.actuarial.bordereau.BordereauService) obj),
     BordereauService::getDelegate
   );
 
@@ -65,12 +66,12 @@ public class BordereauService {
    * @param resultHandler the result handler will be called as soon as the initialization has been accomplished. The async result indicates whether the operation was successful or not.
    * @return 
    */
-  public io.ensure.deepsea.actuarial.bordereau.rxjava.BordereauService initializePersistence(Handler<AsyncResult<Void>> resultHandler) { 
+  public BordereauService initializePersistence(Handler<AsyncResult<Void>> resultHandler) { 
     delegate.initializePersistence(resultHandler);
     return this;
   }
 
-    /**
+  /**
    * Initialize the persistence.
    * @return 
    */
@@ -80,67 +81,67 @@ public class BordereauService {
     }));
   }
 
-  public io.ensure.deepsea.actuarial.bordereau.rxjava.BordereauService addBordereauLine(BordereauLine bordereauLine, Handler<AsyncResult<BordereauLine>> resultHandler) { 
+  public BordereauService addBordereauLine(BordereauLine bordereauLine, Handler<AsyncResult<BordereauLine>> resultHandler) { 
     delegate.addBordereauLine(bordereauLine, resultHandler);
     return this;
   }
 
-    public Single<BordereauLine> rxAddBordereauLine(BordereauLine bordereauLine) { 
+  public Single<BordereauLine> rxAddBordereauLine(BordereauLine bordereauLine) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       addBordereauLine(bordereauLine, fut);
     }));
   }
 
-  public io.ensure.deepsea.actuarial.bordereau.rxjava.BordereauService retrieveBordereauLine(String bordereauLineId, Handler<AsyncResult<BordereauLine>> resultHandler) { 
+  public BordereauService retrieveBordereauLine(String bordereauLineId, Handler<AsyncResult<BordereauLine>> resultHandler) { 
     delegate.retrieveBordereauLine(bordereauLineId, resultHandler);
     return this;
   }
 
-    public Single<BordereauLine> rxRetrieveBordereauLine(String bordereauLineId) { 
+  public Single<BordereauLine> rxRetrieveBordereauLine(String bordereauLineId) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       retrieveBordereauLine(bordereauLineId, fut);
     }));
   }
 
-  public io.ensure.deepsea.actuarial.bordereau.rxjava.BordereauService retrieveBordereauByClient(String clientId, Handler<AsyncResult<List<BordereauLine>>> resultHandler) { 
+  public BordereauService retrieveBordereauByClient(String clientId, Handler<AsyncResult<List<BordereauLine>>> resultHandler) { 
     delegate.retrieveBordereauByClient(clientId, resultHandler);
     return this;
   }
 
-    public Single<List<BordereauLine>> rxRetrieveBordereauByClient(String clientId) { 
+  public Single<List<BordereauLine>> rxRetrieveBordereauByClient(String clientId) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       retrieveBordereauByClient(clientId, fut);
     }));
   }
 
-  public io.ensure.deepsea.actuarial.bordereau.rxjava.BordereauService retrieveBordereauByClientByPage(String clientId, int page, Handler<AsyncResult<List<BordereauLine>>> resultHandler) { 
+  public BordereauService retrieveBordereauByClientByPage(String clientId, int page, Handler<AsyncResult<List<BordereauLine>>> resultHandler) { 
     delegate.retrieveBordereauByClientByPage(clientId, page, resultHandler);
     return this;
   }
 
-    public Single<List<BordereauLine>> rxRetrieveBordereauByClientByPage(String clientId, int page) { 
+  public Single<List<BordereauLine>> rxRetrieveBordereauByClientByPage(String clientId, int page) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       retrieveBordereauByClientByPage(clientId, page, fut);
     }));
   }
 
-  public io.ensure.deepsea.actuarial.bordereau.rxjava.BordereauService requestLastRecordBySource(String source, Handler<AsyncResult<BordereauLine>> resultHandler) { 
+  public BordereauService requestLastRecordBySource(String source, Handler<AsyncResult<BordereauLine>> resultHandler) { 
     delegate.requestLastRecordBySource(source, resultHandler);
     return this;
   }
 
-    public Single<BordereauLine> rxRequestLastRecordBySource(String source) { 
+  public Single<BordereauLine> rxRequestLastRecordBySource(String source) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       requestLastRecordBySource(source, fut);
     }));
   }
 
-  public io.ensure.deepsea.actuarial.bordereau.rxjava.BordereauService removeBordereauLine(String bordereauLineId, Handler<AsyncResult<Void>> resultHandler) { 
+  public BordereauService removeBordereauLine(String bordereauLineId, Handler<AsyncResult<Void>> resultHandler) { 
     delegate.removeBordereauLine(bordereauLineId, resultHandler);
     return this;
   }
 
-    public Single<Void> rxRemoveBordereauLine(String bordereauLineId) { 
+  public Single<Void> rxRemoveBordereauLine(String bordereauLineId) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       removeBordereauLine(bordereauLineId, fut);
     }));

@@ -25,7 +25,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
 
-@io.vertx.lang.rx.RxGen(io.ensure.deepsea.admin.enrolment.EnrolmentService.class)
+@io.vertx.lang.rxjava.RxGen(io.ensure.deepsea.admin.enrolment.EnrolmentService.class)
 public class EnrolmentService {
 
   @Override
@@ -46,7 +46,8 @@ public class EnrolmentService {
     return delegate.hashCode();
   }
 
-  public static final io.vertx.lang.rx.TypeArg<EnrolmentService> __TYPE_ARG = new io.vertx.lang.rx.TypeArg<>(    obj -> new EnrolmentService((io.ensure.deepsea.admin.enrolment.EnrolmentService) obj),
+  public static final io.vertx.lang.rxjava.TypeArg<EnrolmentService> __TYPE_ARG = new io.vertx.lang.rxjava.TypeArg<>(
+    obj -> new EnrolmentService((io.ensure.deepsea.admin.enrolment.EnrolmentService) obj),
     EnrolmentService::getDelegate
   );
 
@@ -60,41 +61,39 @@ public class EnrolmentService {
     return delegate;
   }
 
-  public io.ensure.deepsea.admin.enrolment.rxjava.EnrolmentService initializePersistence(Handler<AsyncResult<Void>> resultHandler) { 
+  public EnrolmentService initializePersistence(Handler<AsyncResult<Void>> resultHandler) { 
     delegate.initializePersistence(resultHandler);
     return this;
   }
 
-    public Single<Void> rxInitializePersistence() { 
+  public Single<Void> rxInitializePersistence() { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       initializePersistence(fut);
     }));
   }
 
-  public io.ensure.deepsea.admin.enrolment.rxjava.EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Enrolment>> resultHandler) { 
+  public EnrolmentService addEnrolment(Enrolment enrolment, Handler<AsyncResult<Enrolment>> resultHandler) { 
     delegate.addEnrolment(enrolment, resultHandler);
     return this;
   }
 
-    public Single<Enrolment> rxAddEnrolment(Enrolment enrolment) { 
+  public Single<Enrolment> rxAddEnrolment(Enrolment enrolment) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       addEnrolment(enrolment, fut);
     }));
   }
 
-  public io.ensure.deepsea.admin.enrolment.rxjava.EnrolmentService replayEnrolments(String lastDate, Handler<AsyncResult<List<Enrolment>>> resultHandler) { 
+  public EnrolmentService replayEnrolments(String lastDate, Handler<AsyncResult<List<Enrolment>>> resultHandler) { 
     delegate.replayEnrolments(lastDate, resultHandler);
     return this;
   }
 
-    public Single<List<Enrolment>> rxReplayEnrolments(String lastDate) { 
+  public Single<List<Enrolment>> rxReplayEnrolments(String lastDate) { 
     return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
       replayEnrolments(lastDate, fut);
     }));
   }
 
-  public static final String SERVICE_NAME = io.ensure.deepsea.admin.enrolment.EnrolmentService.SERVICE_NAME;
-  public static final String SERVICE_ADDRESS = io.ensure.deepsea.admin.enrolment.EnrolmentService.SERVICE_ADDRESS;
 
   public static  EnrolmentService newInstance(io.ensure.deepsea.admin.enrolment.EnrolmentService arg) {
     return arg != null ? new EnrolmentService(arg) : null;

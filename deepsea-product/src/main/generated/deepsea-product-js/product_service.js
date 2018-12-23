@@ -35,14 +35,6 @@ var ProductService = function(j_val) {
   var j_productService = j_val;
   var that = this;
 
-  var __super_initializePersistence = this.initializePersistence;
-  var __super_addProduct = this.addProduct;
-  var __super_retrieveProduct = this.retrieveProduct;
-  var __super_retrieveProductPrice = this.retrieveProductPrice;
-  var __super_retrieveAllProducts = this.retrieveAllProducts;
-  var __super_retrieveProductsByPage = this.retrieveProductsByPage;
-  var __super_deleteProduct = this.deleteProduct;
-  var __super_deleteAllProducts = this.deleteAllProducts;
   /**
    Initialize the persistence.
 
@@ -50,21 +42,18 @@ var ProductService = function(j_val) {
    @param resultHandler {function} the result handler will be called as soon as the initialization has been accomplished. The async result indicates whether the operation was successful or not. 
    @return {ProductService}
    */
-  this.initializePersistence =  function(resultHandler) {
+  this.initializePersistence = function(resultHandler) {
     var __args = arguments;
     if (__args.length === 1 && typeof __args[0] === 'function') {
       j_productService["initializePersistence(io.vertx.core.Handler)"](function(ar) {
-        if (ar.succeeded()) {
-          __args[0](null, null);
-        } else {
-          __args[0](null, ar.cause());
-        }
-      }) ;
+      if (ar.succeeded()) {
+        resultHandler(null, null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_initializePersistence != 'undefined') {
-      return __super_initializePersistence.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -75,21 +64,18 @@ var ProductService = function(j_val) {
    @param resultHandler {function} the result handler will be called as soon as the product has been added. The async result indicates whether the operation was successful or not. 
    @return {ProductService}
    */
-  this.addProduct =  function(product, resultHandler) {
+  this.addProduct = function(product, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
-      j_productService["addProduct(io.ensure.deepsea.product.Product,io.vertx.core.Handler)"](__args[0]  != null ? new Product(new JsonObject(Java.asJSONCompatible(__args[0]))) : null, function(ar) {
-        if (ar.succeeded()) {
-          __args[1](utils.convReturnDataObject(ar.result()), null);
-        } else {
-          __args[1](null, ar.cause());
-        }
-      }) ;
+      j_productService["addProduct(io.ensure.deepsea.product.Product,io.vertx.core.Handler)"](product != null ? new Product(new JsonObject(Java.asJSONCompatible(product))) : null, function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_addProduct != 'undefined') {
-      return __super_addProduct.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -100,21 +86,18 @@ var ProductService = function(j_val) {
    @param resultHandler {function} the result handler will be called as soon as the product has been retrieved. The async result indicates whether the operation was successful or not. 
    @return {ProductService}
    */
-  this.retrieveProduct =  function(productId, resultHandler) {
+  this.retrieveProduct = function(productId, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
-      j_productService["retrieveProduct(java.lang.String,io.vertx.core.Handler)"](__args[0], function(ar) {
-        if (ar.succeeded()) {
-          __args[1](utils.convReturnDataObject(ar.result()), null);
-        } else {
-          __args[1](null, ar.cause());
-        }
-      }) ;
+      j_productService["retrieveProduct(java.lang.String,io.vertx.core.Handler)"](productId, function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_retrieveProduct != 'undefined') {
-      return __super_retrieveProduct.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -125,21 +108,18 @@ var ProductService = function(j_val) {
    @param resultHandler {function} the result handler will be called as soon as the product has been retrieved. The async result indicates whether the operation was successful or not. 
    @return {ProductService}
    */
-  this.retrieveProductPrice =  function(productId, resultHandler) {
+  this.retrieveProductPrice = function(productId, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
-      j_productService["retrieveProductPrice(java.lang.String,io.vertx.core.Handler)"](__args[0], function(ar) {
-        if (ar.succeeded()) {
-          __args[1](utils.convReturnJson(ar.result()), null);
-        } else {
-          __args[1](null, ar.cause());
-        }
-      }) ;
+      j_productService["retrieveProductPrice(java.lang.String,io.vertx.core.Handler)"](productId, function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnJson(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_retrieveProductPrice != 'undefined') {
-      return __super_retrieveProductPrice.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -149,21 +129,18 @@ var ProductService = function(j_val) {
    @param resultHandler {function} the result handler will be called as soon as the products have been retrieved. The async result indicates whether the operation was successful or not. 
    @return {ProductService}
    */
-  this.retrieveAllProducts =  function(resultHandler) {
+  this.retrieveAllProducts = function(resultHandler) {
     var __args = arguments;
     if (__args.length === 1 && typeof __args[0] === 'function') {
       j_productService["retrieveAllProducts(io.vertx.core.Handler)"](function(ar) {
-        if (ar.succeeded()) {
-          __args[0](utils.convReturnListSetDataObject(ar.result()), null);
-        } else {
-          __args[0](null, ar.cause());
-        }
-      }) ;
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnListSetDataObject(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_retrieveAllProducts != 'undefined') {
-      return __super_retrieveAllProducts.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -174,21 +151,18 @@ var ProductService = function(j_val) {
    @param resultHandler {function} the result handler will be called as soon as the products have been retrieved. The async result indicates whether the operation was successful or not. 
    @return {ProductService}
    */
-  this.retrieveProductsByPage =  function(page, resultHandler) {
+  this.retrieveProductsByPage = function(page, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && typeof __args[0] ==='number' && typeof __args[1] === 'function') {
-      j_productService["retrieveProductsByPage(int,io.vertx.core.Handler)"](__args[0], function(ar) {
-        if (ar.succeeded()) {
-          __args[1](utils.convReturnListSetDataObject(ar.result()), null);
-        } else {
-          __args[1](null, ar.cause());
-        }
-      }) ;
+      j_productService["retrieveProductsByPage(int,io.vertx.core.Handler)"](page, function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnListSetDataObject(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_retrieveProductsByPage != 'undefined') {
-      return __super_retrieveProductsByPage.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -199,21 +173,18 @@ var ProductService = function(j_val) {
    @param resultHandler {function} the result handler will be called as soon as the product has been removed. The async result indicates whether the operation was successful or not. 
    @return {ProductService}
    */
-  this.deleteProduct =  function(productId, resultHandler) {
+  this.deleteProduct = function(productId, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
-      j_productService["deleteProduct(java.lang.String,io.vertx.core.Handler)"](__args[0], function(ar) {
-        if (ar.succeeded()) {
-          __args[1](null, null);
-        } else {
-          __args[1](null, ar.cause());
-        }
-      }) ;
+      j_productService["deleteProduct(java.lang.String,io.vertx.core.Handler)"](productId, function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(null, null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_deleteProduct != 'undefined') {
-      return __super_deleteProduct.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -223,21 +194,18 @@ var ProductService = function(j_val) {
    @param resultHandler {function} the result handler will be called as soon as the products have been removed. The async result indicates whether the operation was successful or not. 
    @return {ProductService}
    */
-  this.deleteAllProducts =  function(resultHandler) {
+  this.deleteAllProducts = function(resultHandler) {
     var __args = arguments;
     if (__args.length === 1 && typeof __args[0] === 'function') {
       j_productService["deleteAllProducts(io.vertx.core.Handler)"](function(ar) {
-        if (ar.succeeded()) {
-          __args[0](null, null);
-        } else {
-          __args[0](null, ar.cause());
-        }
-      }) ;
+      if (ar.succeeded()) {
+        resultHandler(null, null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_deleteAllProducts != 'undefined') {
-      return __super_deleteAllProducts.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   // A reference to the underlying Java delegate
@@ -247,9 +215,11 @@ var ProductService = function(j_val) {
 };
 
 ProductService._jclass = utils.getJavaClass("io.ensure.deepsea.product.ProductService");
-ProductService._jtype = {accept: function(obj) {
+ProductService._jtype = {
+  accept: function(obj) {
     return ProductService._jclass.isInstance(obj._jdel);
-  },wrap: function(jdel) {
+  },
+  wrap: function(jdel) {
     var obj = Object.create(ProductService.prototype, {});
     ProductService.apply(obj, arguments);
     return obj;
@@ -258,7 +228,8 @@ ProductService._jtype = {accept: function(obj) {
     return obj._jdel;
   }
 };
-ProductService._create = function(jdel) {var obj = Object.create(ProductService.prototype, {});
+ProductService._create = function(jdel) {
+  var obj = Object.create(ProductService.prototype, {});
   ProductService.apply(obj, arguments);
   return obj;
 }

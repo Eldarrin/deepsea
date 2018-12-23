@@ -4,18 +4,18 @@
 == MenuItem
 
 
-[cols=">25%,25%,50%"]
+[cols=">25%,^25%,50%"]
 [frame="topbot"]
 |===
 ^|Name | Type ^| Description
-|[[available]]`@available`|`Boolean`|-
-|[[children]]`@children`|`Array of String`|-
-|[[childrenMenuItems]]`@childrenMenuItems`|`Array of link:dataobjects.html#MenuItem[MenuItem]`|-
-|[[menuId]]`@menuId`|`String`|-
-|[[name]]`@name`|`String`|-
-|[[parent]]`@parent`|`String`|-
-|[[parentMenuItem]]`@parentMenuItem`|`link:dataobjects.html#MenuItem[MenuItem]`|-
-|[[serviceName]]`@serviceName`|`String`|-
-|[[url]]`@url`|`String`|-
+|[[available]]`available`|`Boolean`|-
+|[[children]]`children`|`Array of String`|-
+|[[childrenMenuItems]]`childrenMenuItems`|`Array of link:dataobjects.html#MenuItem[MenuItem]`|-
+|[[menuId]]`menuId`|`String`|-
+|[[name]]`name`|`String`|-
+|[[parent]]`parent`|`String`|-
+|[[parentMenuItem]]`parentMenuItem`|`link:dataobjects.html#MenuItem[MenuItem]`|-
+|[[serviceName]]`serviceName`|`String`|-
+|[[url]]`url`|`String`|-
 |===
 

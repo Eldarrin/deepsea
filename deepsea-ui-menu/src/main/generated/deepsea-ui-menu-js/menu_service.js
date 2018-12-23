@@ -30,33 +30,24 @@ var MenuService = function(j_val) {
   var j_menuService = j_val;
   var that = this;
 
-  var __super_initializePersistence = this.initializePersistence;
-  var __super_addMenu = this.addMenu;
-  var __super_changeMenuState = this.changeMenuState;
-  var __super_retrieveSubMenu = this.retrieveSubMenu;
-  var __super_retrieveMenuChildren = this.retrieveMenuChildren;
-  var __super_retrieveMenu = this.retrieveMenu;
   /**
 
    @public
    @param resultHandler {function} 
    @return {MenuService}
    */
-  this.initializePersistence =  function(resultHandler) {
+  this.initializePersistence = function(resultHandler) {
     var __args = arguments;
     if (__args.length === 1 && typeof __args[0] === 'function') {
       j_menuService["initializePersistence(io.vertx.core.Handler)"](function(ar) {
-        if (ar.succeeded()) {
-          __args[0](null, null);
-        } else {
-          __args[0](null, ar.cause());
-        }
-      }) ;
+      if (ar.succeeded()) {
+        resultHandler(null, null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_initializePersistence != 'undefined') {
-      return __super_initializePersistence.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -66,21 +57,18 @@ var MenuService = function(j_val) {
    @param resultHandler {function} 
    @return {MenuService}
    */
-  this.addMenu =  function(menuItem, resultHandler) {
+  this.addMenu = function(menuItem, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
-      j_menuService["addMenu(io.ensure.deepsea.ui.menu.MenuItem,io.vertx.core.Handler)"](__args[0]  != null ? new MenuItem(new JsonObject(Java.asJSONCompatible(__args[0]))) : null, function(ar) {
-        if (ar.succeeded()) {
-          __args[1](utils.convReturnDataObject(ar.result()), null);
-        } else {
-          __args[1](null, ar.cause());
-        }
-      }) ;
+      j_menuService["addMenu(io.ensure.deepsea.ui.menu.MenuItem,io.vertx.core.Handler)"](menuItem != null ? new MenuItem(new JsonObject(Java.asJSONCompatible(menuItem))) : null, function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_addMenu != 'undefined') {
-      return __super_addMenu.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -90,21 +78,18 @@ var MenuService = function(j_val) {
    @param resultHandler {function} 
    @return {MenuService}
    */
-  this.changeMenuState =  function(menuItem, resultHandler) {
+  this.changeMenuState = function(menuItem, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && (typeof __args[0] === 'object' && __args[0] != null) && typeof __args[1] === 'function') {
-      j_menuService["changeMenuState(io.ensure.deepsea.ui.menu.MenuItem,io.vertx.core.Handler)"](__args[0]  != null ? new MenuItem(new JsonObject(Java.asJSONCompatible(__args[0]))) : null, function(ar) {
-        if (ar.succeeded()) {
-          __args[1](utils.convReturnDataObject(ar.result()), null);
-        } else {
-          __args[1](null, ar.cause());
-        }
-      }) ;
+      j_menuService["changeMenuState(io.ensure.deepsea.ui.menu.MenuItem,io.vertx.core.Handler)"](menuItem != null ? new MenuItem(new JsonObject(Java.asJSONCompatible(menuItem))) : null, function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_changeMenuState != 'undefined') {
-      return __super_changeMenuState.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -114,21 +99,18 @@ var MenuService = function(j_val) {
    @param resultHandler {function} 
    @return {MenuService}
    */
-  this.retrieveSubMenu =  function(id, resultHandler) {
+  this.retrieveSubMenu = function(id, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
-      j_menuService["retrieveSubMenu(java.lang.String,io.vertx.core.Handler)"](__args[0], function(ar) {
-        if (ar.succeeded()) {
-          __args[1](utils.convReturnDataObject(ar.result()), null);
-        } else {
-          __args[1](null, ar.cause());
-        }
-      }) ;
+      j_menuService["retrieveSubMenu(java.lang.String,io.vertx.core.Handler)"](id, function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_retrieveSubMenu != 'undefined') {
-      return __super_retrieveSubMenu.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -138,21 +120,18 @@ var MenuService = function(j_val) {
    @param resultHandler {function} 
    @return {MenuService}
    */
-  this.retrieveMenuChildren =  function(parentID, resultHandler) {
+  this.retrieveMenuChildren = function(parentID, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
-      j_menuService["retrieveMenuChildren(java.lang.String,io.vertx.core.Handler)"](__args[0], function(ar) {
-        if (ar.succeeded()) {
-          __args[1](utils.convReturnListSetDataObject(ar.result()), null);
-        } else {
-          __args[1](null, ar.cause());
-        }
-      }) ;
+      j_menuService["retrieveMenuChildren(java.lang.String,io.vertx.core.Handler)"](parentID, function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnListSetDataObject(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_retrieveMenuChildren != 'undefined') {
-      return __super_retrieveMenuChildren.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   /**
@@ -162,21 +141,18 @@ var MenuService = function(j_val) {
    @param resultHandler {function} 
    @return {MenuService}
    */
-  this.retrieveMenu =  function(id, resultHandler) {
+  this.retrieveMenu = function(id, resultHandler) {
     var __args = arguments;
     if (__args.length === 2 && typeof __args[0] === 'string' && typeof __args[1] === 'function') {
-      j_menuService["retrieveMenu(java.lang.String,io.vertx.core.Handler)"](__args[0], function(ar) {
-        if (ar.succeeded()) {
-          __args[1](utils.convReturnDataObject(ar.result()), null);
-        } else {
-          __args[1](null, ar.cause());
-        }
-      }) ;
+      j_menuService["retrieveMenu(java.lang.String,io.vertx.core.Handler)"](id, function(ar) {
+      if (ar.succeeded()) {
+        resultHandler(utils.convReturnDataObject(ar.result()), null);
+      } else {
+        resultHandler(null, ar.cause());
+      }
+    });
       return that;
-    } else if (typeof __super_retrieveMenu != 'undefined') {
-      return __super_retrieveMenu.apply(this, __args);
-    }
-    else throw new TypeError('function invoked with invalid arguments');
+    } else throw new TypeError('function invoked with invalid arguments');
   };
 
   // A reference to the underlying Java delegate
@@ -186,9 +162,11 @@ var MenuService = function(j_val) {
 };
 
 MenuService._jclass = utils.getJavaClass("io.ensure.deepsea.ui.menu.MenuService");
-MenuService._jtype = {accept: function(obj) {
+MenuService._jtype = {
+  accept: function(obj) {
     return MenuService._jclass.isInstance(obj._jdel);
-  },wrap: function(jdel) {
+  },
+  wrap: function(jdel) {
     var obj = Object.create(MenuService.prototype, {});
     MenuService.apply(obj, arguments);
     return obj;
@@ -197,7 +175,8 @@ MenuService._jtype = {accept: function(obj) {
     return obj._jdel;
   }
 };
-MenuService._create = function(jdel) {var obj = Object.create(MenuService.prototype, {});
+MenuService._create = function(jdel) {
+  var obj = Object.create(MenuService.prototype, {});
   MenuService.apply(obj, arguments);
   return obj;
 }
