@@ -93,7 +93,7 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 					  } else {
 					    AccessToken token = (AccessToken) ac.result();
 					    
-					    token.clearCache();
+					    //token.clearCache();
 
 					    // now check for permissions
 					    token.isAuthorized("realm:offline_access", r -> {
