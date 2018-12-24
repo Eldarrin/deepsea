@@ -85,15 +85,18 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 
 				OAuth2Auth authProviderPW = KeycloakAuth.create(vertx, OAuth2FlowType.PASSWORD, keyCloakJson);
 				
-				authProviderPW.authenticate(new JsonObject().put("username", "andy").put("password", "andy"), ac -> {
+				authProviderPW.authenticate(new JsonObject().put("username", "andy").put("password", "andy")
+						.put("scope", "dostuff realm deepsea"), ac -> {
 					  if (ac.failed()) {
 					    // error handling...
 						  log.error(ac.cause());
 					  } else {
 					    AccessToken token = (AccessToken) ac.result();
+					    
+					    token.clearCache();
 
 					    // now check for permissions
-					    token.isAuthorized("account:manage-account", r -> {
+					    token.isAuthorized("realm:offline_access", r -> {
 					      if (r.result()) {
 					        // this user is authorized to manage its account
 					    	  log.info("XXXX this one worked");
@@ -101,6 +104,14 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 					    	  log.info("XXX Still no bloody authorisation");
 					      }
 					    });
+					    token.isAuthorized("profile", r -> {
+						      if (r.result()) {
+						        // this user is authorized to manage its account
+						    	  log.info("XXXX DE this one worked");
+						      } else {
+						    	  log.info("XXX DE Still no bloody authorisation");
+						      }
+						    });
 					  }
 					});
 				
