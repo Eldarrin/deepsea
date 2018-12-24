@@ -10,7 +10,6 @@ import io.vertx.servicediscovery.Status;
 
 public class DiscoveryHelper {
 	
-	private ServiceDiscovery discovery;
 	private Vertx vertx;
 	
 	public DiscoveryHelper(Vertx vertx) {
@@ -19,17 +18,13 @@ public class DiscoveryHelper {
 	
 	public void getStatus(String serviceName, Status status, Handler<AsyncResult<Boolean>> resultHandler) {
 		Future <Boolean> future = Future.future();
-		boolean complete = false;
-		discovery = ServiceDiscovery.create(vertx);
+		ServiceDiscovery discovery = ServiceDiscovery.create(vertx);
 		
 		discovery.getRecords(record -> record.getName().equals(serviceName), ar -> {
 			if (ar.succeeded()) {
 				for (Record rec : ar.result()) {
-					if (rec.getStatus().equals(status)) {
-						future.setHandler(resultHandler).complete(true);
-					} else {
-						future.setHandler(resultHandler).complete(false);
-					}
+					future.setHandler(resultHandler)
+						.complete(rec.getStatus().equals(status));
 				}
 			} else {
 				future.setHandler(resultHandler).fail(ar.cause());
