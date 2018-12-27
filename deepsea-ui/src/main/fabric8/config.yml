@@ -4,12 +4,12 @@ metadata:
   name: ${project.artifactId}
   namespace: deepsea
 data:
-  database.host: mongodb
-  database.port: 27017
-  redis.host: redis
-  redis.port: 6379
-  menu.host.address: 0.0.0.0
-  menu.host.port: 8081
-  menu.service.hostname: deepsea-ui.deepsea.svc
-  
-  
+  deepsea.ui.http.address: 0.0.0.0
+  deepsea.ui.http.port: 8080
+  keycloak.realm: master
+  keycloak.auth-server-url: http://keycloak-deepsea.192.168.99.100.nip.io/auth
+  keycloak.ssl-required: external
+  keycloak.resource: deepsea
+  keycloak.credentials.secret: 5fc8191c-bed8-4808-8b7e-d8e94b5baf44
+  keycloak.use-resource-role-mappings: true
+  keycloak.confidential-port: 0

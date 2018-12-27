@@ -70,53 +70,21 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 
 				router.route("/eventbus/*").handler(sockJSHandler);
 
-				JsonObject keyCloakJson = new JsonObject("{\n" + 
-						"  \"realm\": \"master\",\n" + 
-						"  \"auth-server-url\": \"http://keycloak-deepsea.192.168.99.100.nip.io/auth\",\n" + 
-						"  \"ssl-required\": \"none\",\n" + 
-						"  \"resource\": \"deepsea\",\n" + 
-						"  \"verify-token-audience\": true,\n" + 
-						"  \"credentials\": {\n" + 
-						"    \"secret\": \"9ff88a7d-03d1-45e2-9040-6f72058f7a01\"\n" + 
-						"  },\n" + 
-						"  \"use-resource-role-mappings\": true,\n" + 
-						"  \"confidential-port\": 0\n" + 
-						"}");
-
-				OAuth2Auth authProviderPW = KeycloakAuth.create(vertx, OAuth2FlowType.PASSWORD, keyCloakJson);
+				JsonObject keyCloakJson = new JsonObject();
 				
-				authProviderPW.authenticate(new JsonObject().put("username", "andy").put("password", "andy")
-						.put("scope", "dostuff realm deepsea"), ac -> {
-					  if (ac.failed()) {
-					    // error handling...
-						  log.error(ac.cause());
-					  } else {
-					    AccessToken token = (AccessToken) ac.result();
-					    
-					    //token.clearCache();
-
-					    // now check for permissions
-					    token.isAuthorized("realm:offline_access", r -> {
-					      if (r.result()) {
-					        // this user is authorized to manage its account
-					    	  log.info("XXXX this one worked");
-					      } else {
-					    	  log.info("XXX Still no bloody authorisation");
-					      }
-					    });
-					    token.isAuthorized("profile", r -> {
-						      if (r.result()) {
-						        // this user is authorized to manage its account
-						    	  log.info("XXXX DE this one worked");
-						      } else {
-						    	  log.info("XXX DE Still no bloody authorisation");
-						      }
-						    });
-					  }
-					});
+				keyCloakJson.put("realm", res.result().getString("keycloak.realm"));
+				keyCloakJson.put("auth-server-url", res.result().getString("keycloak.auth-server-url"));
+				keyCloakJson.put("ssl-required", res.result().getString("keycloak.ssl-required"));
+				keyCloakJson.put("resource", res.result().getString("keycloak.resource"));
+				keyCloakJson.put("use-resource-role-mappings", res.result().getBoolean("keycloak.use-resource-role-mappings"));
+				keyCloakJson.put("confidential-port", res.result().getInteger("keycloak.confidential-port"));
+				keyCloakJson.put("credentials", 
+						new JsonObject().put("secret", res.result().getString("keycloak.credentials.secret")));
 				
+				log.info(keyCloakJson.encodePrettily());
+
+
 				OAuth2Auth authProvider = KeycloakAuth.create(vertx, OAuth2FlowType.AUTH_CODE, keyCloakJson);
-				
 				
 				router.route().handler(UserSessionHandler.create(authProvider));
 
@@ -131,25 +99,19 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 					AccessToken token = (AccessToken) rc.user();
 
 					
-					token.isAuthorized("account:view-profile", ar -> {
+					token.isAuthorized("deepsea", ar -> {
 						if (ar.result()) {
 							log.info("has view-profile");
 						} else {
 							log.info("not auth view profile");
 						}
 					});
-					token.isAuthorized("deepsea:enrolment", ar -> {
-						if (ar.result()) {
-							log.info("has deepsea enrolment");
-						} else {
-							log.info("not auth enrolment");
-						}
-					});
+					
 					log.info(rc.user().principal().encodePrettily());
 					
 					
 					
-					rc.response().end("Welcome to the protected resource, " + token.userInfo(ar -> {
+					token.userInfo(ar -> {
 						if (ar.failed()) {
 							// request didn't succeed because the token was revoked so we
 							// invalidate the token stored in the session and render the
@@ -160,13 +122,10 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 						} else {
 							// the request succeeded, so we use the API to fetch the user's emails
 							final JsonObject userInfo = ar.result();
-							Session session = rc.session();
-							JsonObject idToken = KeycloakHelper.idToken(userInfo);
-							session.put("AccessToken", idToken);
-							log.info(userInfo);
-
+							rc.session().put("UserInfo", userInfo);
+							rc.response().end("Welcome to the protected resource, " + userInfo.encodePrettily());
 						}
-					}));
+					});
 
 				});
 
