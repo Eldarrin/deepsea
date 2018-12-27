@@ -63,12 +63,13 @@ public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements
 	public MenuService addMenu(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler) {
 		this.upsertWithCache(menuItem.toJson(), MENU).map(option -> option.map(MenuItem::new).orElse(null))
 		.setHandler(resultHandler);
+		assignChildren(mainMenu);
 		return this;
 	}
 
 	@Override
 	public MenuService changeMenuState(MenuItem menuItem, Handler<AsyncResult<MenuItem>> resultHandler) {
-		// TODO Auto-generated method stub
+		assignChildren(mainMenu);
 		return this;
 	}
 
