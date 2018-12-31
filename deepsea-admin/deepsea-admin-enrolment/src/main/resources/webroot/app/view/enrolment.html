@@ -1,8 +1,9 @@
+<script src="enrolmentctrl.js"></script>
 <div class="container" ng-model="enrolment">
 	<div class="row">
 		<div>
 			<ol class="breadcrumb">
-				<li><a href="#home">Home</a></li>
+				<li><a href="#">Home</a></li>
 			</ol>
 		</div>
 	</div>
@@ -10,9 +11,8 @@
 		<div class="panel panel-primary">
 			<form id="myform">
 				<p>
-					<label>Client</label><br> <label> <input type="radio"
-						name="clientId" value="barclays"> Barclays
-					</label>
+					<label>Client</label><br> 
+					<label ng-repeat="client in client"><input type="radio" name="clientId" value="{{ client.clientId }}">{{ client.clientName }}</label>
 				</p>
 				<p>
 					<label>Product</label><br> <label> <input type="radio"

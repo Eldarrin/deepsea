@@ -10,6 +10,6 @@ data:
   keycloak.auth-server-url: http://keycloak-deepsea.192.168.99.100.nip.io/auth
   keycloak.ssl-required: external
   keycloak.resource: deepsea
-  keycloak.credentials.secret: 5fc8191c-bed8-4808-8b7e-d8e94b5baf44
+  keycloak.credentials.secret: 769a8bff-cfbd-471f-bb9c-fc5db2f29c0c
   keycloak.use-resource-role-mappings: true
   keycloak.confidential-port: 0

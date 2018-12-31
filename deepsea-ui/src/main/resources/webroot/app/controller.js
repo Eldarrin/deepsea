@@ -38,6 +38,24 @@ vertxApp.controller('AppIndexCtrl', ['$scope', '$http', '$templateCache', '$rout
     getProducts();
   }]);
 
+vertxApp.controller('UserEnrolmentCtrl', ['$scope', '$rootScope', '$http', '$location', '$routeParams',
+	  function ($scope, $rootScope, $http, $location, $routeParams) {
+	    
+	    $scope.client = [];
+	    var fetchClients = () => {
+	    	$http({
+	    		method: 'GET',
+	    		url: '/api/client/'
+	    	}).success(data => {
+	    		$scope.client = data;
+	    	}).error((data, status, headers, config) => {
+	    		
+	    	})
+	    };
+	    fetchClients();
+	    
+	  }]);
+
 vertxApp.controller('ProductDetailCtrl', ['$scope', '$routeParams', '$http', '$location',
   function ($scope, $routeParams, $http, $location) {
     $scope.productDetailUrl = API_URI + '/product/' + $routeParams.productId;
