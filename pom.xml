@@ -298,6 +298,5 @@
 		<module>deepsea-admin</module>
 		<module>deepsea-ui</module>
 		<module>deepsea-ui-menu</module>
-		<module>deepsea-ux</module>
 	</modules>
 </project>
