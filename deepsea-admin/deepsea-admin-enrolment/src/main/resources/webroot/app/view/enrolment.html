@@ -12,32 +12,32 @@
 			<form id="myform">
 				<p>
 					<label>Client</label><br> 
-					<label ng-repeat="client in client"><input type="radio" name="clientId" value="{{ client.clientId }}">{{ client.clientName }}</label>
+					<label ng-repeat="client in client"><input type="radio" menuName="clientId" value="{{ client.clientId }}">{{ client.clientName }}</label>
 				</p>
 				<p>
 					<label>Product</label><br> <label> <input type="radio"
-						name="productId" value="product-1"> Barclays Premier MPI
+						menuName="productId" value="product-1"> Barclays Premier MPI
 					</label>
 				</p>
 				<p>
 					<label>Title</label><br> <label> <input type="radio"
-						name="title" value="mr"> Mr
-					</label> <label> <input type="radio" name="title" value="mrs">
+						menuName="title" value="mr"> Mr
+					</label> <label> <input type="radio" menuName="title" value="mrs">
 						Mrs
-					</label> <label> <input type="radio" name="title" value="miss">
+					</label> <label> <input type="radio" menuName="title" value="miss">
 						Miss
 					</label>
 				</p>
 				<p>
-					<label>First name</label><br> <input type="text"
-						name="firstName">
+					<label>First menuName</label><br> <input type="text"
+						menuName="firstName">
 				</p>
 				<p>
-					<label>Last name</label><br> <input type="text"
-						name="lastName">
+					<label>Last menuName</label><br> <input type="text"
+						menuName="lastName">
 				</p>
 				<p>
-					<label>Email</label><br> <input type="email" name="email"
+					<label>Email</label><br> <input type="email" menuName="email"
 						required>
 				</p>
 
@@ -64,13 +64,13 @@
   // console.log(formData);
 
    $.each(formData, function() {
-        if (jsonData[this.name]) {
-           if (!jsonData[this.name].push) {
-               jsonData[this.name] = [jsonData[this.name]];
+        if (jsonData[this.menuName]) {
+           if (!jsonData[this.menuName].push) {
+               jsonData[this.menuName] = [jsonData[this.menuName]];
            }
-           jsonData[this.name].push(this.value || '');
+           jsonData[this.menuName].push(this.value || '');
        } else {
-           jsonData[this.name] = this.value || '';
+           jsonData[this.menuName] = this.value || '';
        }
 
 
@@ -78,7 +78,7 @@
    console.log(jsonData);
     $.ajax(
     {
-        url : "/api/enrolment/add",
+        navLink : "/api/enrolment/add",
         type: "POST",
         data : jsonData,
 

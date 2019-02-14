@@ -17,7 +17,7 @@
 		<sl4j.version>1.7.22</sl4j.version>
 		<mysql.conn.version>6.0.5</mysql.conn.version>
 		<log4j.version>2.8</log4j.version>
-		<vertx.cluster.name>vertx-deepsea-cluster</vertx.cluster.name>
+		<vertx.cluster.menuName>vertx-deepsea-cluster</vertx.cluster.menuName>
 		<sonar.sources>src/main/java</sonar.sources>
 		<sonar.junit.reportPaths>target/surefire-reports</sonar.junit.reportPaths>
 		<sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>

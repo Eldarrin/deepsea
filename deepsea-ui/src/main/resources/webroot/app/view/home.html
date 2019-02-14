@@ -15,11 +15,11 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li ng-repeat="menuitem in menu" class="dropdown">
-						<a href="{{menuitem.url}}" class="dropdown-toggle"
+						<a href="{{menuitem.navLink}}" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">{{menuitem.name}} <span class="caret"></span></a>
+						aria-expanded="false">{{menuitem.menuName}} <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li ng-repeat="mitem in menuitem.childrenMenuItems"><a href="{{mitem.url}}">{{mitem.name}}</a></li>
+							<li ng-repeat="mitem in menuitem.childrenMenuItems"><a href="{{mitem.navLink}}">{{mitem.menuName}}</a></li>
 						</ul></li>
 
 				</ul>
@@ -31,7 +31,7 @@
 	<div class="row">
 		<div>
 			<ol class="breadcrumb">
-				<li ng-repeat="menuitem in menu"><a href="{{menuitem.url}}">{{menuitem.name}}</a></li>
+				<li ng-repeat="menuitem in menu"><a href="{{menuitem.navLink}}">{{menuitem.menuName}}</a></li>
 			</ol>
 		</div>
 	</div>
@@ -44,10 +44,10 @@
 						<div class="pic-center">
 							<img class="limited-size"
 								ng-src="/assets/img/posters/{{product.productId}}.jpg"
-								alt="{{product.name}}">
+								alt="{{product.menuName}}">
 						</div>
 						<div>
-							<a href="/#/products/{{product.productId}}">{{product.name}}</a>
+							<a href="/#/products/{{product.productId}}">{{product.menuName}}</a>
 							<p class="text-out-of-stock">{{product.price | currency}}</p>
 						</div>
 					</li>

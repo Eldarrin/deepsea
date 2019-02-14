@@ -15,10 +15,10 @@ oc label secret/prometheus-tls app=prometheus -n #{namespace}
 oc label sa/prometheus app=prometheus -n #{namespace}
 oc label clusterrolebinding/prometheus-cluster-reader app=prometheus
 # Look maybe into modifying the route here
-# oc expose svc/prometheus --name=prometheus-2 --hostname=prometheus.#{routing-suffix} --tls=reencrypt --port=prometheus -l app=prometheus -n #{namespace}
+# oc expose svc/prometheus --menuName=prometheus-2 --hostname=prometheus.#{routing-suffix} --tls=reencrypt --port=prometheus -l app=prometheus -n #{namespace}
 
-echo You have installed #{addon-name}
-echo To access #{addon-name} go to https://prometheus-#{namespace}.#{routing-suffix}
+echo You have installed #{addon-menuName}
+echo To access #{addon-menuName} go to https://prometheus-#{namespace}.#{routing-suffix}
 echo 
 echo To delete:
 echo     oc delete sa,clusterrolebinding,route,svc,secret,deployment,configmap -l app=prometheus -n #{namespace} --as=system:admin

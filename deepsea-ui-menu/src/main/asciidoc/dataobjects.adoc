@@ -12,10 +12,10 @@
 |[[children]]`children`|`Array of String`|-
 |[[childrenMenuItems]]`childrenMenuItems`|`Array of link:dataobjects.html#MenuItem[MenuItem]`|-
 |[[menuId]]`menuId`|`String`|-
-|[[name]]`name`|`String`|-
+|[[menuName]]`menuName`|`String`|-
 |[[parent]]`parent`|`String`|-
 |[[parentMenuItem]]`parentMenuItem`|`link:dataobjects.html#MenuItem[MenuItem]`|-
 |[[serviceName]]`serviceName`|`String`|-
-|[[url]]`url`|`String`|-
+|[[navLink]]`navLink`|`String`|-
 |===
 

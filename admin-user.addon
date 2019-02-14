@@ -26,87 +26,87 @@
   
   
 
-  <meta name="viewport" content="width=device-width">
+  <meta menuName="viewport" content="width=device-width">
   
   <title>minishift/admin-user.addon at master · minishift/minishift</title>
-    <meta name="description" content="Run OpenShift locally. Contribute to minishift/minishift development by creating an account on GitHub.">
+    <meta menuName="description" content="Run OpenShift locally. Contribute to minishift/minishift development by creating an account on GitHub.">
     <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
   <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
   <meta property="fb:app_id" content="1401488693436528">
 
     
-    <meta property="og:image" content="https://avatars0.githubusercontent.com/u/23212309?s=400&amp;v=4" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="minishift/minishift" /><meta property="og:url" content="https://github.com/minishift/minishift" /><meta property="og:description" content="Run OpenShift locally. Contribute to minishift/minishift development by creating an account on GitHub." />
+    <meta property="og:image" content="https://avatars0.githubusercontent.com/u/23212309?s=400&amp;v=4" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="minishift/minishift" /><meta property="og:navLink" content="https://github.com/minishift/minishift" /><meta property="og:description" content="Run OpenShift locally. Contribute to minishift/minishift development by creating an account on GitHub." />
 
   <link rel="assets" href="https://assets-cdn.github.com/">
   <link rel="web-socket" href="wss://live.github.com/_sockets/VjI6MzM0NzQ5ODcxOjY3MmU0NjdkYzQwYjI0ZmE2N2I1ZTM5NGMxYTQyMDFhZjZiNGVkODM1ZmUyOGJjYzRjNzQ4MmQ3M2JhZDY1Mzc=--06bab3a1e9ab049251426bb2a274a3f6cef9c6ba">
-  <meta name="pjax-timeout" content="1000">
+  <meta menuName="pjax-timeout" content="1000">
   <link rel="sudo-modal" href="/sessions/sudo_modal">
-  <meta name="request-id" content="CF41:205C:15C32EF:27CC586:5BE29EB1" data-pjax-transient>
+  <meta menuName="request-id" content="CF41:205C:15C32EF:27CC586:5BE29EB1" data-pjax-transient>
 
 
   
 
-  <meta name="selected-link" value="repo_source" data-pjax-transient>
+  <meta menuName="selected-link" value="repo_source" data-pjax-transient>
 
-      <meta name="google-site-verification" content="KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU">
-    <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
-    <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
+      <meta menuName="google-site-verification" content="KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU">
+    <meta menuName="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
+    <meta menuName="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
 
-  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="CF41:205C:15C32EF:27CC586:5BE29EB1" /><meta name="octolytics-dimension-region_edge" content="iad" /><meta name="octolytics-dimension-region_render" content="iad" /><meta name="octolytics-actor-id" content="32762846" /><meta name="octolytics-actor-login" content="Eldarrin" /><meta name="octolytics-actor-hash" content="52e0821408ed3fdad05ee0c4329b9c2ab83c62f4ae6be3e6842c971d1266d3af" />
-<meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-pjax-transient="true" />
+  <meta menuName="octolytics-host" content="collector.githubapp.com" /><meta menuName="octolytics-app-id" content="github" /><meta menuName="octolytics-event-navLink" content="https://collector.githubapp.com/github-external/browser_event" /><meta menuName="octolytics-dimension-request_id" content="CF41:205C:15C32EF:27CC586:5BE29EB1" /><meta menuName="octolytics-dimension-region_edge" content="iad" /><meta menuName="octolytics-dimension-region_render" content="iad" /><meta menuName="octolytics-actor-id" content="32762846" /><meta menuName="octolytics-actor-login" content="Eldarrin" /><meta menuName="octolytics-actor-hash" content="52e0821408ed3fdad05ee0c4329b9c2ab83c62f4ae6be3e6842c971d1266d3af" />
+<meta menuName="analytics-location" content="/&lt;user-menuName&gt;/&lt;repo-menuName&gt;/blob/show" data-pjax-transient="true" />
 
 
 
-    <meta name="google-analytics" content="UA-3769691-2">
+    <meta menuName="google-analytics" content="UA-3769691-2">
 
-  <meta class="js-ga-set" name="userId" content="cd20bb40e4466a0dc9370aa26d74386a" %>
+  <meta class="js-ga-set" menuName="userId" content="cd20bb40e4466a0dc9370aa26d74386a" %>
 
-<meta class="js-ga-set" name="dimension1" content="Logged In">
+<meta class="js-ga-set" menuName="dimension1" content="Logged In">
 
 
 
   
 
-      <meta name="hostname" content="github.com">
-    <meta name="user-login" content="Eldarrin">
+      <meta menuName="hostname" content="github.com">
+    <meta menuName="user-login" content="Eldarrin">
 
-      <meta name="expected-hostname" content="github.com">
-    <meta name="js-proxy-site-detection-payload" content="N2U1YWZmNmUzNTIzZWIxYzVlZTUzODgyNjk4MDEwMjk0N2Y2NTNhNWFkMjcyZmRmZGNmY2IxMjUyMzQ0ZWRjOHx7InJlbW90ZV9hZGRyZXNzIjoiMjEzLjE2NS4xNTIuMTI2IiwicmVxdWVzdF9pZCI6IkNGNDE6MjA1QzoxNUMzMkVGOjI3Q0M1ODY6NUJFMjlFQjEiLCJ0aW1lc3RhbXAiOjE1NDE1Nzg0MjMsImhvc3QiOiJnaXRodWIuY29tIn0=">
+      <meta menuName="expected-hostname" content="github.com">
+    <meta menuName="js-proxy-site-detection-payload" content="N2U1YWZmNmUzNTIzZWIxYzVlZTUzODgyNjk4MDEwMjk0N2Y2NTNhNWFkMjcyZmRmZGNmY2IxMjUyMzQ0ZWRjOHx7InJlbW90ZV9hZGRyZXNzIjoiMjEzLjE2NS4xNTIuMTI2IiwicmVxdWVzdF9pZCI6IkNGNDE6MjA1QzoxNUMzMkVGOjI3Q0M1ODY6NUJFMjlFQjEiLCJ0aW1lc3RhbXAiOjE1NDE1Nzg0MjMsImhvc3QiOiJnaXRodWIuY29tIn0=">
 
-    <meta name="enabled-features" content="DASHBOARD_V2_LAYOUT_OPT_IN,EXPLORE_DISCOVER_REPOSITORIES,UNIVERSE_BANNER,MARKETPLACE_PLAN_RESTRICTION_EDITOR,NOTIFY_ON_BLOCK,SAVED_THREADS,SUGGESTED_CHANGES_UX_TEST,RELATED_ISSUES">
+    <meta menuName="enabled-features" content="DASHBOARD_V2_LAYOUT_OPT_IN,EXPLORE_DISCOVER_REPOSITORIES,UNIVERSE_BANNER,MARKETPLACE_PLAN_RESTRICTION_EDITOR,NOTIFY_ON_BLOCK,SAVED_THREADS,SUGGESTED_CHANGES_UX_TEST,RELATED_ISSUES">
 
-  <meta name="html-safe-nonce" content="58b18ea70720f0830403b54a749e2c14b47291a3">
+  <meta menuName="html-safe-nonce" content="58b18ea70720f0830403b54a749e2c14b47291a3">
 
   <meta http-equiv="x-pjax-version" content="c2d744d47d0788663a1d73aad22acebe">
   
 
       <link href="https://github.com/minishift/minishift/commits/master.atom" rel="alternate" title="Recent Commits to minishift:master" type="application/atom+xml">
 
-  <meta name="go-import" content="github.com/minishift/minishift git https://github.com/minishift/minishift.git">
+  <meta menuName="go-import" content="github.com/minishift/minishift git https://github.com/minishift/minishift.git">
 
-  <meta name="octolytics-dimension-user_id" content="23212309" /><meta name="octolytics-dimension-user_login" content="minishift" /><meta name="octolytics-dimension-repository_id" content="62728051" /><meta name="octolytics-dimension-repository_nwo" content="minishift/minishift" /><meta name="octolytics-dimension-repository_public" content="true" /><meta name="octolytics-dimension-repository_is_fork" content="false" /><meta name="octolytics-dimension-repository_network_root_id" content="62728051" /><meta name="octolytics-dimension-repository_network_root_nwo" content="minishift/minishift" /><meta name="octolytics-dimension-repository_explore_github_marketplace_ci_cta_shown" content="false" />
+  <meta menuName="octolytics-dimension-user_id" content="23212309" /><meta menuName="octolytics-dimension-user_login" content="minishift" /><meta menuName="octolytics-dimension-repository_id" content="62728051" /><meta menuName="octolytics-dimension-repository_nwo" content="minishift/minishift" /><meta menuName="octolytics-dimension-repository_public" content="true" /><meta menuName="octolytics-dimension-repository_is_fork" content="false" /><meta menuName="octolytics-dimension-repository_network_root_id" content="62728051" /><meta menuName="octolytics-dimension-repository_network_root_nwo" content="minishift/minishift" /><meta menuName="octolytics-dimension-repository_explore_github_marketplace_ci_cta_shown" content="false" />
 
 
     <link rel="canonical" href="https://github.com/minishift/minishift/blob/master/addons/admin-user/admin-user.addon" data-pjax-transient>
 
 
-  <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
+  <meta menuName="browser-stats-navLink" content="https://api.github.com/_private/browser/stats">
 
-  <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
+  <meta menuName="browser-errors-navLink" content="https://api.github.com/_private/browser/errors">
 
   <link rel="mask-icon" href="https://assets-cdn.github.com/pinned-octocat.svg" color="#000000">
   <link rel="icon" type="image/x-icon" class="js-site-favicon" href="https://assets-cdn.github.com/favicon.ico">
 
-<meta name="theme-color" content="#1e2327">
+<meta menuName="theme-color" content="#1e2327">
 
 
-  <meta name="u2f-support" content="true">
+  <meta menuName="u2f-support" content="true">
 
   <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials">
 
   </head>
 
-  <body class="logged-in env-production page-blob">
+  <body class="logged-in env-production menuPage-blob">
     
 
   <div class="position-relative js-header-wrapper ">
@@ -143,12 +143,12 @@
   aria-expanded="false"
 >
   <div class="position-relative">
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="js-site-search-form" data-scope-type="Repository" data-scope-id="62728051" data-scoped-search-url="/minishift/minishift/search" data-unscoped-search-url="/search" action="/minishift/minishift/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="js-site-search-form" data-scope-type="Repository" data-scope-id="62728051" data-scoped-search-navLink="/minishift/minishift/search" data-unscoped-search-navLink="/search" action="/minishift/minishift/search" accept-charset="UTF-8" method="get"><input menuName="utf8" type="hidden" value="&#x2713;" />
       <label class="form-control header-search-wrapper header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center js-chromeless-input-container">
         <input type="text"
           class="form-control header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
           data-hotkey="s,/"
-          name="q"
+          menuName="q"
           value=""
           placeholder="Search or jump to…"
           data-unscoped-placeholder="Search or jump to…"
@@ -161,7 +161,7 @@
           spellcheck="false"
           autocomplete="off"
           >
-          <input type="hidden" class="js-site-search-type-field" name="type" >
+          <input type="hidden" class="js-site-search-type-field" menuName="type" >
             <img src="https://assets-cdn.github.com/images/search-shortcut-hint.svg" alt="" class="mr-2 header-search-key-slash">
 
             <div class="Box position-absolute overflow-hidden d-none jump-to-suggestions js-jump-to-suggestions-container">
@@ -176,7 +176,7 @@
 
                     <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
 
-                    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+                    <div class="jump-to-suggestion-menuName js-jump-to-suggestion-menuName flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
                     </div>
 
                     <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
@@ -291,7 +291,7 @@
   <li class="dropdown">
 
     <details class="details-overlay details-reset d-flex pl-2 flex-items-center">
-      <summary class="HeaderNavlink name mt-1"
+      <summary class="HeaderNavlink menuName mt-1"
         aria-label="View profile and more"
         data-ga-click="Header, show menu, icon:avatar">
         <img alt="@Eldarrin" class="avatar float-left mr-1" src="https://avatars2.githubusercontent.com/u/32762846?s=40&amp;v=4" height="20" width="20">
@@ -311,7 +311,7 @@
           <li><a role="menuitem" class="dropdown-item" href="https://help.github.com" data-ga-click="Header, go to help, text:help">Help</a></li>
           <li><a role="menuitem" class="dropdown-item" href="/settings/profile" data-ga-click="Header, go to settings, icon:settings">Settings</a></li>
           <li>
-            <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="logout-form" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="b27I7AC27VUsbeMdXbbWmWPKWqABE6szMENfkV25iQWWpNp3ye4yi3fXlSM9RlNCVdxjaQXDfisdhPsz11CLPg==" />
+            <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="logout-form" action="/logout" accept-charset="UTF-8" method="post"><input menuName="utf8" type="hidden" value="&#x2713;" /><input type="hidden" menuName="authenticity_token" value="b27I7AC27VUsbeMdXbbWmWPKWqABE6szMENfkV25iQWWpNp3ye4yi3fXlSM9RlNCVdxjaQXDfisdhPsz11CLPg==" />
               <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout" role="menuitem">
                 Sign out
               </button>
@@ -324,7 +324,7 @@
 
 
 
-        <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="sr-only right-0" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="qav5szMkAw/5r7nhpc5cckjdRvN4wWfNWb19WqkHlUpQYeso+nzc0aIVz9/FPtmpfst/OnwRstV0etn4I+6XcQ==" />
+        <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="sr-only right-0" action="/logout" accept-charset="UTF-8" method="post"><input menuName="utf8" type="hidden" value="&#x2713;" /><input type="hidden" menuName="authenticity_token" value="qav5szMkAw/5r7nhpc5cckjdRvN4wWfNWb19WqkHlUpQYeso+nzc0aIVz9/FPtmpfst/OnwRstV0etn4I+6XcQ==" />
           <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout">
             Sign out
           </button>
@@ -364,7 +364,7 @@
 
       <ul class="pagehead-actions">
   <li>
-        <!-- '"` --><!-- </textarea></xmp> --></option></form><form data-remote="true" class="js-social-form js-social-container" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="Zey41grmT1NXh1Xjey4sdw7WxCVjkzf3wShHhNO+4n0lcpq+IBNF8RO384nBKp1faoVARFRC/gQ7V1n73CDWCQ==" />      <input type="hidden" name="repository_id" id="repository_id" value="62728051" class="form-control" />
+        <!-- '"` --><!-- </textarea></xmp> --></option></form><form data-remote="true" class="js-social-form js-social-container" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input menuName="utf8" type="hidden" value="&#x2713;" /><input type="hidden" menuName="authenticity_token" value="Zey41grmT1NXh1Xjey4sdw7WxCVjkzf3wShHhNO+4n0lcpq+IBNF8RO384nBKp1faoVARFRC/gQ7V1n73CDWCQ==" />      <input type="hidden" menuName="repository_id" id="repository_id" value="62728051" class="form-control" />
 
       <details class="details-reset details-overlay select-menu float-left">
         <summary class="btn btn-sm btn-with-count select-menu-button" data-ga-click="Repository, click Watch settings, action:blob#show">
@@ -378,7 +378,7 @@
             <span class="select-menu-title">Notifications</span>
           </div>
           <div class="select-menu-list">
-            <button type="submit" name="do" value="included" class="select-menu-item width-full" aria-checked="true" role="menuitemradio">
+            <button type="submit" menuName="do" value="included" class="select-menu-item width-full" aria-checked="true" role="menuitemradio">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
               <div class="select-menu-item-text">
                 <span class="select-menu-item-heading">Not watching</span>
@@ -390,7 +390,7 @@
               </div>
             </button>
 
-            <button type="submit" name="do" value="subscribed" class="select-menu-item width-full" aria-checked="false" role="menuitemradio">
+            <button type="submit" menuName="do" value="subscribed" class="select-menu-item width-full" aria-checked="false" role="menuitemradio">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
               <div class="select-menu-item-text">
                 <span class="select-menu-item-heading">Watching</span>
@@ -402,7 +402,7 @@
               </div>
             </button>
 
-            <button type="submit" name="do" value="ignore" class="select-menu-item width-full" aria-checked="false" role="menuitemradio">
+            <button type="submit" menuName="do" value="ignore" class="select-menu-item width-full" aria-checked="false" role="menuitemradio">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
               <div class="select-menu-item-text">
                 <span class="select-menu-item-heading">Ignoring</span>
@@ -427,8 +427,8 @@
   <li>
     
   <div class="js-toggler-container js-social-container starring-container ">
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="starred js-social-form" action="/minishift/minishift/unstar" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="AZrG0oITsC2g3+wwTNkUve3an8f8JxNwnVakcCd9FKSWfw15sHLUQyrqP4O5Mf6KjlVZjQ/k4czXJRhWpaOMJw==" />
-      <input type="hidden" name="context" value="repository"></input>
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="starred js-social-form" action="/minishift/minishift/unstar" accept-charset="UTF-8" method="post"><input menuName="utf8" type="hidden" value="&#x2713;" /><input type="hidden" menuName="authenticity_token" value="AZrG0oITsC2g3+wwTNkUve3an8f8JxNwnVakcCd9FKSWfw15sHLUQyrqP4O5Mf6KjlVZjQ/k4czXJRhWpaOMJw==" />
+      <input type="hidden" menuName="context" value="repository"></input>
       <button
         type="submit"
         class="btn btn-sm btn-with-count js-toggler-target"
@@ -442,8 +442,8 @@
           1,360
         </a>
 </form>
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="unstarred js-social-form" action="/minishift/minishift/star" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="+n5HaX1i59ug4TjhbLw+TlWc8wkhKmLYKy8Le9wKhh7gu/7JjBWMrjbchyDzghOXZa5I1r8bt+3T7/SbDEmGjQ==" />
-      <input type="hidden" name="context" value="repository"></input>
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="unstarred js-social-form" action="/minishift/minishift/star" accept-charset="UTF-8" method="post"><input menuName="utf8" type="hidden" value="&#x2713;" /><input type="hidden" menuName="authenticity_token" value="+n5HaX1i59ug4TjhbLw+TlWc8wkhKmLYKy8Le9wKhh7gu/7JjBWMrjbchyDzghOXZa5I1r8bt+3T7/SbDEmGjQ==" />
+      <input type="hidden" menuName="context" value="repository"></input>
       <button
         type="submit"
         class="btn btn-sm btn-with-count js-toggler-target"
@@ -461,7 +461,7 @@
   </li>
 
   <li>
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="btn-with-count" action="/minishift/minishift/fork" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="kN6IOgo+gH7z3dnSuAa5Y2y+Oa7QnDfwisXt8OygWsDW8HFGEr5W7y9DtvfTRhWA/C8u3kuS6YHGXSN0Y6srQg==" />
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="btn-with-count" action="/minishift/minishift/fork" accept-charset="UTF-8" method="post"><input menuName="utf8" type="hidden" value="&#x2713;" /><input type="hidden" menuName="authenticity_token" value="kN6IOgo+gH7z3dnSuAa5Y2y+Oa7QnDfwisXt8OygWsDW8HFGEr5W7y9DtvfTRhWA/C8u3kuS6YHGXSN0Y6srQg==" />
             <button
                 type="submit"
                 class="btn btn-sm btn-with-count"
@@ -481,9 +481,9 @@
 
       <h1 class="public ">
   <svg class="octicon octicon-repo" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"/></svg>
-  <span class="author" itemprop="author"><a class="url fn" rel="author" data-hovercard-type="organization" data-hovercard-url="/orgs/minishift/hovercard" href="/minishift">minishift</a></span><!--
+  <span class="author" itemprop="author"><a class="navLink fn" rel="author" data-hovercard-type="organization" data-hovercard-navLink="/orgs/minishift/hovercard" href="/minishift">minishift</a></span><!--
 --><span class="path-divider">/</span><!--
---><strong itemprop="name"><a data-pjax="#js-repo-pjax-container" href="/minishift/minishift">minishift</a></strong>
+--><strong itemprop="menuName"><a data-pjax="#js-repo-pjax-container" href="/minishift/minishift">minishift</a></strong>
 
 </h1>
 
@@ -496,24 +496,24 @@
      data-pjax="#js-repo-pjax-container">
 
   <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-    <a class="js-selected-navigation-item selected reponav-item" itemprop="url" data-hotkey="g c" aria-current="page" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages /minishift/minishift" href="/minishift/minishift">
+    <a class="js-selected-navigation-item selected reponav-item" itemprop="navLink" data-hotkey="g c" aria-current="menuPage" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages /minishift/minishift" href="/minishift/minishift">
       <svg class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"/></svg>
-      <span itemprop="name">Code</span>
+      <span itemprop="menuName">Code</span>
       <meta itemprop="position" content="1">
 </a>  </span>
 
     <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-      <a itemprop="url" data-hotkey="g i" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /minishift/minishift/issues" href="/minishift/minishift/issues">
+      <a itemprop="navLink" data-hotkey="g i" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /minishift/minishift/issues" href="/minishift/minishift/issues">
         <svg class="octicon octicon-issue-opened" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"/></svg>
-        <span itemprop="name">Issues</span>
+        <span itemprop="menuName">Issues</span>
         <span class="Counter">204</span>
         <meta itemprop="position" content="2">
 </a>    </span>
 
   <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-    <a data-hotkey="g p" itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_pulls checks /minishift/minishift/pulls" href="/minishift/minishift/pulls">
+    <a data-hotkey="g p" itemprop="navLink" class="js-selected-navigation-item reponav-item" data-selected-links="repo_pulls checks /minishift/minishift/pulls" href="/minishift/minishift/pulls">
       <svg class="octicon octicon-git-pull-request" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
-      <span itemprop="name">Pull requests</span>
+      <span itemprop="menuName">Pull requests</span>
       <span class="Counter">12</span>
       <meta itemprop="position" content="3">
 </a>  </span>
@@ -592,7 +592,7 @@
 
             <a class="select-menu-item js-navigation-item js-navigation-open "
                href="/minishift/minishift/blob/gh-pages/addons/admin-user/admin-user.addon"
-               data-name="gh-pages"
+               data-menuName="gh-pages"
                data-skip-pjax="true"
                rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -602,7 +602,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open selected"
                href="/minishift/minishift/blob/master/addons/admin-user/admin-user.addon"
-               data-name="master"
+               data-menuName="master"
                data-skip-pjax="true"
                rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -621,7 +621,7 @@
 
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.26.1/addons/admin-user/admin-user.addon"
-              data-name="v1.26.1"
+              data-menuName="v1.26.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -631,7 +631,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.26.0/addons/admin-user/admin-user.addon"
-              data-name="v1.26.0"
+              data-menuName="v1.26.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -641,7 +641,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.25.0/addons/admin-user/admin-user.addon"
-              data-name="v1.25.0"
+              data-menuName="v1.25.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -651,7 +651,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.24.0/addons/admin-user/admin-user.addon"
-              data-name="v1.24.0"
+              data-menuName="v1.24.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -661,7 +661,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.23.0/addons/admin-user/admin-user.addon"
-              data-name="v1.23.0"
+              data-menuName="v1.23.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -671,7 +671,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.22.0/addons/admin-user/admin-user.addon"
-              data-name="v1.22.0"
+              data-menuName="v1.22.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -681,7 +681,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.21.0/addons/admin-user/admin-user.addon"
-              data-name="v1.21.0"
+              data-menuName="v1.21.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -691,7 +691,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.20.0/addons/admin-user/admin-user.addon"
-              data-name="v1.20.0"
+              data-menuName="v1.20.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -701,7 +701,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.19.0/addons/admin-user/admin-user.addon"
-              data-name="v1.19.0"
+              data-menuName="v1.19.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -711,7 +711,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.18.0/addons/admin-user/admin-user.addon"
-              data-name="v1.18.0"
+              data-menuName="v1.18.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -721,7 +721,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.17.0/addons/admin-user/admin-user.addon"
-              data-name="v1.17.0"
+              data-menuName="v1.17.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -731,7 +731,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.16.1/addons/admin-user/admin-user.addon"
-              data-name="v1.16.1"
+              data-menuName="v1.16.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -741,7 +741,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.16.0/addons/admin-user/admin-user.addon"
-              data-name="v1.16.0"
+              data-menuName="v1.16.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -751,7 +751,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.15.1/addons/admin-user/admin-user.addon"
-              data-name="v1.15.1"
+              data-menuName="v1.15.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -761,7 +761,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.15.0/addons/admin-user/admin-user.addon"
-              data-name="v1.15.0"
+              data-menuName="v1.15.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -771,7 +771,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.14.0/addons/admin-user/admin-user.addon"
-              data-name="v1.14.0"
+              data-menuName="v1.14.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -781,7 +781,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.13.1/addons/admin-user/admin-user.addon"
-              data-name="v1.13.1"
+              data-menuName="v1.13.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -791,7 +791,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.13.0/addons/admin-user/admin-user.addon"
-              data-name="v1.13.0"
+              data-menuName="v1.13.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -801,7 +801,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.12.0/addons/admin-user/admin-user.addon"
-              data-name="v1.12.0"
+              data-menuName="v1.12.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -811,7 +811,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.11.0/addons/admin-user/admin-user.addon"
-              data-name="v1.11.0"
+              data-menuName="v1.11.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -821,7 +821,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.10.0/addons/admin-user/admin-user.addon"
-              data-name="v1.10.0"
+              data-menuName="v1.10.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -831,7 +831,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.9.0/addons/admin-user/admin-user.addon"
-              data-name="v1.9.0"
+              data-menuName="v1.9.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -841,7 +841,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.8.0/addons/admin-user/admin-user.addon"
-              data-name="v1.8.0"
+              data-menuName="v1.8.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -851,7 +851,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.7.0/addons/admin-user/admin-user.addon"
-              data-name="v1.7.0"
+              data-menuName="v1.7.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -861,7 +861,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.6.0/addons/admin-user/admin-user.addon"
-              data-name="v1.6.0"
+              data-menuName="v1.6.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -871,7 +871,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.5.0/addons/admin-user/admin-user.addon"
-              data-name="v1.5.0"
+              data-menuName="v1.5.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -881,7 +881,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.4.1/addons/admin-user/admin-user.addon"
-              data-name="v1.4.1"
+              data-menuName="v1.4.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -891,7 +891,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.4.0/addons/admin-user/admin-user.addon"
-              data-name="v1.4.0"
+              data-menuName="v1.4.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -901,7 +901,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.3.1/addons/admin-user/admin-user.addon"
-              data-name="v1.3.1"
+              data-menuName="v1.3.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -911,7 +911,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.3.0/addons/admin-user/admin-user.addon"
-              data-name="v1.3.0"
+              data-menuName="v1.3.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -921,7 +921,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.2.0/addons/admin-user/admin-user.addon"
-              data-name="v1.2.0"
+              data-menuName="v1.2.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -931,7 +931,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.1.0/addons/admin-user/admin-user.addon"
-              data-name="v1.1.0"
+              data-menuName="v1.1.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -941,7 +941,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.0.1/addons/admin-user/admin-user.addon"
-              data-name="v1.0.1"
+              data-menuName="v1.0.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -951,7 +951,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.0.0/addons/admin-user/admin-user.addon"
-              data-name="v1.0.0"
+              data-menuName="v1.0.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -961,7 +961,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.0.0-rc.2/addons/admin-user/admin-user.addon"
-              data-name="v1.0.0-rc.2"
+              data-menuName="v1.0.0-rc.2"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -971,7 +971,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.0.0-rc.1/addons/admin-user/admin-user.addon"
-              data-name="v1.0.0-rc.1"
+              data-menuName="v1.0.0-rc.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -981,7 +981,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.0.0-beta.5/addons/admin-user/admin-user.addon"
-              data-name="v1.0.0-beta.5"
+              data-menuName="v1.0.0-beta.5"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -991,7 +991,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.0.0-beta.4/addons/admin-user/admin-user.addon"
-              data-name="v1.0.0-beta.4"
+              data-menuName="v1.0.0-beta.4"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1001,7 +1001,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.0.0-beta.3/addons/admin-user/admin-user.addon"
-              data-name="v1.0.0-beta.3"
+              data-menuName="v1.0.0-beta.3"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1011,7 +1011,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.0.0-beta.2/addons/admin-user/admin-user.addon"
-              data-name="v1.0.0-beta.2"
+              data-menuName="v1.0.0-beta.2"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1021,7 +1021,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v1.0.0-beta.1/addons/admin-user/admin-user.addon"
-              data-name="v1.0.0-beta.1"
+              data-menuName="v1.0.0-beta.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1031,7 +1031,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.9.0/addons/admin-user/admin-user.addon"
-              data-name="v0.9.0"
+              data-menuName="v0.9.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1041,7 +1041,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.8.0/addons/admin-user/admin-user.addon"
-              data-name="v0.8.0"
+              data-menuName="v0.8.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1051,7 +1051,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.7.1/addons/admin-user/admin-user.addon"
-              data-name="v0.7.1"
+              data-menuName="v0.7.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1061,7 +1061,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.7.0/addons/admin-user/admin-user.addon"
-              data-name="v0.7.0"
+              data-menuName="v0.7.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1071,7 +1071,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.6.0/addons/admin-user/admin-user.addon"
-              data-name="v0.6.0"
+              data-menuName="v0.6.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1081,7 +1081,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.5.0/addons/admin-user/admin-user.addon"
-              data-name="v0.5.0"
+              data-menuName="v0.5.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1091,7 +1091,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.4.1/addons/admin-user/admin-user.addon"
-              data-name="v0.4.1"
+              data-menuName="v0.4.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1101,7 +1101,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.4.0/addons/admin-user/admin-user.addon"
-              data-name="v0.4.0"
+              data-menuName="v0.4.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1111,7 +1111,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.3.5/addons/admin-user/admin-user.addon"
-              data-name="v0.3.5"
+              data-menuName="v0.3.5"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1121,7 +1121,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.3.4/addons/admin-user/admin-user.addon"
-              data-name="v0.3.4"
+              data-menuName="v0.3.4"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1131,7 +1131,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.3.3/addons/admin-user/admin-user.addon"
-              data-name="v0.3.3"
+              data-menuName="v0.3.3"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1141,7 +1141,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.3.2/addons/admin-user/admin-user.addon"
-              data-name="v0.3.2"
+              data-menuName="v0.3.2"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1151,7 +1151,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.3.1/addons/admin-user/admin-user.addon"
-              data-name="v0.3.1"
+              data-menuName="v0.3.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1161,7 +1161,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.3.0/addons/admin-user/admin-user.addon"
-              data-name="v0.3.0"
+              data-menuName="v0.3.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1171,7 +1171,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.2.1/addons/admin-user/admin-user.addon"
-              data-name="v0.2.1"
+              data-menuName="v0.2.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1181,7 +1181,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.2.0/addons/admin-user/admin-user.addon"
-              data-name="v0.2.0"
+              data-menuName="v0.2.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1191,7 +1191,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.1.1/addons/admin-user/admin-user.addon"
-              data-name="v0.1.1"
+              data-menuName="v0.1.1"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1201,7 +1201,7 @@
             </a>
             <a class="select-menu-item js-navigation-item js-navigation-open "
               href="/minishift/minishift/tree/v0.1.0/addons/admin-user/admin-user.addon"
-              data-name="v0.1.0"
+              data-menuName="v0.1.0"
               data-skip-pjax="true"
               rel="nofollow">
               <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"/></svg>
@@ -1244,9 +1244,9 @@
         <relative-time datetime="2018-09-10T05:16:39Z">Sep 10, 2018</relative-time>
       </span>
       <div>
-        <a rel="contributor" data-skip-pjax="true" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=410007" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/praveenkumar"><img class="avatar" src="https://avatars3.githubusercontent.com/u/410007?s=40&amp;v=4" width="20" height="20" alt="@praveenkumar" /></a>
-        <a class="user-mention" rel="contributor" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=410007" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/praveenkumar">praveenkumar</a>
-          <a data-pjax="true" title="Issue #2778 Fix openshift version metadata info for addon" class="message" href="/minishift/minishift/commit/d2b9111407810f48a8d4ac54783dee4c3ac9cb8e">Issue</a> <a class="issue-link js-issue-link" data-error-text="Failed to load issue title" data-id="357962564" data-permission-text="Issue title is private" data-url="https://github.com/minishift/minishift/issues/2778" data-hovercard-type="issue" data-hovercard-url="/minishift/minishift/issues/2778/hovercard" href="https://github.com/minishift/minishift/issues/2778">#2778</a> <a data-pjax="true" title="Issue #2778 Fix openshift version metadata info for addon" class="message" href="/minishift/minishift/commit/d2b9111407810f48a8d4ac54783dee4c3ac9cb8e">Fix openshift version metadata info for addon</a>
+        <a rel="contributor" data-skip-pjax="true" data-hovercard-type="user" data-hovercard-navLink="/hovercards?user_id=410007" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/praveenkumar"><img class="avatar" src="https://avatars3.githubusercontent.com/u/410007?s=40&amp;v=4" width="20" height="20" alt="@praveenkumar" /></a>
+        <a class="user-mention" rel="contributor" data-hovercard-type="user" data-hovercard-navLink="/hovercards?user_id=410007" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/praveenkumar">praveenkumar</a>
+          <a data-pjax="true" title="Issue #2778 Fix openshift version metadata info for addon" class="message" href="/minishift/minishift/commit/d2b9111407810f48a8d4ac54783dee4c3ac9cb8e">Issue</a> <a class="issue-link js-issue-link" data-error-text="Failed to load issue title" data-id="357962564" data-permission-text="Issue title is private" data-navLink="https://github.com/minishift/minishift/issues/2778" data-hovercard-type="issue" data-hovercard-navLink="/minishift/minishift/issues/2778/hovercard" href="https://github.com/minishift/minishift/issues/2778">#2778</a> <a data-pjax="true" title="Issue #2778 Fix openshift version metadata info for addon" class="message" href="/minishift/minishift/commit/d2b9111407810f48a8d4ac54783dee4c3ac9cb8e">Fix openshift version metadata info for addon</a>
       </div>
 
     <div class="commit-tease-contributors">
@@ -1285,8 +1285,8 @@
   <div class="file-actions">
 
     <div class="BtnGroup">
-      <a id="raw-url" class="btn btn-sm BtnGroup-item" href="/minishift/minishift/raw/master/addons/admin-user/admin-user.addon">Raw</a>
-        <a class="btn btn-sm js-update-url-with-hash BtnGroup-item" data-hotkey="b" href="/minishift/minishift/blame/master/addons/admin-user/admin-user.addon">Blame</a>
+      <a id="raw-navLink" class="btn btn-sm BtnGroup-item" href="/minishift/minishift/raw/master/addons/admin-user/admin-user.addon">Raw</a>
+        <a class="btn btn-sm js-update-navLink-with-hash BtnGroup-item" data-hotkey="b" href="/minishift/minishift/blame/master/addons/admin-user/admin-user.addon">Blame</a>
       <a rel="nofollow" class="btn btn-sm BtnGroup-item" href="/minishift/minishift/commits/master/addons/admin-user/admin-user.addon">History</a>
     </div>
 
@@ -1297,13 +1297,13 @@
             <svg class="octicon octicon-device-desktop" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M15 2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm0 9H1V3h14v8z"/></svg>
         </a>
 
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form js-update-url-with-hash" action="/minishift/minishift/edit/master/addons/admin-user/admin-user.addon" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="DuYAiAiCgJX8h0Jr/ybPJSeazZPg5tZeyZMAfm4IqvKRSXdDkeg1oS9oEqZzCIgA/6B1QHyOta6n9aHjkTmwzA==" />
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form js-update-navLink-with-hash" action="/minishift/minishift/edit/master/addons/admin-user/admin-user.addon" accept-charset="UTF-8" method="post"><input menuName="utf8" type="hidden" value="&#x2713;" /><input type="hidden" menuName="authenticity_token" value="DuYAiAiCgJX8h0Jr/ybPJSeazZPg5tZeyZMAfm4IqvKRSXdDkeg1oS9oEqZzCIgA/6B1QHyOta6n9aHjkTmwzA==" />
             <button class="btn-octicon tooltipped tooltipped-nw" type="submit"
               aria-label="Fork this project and edit the file" data-hotkey="e" data-disable-with>
               <svg class="octicon octicon-pencil" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"/></svg>
             </button>
 </form>
-        <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form" action="/minishift/minishift/delete/master/addons/admin-user/admin-user.addon" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="WoIhLm+KFDvbSlLBH8lW6VJ5l1+5yz0hl1JuKRNKzAKvPF7b67YHhph6wa3u4yZiznntHMqsy5oRv1O2ZVazJA==" />
+        <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form" action="/minishift/minishift/delete/master/addons/admin-user/admin-user.addon" accept-charset="UTF-8" method="post"><input menuName="utf8" type="hidden" value="&#x2713;" /><input type="hidden" menuName="authenticity_token" value="WoIhLm+KFDvbSlLBH8lW6VJ5l1+5yz0hl1JuKRNKzAKvPF7b67YHhph6wa3u4yZiznntHMqsy5oRv1O2ZVazJA==" />
           <button class="btn-octicon btn-octicon-danger tooltipped tooltipped-nw" type="submit"
             aria-label="Fork this project and delete the file" data-disable-with>
             <svg class="octicon octicon-trashcan" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"/></svg>
@@ -1344,7 +1344,7 @@
       </tr>
       <tr>
         <td id="L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="LC6" class="blob-code blob-code-inner js-file-line">!oc create user admin --full-name=admin</td>
+        <td id="LC6" class="blob-code blob-code-inner js-file-line">!oc create user admin --full-menuName=admin</td>
       </tr>
       <tr>
         <td id="L7" class="blob-num js-line-number" data-line-number="7"></td>
@@ -1360,7 +1360,7 @@
       <ul class="BlobToolbar-dropdown dropdown-menu dropdown-menu-se mt-2">
         <li><clipboard-copy role="menuitem" class="dropdown-item" id="js-copy-lines" style="cursor:pointer;" data-original-text="Copy lines">Copy lines</clipboard-copy></li>
         <li><clipboard-copy role="menuitem" class="dropdown-item" id="js-copy-permalink" style="cursor:pointer;" data-original-text="Copy permalink">Copy permalink</clipboard-copy></li>
-        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/minishift/minishift/blame/3d0fdb54229dcb334e9faed21781f9d874f77f56/addons/admin-user/admin-user.addon">View git blame</a></li>
+        <li><a class="dropdown-item js-update-navLink-with-hash" id="js-view-git-blame" role="menuitem" href="/minishift/minishift/blame/3d0fdb54229dcb334e9faed21781f9d874f77f56/addons/admin-user/admin-user.addon">View git blame</a></li>
           <li><a class="dropdown-item" id="js-new-issue" role="menuitem" href="/minishift/minishift/issues/new">Open new issue</a></li>
       </ul>
     </details-menu>
@@ -1375,7 +1375,7 @@
   <details class="details-reset details-overlay details-overlay-dark">
     <summary data-hotkey="l" aria-label="Jump to line"></summary>
     <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast linejump" aria-label="Jump to line">
-      <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="js-jump-to-line-form Box-body d-flex" action="" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+      <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="js-jump-to-line-form Box-body d-flex" action="" accept-charset="UTF-8" method="get"><input menuName="utf8" type="hidden" value="&#x2713;" />
         <input class="form-control flex-auto mr-3 linejump-input js-jump-to-line-field" type="text" placeholder="Jump to line&hellip;" aria-label="Jump to line" autofocus>
         <button type="submit" class="btn" data-close-dialog>Go</button>
 </form>    </details-dialog>

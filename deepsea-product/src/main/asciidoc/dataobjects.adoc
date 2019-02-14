@@ -10,7 +10,7 @@
 ^|Name | Type ^| Description
 |[[clientId]]`clientId`|`String`|-
 |[[illustration]]`illustration`|`String`|-
-|[[name]]`name`|`String`|-
+|[[menuName]]`menuName`|`String`|-
 |[[price]]`price`|`Number (double)`|-
 |[[productId]]`productId`|`String`|-
 |[[type]]`type`|`String`|-

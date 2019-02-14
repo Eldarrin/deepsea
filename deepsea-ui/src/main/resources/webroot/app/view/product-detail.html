@@ -4,7 +4,7 @@
       <ol class="breadcrumb">
         <li><a href="#home">Home</a></li>
         <li><a href="#deepsea">Products</a></li>
-        <li class="active">{{product.name}}</li>
+        <li class="active">{{product.menuName}}</li>
       </ol>
     </div>
   </div>
@@ -80,7 +80,7 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="thumbnail">
-            <img ng-src="{{product.poster_image}}" alt="{{product.name}}">
+            <img ng-src="{{product.poster_image}}" alt="{{product.menuName}}">
           </div>
         </div>
       </div>
@@ -91,10 +91,10 @@
             <!-- Default panel contents -->
             <div class="panel-heading">Overview</div>
             <div class="row">
-              <div class="item-label col-md-12">Product name:</div>
+              <div class="item-label col-md-12">Product menuName:</div>
             </div>
             <div class="row">
-              <div class="col-md-12">{{product.name}}</div>
+              <div class="col-md-12">{{product.menuName}}</div>
             </div>
             <div class="row">
               <div class="item-label col-md-12">Price:</div>

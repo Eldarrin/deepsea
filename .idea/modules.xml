@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/deepsea-admin/deepsea-admin-mta/deepsea-admin-mta.iml" filepath="$PROJECT_DIR$/deepsea-admin/deepsea-admin-mta/deepsea-admin-mta.iml" />
       <module fileurl="file://$PROJECT_DIR$/deepsea-client/deepsea-client.iml" filepath="$PROJECT_DIR$/deepsea-client/deepsea-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/deepsea-common/deepsea-common.iml" filepath="$PROJECT_DIR$/deepsea-common/deepsea-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-iam/deepsea-iam.iml" filepath="$PROJECT_DIR$/deepsea-iam/deepsea-iam.iml" />
       <module fileurl="file://$PROJECT_DIR$/deepsea-product/deepsea-product.iml" filepath="$PROJECT_DIR$/deepsea-product/deepsea-product.iml" />
       <module fileurl="file://$PROJECT_DIR$/deepsea-ui/deepsea-ui.iml" filepath="$PROJECT_DIR$/deepsea-ui/deepsea-ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/deepsea-ui-menu/deepsea-ui-menu.iml" filepath="$PROJECT_DIR$/deepsea-ui-menu/deepsea-ui-menu.iml" />

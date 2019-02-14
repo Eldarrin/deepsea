@@ -46,7 +46,7 @@ public class KeyCloakIamImpl implements Iam {
     @Override
     public boolean hasAccess(Vertx vertx, AccessToken accessToken, String role) {
         // TODO: take roles
-        return false;
+        return (role.equals("test") && accessToken != null);
     }
 
 }

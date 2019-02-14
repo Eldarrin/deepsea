@@ -10,8 +10,8 @@
 ^|Name | Type ^| Description
 |[[childrenMenuItems]]`childrenMenuItems`|`Array of link:dataobjects.html#MenuItem[MenuItem]`|-
 |[[menuItemId]]`menuItemId`|`String`|-
-|[[name]]`name`|`String`|-
+|[[menuName]]`menuName`|`String`|-
 |[[parentMenuItem]]`parentMenuItem`|`link:dataobjects.html#MenuItem[MenuItem]`|-
-|[[url]]`url`|`String`|-
+|[[navLink]]`navLink`|`String`|-
 |===
 

@@ -9,8 +9,10 @@ import io.vertx.core.json.JsonObject;
 public class MenuItem {
 
 	private String menuId;
-	private String name;
-	private String url;
+	private int menuPos;
+	private String menuName;
+	private String navLink;
+	private String menuPage;
 	private String parent;
 	private List<String> children;
 	private MenuItem parentMenuItem;
@@ -24,8 +26,9 @@ public class MenuItem {
 	
 	public MenuItem(MenuItem menuItem) {
 		this.menuId = menuItem.menuId;
-		this.name = menuItem.name;
-		this.url = menuItem.url;
+		this.menuName = menuItem.menuName;
+		this.navLink = menuItem.navLink;
+		this.menuPage = menuItem.menuPage;
 		this.parentMenuItem = menuItem.parentMenuItem;
 		this.childrenMenuItems = menuItem.childrenMenuItems;
 		this.parent = menuItem.parent;
@@ -40,20 +43,20 @@ public class MenuItem {
 		this.menuId = menuId;
 	}
 
-	public String getName() {
-		return name;
+	public String getMenuName() {
+		return menuName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getNavLink() {
+		return navLink;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setNavLink(String navLink) {
+		this.navLink = navLink;
 	}
 
 	public MenuItem getParentMenuItem() {
@@ -102,7 +105,7 @@ public class MenuItem {
 
 		MenuItem menuItem = (MenuItem) o;
 
-		return name.equals(menuItem.name) && menuId.equals(menuItem.menuId);
+		return menuName.equals(menuItem.menuName) && menuId.equals(menuItem.menuId);
 	}
 
 	@Override
@@ -148,5 +151,20 @@ public class MenuItem {
 	public void setServiceName(String serviceName) {
 		this.serviceName = serviceName;
 	}
-	
+
+	public String getMenuPage() {
+		return menuPage;
+	}
+
+	public void setMenuPage(String menuPage) {
+		this.menuPage = menuPage;
+	}
+
+	public int getMenuPos() {
+		return menuPos;
+	}
+
+	public void setMenuPos(int menuPos) {
+		this.menuPos = menuPos;
+	}
 }
