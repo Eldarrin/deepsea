@@ -66,6 +66,14 @@
         <processor name="io.vertx.codegen.CodeGenProcessor" />
         <module name="deepsea-iam" />
       </profile>
+      <profile name="Annotation profile for deepsea-ai" enabled="true">
+        <sourceOutputDir name="src/main/generated" />
+        <sourceTestOutputDir name="src/test/generated" />
+        <outputRelativeToContentRoot value="true" />
+        <option name="codegen.output" value="$PROJECT_DIR$/deepsea-ai/src/main" />
+        <processor name="io.vertx.codegen.CodeGenProcessor" />
+        <module name="deepsea-ai" />
+      </profile>
       <profile name="Annotation profile for deepsea" enabled="true">
         <sourceOutputDir name="src/main/generated" />
         <sourceTestOutputDir name="src/test/generated" />
@@ -80,6 +88,7 @@
       <module name="deepsea-admin" target="1.8" />
       <module name="deepsea-admin-enrolment" target="1.8" />
       <module name="deepsea-admin-mta" target="1.8" />
+      <module name="deepsea-ai" target="1.8" />
       <module name="deepsea-client" target="1.8" />
       <module name="deepsea-common" target="1.8" />
       <module name="deepsea-iam" target="1.8" />

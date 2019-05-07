@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/deepsea-admin/deepsea-admin.iml" filepath="$PROJECT_DIR$/deepsea-admin/deepsea-admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/deepsea-admin/deepsea-admin-enrolment/deepsea-admin-enrolment.iml" filepath="$PROJECT_DIR$/deepsea-admin/deepsea-admin-enrolment/deepsea-admin-enrolment.iml" />
       <module fileurl="file://$PROJECT_DIR$/deepsea-admin/deepsea-admin-mta/deepsea-admin-mta.iml" filepath="$PROJECT_DIR$/deepsea-admin/deepsea-admin-mta/deepsea-admin-mta.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deepsea-ai/deepsea-ai.iml" filepath="$PROJECT_DIR$/deepsea-ai/deepsea-ai.iml" />
       <module fileurl="file://$PROJECT_DIR$/deepsea-client/deepsea-client.iml" filepath="$PROJECT_DIR$/deepsea-client/deepsea-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/deepsea-common/deepsea-common.iml" filepath="$PROJECT_DIR$/deepsea-common/deepsea-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/deepsea-iam/deepsea-iam.iml" filepath="$PROJECT_DIR$/deepsea-iam/deepsea-iam.iml" />

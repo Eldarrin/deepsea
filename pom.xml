@@ -299,5 +299,6 @@
 		<module>deepsea-ui</module>
 		<module>deepsea-ui-menu</module>
         <module>deepsea-iam</module>
-    </modules>
+		<module>deepsea-ai</module>
+	</modules>
 </project>
