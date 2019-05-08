@@ -6,7 +6,7 @@
         <sourceOutputDir name="src/main/generated" />
         <sourceTestOutputDir name="src/test/generated" />
         <outputRelativeToContentRoot value="true" />
-        <option name="codegen.output" value="$PROJECT_DIR$/deepsea-underwriting/deepsea-underwriting-actuarial/src/main" />
+        <option name="codegen.output" value="C:\Users\mortx\git\deepsea\deepsea-underwriting\deepsea-underwriting-actuarial/src/main" />
         <processor name="io.vertx.codegen.CodeGenProcessor" />
         <module name="deepsea-underwriting-actuarial" />
       </profile>
@@ -14,7 +14,7 @@
         <sourceOutputDir name="src/main/generated" />
         <sourceTestOutputDir name="src/test/generated" />
         <outputRelativeToContentRoot value="true" />
-        <option name="codegen.output" value="$PROJECT_DIR$/deepsea-ui/src/main" />
+        <option name="codegen.output" value="C:\Users\mortx\git\deepsea\deepsea-ui/src/main" />
         <processor name="io.vertx.codegen.CodeGenProcessor" />
         <module name="deepsea-ui" />
       </profile>
@@ -22,7 +22,7 @@
         <sourceOutputDir name="src/main/generated" />
         <sourceTestOutputDir name="src/test/generated" />
         <outputRelativeToContentRoot value="true" />
-        <option name="codegen.output" value="$PROJECT_DIR$/deepsea-client/src/main" />
+        <option name="codegen.output" value="C:\Users\mortx\git\deepsea\deepsea-client/src/main" />
         <processor name="io.vertx.codegen.CodeGenProcessor" />
         <module name="deepsea-client" />
       </profile>
@@ -30,7 +30,7 @@
         <sourceOutputDir name="src/main/generated" />
         <sourceTestOutputDir name="src/test/generated" />
         <outputRelativeToContentRoot value="true" />
-        <option name="codegen.output" value="$PROJECT_DIR$/deepsea-product/src/main" />
+        <option name="codegen.output" value="C:\Users\mortx\git\deepsea\deepsea-product/src/main" />
         <processor name="io.vertx.codegen.CodeGenProcessor" />
         <module name="deepsea-product" />
       </profile>
@@ -38,7 +38,7 @@
         <sourceOutputDir name="src/main/generated" />
         <sourceTestOutputDir name="src/test/generated" />
         <outputRelativeToContentRoot value="true" />
-        <option name="codegen.output" value="$PROJECT_DIR$/deepsea-common/src/main" />
+        <option name="codegen.output" value="C:\Users\mortx\git\deepsea\deepsea-common/src/main" />
         <processor name="io.vertx.codegen.CodeGenProcessor" />
         <module name="deepsea-common" />
       </profile>
@@ -46,7 +46,7 @@
         <sourceOutputDir name="src/main/generated" />
         <sourceTestOutputDir name="src/test/generated" />
         <outputRelativeToContentRoot value="true" />
-        <option name="codegen.output" value="$PROJECT_DIR$/deepsea-admin/deepsea-admin-enrolment/src/main" />
+        <option name="codegen.output" value="C:\Users\mortx\git\deepsea\deepsea-admin\deepsea-admin-enrolment/src/main" />
         <processor name="io.vertx.codegen.CodeGenProcessor" />
         <module name="deepsea-admin-enrolment" />
       </profile>
@@ -54,7 +54,7 @@
         <sourceOutputDir name="src/main/generated" />
         <sourceTestOutputDir name="src/test/generated" />
         <outputRelativeToContentRoot value="true" />
-        <option name="codegen.output" value="$PROJECT_DIR$/deepsea-admin/deepsea-admin-mta/src/main" />
+        <option name="codegen.output" value="C:\Users\mortx\git\deepsea\deepsea-admin\deepsea-admin-mta/src/main" />
         <processor name="io.vertx.codegen.CodeGenProcessor" />
         <module name="deepsea-admin-mta" />
       </profile>
@@ -62,7 +62,7 @@
         <sourceOutputDir name="src/main/generated" />
         <sourceTestOutputDir name="src/test/generated" />
         <outputRelativeToContentRoot value="true" />
-        <option name="codegen.output" value="$PROJECT_DIR$/deepsea-iam/src/main" />
+        <option name="codegen.output" value="C:\Users\mortx\git\deepsea\deepsea-iam/src/main" />
         <processor name="io.vertx.codegen.CodeGenProcessor" />
         <module name="deepsea-iam" />
       </profile>
@@ -70,7 +70,7 @@
         <sourceOutputDir name="src/main/generated" />
         <sourceTestOutputDir name="src/test/generated" />
         <outputRelativeToContentRoot value="true" />
-        <option name="codegen.output" value="$PROJECT_DIR$/deepsea-ai/src/main" />
+        <option name="codegen.output" value="C:\Users\mortx\git\deepsea\deepsea-ai/src/main" />
         <processor name="io.vertx.codegen.CodeGenProcessor" />
         <module name="deepsea-ai" />
       </profile>
@@ -78,7 +78,7 @@
         <sourceOutputDir name="src/main/generated" />
         <sourceTestOutputDir name="src/test/generated" />
         <outputRelativeToContentRoot value="true" />
-        <option name="codegen.output" value="$PROJECT_DIR$/deepsea-ui-menu/src/main" />
+        <option name="codegen.output" value="C:\Users\mortx\git\deepsea\deepsea-ui-menu/src/main" />
         <processor name="io.vertx.codegen.CodeGenProcessor" />
         <module name="deepsea-ui-menu" />
       </profile>

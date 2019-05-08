@@ -1,0 +1,79 @@
+define
+
+  start-date sub attribute,
+    datatype date;
+
+  title sub attribute,
+    datatype string;
+
+  email sub attribute,
+    datatype string;
+
+  terms-agreed sub attribute,
+    datatype boolean;
+
+  date-of-birth sub attribute,
+    datatype date;
+
+  name sub attribute,
+    datatype string;
+
+  premium sub attribute,
+    datatype double;
+
+  tax sub attribute,
+    datatype double;
+
+  policytype sub attribute,
+    datatype string;
+
+  client sub attribute,
+    datatype string;
+
+  personId sub attribute,
+    datatype string;
+
+  policyId sub attribute,
+    datatype string;
+
+  deviceId sub attribute,
+    datatype string;
+
+  make sub attribute,
+    datatype string;
+
+  model sub attribute,
+    datatype string;
+
+  person sub entity,
+    plays policy-owner,
+    key personId,
+    has title,
+    has name,
+    has email,
+    has date-of-birth;
+
+  policy sub entity,
+    plays owned-policy,
+    plays device-insurer,
+    key policyId,
+    has start-date,
+    has terms-agreed,
+    has premium,
+    has tax,
+    has policytype,
+    has client;
+
+  device sub entity,
+    plays insured-device,
+    key deviceId,
+    has make,
+    has model;
+
+  policy-ownership sub relation,
+    relates policy-owner,
+    relates owned-policy;
+
+  device-insured sub relation,
+    relates insured-device,
+    relates device-insurer;

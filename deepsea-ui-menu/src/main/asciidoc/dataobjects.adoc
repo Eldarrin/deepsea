@@ -13,9 +13,11 @@
 |[[childrenMenuItems]]`childrenMenuItems`|`Array of link:dataobjects.html#MenuItem[MenuItem]`|-
 |[[menuId]]`menuId`|`String`|-
 |[[menuName]]`menuName`|`String`|-
+|[[menuPage]]`menuPage`|`String`|-
+|[[menuPos]]`menuPos`|`Number (int)`|-
+|[[navLink]]`navLink`|`String`|-
 |[[parent]]`parent`|`String`|-
 |[[parentMenuItem]]`parentMenuItem`|`link:dataobjects.html#MenuItem[MenuItem]`|-
 |[[serviceName]]`serviceName`|`String`|-
-|[[navLink]]`navLink`|`String`|-
 |===
 
