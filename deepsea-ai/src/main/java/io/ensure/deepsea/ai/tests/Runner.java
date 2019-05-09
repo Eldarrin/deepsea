@@ -1,7 +1,6 @@
 package io.ensure.deepsea.ai.tests;
 
-import io.ensure.deepsea.admin.enrolment.models.Device;
-import io.ensure.deepsea.admin.enrolment.models.Enrolment;
+
 import io.ensure.deepsea.ai.AIService;
 import io.ensure.deepsea.ai.impl.GraknAIServiceImpl;
 
@@ -11,6 +10,8 @@ import java.util.List;
 
 public class Runner {
     public static void main(String[] args) {
+
+    /*
         Enrolment enrolment = new Enrolment();
 
         Device device = new Device();
@@ -36,10 +37,11 @@ public class Runner {
 
         AIService aiService = new GraknAIServiceImpl();
 
-        //Loader loader = new Loader();
         aiService.addEnrolment(enrolment, res -> {
 
         });
+
+        */
 
     }
 }

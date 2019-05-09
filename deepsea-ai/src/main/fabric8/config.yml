@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${project.artifactId}
+  namespace: deepsea
+data:
+  grakn.host: grakn.deepsea.svc
+  grakn.keyspace: enrolment
+  redis.host: redis
+  redis.port: 6379
+
+  

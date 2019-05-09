@@ -1,11 +1,9 @@
 package io.ensure.deepsea.ai;
 
-import io.ensure.deepsea.admin.enrolment.models.Enrolment;
 import io.ensure.deepsea.ai.api.RestAIAPIVerticle;
 import io.ensure.deepsea.ai.impl.GraknAIServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
-import io.ensure.deepsea.common.helper.ISO8601DateParser;
 import io.ensure.deepsea.common.helper.RedisHelper;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
@@ -43,11 +41,11 @@ public class AIVerticle extends BaseMicroserviceVerticle {
                 // create the service instance
                 JsonObject myGraknConfig = new JsonObject()
                         .put("host", res.result().getString("grakn.host"))
-                        .put("keyspace", res.result().getInteger("grakn.keyspace"));
+                        .put("keyspace", res.result().getString("grakn.keyspace"));
 
                 RedisHelper.getRedisOptions(vertx, "deepsea-ai").setHandler(resRedis -> {
                     if (resRedis.succeeded()) {
-                        aiService = new GraknAIServiceImpl(vertx, myGraknConfig, resRedis.result());
+                        aiService = new GraknAIServiceImpl(vertx, myGraknConfig);
                         // Register the handler
                         new ServiceBinder(vertx)
                                 .setAddress(SERVICE_ADDRESS)
@@ -85,7 +83,7 @@ public class AIVerticle extends BaseMicroserviceVerticle {
         vertx.eventBus().<JsonObject>consumer(REDIS_CHANNEL + ENROLMENT_CHANNEL, received -> {
             String message = received.body().getJsonObject(REDIS_JSON_VALUE).getString("message");
             log.trace(message);
-            aiService.addEnrolment(new Enrolment(new JsonObject(message)), res -> {
+            aiService.addEnrolment(new JsonObject(message), res -> {
                 // TODO: at failurehandler
             });
         });
