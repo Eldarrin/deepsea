@@ -1,7 +1,9 @@
-package io.ensure.deepsea.ai;
+package io.ensure.deepsea.ai.tests;
 
 import io.ensure.deepsea.admin.enrolment.models.Device;
 import io.ensure.deepsea.admin.enrolment.models.Enrolment;
+import io.ensure.deepsea.ai.AIService;
+import io.ensure.deepsea.ai.impl.GraknAIServiceImpl;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class Runner {
         List<Device> devices = new ArrayList<>();
         devices.add(device);
 
-        enrolment.setEnrolmentId("enrolment-2");
+        enrolment.setEnrolmentId("enrolment-3");
         enrolment.setAgreeTerms(true);
         enrolment.setClientId("the-bank");
         enrolment.setEmail("andrew.ward@ust-global.com");
@@ -32,7 +34,12 @@ public class Runner {
         enrolment.setStartDate(Instant.now());
         enrolment.setDevices(devices);
 
-        Loader loader = new Loader();
-        loader.loadEnrolment(enrolment);
+        AIService aiService = new GraknAIServiceImpl();
+
+        //Loader loader = new Loader();
+        aiService.addEnrolment(enrolment, res -> {
+
+        });
+
     }
 }

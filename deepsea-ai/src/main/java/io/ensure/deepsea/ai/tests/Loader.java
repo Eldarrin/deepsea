@@ -1,4 +1,4 @@
-package io.ensure.deepsea.ai;
+package io.ensure.deepsea.ai.tests;
 
 import grakn.client.GraknClient;
 import graql.lang.Graql;
