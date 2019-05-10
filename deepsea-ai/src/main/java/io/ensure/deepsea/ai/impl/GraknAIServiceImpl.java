@@ -1,24 +1,25 @@
 package io.ensure.deepsea.ai.impl;
 
 import grakn.client.GraknClient;
+import grakn.core.concept.answer.ConceptMap;
 import graql.lang.Graql;
 import graql.lang.query.GraqlDefine;
+import graql.lang.query.GraqlGet;
 import graql.lang.query.GraqlInsert;
-import graql.lang.statement.Statement;
 import io.ensure.deepsea.ai.AIService;
 import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.List;
+import java.util.stream.Stream;
 
 import static graql.lang.Graql.type;
 import static graql.lang.Graql.var;
@@ -43,7 +44,6 @@ public class GraknAIServiceImpl implements AIService {
     @Override
     public AIService initializePersistence(Handler<AsyncResult<Void>> resultHandler) {
         // check if keyspace exists
-        log.info("###### start init");
         GraqlDefine defEnrolment = Graql.define(
                 type("start-date").sub("attribute").datatype("date"),
                 type("title").sub("attribute").datatype("string"),
@@ -60,12 +60,14 @@ public class GraknAIServiceImpl implements AIService {
                 type("deviceId").sub("attribute").datatype("string"),
                 type("make").sub("attribute").datatype("string"),
                 type("model").sub("attribute").datatype("string"),
+
                 type("person").sub("entity").plays("policy-owner")
                     .key("personId")
                     .has("title")
                     .has("name")
                     .has("email")
                     .has("date-of-birth"),
+
                 type("policy").sub("entity").plays("owned-policy").plays("device-insurer")
                     .key("policyId")
                     .has("start-date")
@@ -74,13 +76,16 @@ public class GraknAIServiceImpl implements AIService {
                     .has("tax")
                     .has("policytype")
                     .has("client"),
+
                 type("device").sub("entity").plays("insured-device")
                     .key("deviceId")
                     .has("make")
                     .has("model"),
+
                 type("policy-ownership").sub("relation")
                     .relates("policy-owner")
                     .relates("owned-policy"),
+
                 type("device-insured").sub("relation")
                     .relates("insured-device")
                     .relates("device-insurer")
@@ -98,16 +103,11 @@ public class GraknAIServiceImpl implements AIService {
         session.close();
         client.close();
 
-        log.info("###### end init");
         return this;
     }
 
     @Override
     public AIService addEnrolment(JsonObject enrolment, Handler<AsyncResult<JsonObject>> resultHandler) {
-
-        log.info("###############" + enrolment.encodePrettily());
-        log.info(graknServer);
-        log.info(graknKeySpace);
 
         GraknClient client = new GraknClient(graknServer + ":" + GRAKN_PORT);
         GraknClient.Session session = client.session(graknKeySpace);
@@ -116,33 +116,15 @@ public class GraknAIServiceImpl implements AIService {
 
         writeTransaction.execute(buildPerson(enrolment));
 
-        writeTransaction.commit();
-
-        writeTransaction = session.transaction().write();
-
         writeTransaction.execute(buildPolicy(enrolment));
-
-        writeTransaction.commit();
-
-        writeTransaction = session.transaction().write();
 
         writeTransaction.execute(buildDevice(enrolment));
 
-        writeTransaction.commit();
-
-        writeTransaction = session.transaction().write();
-
         writeTransaction.execute(buildPersonPolicy(enrolment));
-
-        writeTransaction.commit();
-
-        writeTransaction = session.transaction().write();
 
         writeTransaction.execute(buildDevicePolicy(enrolment));
 
         writeTransaction.commit();
-
-        log.info("$$$$$$$$$$$$$$$$$" + enrolment.encodePrettily());
 
         session.close();
         client.close();
@@ -215,5 +197,70 @@ public class GraknAIServiceImpl implements AIService {
                         .rel("device-insurer", "pol")
         );
         return insertDeviceInsurer;
+    }
+
+    @Override
+    public AIService getEnrolmentInfo(Handler<AsyncResult<JsonObject>> resultHandler) {
+        Future<JsonObject> future = Future.future();
+
+        GraknClient client = new GraknClient(graknServer + ":" + GRAKN_PORT);
+        GraknClient.Session session = client.session(graknKeySpace);
+
+        JsonArray json = new JsonArray();
+
+        GraknClient.Transaction readTransaction = session.transaction().read();
+
+        Stream<ConceptMap> answers = readTransaction.stream(getRelQuery());
+
+        answers.forEach(answer -> {
+            JsonObject j = new JsonObject().put("holder", answer.get("holder").asAttribute().value().toString());
+            if (answer.get("started").asAttribute().value() instanceof LocalDateTime){
+                LocalDateTime startDate = (LocalDateTime) answer.get("started").asAttribute().value();
+                j.put("start-date", startDate.toInstant(ZoneOffset.UTC));
+            } else {
+                log.error("$$$ NOT A DATE???");
+                log.error(answer.get("started").asAttribute().type().toString());
+            }
+            j.put("model", answer.get("devmodel").asAttribute().value().toString());
+
+            json.add(j);
+        });
+
+        future.setHandler(resultHandler).complete(new JsonObject().put("person_policy", json));
+
+        readTransaction.close();
+
+        session.close();
+        client.close();
+        return this;
+    }
+
+    private GraqlGet getSimpleQuery() {
+        return Graql.match(var("p").isa("policy")).get().limit(10);
+    }
+
+    private GraqlGet getRels() {
+        return Graql.match(
+          var("a").isa("policy-ownership")
+        ).get();
+
+    }
+
+    private GraqlGet getCompute() {
+        return Graql.compute().count().asGet();
+    }
+
+    private GraqlGet getRelQuery() {
+        return Graql.match(
+                var("per").isa("person").has("name", var("holder")),
+                var("pol").isa("policy").has("start-date", var("started")),
+                var("dev").isa("device").has("model", var("devmodel")),
+                var("owner").isa("policy-ownership")
+                        .rel("policy-owner", "per")
+                        .rel("owned-policy", "pol"),
+                var("devpol").isa("device-insured")
+                        .rel("insured-device", "dev")
+                        .rel("device-insurer", "pol")
+        ).get("holder", "started", "devmodel");
     }
 }

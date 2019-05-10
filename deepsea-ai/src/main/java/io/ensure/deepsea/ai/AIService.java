@@ -17,5 +17,8 @@ public interface AIService {
     @Fluent
     AIService addEnrolment(JsonObject enrolment, Handler<AsyncResult<JsonObject>> resultHandler);
 
+    @Fluent
+    AIService getEnrolmentInfo(Handler<AsyncResult<JsonObject>> resultHandler);
+
 
 }

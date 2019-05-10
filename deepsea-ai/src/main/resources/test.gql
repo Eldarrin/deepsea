@@ -1,0 +1,7 @@
+match
+$p isa person, has name $holder;
+$pol isa policy, has start-date $started;
+$dev isa device, has model $devmodel;
+$owner(policy-owner: $p, owned-policy: $pol) isa policy-ownership;
+$depol(insured-device: $dev, device-insurer: $pol) isa device-insured;
+get $holder, $started, $devmodel;
