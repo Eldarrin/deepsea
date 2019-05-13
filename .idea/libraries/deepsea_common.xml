@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="deepsea-common">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/deepsea-common/target/deepsea-common.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

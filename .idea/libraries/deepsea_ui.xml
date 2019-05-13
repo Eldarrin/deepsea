@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="deepsea-ui">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/deepsea-ui/target/docker/deepsea-ui/latest/build/maven/deepsea-ui.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
