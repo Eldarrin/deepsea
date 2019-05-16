@@ -6,6 +6,6 @@ public enum BordereauEvent {
 	PREMIUM,
 	CANCELLATION,
 	CLAIM,
-	MTA;
+	MTA
 
 }

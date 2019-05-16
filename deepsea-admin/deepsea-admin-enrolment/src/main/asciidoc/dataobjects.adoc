@@ -4,33 +4,36 @@
 == Device
 
 
-[cols=">25%,^25%,50%"]
+[cols=">25%,25%,50%"]
 [frame="topbot"]
 |===
 ^|Name | Type ^| Description
-|[[manufacturer]]`manufacturer`|`String`|-
-|[[model]]`model`|`String`|-
+|[[manufacturer]]`@manufacturer`|`String`|-
+|[[model]]`@model`|`String`|-
 |===
 
 [[Enrolment]]
 == Enrolment
 
 
-[cols=">25%,^25%,50%"]
+[cols=">25%,25%,50%"]
 [frame="topbot"]
 |===
 ^|Name | Type ^| Description
-|[[agreeTerms]]`agreeTerms`|`Boolean`|-
-|[[clientId]]`clientId`|`String`|-
-|[[devices]]`devices`|`Array of link:dataobjects.html#Device[Device]`|-
-|[[email]]`email`|`String`|-
-|[[enrolmentId]]`enrolmentId`|`String`|-
-|[[firstName]]`firstName`|`String`|-
-|[[grossPremium]]`grossPremium`|`Number (double)`|-
-|[[ipt]]`ipt`|`Number (double)`|-
-|[[lastName]]`lastName`|`String`|-
-|[[middleNames]]`middleNames`|`String`|-
-|[[productId]]`productId`|`String`|-
-|[[title]]`title`|`String`|-
+|[[agreeTerms]]`@agreeTerms`|`Boolean`|-
+|[[clientId]]`@clientId`|`String`|-
+|[[dateCreated]]`@dateCreated`|`Instant`|-
+|[[dateOfBirth]]`@dateOfBirth`|`Instant`|-
+|[[devices]]`@devices`|`Array of link:dataobjects.html#Device[Device]`|-
+|[[email]]`@email`|`String`|-
+|[[enrolmentId]]`@enrolmentId`|`String`|-
+|[[firstName]]`@firstName`|`String`|-
+|[[grossPremium]]`@grossPremium`|`Number (double)`|-
+|[[ipt]]`@ipt`|`Number (double)`|-
+|[[lastName]]`@lastName`|`String`|-
+|[[middleNames]]`@middleNames`|`String`|-
+|[[productId]]`@productId`|`String`|-
+|[[startDate]]`@startDate`|`Instant`|-
+|[[title]]`@title`|`String`|-
 |===
 

@@ -11,11 +11,11 @@ import io.vertx.redis.RedisOptions;
 
 public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 
-	protected String typeName;
-	private RedisClient redis;
-	private String keyName;
+	private final String typeName;
+	private final RedisClient redis;
+	private final String keyName;
 
-	public MongoRedisRepositoryWrapper(Vertx vertx, JsonObject config, RedisOptions rOptions, String typeName) {
+	protected MongoRedisRepositoryWrapper(Vertx vertx, JsonObject config, RedisOptions rOptions, String typeName) {
 		super(vertx, config);
 		this.redis = RedisClient.create(vertx, rOptions);
 		this.typeName = typeName;
@@ -26,7 +26,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		Future<Optional<JsonObject>> future = Future.future();
 		this.upsertSingle(keyFix(jsonObject), collection, res -> {
 			if (res.succeeded()) {
-				RedisHelper.setCache(redis, keyName, keyFix(jsonObject)).setHandler(future.completer());
+				RedisHelper.setCache(redis, keyName, keyFix(jsonObject)).setHandler(future);
 			} else {
 				future.fail(res.cause());
 			}
@@ -42,7 +42,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 			if (res.succeeded()) {
 				jsonObject.put(keyName, typeName + "-" + res.result());
 				RedisHelper.publishRedis(redis, typeName, jsonObject)
-						.setHandler(future.completer());
+						.setHandler(future);
 			} else {
 				future.fail(res.cause());
 			}
@@ -92,7 +92,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		this.retrieveDocument(collection, id).setHandler(res -> {
 			if (res.succeeded()) {
 				if (res.result().isPresent()) {
-					RedisHelper.setCache(redis, keyName, keyFix(res.result().get())).setHandler(future.completer());
+					RedisHelper.setCache(redis, keyName, keyFix(res.result().get())).setHandler(future);
 				} else {
 					future.complete(Optional.empty());
 				}
@@ -108,7 +108,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		this.selectDocuments(collection, query).setHandler(res -> {
 			if (res.succeeded()) {
 				if (!res.result().isEmpty()) {
-					RedisHelper.setCache(redis, keyName, keyFix(res.result().get(0))).setHandler(future.completer());
+					RedisHelper.setCache(redis, keyName, keyFix(res.result().get(0))).setHandler(future);
 				} else {
 					future.complete(Optional.empty());
 				}

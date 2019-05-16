@@ -18,7 +18,6 @@ import io.vertx.ext.auth.oauth2.OAuth2Auth;
 import io.vertx.ext.auth.oauth2.OAuth2FlowType;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.Session;
 import io.vertx.ext.web.handler.CookieHandler;
 import io.vertx.ext.web.handler.OAuth2AuthHandler;
 import io.vertx.ext.web.handler.SessionHandler;
@@ -27,7 +26,6 @@ import io.vertx.ext.web.handler.UserSessionHandler;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 import io.vertx.ext.web.sstore.ClusteredSessionStore;
 import io.vertx.ext.web.sstore.SessionStore;
-import io.vertx.ext.auth.oauth2.KeycloakHelper;
 import io.vertx.ext.auth.oauth2.providers.KeycloakAuth;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
@@ -36,10 +34,10 @@ import io.vertx.servicediscovery.types.HttpEndpoint;
 
 public class DeepSeaUIVerticle extends RestAPIVerticle {
 
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	@Override
-	public void start(Future<Void> future) throws Exception {
+	public void start(Future<Void> future) {
 		super.start();
 
 		ConfigRetriever retriever = ConfigRetriever.create(vertx,
@@ -134,7 +132,7 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 				int port = res.result().getInteger("deepsea.ui.http.port", 8080);
 
 				// create HTTP server
-				vertx.createHttpServer().requestHandler(router::accept).listen(port, host, ar -> {
+				vertx.createHttpServer().requestHandler(router).listen(port, host, ar -> {
 					if (ar.succeeded()) {
 						future.complete();
 						log.info(String.format("Deep Sea UI service is running at %d", port));
@@ -196,7 +194,7 @@ public class DeepSeaUIVerticle extends RestAPIVerticle {
 	 */
 	private Future<List<Record>> getAllEndpoints() {
 		Future<List<Record>> future = Future.future();
-		discovery.getRecords(record -> record.getType().equals(HttpEndpoint.TYPE), future.completer());
+		discovery.getRecords(record -> record.getType().equals(HttpEndpoint.TYPE), future);
 		return future;
 	}
 

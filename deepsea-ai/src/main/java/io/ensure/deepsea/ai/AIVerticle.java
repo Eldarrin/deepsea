@@ -25,12 +25,12 @@ public class AIVerticle extends BaseMicroserviceVerticle {
     private static final String ENROLMENT_CHANNEL = "enrolment";
     private static final String REDIS_CHANNEL = "io.vertx.redis.";
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     private AIService aiService;
 
     @Override
-    public void start(Future<Void> future) throws Exception {
+    public void start(Future<Void> future) {
         super.start();
 
         ConfigRetriever retriever = ConfigRetriever
@@ -55,7 +55,7 @@ public class AIVerticle extends BaseMicroserviceVerticle {
 
                         // publish the service and REST endpoint in the discovery infrastructure
                         publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, AIService.class)
-                                .compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+                                .compose(servicePublished -> deployRestVerticle()).setHandler(future);
 
 
                         setupConsumers(resRedis.result());
@@ -75,7 +75,7 @@ public class AIVerticle extends BaseMicroserviceVerticle {
 
     private Future<Void> initAIServer(AIService service) {
         Future<Void> initFuture = Future.future();
-        service.initializePersistence(initFuture.completer());
+        service.initializePersistence(initFuture);
         return initFuture.map(v -> null);
     }
 
@@ -104,7 +104,7 @@ public class AIVerticle extends BaseMicroserviceVerticle {
     private Future<Void> deployRestVerticle() {
         Future<String> future = Future.future();
         vertx.deployVerticle(new RestAIAPIVerticle(aiService),
-                new DeploymentOptions().setConfig(config()), future.completer());
+                new DeploymentOptions().setConfig(config()), future);
         return future.map(r -> null);
     }
 }

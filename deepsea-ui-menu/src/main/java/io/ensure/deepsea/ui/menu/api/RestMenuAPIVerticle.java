@@ -25,7 +25,7 @@ public class RestMenuAPIVerticle extends RestAPIVerticle {
 	}
 	
 	@Override
-	public void start(Future<Void> future) throws Exception {
+	public void start(Future<Void> future) {
 		super.start();
 		final Router router = Router.router(vertx);
 		// body handler

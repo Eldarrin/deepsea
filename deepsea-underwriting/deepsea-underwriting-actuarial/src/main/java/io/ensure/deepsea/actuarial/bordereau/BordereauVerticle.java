@@ -29,12 +29,12 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	private static final String MTA_CHANNEL = "mta";
 	private static final String REDIS_CHANNEL = "io.vertx.redis.";
 
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private BordereauService bordereauService;
 
 	@Override
-	public void start(Future<Void> future) throws Exception {
+	public void start(Future<Void> future) {
 		super.start();
 
 		ConfigRetriever retriever = ConfigRetriever.create(vertx,
@@ -57,7 +57,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 				// publish the service and REST endpoint in the discovery infrastructure
 				publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, BordereauService.class)
-						.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+						.compose(servicePublished -> deployRestVerticle()).setHandler(future);
 
 				RedisHelper.getRedisOptions(vertx, "deepsea-underwriting-actuarial").setHandler(ar -> 
 					setupConsumers(ar.result()));
@@ -73,7 +73,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 
 	private Future<Void> initBordereauDatabase(BordereauService service) {
 		Future<Void> initFuture = Future.future();
-		service.initializePersistence(initFuture.completer());
+		service.initializePersistence(initFuture);
 		return initFuture.map(v -> null);
 	}
 
@@ -129,7 +129,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		bl.setSource(MTA_CHANNEL);
 		bl.setSourceId(mta.getString("mtaId"));
 		bl.setBordereauLineId(bl.getSourceId());
-		bl.setClientId(policy.getClientid()); 
+		bl.setClientId(policy.getClientId());
 		bl.setCustomerName(policy.getCustomerName());  
 		bl.setEvent(BordereauEvent.MTA);
 		bl.setEventDate(mta.getInstant("eventDate"));
@@ -159,24 +159,24 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	private Future<Void> deployRestVerticle() {
 		Future<String> future = Future.future();
 		vertx.deployVerticle(new RestBordereauAPIVerticle(bordereauService),
-				new DeploymentOptions().setConfig(config()), future.completer());
+				new DeploymentOptions().setConfig(config()), future);
 		return future.map(r -> null);
 	}
 	
 	class Policy {
 		
-		private String clientid;
-		private Instant startDate;
-		private String customerName;
+		private final String clientId;
+		private final Instant startDate;
+		private final String customerName;
 		
 		Policy() {
-			this.clientid = "barclays";
+			this.clientId = "barclays";
 			this.startDate = Instant.now();
 			this.customerName = "PolTest";
 		}
 
-		public String getClientid() {
-			return clientid;
+		public String getClientId() {
+			return clientId;
 		}
 
 		public Instant getStartDate() {

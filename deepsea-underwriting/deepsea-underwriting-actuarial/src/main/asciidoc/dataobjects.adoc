@@ -4,17 +4,20 @@
 == BordereauLine
 
 
-[cols=">25%,^25%,50%"]
+[cols=">25%,25%,50%"]
 [frame="topbot"]
 |===
 ^|Name | Type ^| Description
-|[[bordereauLineId]]`bordereauLineId`|`String`|-
-|[[clientId]]`clientId`|`String`|-
-|[[customerName]]`customerName`|`String`|-
-|[[event]]`event`|`link:enums.html#BordereauEvent[BordereauEvent]`|-
-|[[ipt]]`ipt`|`Number (double)`|-
-|[[source]]`source`|`String`|-
-|[[sourceId]]`sourceId`|`String`|-
-|[[value]]`value`|`Number (double)`|-
+|[[bordereauLineId]]`@bordereauLineId`|`String`|-
+|[[clientId]]`@clientId`|`String`|-
+|[[customerName]]`@customerName`|`String`|-
+|[[dateSourceCreated]]`@dateSourceCreated`|`Instant`|-
+|[[event]]`@event`|`link:enums.html#BordereauEvent[BordereauEvent]`|-
+|[[eventDate]]`@eventDate`|`Instant`|-
+|[[ipt]]`@ipt`|`Number (double)`|-
+|[[source]]`@source`|`String`|-
+|[[sourceId]]`@sourceId`|`String`|-
+|[[startDate]]`@startDate`|`Instant`|-
+|[[value]]`@value`|`Number (double)`|-
 |===
 

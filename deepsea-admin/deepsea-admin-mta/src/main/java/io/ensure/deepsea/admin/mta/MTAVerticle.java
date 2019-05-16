@@ -19,12 +19,12 @@ public class MTAVerticle extends BaseMicroserviceVerticle {
 	private static final String SERVICE_NAME = "mta-eb-service";
 	private static final String SERVICE_ADDRESS = "service.mta";
 	
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private final Logger log = LoggerFactory.getLogger(getClass());
 	
 	private MTAService mtaService;
 
 	@Override
-	public void start(Future<Void> future) throws Exception {
+	public void start(Future<Void> future) {
 		super.start();
 
 		ConfigRetriever retriever = ConfigRetriever
@@ -52,7 +52,7 @@ public class MTAVerticle extends BaseMicroserviceVerticle {
 
                 		// publish the service and REST endpoint in the discovery infrastructure
                 		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, MTAService.class)
-                				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+                				.compose(servicePublished -> deployRestVerticle()).setHandler(future);
         			} else {
         				log.error("Cannot find Redis Config");
         			}
@@ -69,14 +69,14 @@ public class MTAVerticle extends BaseMicroserviceVerticle {
 	
 	private Future<Void> initMTADatabase(MTAService service) {
 		Future<Void> initFuture = Future.future();
-		service.initializePersistence(initFuture.completer());
+		service.initializePersistence(initFuture);
 		return initFuture.map(v -> null);
 	}
 
 	private Future<Void> deployRestVerticle() {
 		Future<String> future = Future.future();
 		vertx.deployVerticle(new RestMTAAPIVerticle(mtaService),
-				new DeploymentOptions().setConfig(config()), future.completer());
+				new DeploymentOptions().setConfig(config()), future);
 		return future.map(r -> null);
 	}
 

@@ -7,8 +7,8 @@ import io.vertx.ext.auth.oauth2.AccessToken;
 
 public interface Iam {
 
-    public AuthProvider getAuthProvider(Vertx vertx, JsonObject config);
+    AuthProvider getAuthProvider(Vertx vertx, JsonObject config);
 
-    public boolean hasAccess(Vertx vertx, AccessToken accessToken, String role);
+    boolean hasAccess(Vertx vertx, AccessToken accessToken, String role);
 
 }

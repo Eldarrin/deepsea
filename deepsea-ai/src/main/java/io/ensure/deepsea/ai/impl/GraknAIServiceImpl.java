@@ -17,7 +17,6 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.stream.Stream;
 
@@ -26,14 +25,15 @@ import static graql.lang.Graql.var;
 
 public class GraknAIServiceImpl implements AIService {
 
-    private String graknServer;
-    private String graknKeySpace;
+    private final String graknServer;
+    private final String graknKeySpace;
     private static final int GRAKN_PORT = 48555;
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     public GraknAIServiceImpl() {
         graknServer = "localhost";
+        graknKeySpace = "grakn";
     }
 
     public GraknAIServiceImpl(Vertx vertx, JsonObject config) {
@@ -134,7 +134,7 @@ public class GraknAIServiceImpl implements AIService {
     private GraqlInsert buildPerson(JsonObject enrolment) {
         LocalDateTime dateOfBirth = LocalDateTime.ofInstant(enrolment.getInstant("dateOfBirth"), ZoneOffset.UTC);
 
-        GraqlInsert insertQuery = Graql.insert(var("x")
+        return Graql.insert(var("x")
                 .isa("person")
                 .has("personId", enrolment.getString("enrolmentId").replaceAll("enrolment-", "person-"))
                 .has("email", enrolment.getString("email"))
@@ -143,13 +143,12 @@ public class GraknAIServiceImpl implements AIService {
                 .has("date-of-birth", dateOfBirth)
         );
 
-        return insertQuery;
     }
 
     private GraqlInsert buildPolicy(JsonObject enrolment) {
         LocalDateTime startDate = LocalDateTime.ofInstant(enrolment.getInstant("startDate"), ZoneOffset.UTC);
 
-        GraqlInsert insertPolicy = Graql.insert(var("y")
+        return Graql.insert(var("y")
                 .isa("policy")
                 .has("policyId", enrolment.getString("enrolmentId").replaceAll("enrolment-", "policy-"))
                 .has("start-date", startDate)
@@ -160,22 +159,20 @@ public class GraknAIServiceImpl implements AIService {
                 .has("client", enrolment.getString("clientId"))
         );
 
-        return insertPolicy;
     }
 
     private GraqlInsert buildDevice(JsonObject enrolment) {
-        GraqlInsert insertDevice = Graql.insert(var("z")
+        return Graql.insert(var("z")
                 .isa("device")
                 .has("deviceId", enrolment.getString("enrolmentId").replaceAll("enrolment-", "device-"))
                 .has("make", enrolment.getJsonArray("devices").getJsonObject(0).getString("manufacturer"))
                 .has("model", enrolment.getJsonArray("devices").getJsonObject(0).getString("model"))
         );
 
-        return insertDevice;
     }
 
     private GraqlInsert buildPersonPolicy(JsonObject enrolment) {
-        GraqlInsert insertPolicyOwner = Graql.match(
+        return Graql.match(
                 var("per").isa("person").has("personId", enrolment.getString("enrolmentId").replaceAll("enrolment-", "person-")),
                 var("pol").isa("policy").has("policyId", enrolment.getString("enrolmentId").replaceAll("enrolment-", "policy-"))
         ).insert(
@@ -183,12 +180,11 @@ public class GraknAIServiceImpl implements AIService {
                         .rel("policy-owner", "per")
                         .rel("owned-policy", "pol")
         );
-        return  insertPolicyOwner;
+
     }
 
     private GraqlInsert buildDevicePolicy(JsonObject enrolment) {
-
-        GraqlInsert insertDeviceInsurer = Graql.match(
+        return Graql.match(
                 var("pol").isa("policy").has("policyId", enrolment.getString("enrolmentId").replaceAll("enrolment-", "policy-")),
                 var("dev").isa("device").has("deviceId", enrolment.getString("enrolmentId").replaceAll("enrolment-", "device-"))
         ).insert(
@@ -196,7 +192,7 @@ public class GraknAIServiceImpl implements AIService {
                         .rel("insured-device", "dev")
                         .rel("device-insurer", "pol")
         );
-        return insertDeviceInsurer;
+
     }
 
     @Override

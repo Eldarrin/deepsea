@@ -10,7 +10,7 @@ import io.vertx.servicediscovery.Status;
 
 public class DiscoveryHelper {
 	
-	private Vertx vertx;
+	private final Vertx vertx;
 	
 	public DiscoveryHelper(Vertx vertx) {
 		this.vertx = vertx;

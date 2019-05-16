@@ -12,7 +12,7 @@ public class RestAIAPIVerticle extends RestAPIVerticle {
     public static final String SERVICE_NAME = "ai-rest-api";
     private static final String API_RETRIEVE = "/enrolments/";
 
-    private AIService aiService;
+    private final AIService aiService;
 
     public RestAIAPIVerticle(AIService aiService) {
         super();
@@ -20,7 +20,7 @@ public class RestAIAPIVerticle extends RestAPIVerticle {
     }
 
     @Override
-    public void start(Future<Void> future) throws Exception {
+    public void start(Future<Void> future) {
         super.start();
         final Router router = Router.router(vertx);
         // body handler

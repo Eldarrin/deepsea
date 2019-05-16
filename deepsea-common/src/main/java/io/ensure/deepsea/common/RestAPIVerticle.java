@@ -37,7 +37,7 @@ public abstract class RestAPIVerticle extends BaseMicroserviceVerticle {
 	private static final String MESSAGE = "message";
 	protected static final String HEALTH = "/health";
 
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private final Logger log = LoggerFactory.getLogger(getClass());
 	
   /**
    * Create http server for the REST service.
@@ -50,8 +50,8 @@ public abstract class RestAPIVerticle extends BaseMicroserviceVerticle {
   protected Future<Void> createHttpServer(Router router, String host, int port) {
     Future<HttpServer> httpServerFuture = Future.future();
     vertx.createHttpServer()
-      .requestHandler(router::accept)
-      .listen(port, host, httpServerFuture.completer());
+      .requestHandler(router)
+      .listen(port, host, httpServerFuture);
     return httpServerFuture.map(r -> null);
   }
 
@@ -97,7 +97,7 @@ public abstract class RestAPIVerticle extends BaseMicroserviceVerticle {
 				// create HTTP server and publish REST service
 				createHttpServer(router, host, port)
 						.compose(serverCreated -> publishHttpEndpoint(serviceName, service, port, serviceType))
-						.setHandler(future.completer());
+						.setHandler(future);
 			} else {
 	      		log.error("Cannot start " + serviceType + " REST API, no ConfigMap");
 	      	}

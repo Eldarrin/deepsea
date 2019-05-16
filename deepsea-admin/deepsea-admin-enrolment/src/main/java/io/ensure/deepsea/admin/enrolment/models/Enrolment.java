@@ -205,7 +205,7 @@ public class Enrolment {
 		
 		Enrolment enrolment = (Enrolment) o;
 
-		return enrolmentId == enrolment.enrolmentId && clientId.equals(enrolment.clientId);
+		return enrolmentId.equals(enrolment.enrolmentId) && clientId.equals(enrolment.clientId);
 	}
 
 	@Override

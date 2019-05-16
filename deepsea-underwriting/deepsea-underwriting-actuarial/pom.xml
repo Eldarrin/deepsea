@@ -103,7 +103,7 @@
 							<enricher>
 								<includes>
 									<include>f8-prometheus</include>
-									<include>vertx-health-check</include>
+									<include>f8-healthcheck-vertx</include>
 								</includes>
 								<config>
 									<vertx-health-check>

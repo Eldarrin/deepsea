@@ -12,7 +12,7 @@ import io.vertx.ext.mongo.MongoClient;
 
 public class MongoRepositoryWrapper {
 
-	protected final MongoClient client;
+	private final MongoClient client;
 
 	public MongoRepositoryWrapper(Vertx vertx, JsonObject config) {
 		this.client = MongoClient.createShared(vertx, config);

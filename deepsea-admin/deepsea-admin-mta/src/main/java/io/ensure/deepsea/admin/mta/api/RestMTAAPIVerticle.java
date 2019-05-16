@@ -16,7 +16,7 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 	
 	private static final String MTA = "mta";
 	
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	public static final String SERVICE_NAME = "mta-rest-api";
 
@@ -30,7 +30,7 @@ public class RestMTAAPIVerticle extends RestAPIVerticle {
 	}
 	
 	@Override
-	public void start(Future<Void> future) throws Exception {
+	public void start(Future<Void> future) {
 		super.start();
 		final Router router = Router.router(vertx);
 		addHealthHandler(router, future);

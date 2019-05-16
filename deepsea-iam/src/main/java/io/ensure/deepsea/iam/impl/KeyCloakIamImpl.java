@@ -5,7 +5,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.oauth2.AccessToken;
-import io.vertx.ext.auth.oauth2.OAuth2Auth;
 import io.vertx.ext.auth.oauth2.OAuth2FlowType;
 import io.vertx.ext.auth.oauth2.providers.KeycloakAuth;
 import io.vertx.core.logging.Logger;
@@ -13,7 +12,7 @@ import io.vertx.core.logging.LoggerFactory;
 
 public class KeyCloakIamImpl implements Iam {
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
     
     private static final JsonObject TEMP_CONFIG = new JsonObject()
             .put("keycloak.realm", "master")
@@ -36,11 +35,10 @@ public class KeyCloakIamImpl implements Iam {
         keyCloakJson.put("credentials",
                 new JsonObject().put("secret", config.getString("keycloak.credentials.secret")));
 
-        log.info(keyCloakJson.encodePrettily());
+        log.debug(keyCloakJson.encodePrettily());
 
-        OAuth2Auth authProvider = KeycloakAuth.create(vertx, OAuth2FlowType.AUTH_CODE, keyCloakJson);
+        return KeycloakAuth.create(vertx, OAuth2FlowType.AUTH_CODE, keyCloakJson);
 
-        return authProvider;
     }
 
     @Override

@@ -39,10 +39,10 @@ public abstract class BaseMicroserviceVerticle extends AbstractVerticle {
 
 	protected ServiceDiscovery discovery;
 	protected CircuitBreaker circuitBreaker;
-	protected Set<Record> registeredRecords = new ConcurrentHashSet<>();
+	private final Set<Record> registeredRecords = new ConcurrentHashSet<>();
 
 	@Override
-	public void start() throws Exception {
+	public void start() {
 		// init service discovery instance
 		discovery = ServiceDiscovery.create(vertx, new ServiceDiscoveryOptions().setBackendConfiguration(config()));
 
@@ -135,13 +135,13 @@ public abstract class BaseMicroserviceVerticle extends AbstractVerticle {
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void stop(Future<Void> future) throws Exception {
+	public void stop(Future<Void> future) {
 		// In current design, the publisher is responsible for removing the service
 		List<Future> futures = new ArrayList<>();
 		registeredRecords.forEach(record -> {
 			Future<Void> cleanupFuture = Future.future();
 			futures.add(cleanupFuture);
-			discovery.unpublish(record.getRegistration(), cleanupFuture.completer());
+			discovery.unpublish(record.getRegistration(), cleanupFuture);
 		});
 
 		if (futures.isEmpty()) {

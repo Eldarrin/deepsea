@@ -18,7 +18,7 @@ public class RedisPubSub {
 	
 	RedisClient redis;
 	
-	private Vertx vertx;
+	private final Vertx vertx;
 	
 	public RedisPubSub(Vertx vertx) {
 		this.vertx = vertx;

@@ -15,7 +15,7 @@ import io.vertx.ext.web.handler.StaticHandler;
 
 public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 	
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private static final String ENROLMENT = "enrolment";
 
@@ -31,7 +31,7 @@ public class RestEnrolmentAPIVerticle extends RestAPIVerticle {
 	}
 	
 	@Override
-	public void start(Future<Void> future) throws Exception {
+	public void start(Future<Void> future) {
 		super.start();
 		final Router router = Router.router(vertx);
 		this.enableCorsSupport(router);

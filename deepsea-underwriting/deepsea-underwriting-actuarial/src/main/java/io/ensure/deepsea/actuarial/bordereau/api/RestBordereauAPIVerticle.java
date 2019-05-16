@@ -29,7 +29,7 @@ public class RestBordereauAPIVerticle extends RestAPIVerticle {
 	}
 	
 	@Override
-	public void start(Future<Void> future) throws Exception {
+	public void start(Future<Void> future) {
 		super.start();
 		final Router router = Router.router(vertx);
 		// body handler
@@ -48,7 +48,7 @@ public class RestBordereauAPIVerticle extends RestAPIVerticle {
 		// create HTTP server and publish REST service
 		createHttpServer(router, host, port)
 				.compose(serverCreated -> publishHttpEndpoint(SERVICE_NAME, "deepsea-underwriting-actuarial.deepsea.svc", port, "bordereau"))
-				.setHandler(future.completer());
+				.setHandler(future);
 	}
 	
 	private void apiAdd(RoutingContext rc) {

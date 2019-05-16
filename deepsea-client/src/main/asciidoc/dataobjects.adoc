@@ -4,11 +4,11 @@
 == Client
 
 
-[cols=">25%,^25%,50%"]
+[cols=">25%,25%,50%"]
 [frame="topbot"]
 |===
 ^|Name | Type ^| Description
-|[[clientId]]`clientId`|`String`|-
-|[[clientName]]`clientName`|`String`|-
+|[[clientId]]`@clientId`|`String`|-
+|[[clientName]]`@clientName`|`String`|-
 |===
 

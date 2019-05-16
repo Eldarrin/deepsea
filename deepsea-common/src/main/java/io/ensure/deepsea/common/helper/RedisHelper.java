@@ -14,7 +14,7 @@ import io.vertx.redis.RedisOptions;
 
 public class RedisHelper {
 	
-	private static Logger log = LoggerFactory.getLogger("io.ensure.deepsea.common.helper.RedisHelper.class");
+	private final static Logger log = LoggerFactory.getLogger("io.ensure.deepsea.common.helper.RedisHelper.class");
 	
 	private RedisHelper() {
 	    throw new IllegalStateException("Redis Utility class");

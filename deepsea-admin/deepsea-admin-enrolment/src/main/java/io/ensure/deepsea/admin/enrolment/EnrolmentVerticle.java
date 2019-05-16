@@ -24,7 +24,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 
 	private static final String DEEPSEA_ADMIN_ENROLMENT = "deepsea-admin-enrolment";
 
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private final Logger log = LoggerFactory.getLogger(getClass());
 	
 	private static final String ENROLMENT_CHANNEL = "enrolment";
 
@@ -33,7 +33,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 	private RedisPubSub redisPubSub;
 
 	@Override
-	public void start(Future<Void> future) throws Exception {
+	public void start(Future<Void> future) {
 		super.start();
 		
 		ConfigRetriever retriever = ConfigRetriever
@@ -60,7 +60,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 
             		// publish the service and REST endpoint in the discovery infrastructure
             		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, EnrolmentService.class)
-            				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+            				.compose(servicePublished -> deployRestVerticle()).setHandler(future);
             		redisPubSub = new RedisPubSub(vertx);
             		redisPubSub.startRedisPubSub(ENROLMENT_CHANNEL, DEEPSEA_ADMIN_ENROLMENT).setHandler(ar -> {
             			if (ar.succeeded()) {
@@ -89,7 +89,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 			enrolmentService.replayEnrolments(msg.body().getString("dateCreated"), msgs -> {
 				if (msgs.succeeded()) {
 					List<JsonObject> msgJ = new ArrayList<>();
-					msgs.result().stream().forEach(msga -> msgJ.add(msga.toJson()));
+					msgs.result().forEach(msga -> msgJ.add(msga.toJson()));
 					redisPubSub.replayMessages(ENROLMENT_CHANNEL, msgJ);
 				}
 			}));
@@ -97,14 +97,14 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 		
 	private Future<Void> initEnrolmentDatabase(EnrolmentService service) {
 		Future<Void> initFuture = Future.future();
-		service.initializePersistence(initFuture.completer());
+		service.initializePersistence(initFuture);
 		return initFuture.map(v -> null);
 	}
 
 	private Future<Void> deployRestVerticle() {
 		Future<String> future = Future.future();
 		vertx.deployVerticle(new RestEnrolmentAPIVerticle(enrolmentService),
-				new DeploymentOptions().setConfig(config()), future.completer());
+				new DeploymentOptions().setConfig(config()), future);
 		return future.map(r -> null);
 	}
 

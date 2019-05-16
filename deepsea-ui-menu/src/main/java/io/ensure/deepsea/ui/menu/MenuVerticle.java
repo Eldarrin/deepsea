@@ -31,12 +31,12 @@ public class MenuVerticle extends BaseMicroserviceVerticle {
 	private static final String REDIS_CHANNEL = "io.vertx.redis.";
 	private static final String MENU_CHANNEL = "menu";
 	
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private MenuService menuService;
 	
 	@Override
-	public void start(Future<Void> future) throws Exception {
+	public void start(Future<Void> future) {
 		super.start();
 		ConfigRetriever retriever = ConfigRetriever
 				.create(vertx, new ConfigRetrieverHelper()
@@ -63,7 +63,7 @@ public class MenuVerticle extends BaseMicroserviceVerticle {
 
         		// publish the service and REST endpoint in the discovery infrastructure
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, MenuService.class)
-        				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+        				.compose(servicePublished -> deployRestVerticle()).setHandler(future);
         		vertx.eventBus().publish("client", new JsonObject().put("started", "true"));
         		setupConsumer(redisRes.result());
         		});
@@ -104,14 +104,14 @@ public class MenuVerticle extends BaseMicroserviceVerticle {
 
 	private Future<Void> initMenuDatabase(MenuService service) {
 		Future<Void> initFuture = Future.future();
-		service.initializePersistence(initFuture.completer());
+		service.initializePersistence(initFuture);
 		return initFuture.map(v -> null);
 	}
 
 	private Future<Void> deployRestVerticle() {
 		Future<String> future = Future.future();
 		vertx.deployVerticle(new RestMenuAPIVerticle(menuService),
-				new DeploymentOptions().setConfig(config()), future.completer());
+				new DeploymentOptions().setConfig(config()), future);
 		return future.map(r -> null);
 	}
 }

@@ -26,12 +26,12 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 	private static final String SERVICE_ADDRESS = "service.client";
 
 	
-	private Logger log = LoggerFactory.getLogger(getClass());
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private ClientService clientService;
 
 	@Override
-	public void start(Future<Void> future) throws Exception {
+	public void start(Future<Void> future) {
 		super.start();
 		ConfigRetriever retriever = ConfigRetriever
 				.create(vertx, new ConfigRetrieverHelper()
@@ -58,7 +58,7 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 
         		// publish the service and REST endpoint in the discovery infrastructure
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, ClientService.class)
-        				.compose(servicePublished -> deployRestVerticle()).setHandler(future.completer());
+        				.compose(servicePublished -> deployRestVerticle()).setHandler(future);
         		vertx.eventBus().publish("client", new JsonObject().put("started", "true"));
         		
         		});
@@ -73,14 +73,14 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 
 	private Future<Void> initClientDatabase(ClientService service) {
 		Future<Void> initFuture = Future.future();
-		service.initializePersistence(initFuture.completer());
+		service.initializePersistence(initFuture);
 		return initFuture.map(v -> null);
 	}
 
 	private Future<Void> deployRestVerticle() {
 		Future<String> future = Future.future();
 		vertx.deployVerticle(new RestClientAPIVerticle(clientService),
-				new DeploymentOptions().setConfig(config()), future.completer());
+				new DeploymentOptions().setConfig(config()), future);
 		return future.map(r -> null);
 	}
 

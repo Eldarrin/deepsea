@@ -4,15 +4,15 @@
 == Product
 
 
-[cols=">25%,^25%,50%"]
+[cols=">25%,25%,50%"]
 [frame="topbot"]
 |===
 ^|Name | Type ^| Description
-|[[clientId]]`clientId`|`String`|-
-|[[illustration]]`illustration`|`String`|-
-|[[name]]`name`|`String`|-
-|[[price]]`price`|`Number (double)`|-
-|[[productId]]`productId`|`String`|-
-|[[type]]`type`|`String`|-
+|[[clientId]]`@clientId`|`String`|-
+|[[illustration]]`@illustration`|`String`|-
+|[[name]]`@name`|`String`|-
+|[[price]]`@price`|`Number (double)`|-
+|[[productId]]`@productId`|`String`|-
+|[[type]]`@type`|`String`|-
 |===
 

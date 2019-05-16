@@ -70,7 +70,7 @@ public class MidTermAdjustment {
 
 		MidTermAdjustment midTermAdjustment = (MidTermAdjustment) o;
 
-		return mtaId == midTermAdjustment.mtaId && policyId.equals(midTermAdjustment.policyId);
+		return mtaId.equals(midTermAdjustment.mtaId) && policyId.equals(midTermAdjustment.policyId);
 	}
 
 	@Override

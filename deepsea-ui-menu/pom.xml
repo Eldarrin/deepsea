@@ -90,7 +90,7 @@
 							<mode>openshift</mode>
 							<enricher>
 								<includes>
-									<include>vertx-health-check</include>
+									<include>f8-healthcheck-vertx</include>
 								</includes>
 								<config>
 									<vertx-health-check>

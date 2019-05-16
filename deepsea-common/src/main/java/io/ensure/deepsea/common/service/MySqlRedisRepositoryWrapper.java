@@ -16,10 +16,11 @@ import io.vertx.redis.RedisOptions;
 
 public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 	
-	private Logger log = LoggerFactory.getLogger(getClass());
-	
+	private final Logger log = LoggerFactory.getLogger(getClass());
+
+	//TODO: bad usage of protected, needs fixing
 	protected String typeName;
-	private RedisClient redis;
+	private final RedisClient redis;
 
 	public MySqlRedisRepositoryWrapper(Vertx vertx, JsonObject config, RedisOptions options) {
 		super(vertx, config);
@@ -33,7 +34,7 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 				String keyName = typeName + "Id";
 				jsonObject.put(keyName, typeName + "-" + res.result().get().toString());
 				RedisHelper.publishRedis(redis, typeName, jsonObject)
-				.setHandler(future.completer());
+				.setHandler(future);
 			} else {
 				future.fail(res.cause());
 			}
@@ -47,7 +48,7 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 			if (res.succeeded()) {
 				String keyName = typeName + "Id";
 				jsonObject.put(keyName, typeName + "-" + res.result().get());
-				RedisHelper.setCache(redis, typeName + "Id", jsonObject).setHandler(future.completer());
+				RedisHelper.setCache(redis, typeName + "Id", jsonObject).setHandler(future);
 			} else {
 				future.fail(res.cause());
 				log.error("SQL Failing Accessing Data");
@@ -83,7 +84,7 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 					key = typeName + "-" + key;
 					json.remove(typeName + "Id");
 					json.put(typeName + "Id", key);
-					RedisHelper.setCache(redis, typeName + "Id", json).setHandler(future.completer());
+					RedisHelper.setCache(redis, typeName + "Id", json).setHandler(future);
 				} else {
 					future.complete(Optional.empty());
 				}
