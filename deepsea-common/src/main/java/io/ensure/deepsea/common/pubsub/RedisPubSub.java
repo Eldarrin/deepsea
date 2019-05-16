@@ -96,7 +96,7 @@ public class RedisPubSub {
 				log.info("redis.started.succeed");
 				future.complete();
 			} else {
-				log.error("redis.started.failed");
+				log.error("redis.started.failed", ar.cause());
 				future.fail(ar.cause());
 			}
 		});
