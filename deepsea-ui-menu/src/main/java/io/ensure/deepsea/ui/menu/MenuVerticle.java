@@ -2,7 +2,7 @@ package io.ensure.deepsea.ui.menu;
 
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
-import io.ensure.deepsea.common.helper.RedisHelper;
+import io.ensure.deepsea.common.service.DeepseaRedis;
 import io.ensure.deepsea.ui.menu.api.RestMenuAPIVerticle;
 import io.ensure.deepsea.ui.menu.impl.MongoMenuServiceImpl;
 import io.vertx.config.ConfigRetriever;
@@ -11,8 +11,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.redis.RedisClient;
-import io.vertx.redis.RedisOptions;
+import io.vertx.redis.client.RedisOptions;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class MenuVerticle extends BaseMicroserviceVerticle {
@@ -34,6 +33,8 @@ public class MenuVerticle extends BaseMicroserviceVerticle {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private MenuService menuService;
+
+	private DeepseaRedis dRedis;
 	
 	@Override
 	public void start(Future<Void> future) {
@@ -51,7 +52,7 @@ public class MenuVerticle extends BaseMicroserviceVerticle {
 						.put("password", System.getenv("DB_PASSWORD"))
 						.put("db_name", System.getenv("DB_NAME"));
         		
-        		RedisHelper.getRedisOptions(vertx, "deepsea-ui-menu").setHandler(redisRes -> {
+        		DeepseaRedis.getRedisOptions(vertx, "deepsea-ui-menu").setHandler(redisRes -> {
 
         		menuService = new MongoMenuServiceImpl(vertx, myMongoConfig, redisRes.result());
         		// Register the handler
@@ -64,7 +65,12 @@ public class MenuVerticle extends BaseMicroserviceVerticle {
         		// publish the service and REST endpoint in the discovery infrastructure
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, MenuService.class)
         				.compose(servicePublished -> deployRestVerticle()).setHandler(future);
-        		vertx.eventBus().publish("client", new JsonObject().put("started", "true"));
+					dRedis = new DeepseaRedis(vertx, redisRes.result());
+					dRedis.startRedisPubSub(vertx, "menu", "deepsea-ui-menu").setHandler(ar -> {
+						if (ar.succeeded()) {
+							dRedis.publish("menu", new JsonObject().put("started", "true"));
+						}
+					});
         		setupConsumer(redisRes.result());
         		});
         		
@@ -83,13 +89,9 @@ public class MenuVerticle extends BaseMicroserviceVerticle {
 			addMenuItem(new JsonObject(message));
 		});
 
-		RedisClient redis = RedisClient.create(vertx, redisOptions);
+		dRedis = new DeepseaRedis(vertx, redisOptions);
 
-		redis.subscribe(MENU_CHANNEL, ar -> {
-			if (!ar.succeeded()) {
-				log.error(ar.result());
-			}
-		});
+		dRedis.subscribe(MENU_CHANNEL);
 		
 	}
 	

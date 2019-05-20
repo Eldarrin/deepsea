@@ -11,7 +11,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.redis.RedisOptions;
+import io.vertx.redis.client.RedisOptions;
 
 public class MongoMTAServiceImpl extends MongoRedisRepositoryWrapper implements MTAService {
 	

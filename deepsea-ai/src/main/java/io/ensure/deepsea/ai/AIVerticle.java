@@ -4,15 +4,14 @@ import io.ensure.deepsea.ai.api.RestAIAPIVerticle;
 import io.ensure.deepsea.ai.impl.GraknAIServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
-import io.ensure.deepsea.common.helper.RedisHelper;
+import io.ensure.deepsea.common.service.DeepseaRedis;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.redis.RedisClient;
-import io.vertx.redis.RedisOptions;
+import io.vertx.redis.client.RedisOptions;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class AIVerticle extends BaseMicroserviceVerticle {
@@ -26,6 +25,8 @@ public class AIVerticle extends BaseMicroserviceVerticle {
     private static final String REDIS_CHANNEL = "io.vertx.redis.";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
+
+    private DeepseaRedis dRedis;
 
     private AIService aiService;
 
@@ -43,7 +44,7 @@ public class AIVerticle extends BaseMicroserviceVerticle {
                         .put("host", res.result().getString("grakn.host"))
                         .put("keyspace", res.result().getString("grakn.keyspace"));
 
-                RedisHelper.getRedisOptions(vertx, "deepsea-ai").setHandler(resRedis -> {
+                DeepseaRedis.getRedisOptions(vertx, "deepsea-ai").setHandler(resRedis -> {
                     if (resRedis.succeeded()) {
                         aiService = new GraknAIServiceImpl(vertx, myGraknConfig);
                         // Register the handler
@@ -88,16 +89,9 @@ public class AIVerticle extends BaseMicroserviceVerticle {
             });
         });
 
-        RedisClient redis = RedisClient.create(vertx, redisOptions);
+        dRedis = new DeepseaRedis(vertx, redisOptions);
 
-        redis.subscribe(ENROLMENT_CHANNEL, ar -> {
-            if (ar.succeeded()) {
-                // TODO: addreplayer
-
-            } else {
-                log.error(ar.result());
-            }
-        });
+        dRedis.subscribe(ENROLMENT_CHANNEL);
 
     }
 

@@ -4,7 +4,7 @@ import io.ensure.deepsea.client.api.RestClientAPIVerticle;
 import io.ensure.deepsea.client.impl.MongoClientServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
-import io.ensure.deepsea.common.helper.RedisHelper;
+import io.ensure.deepsea.common.service.DeepseaRedis;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
@@ -29,6 +29,7 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private ClientService clientService;
+	private DeepseaRedis dRedis;
 
 	@Override
 	public void start(Future<Void> future) {
@@ -46,7 +47,7 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
 						.put("password", System.getenv("DB_PASSWORD"))
 						.put("db_name", System.getenv("DB_NAME"));
         		
-        		RedisHelper.getRedisOptions(vertx, "deepsea-client").setHandler(redisRes -> {
+        		DeepseaRedis.getRedisOptions(vertx, "deepsea-client").setHandler(redisRes -> {
 
         		clientService = new MongoClientServiceImpl(vertx, myMongoConfig, redisRes.result());
         		// Register the handler
@@ -59,8 +60,13 @@ public class ClientVerticle extends BaseMicroserviceVerticle {
         		// publish the service and REST endpoint in the discovery infrastructure
         		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, ClientService.class)
         				.compose(servicePublished -> deployRestVerticle()).setHandler(future);
-        		vertx.eventBus().publish("client", new JsonObject().put("started", "true"));
-        		
+					dRedis = new DeepseaRedis(vertx, redisRes.result());
+					dRedis.startRedisPubSub(vertx, "client", "deepsea-client").setHandler(ar -> {
+						if (ar.succeeded()) {
+							dRedis.publish("client", new JsonObject().put("started", "true"));
+						}
+					});
+
         		});
         		
         	} else {

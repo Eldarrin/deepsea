@@ -13,8 +13,8 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.redis.RedisOptions;
-import io.vertx.rxjava.core.Future;
+import io.vertx.redis.client.RedisOptions;
+import io.vertx.core.Future;
 
 public class MongoMenuServiceImpl extends MongoRedisRepositoryWrapper implements MenuService {
 

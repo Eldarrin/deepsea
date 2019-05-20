@@ -2,22 +2,20 @@ package io.ensure.deepsea.common.service;
 
 import java.util.Optional;
 
-import io.ensure.deepsea.common.helper.RedisHelper;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.redis.RedisClient;
-import io.vertx.redis.RedisOptions;
+import io.vertx.redis.client.RedisOptions;
 
 public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 
 	private final String typeName;
-	private final RedisClient redis;
+	private final DeepseaRedis dRedis;
 	private final String keyName;
 
-	protected MongoRedisRepositoryWrapper(Vertx vertx, JsonObject config, RedisOptions rOptions, String typeName) {
+	protected MongoRedisRepositoryWrapper(Vertx vertx, JsonObject config, RedisOptions options, String typeName) {
 		super(vertx, config);
-		this.redis = RedisClient.create(vertx, rOptions);
+		this.dRedis = new DeepseaRedis(vertx, options);
 		this.typeName = typeName;
 		this.keyName = this.typeName + "Id";
 	}
@@ -26,7 +24,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		Future<Optional<JsonObject>> future = Future.future();
 		this.upsertSingle(keyFix(jsonObject), collection, res -> {
 			if (res.succeeded()) {
-				RedisHelper.setCache(redis, keyName, keyFix(jsonObject)).setHandler(future);
+				dRedis.setCache(keyName, keyFix(jsonObject)).setHandler(future);
 			} else {
 				future.fail(res.cause());
 			}
@@ -41,8 +39,9 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		this.upsertSingle(keyFix(jsonObject), collection, res -> {
 			if (res.succeeded()) {
 				jsonObject.put(keyName, typeName + "-" + res.result());
-				RedisHelper.publishRedis(redis, typeName, jsonObject)
-						.setHandler(future);
+				dRedis.publish(typeName, jsonObject)
+						.setHandler(publish ->
+								future.complete(Optional.of(jsonObject)));
 			} else {
 				future.fail(res.cause());
 			}
@@ -53,15 +52,15 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 
 	protected Future<Optional<JsonObject>> retrieveDocumentWithCache(String collection, String key) {
 		Future<Optional<JsonObject>> future = Future.future();
-		redis.get(key, res -> {
-			if (res.succeeded()) {
-				if (res.result() != null) {
-					future.complete(Optional.of(new JsonObject(res.result())));
+		dRedis.getCache(key).setHandler(get -> {
+			if (get.succeeded()) {
+				if (get.result() != null) {
+					future.complete(get.result());
 				} else {
 					retrieveAndAdd(collection, key).setHandler(future);
 				}
 			} else {
-				future.fail(res.cause());
+				future.fail(get.cause());
 			}
 		});
 		return future;
@@ -70,15 +69,15 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 	protected Future<Optional<JsonObject>> retrieveDocumentWithCache(String collection, JsonObject query) {
 		Future<Optional<JsonObject>> future = Future.future();
 		if (query.containsKey(keyName)) {
-			redis.get(query.getString(keyName), res -> {
-				if (res.succeeded()) {
-					if (res.result() != null) {
-						future.complete(Optional.of(new JsonObject(res.result())));
+			dRedis.getCache(query.getString(keyName)).setHandler(get -> {
+				if (get.succeeded()) {
+					if (get.result() != null) {
+						future.complete(get.result());
 					} else {
 						retrieveAndAdd(collection, query).setHandler(future);
 					}
 				} else {
-					future.fail(res.cause());
+					future.fail(get.cause());
 				}
 			});
 		} else {
@@ -92,7 +91,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		this.retrieveDocument(collection, id).setHandler(res -> {
 			if (res.succeeded()) {
 				if (res.result().isPresent()) {
-					RedisHelper.setCache(redis, keyName, keyFix(res.result().get())).setHandler(future);
+					dRedis.setCache(keyName, keyFix(res.result().get())).setHandler(future);
 				} else {
 					future.complete(Optional.empty());
 				}
@@ -108,7 +107,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		this.selectDocuments(collection, query).setHandler(res -> {
 			if (res.succeeded()) {
 				if (!res.result().isEmpty()) {
-					RedisHelper.setCache(redis, keyName, keyFix(res.result().get(0))).setHandler(future);
+					dRedis.setCache(keyName, keyFix(res.result().get(0))).setHandler(future);
 				} else {
 					future.complete(Optional.empty());
 				}
@@ -121,8 +120,8 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 	
 	protected Future<Void> removeWithCache(String collection, String id) {
 		Future<Void> future = Future.future();
-		redis.del(id, ar -> {
-			if (ar.succeeded()) {
+		dRedis.delCache(id).setHandler(del -> {
+			if (del.succeeded()) {
 				this.removeDocument(collection, id.substring(collection.length())).setHandler(res -> {
 					if (res.succeeded()) {
 						future.complete();
@@ -131,7 +130,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 					}
 				});
 			} else {
-				future.fail(ar.cause());
+				future.fail(del.cause());
 			}
 		});
 		return future;

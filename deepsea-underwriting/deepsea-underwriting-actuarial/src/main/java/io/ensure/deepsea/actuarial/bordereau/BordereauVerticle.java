@@ -7,15 +7,14 @@ import io.ensure.deepsea.actuarial.bordereau.impl.MySqlBordereauServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
 import io.ensure.deepsea.common.helper.ISO8601DateParser;
-import io.ensure.deepsea.common.helper.RedisHelper;
+import io.ensure.deepsea.common.service.DeepseaRedis;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.redis.RedisClient;
-import io.vertx.redis.RedisOptions;
+import io.vertx.redis.client.RedisOptions;
 import io.vertx.serviceproxy.ServiceBinder;
 
 public class BordereauVerticle extends BaseMicroserviceVerticle {
@@ -32,6 +31,8 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private BordereauService bordereauService;
+
+	private DeepseaRedis dRedis;
 
 	@Override
 	public void start(Future<Void> future) {
@@ -59,7 +60,7 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 				publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, BordereauService.class)
 						.compose(servicePublished -> deployRestVerticle()).setHandler(future);
 
-				RedisHelper.getRedisOptions(vertx, "deepsea-underwriting-actuarial").setHandler(ar -> 
+				DeepseaRedis.getRedisOptions(vertx, "deepsea-underwriting-actuarial").setHandler(ar ->
 					setupConsumers(ar.result()));
 			} else {
 				log.error("Unable to find config map for deepsea-underwriting-actuarial MySQL");
@@ -89,8 +90,13 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 			addBordereauLineFromEnrolment(new JsonObject(message));
 		});
 
-		RedisClient redis = RedisClient.create(vertx, redisOptions);
+		dRedis = new DeepseaRedis(vertx, redisOptions);
 
+		dRedis.subscribe(MTA_CHANNEL);
+
+		dRedis.subscribe(ENROLMENT_CHANNEL);
+
+		/*
 		redis.subscribe(MTA_CHANNEL, ar -> {
 			if (ar.succeeded()) {
 				bordereauService.requestLastRecordBySource(MTA_CHANNEL, res -> vertx.eventBus()
@@ -120,6 +126,8 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 				log.error(ar.result());
 			}
 		});
+		*/
+
 		
 	}
 

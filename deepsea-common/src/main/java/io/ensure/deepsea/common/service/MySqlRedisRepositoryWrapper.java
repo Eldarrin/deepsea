@@ -2,7 +2,6 @@ package io.ensure.deepsea.common.service;
 
 import java.util.Optional;
 
-import io.ensure.deepsea.common.helper.RedisHelper;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -11,8 +10,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
-import io.vertx.redis.RedisClient;
-import io.vertx.redis.RedisOptions;
+import io.vertx.redis.client.RedisOptions;
 
 public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 	
@@ -20,11 +18,11 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 
 	//TODO: bad usage of protected, needs fixing
 	protected String typeName;
-	private final RedisClient redis;
+	private DeepseaRedis dRedis;
 
 	public MySqlRedisRepositoryWrapper(Vertx vertx, JsonObject config, RedisOptions options) {
 		super(vertx, config);
-		this.redis = RedisClient.create(vertx, options);
+		dRedis = new DeepseaRedis(vertx, options);
 	}
 	
 	protected Future<Optional<JsonObject>> executeWithPublish(JsonArray params, String sql, JsonObject jsonObject) {
@@ -33,8 +31,8 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 			if (res.succeeded()) {
 				String keyName = typeName + "Id";
 				jsonObject.put(keyName, typeName + "-" + res.result().get().toString());
-				RedisHelper.publishRedis(redis, typeName, jsonObject)
-				.setHandler(future);
+				dRedis.publish(typeName, jsonObject).setHandler(publish ->
+						future.complete(Optional.of(jsonObject)));
 			} else {
 				future.fail(res.cause());
 			}
@@ -44,13 +42,13 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 
 	protected Future<Optional<JsonObject>> executeWithCache(JsonArray params, String sql, JsonObject jsonObject) {
 		Future<Optional<JsonObject>> future = Future.future();
-		this.executeReturnKey(params, sql).setHandler(res -> {
-			if (res.succeeded()) {
+		this.executeReturnKey(params, sql).setHandler(exec -> {
+			if (exec.succeeded()) {
 				String keyName = typeName + "Id";
-				jsonObject.put(keyName, typeName + "-" + res.result().get());
-				RedisHelper.setCache(redis, typeName + "Id", jsonObject).setHandler(future);
+				jsonObject.put(keyName, typeName + "-" + exec.result().get());
+				dRedis.setCache(typeName + "Id", jsonObject).setHandler(future);
 			} else {
-				future.fail(res.cause());
+				future.fail(exec.cause());
 				log.error("SQL Failing Accessing Data");
 			}
 		});
@@ -59,15 +57,15 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 	
 	protected <K> Future<Optional<JsonObject>> retrieveOneWithCache(K param, String sql, String key) {
 		Future<Optional<JsonObject>> future = Future.future();
-		redis.get(key, res -> {
-			if (res.succeeded()) {
-				if (res.result() != null) {
-					future.complete(Optional.of(new JsonObject(res.result())));
+		dRedis.getCache(key).setHandler(get -> {
+			if (get.succeeded()) {
+				if (get.result() != null) {
+					future.complete(get.result());
 				} else {
 					retrieveAndAdd(param, sql).setHandler(future);
 				}
 			} else {
-				future.fail(res.cause());
+				future.fail(get.cause());
 			}
 		});
 		return future;
@@ -84,7 +82,7 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 					key = typeName + "-" + key;
 					json.remove(typeName + "Id");
 					json.put(typeName + "Id", key);
-					RedisHelper.setCache(redis, typeName + "Id", json).setHandler(future);
+					dRedis.setCache(typeName + "Id", json).setHandler(future);
 				} else {
 					future.complete(Optional.empty());
 				}
@@ -97,11 +95,11 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 	
 	protected <K> Future<Void> removeWithCache(K id, String redisKey, String sql, Handler<AsyncResult<Void>> resultHandler) {
 		Future<Void> future = Future.future();
-		redis.del(redisKey, ar -> {
-			if (ar.succeeded()) {
+		dRedis.delCache(redisKey).setHandler(del -> {
+			if (del.succeeded()) {
 				this.removeOne(id, sql, resultHandler);
 			} else {
-				future.fail(ar.cause());
+				future.fail(del.cause());
 			}
 		});
 		return future;

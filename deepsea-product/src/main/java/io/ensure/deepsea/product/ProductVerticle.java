@@ -2,7 +2,7 @@ package io.ensure.deepsea.product;
 
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
-import io.ensure.deepsea.common.helper.RedisHelper;
+import io.ensure.deepsea.common.service.DeepseaRedis;
 import io.ensure.deepsea.product.api.RestProductAPIVerticle;
 import io.ensure.deepsea.product.impl.MySqlProductServiceImpl;
 import io.vertx.config.ConfigRetriever;
@@ -46,7 +46,7 @@ public class ProductVerticle extends BaseMicroserviceVerticle {
 								.put("password", System.getenv("DB_PASSWORD"))
 								.put("database", System.getenv("DB_NAME"));
 				
-				RedisHelper.getRedisOptions(vertx, "deepsea-product").setHandler(redisRes -> {
+				DeepseaRedis.getRedisOptions(vertx, "deepsea-product").setHandler(redisRes -> {
 					if (redisRes.succeeded()) {
 						productService = new MySqlProductServiceImpl(vertx, mySqlConfig, redisRes.result());
 						// Register the handler

@@ -10,8 +10,7 @@ import io.ensure.deepsea.admin.enrolment.api.RestEnrolmentAPIVerticle;
 import io.ensure.deepsea.admin.enrolment.impl.MySqlEnrolmentServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
-import io.ensure.deepsea.common.helper.RedisHelper;
-import io.ensure.deepsea.common.pubsub.RedisPubSub;
+import io.ensure.deepsea.common.service.DeepseaRedis;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
@@ -29,8 +28,8 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 	private static final String ENROLMENT_CHANNEL = "enrolment";
 
 	private EnrolmentService enrolmentService;
-	
-	private RedisPubSub redisPubSub;
+
+	private DeepseaRedis dRedis;
 
 	@Override
 	public void start(Future<Void> future) {
@@ -49,7 +48,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 						.put("password", System.getenv("DB_PASSWORD"))
 						.put("database", System.getenv("DB_NAME"));
         		
-        		RedisHelper.getRedisOptions(vertx, DEEPSEA_ADMIN_ENROLMENT).setHandler(redisRes -> {
+        		DeepseaRedis.getRedisOptions(vertx, DEEPSEA_ADMIN_ENROLMENT).setHandler(redisRes -> {
         			enrolmentService = new MySqlEnrolmentServiceImpl(vertx, mySqlConfig, redisRes.result());
             		// Register the handler
             		new ServiceBinder(vertx)
@@ -61,8 +60,8 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
             		// publish the service and REST endpoint in the discovery infrastructure
             		publishEventBusService(SERVICE_NAME, SERVICE_ADDRESS, EnrolmentService.class)
             				.compose(servicePublished -> deployRestVerticle()).setHandler(future);
-            		redisPubSub = new RedisPubSub(vertx);
-            		redisPubSub.startRedisPubSub(ENROLMENT_CHANNEL, DEEPSEA_ADMIN_ENROLMENT).setHandler(ar -> {
+            		dRedis = new DeepseaRedis(vertx, redisRes.result());
+            		dRedis.startRedisPubSub(vertx, ENROLMENT_CHANNEL, DEEPSEA_ADMIN_ENROLMENT).setHandler(ar -> {
             			if (ar.succeeded()) {
             				setupReplayConsumer();
             				JsonObject menu = new JsonObject()
@@ -70,7 +69,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
             						.put("name", "Enrolment")
             						.put("url", "/#/enrolment")
             						.put("serviceName", "service.enrolment");
-            				redisPubSub.publish("menu", menu);
+            				dRedis.publish("menu", menu);
             			}
             		});
         		});
@@ -90,7 +89,7 @@ public class EnrolmentVerticle extends BaseMicroserviceVerticle {
 				if (msgs.succeeded()) {
 					List<JsonObject> msgJ = new ArrayList<>();
 					msgs.result().forEach(msga -> msgJ.add(msga.toJson()));
-					redisPubSub.replayMessages(ENROLMENT_CHANNEL, msgJ);
+					dRedis.replayMessages(ENROLMENT_CHANNEL, msgJ);
 				}
 			}));
 	}

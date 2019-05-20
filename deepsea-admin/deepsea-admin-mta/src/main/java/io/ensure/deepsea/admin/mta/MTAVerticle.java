@@ -4,7 +4,7 @@ import io.ensure.deepsea.admin.mta.api.RestMTAAPIVerticle;
 import io.ensure.deepsea.admin.mta.impl.MongoMTAServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
-import io.ensure.deepsea.common.helper.RedisHelper;
+import io.ensure.deepsea.common.service.DeepseaRedis;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
@@ -40,7 +40,7 @@ public class MTAVerticle extends BaseMicroserviceVerticle {
 						.put("password", System.getenv("DB_PASSWORD"))
 						.put("db_name", System.getenv("DB_NAME"));
         		
-        		RedisHelper.getRedisOptions(vertx, "deepsea-admin-mta").setHandler(resRedis -> {
+        		DeepseaRedis.getRedisOptions(vertx, "deepsea-admin-mta").setHandler(resRedis -> {
         			if (resRedis.succeeded()) {
         				mtaService = new MongoMTAServiceImpl(vertx, myMongoConfig, resRedis.result());
                 		// Register the handler
