@@ -54,7 +54,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		Future<Optional<JsonObject>> future = Future.future();
 		dRedis.getCache(key).setHandler(get -> {
 			if (get.succeeded()) {
-				if (get.result() != null) {
+				if (get.result().isPresent()) {
 					future.complete(get.result());
 				} else {
 					retrieveAndAdd(collection, key).setHandler(future);
@@ -71,7 +71,7 @@ public class MongoRedisRepositoryWrapper extends MongoRepositoryWrapper {
 		if (query.containsKey(keyName)) {
 			dRedis.getCache(query.getString(keyName)).setHandler(get -> {
 				if (get.succeeded()) {
-					if (get.result() != null) {
+					if (get.result().isPresent()) {
 						future.complete(get.result());
 					} else {
 						retrieveAndAdd(collection, query).setHandler(future);

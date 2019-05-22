@@ -20,14 +20,11 @@ public class DeepseaRedis {
 
     private Redis client;
     private RedisOptions options;
-    private RedisAPI redis;
-    private Vertx vertx;
     private final Logger log = LoggerFactory.getLogger(getClass());
     private static final String REPLAY_SUFFIX = ".replay";
     private static final int MAX_RECONNECT_RETRIES = 16;
 
     public DeepseaRedis(Vertx vertx, RedisOptions options) {
-        this.vertx = vertx;
         this.options = options;
         Future<Void> future = Future.future();
         createRedisClient(vertx, ar -> {
@@ -118,6 +115,7 @@ public class DeepseaRedis {
     }
 
     public void subscribe(String channel) {
+        RedisAPI redis = RedisAPI.api(client);
         redis.subscribe(Arrays.asList(channel), subscribe -> {
             if (!subscribe.succeeded()) {
                 log.error("Cannot subscribe to channel", subscribe.cause());

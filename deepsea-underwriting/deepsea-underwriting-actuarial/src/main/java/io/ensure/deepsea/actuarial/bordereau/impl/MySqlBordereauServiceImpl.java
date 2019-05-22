@@ -48,8 +48,10 @@ public class MySqlBordereauServiceImpl extends MySqlRepositoryWrapper implements
 				.add(fromInstant(bordereauLine.getDateSourceCreated()));
 		this.executeReturnKey(params, INSERT_STATEMENT).setHandler(res -> {
 			if (res.succeeded()) {
-				bordereauLine.setBordereauLineId("bordereauline-" + res.result().get());
-				future.setHandler(resultHandler).complete(bordereauLine);
+				if (res.result().isPresent()) {
+					bordereauLine.setBordereauLineId("bordereauline-" + res.result().get());
+					future.setHandler(resultHandler).complete(bordereauLine);
+				}
 			} else {
 				future.setHandler(resultHandler).fail(res.cause());
 			}
