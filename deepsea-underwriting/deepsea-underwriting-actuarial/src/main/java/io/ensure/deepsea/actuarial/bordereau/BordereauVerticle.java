@@ -1,11 +1,14 @@
 package io.ensure.deepsea.actuarial.bordereau;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.ensure.deepsea.actuarial.bordereau.api.RestBordereauAPIVerticle;
 import io.ensure.deepsea.actuarial.bordereau.impl.MySqlBordereauServiceImpl;
 import io.ensure.deepsea.common.BaseMicroserviceVerticle;
 import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
+import io.ensure.deepsea.common.helper.ISO8601DateParser;
 import io.ensure.deepsea.common.service.DeepseaRedis;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AsyncResult;
@@ -82,82 +85,51 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		return initFuture.map(v -> null);
 	}
 
-	private void handle(AsyncResult<Redis> connect) {
-		if (connect.succeeded()) {
-			connect.result().handler(message -> {
-
-			});
-		}
-	}
-
 	private void setupConsumers(RedisOptions redisOptions) {
-		RedisWrapper r = new RedisWrapper(vertx);
+		List<String> channels = new ArrayList();
+		channels.add(ENROLMENT_CHANNEL);
+		channels.add(MTA_CHANNEL);
 
-		r.connect("172.30.38.221", 6379, res -> {
+		RedisWrapper r = new RedisWrapper(vertx, redisOptions);
+
+		r.connect(res -> {
 			if (res.succeeded()) {
 				log.info("redis connected");
-				res.result().handler(message -> {
-					log.info("new handle" + message);
-				}) ;
-			}
-		});
-
-
-/*
-		vertx.eventBus().<JsonObject>consumer(REDIS_CHANNEL + MTA_CHANNEL, received -> {
-			String message = received.body().getJsonObject(REDIS_JSON_VALUE).getString("message");
-			log.info("mta" + message);
-			addBordereauLineFromMTA(new JsonObject(message));
-		});
-		vertx.eventBus().<JsonObject>consumer(REDIS_CHANNEL + ENROLMENT_CHANNEL, received -> {
-			String message = received.body().getJsonObject(REDIS_JSON_VALUE).getString("message");
-			log.info("enrol" + message);
-			addBordereauLineFromEnrolment(new JsonObject(message));
-		});
-
-		dRedis = new DeepseaRedis(vertx, redisOptions, res -> {
-			if (res.succeeded()) {
-				dRedis.subscribe(MTA_CHANNEL);
-				dRedis.subscribe(ENROLMENT_CHANNEL);
-			} else {
-				log.error("failed to instantiate deepsea redis");
-			}
-		});
-
-
-		/*
-		redis.subscribe(MTA_CHANNEL, ar -> {
-			if (ar.succeeded()) {
-				bordereauService.requestLastRecordBySource(MTA_CHANNEL, res -> vertx.eventBus()
-						.send(MTA_CHANNEL + REPLAY, 
-								new JsonObject().put(DATE_CREATED, 
-										ISO8601DateParser.toJsonString(res.result().getDateSourceCreated()))));
-			} else {
-				log.error(ar.result());
-			}
-		});
-		
-		redis.subscribe(ENROLMENT_CHANNEL, ar -> {
-			if (ar.succeeded()) {
-				bordereauService.requestLastRecordBySource(ENROLMENT_CHANNEL, res -> {
-					if (res.succeeded()) {
-						String dateRequired = "1970-01-01T00:00:00.000Z"; 
-						if (res.result() != null) {
-							dateRequired = ISO8601DateParser.toJsonString(res.result().getDateSourceCreated());
+				r.subscribe(res.result(), channels);
+				bordereauService.requestLastRecordBySource(ENROLMENT_CHANNEL, req -> {
+					if (req.succeeded()) {
+						String dateRequired = "1970-01-01T00:00:00.000Z";
+						if (req.result() != null) {
+							dateRequired = ISO8601DateParser.toJsonString(req.result().getDateSourceCreated());
 						}
-						vertx.eventBus().send(ENROLMENT_CHANNEL + REPLAY, 
+						vertx.eventBus().send(ENROLMENT_CHANNEL + REPLAY,
 								new JsonObject().put(DATE_CREATED, dateRequired));
 					}
-					
+
 				});
-						
-			} else {
-				log.error(ar.result());
+				bordereauService.requestLastRecordBySource(MTA_CHANNEL, req -> vertx.eventBus()
+						.send(MTA_CHANNEL + REPLAY,
+								new JsonObject().put(DATE_CREATED,
+										ISO8601DateParser.toJsonString(req.result().getDateSourceCreated()))));
+				res.result().handler(msg -> {
+					switch(msg.get(1).toString()) {
+						case ENROLMENT_CHANNEL:
+							addBordereauLineFromEnrolment(new JsonObject(msg.get(2).toString()));
+							log.info(msg.get(2).toString());
+							break;
+						case MTA_CHANNEL:
+							//addBordereauLineFromMTA(new JsonObject(msg.get(2).toString()));
+							log.info(msg.get(2).toString());
+							break;
+						default:
+							log.info(msg.get(1).toString());
+							break;
+					}
+					log.trace("message:" + msg.get(1) + ":" + msg.get(2));
+				});
 			}
 		});
-		*/
 
-		
 	}
 
 	private void addBordereauLineFromMTA(JsonObject mta) {

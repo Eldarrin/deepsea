@@ -1,7 +1,5 @@
 package io.ensure.deepsea.common.service;
 
-import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
-import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -9,18 +7,23 @@ import io.vertx.core.Vertx;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.core.net.SocketAddress;
-import io.vertx.redis.client.RedisClientType;
-import io.vertx.redis.client.RedisOptions;
-import io.vertx.redis.client.Redis;
+import io.vertx.redis.client.*;
+import java.util.List;
 
 public class RedisWrapper {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private Vertx vertx;
+    private RedisOptions options;
 
     public RedisWrapper(Vertx vertx) {
         this.vertx = vertx;
+    }
+
+    public RedisWrapper(Vertx vertx, RedisOptions options) {
+        this.vertx = vertx;
+        this.options = options;
     }
 
     private RedisOptions getRedisOptions(String host, Integer port) {
@@ -30,16 +33,35 @@ public class RedisWrapper {
         return options;
     }
 
-    public void connect(String host, Integer port, Handler<AsyncResult<Redis>> resultHandler) {
-        Redis.createClient(vertx, getRedisOptions(host, port))
+    public void connect(RedisOptions options, Handler<AsyncResult<Redis>> resultHandler) {
+        Redis.createClient(vertx, options)
                 .connect(onConnect -> {
                     if (onConnect.succeeded()) {
                         resultHandler.handle(Future.succeededFuture(onConnect.result()));
                     } else {
-                        resultHandler.handle(Future.failedFuture(onConnect.cause()));
                         log.error("Failed to connect to Redis");
+                        resultHandler.handle(Future.failedFuture(onConnect.cause()));
                     }
                 });
+    }
+
+    public void connect(String host, Integer port, Handler<AsyncResult<Redis>> resultHandler) {
+        connect(getRedisOptions(host, port), resultHandler);
+    }
+
+    public void connect(Handler<AsyncResult<Redis>> resultHandler) {
+        connect(options, resultHandler);
+    }
+
+    public void subscribe(Redis redis, List<String> channels) {
+        RedisAPI api = RedisAPI.api(redis);
+        api.subscribe(channels, subscribe -> {
+            if (subscribe.succeeded()) {
+                log.info(subscribe.result().get(0));
+            } else {
+                log.error("Cannot subscribe to channel", subscribe.cause());
+            }
+        });
     }
 
     void subscribe() {

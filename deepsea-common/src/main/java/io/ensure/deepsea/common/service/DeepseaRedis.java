@@ -144,7 +144,7 @@ public class DeepseaRedis {
                 RedisOptions redisConfig = new RedisOptions()
                         .addEndpoint(SocketAddress.inetSocketAddress(res.result().getInteger("redis.port"),
                                 res.result().getString("redis.host")))
-                        //.setPassword(System.getenv("REDIS_AUTH"))
+                        .setPassword(System.getenv("REDIS_AUTH"))
                         .setType(RedisClientType.STANDALONE);
                 future.complete(redisConfig);
             } else {

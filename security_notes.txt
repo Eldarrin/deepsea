@@ -4,7 +4,7 @@ minishift start --cpus 4 --disk-size 50GB --memory 8GB
 minishift addon apply admin-user
 minishift addon install prometheus
 minishift addon apply prometheus --addon-env namespace=kube-system
-oc login https://192.168.99.100:8443 -u developer -p developer
+oc login -u developer -p developer
 oc delete project myproject
 oc new-project deepsea --display-name="Deep Sea" --description="Deepsea Insurance Platform"
 oc policy add-role-to-user view admin -n deepsea
