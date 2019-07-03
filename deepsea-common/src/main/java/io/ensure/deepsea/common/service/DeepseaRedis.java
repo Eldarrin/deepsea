@@ -20,21 +20,27 @@ public class DeepseaRedis {
 
     private Redis client;
     private RedisOptions options;
-    private RedisAPI redis;
+//    private RedisAPI redis;
     private Vertx vertx;
     private final Logger log = LoggerFactory.getLogger(getClass());
     private static final String REPLAY_SUFFIX = ".replay";
     private static final int MAX_RECONNECT_RETRIES = 16;
 
     public DeepseaRedis(Vertx vertx, RedisOptions options) {
+        this(vertx, options, res -> {
+
+        });
+    }
+
+    public DeepseaRedis(Vertx vertx, RedisOptions options, Handler<AsyncResult<Void>> resultHandler) {
         this.vertx = vertx;
         this.options = options;
         Future<Void> future = Future.future();
         createRedisClient(vertx, ar -> {
             if (ar.succeeded()) {
-                future.complete();
+                resultHandler.handle(Future.succeededFuture());
             } else {
-                future.fail(ar.cause());
+                resultHandler.handle(Future.failedFuture(ar.cause()));
                 log.error("Failed to connect to Redis");
             }
         });
@@ -118,6 +124,10 @@ public class DeepseaRedis {
     }
 
     public void subscribe(String channel) {
+
+
+
+        RedisAPI redis = RedisAPI.api(client);
         redis.subscribe(Arrays.asList(channel), subscribe -> {
             if (!subscribe.succeeded()) {
                 log.error("Cannot subscribe to channel", subscribe.cause());
@@ -134,7 +144,7 @@ public class DeepseaRedis {
                 RedisOptions redisConfig = new RedisOptions()
                         .addEndpoint(SocketAddress.inetSocketAddress(res.result().getInteger("redis.port"),
                                 res.result().getString("redis.host")))
-                        .setPassword(System.getenv("REDIS_AUTH"))
+                        //.setPassword(System.getenv("REDIS_AUTH"))
                         .setType(RedisClientType.STANDALONE);
                 future.complete(redisConfig);
             } else {

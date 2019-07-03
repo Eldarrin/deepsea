@@ -9,13 +9,16 @@ import io.ensure.deepsea.common.config.ConfigRetrieverHelper;
 import io.ensure.deepsea.common.helper.ISO8601DateParser;
 import io.ensure.deepsea.common.service.DeepseaRedis;
 import io.vertx.config.ConfigRetriever;
+import io.vertx.core.AsyncResult;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
+import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.RedisOptions;
 import io.vertx.serviceproxy.ServiceBinder;
+import io.ensure.deepsea.common.service.RedisWrapper;
 
 public class BordereauVerticle extends BaseMicroserviceVerticle {
 	
@@ -33,6 +36,8 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 	private BordereauService bordereauService;
 
 	private DeepseaRedis dRedis;
+
+
 
 	@Override
 	public void start(Future<Void> future) {
@@ -78,23 +83,48 @@ public class BordereauVerticle extends BaseMicroserviceVerticle {
 		return initFuture.map(v -> null);
 	}
 
+	private void handle(AsyncResult<Redis> connect) {
+		if (connect.succeeded()) {
+			connect.result().handler(message -> {
+
+			});
+		}
+	}
+
 	private void setupConsumers(RedisOptions redisOptions) {
+		RedisWrapper r = new RedisWrapper(vertx);
+
+		r.connect("172.30.38.221", 6379, res -> {
+			if (res.succeeded()) {
+				log.info("redis connected");
+				res.result().handler(message -> {
+					log.info("new handle" + message);
+				}) ;
+			}
+		});
+
+
+/*
 		vertx.eventBus().<JsonObject>consumer(REDIS_CHANNEL + MTA_CHANNEL, received -> {
 			String message = received.body().getJsonObject(REDIS_JSON_VALUE).getString("message");
-			log.trace(message);
+			log.info("mta" + message);
 			addBordereauLineFromMTA(new JsonObject(message));
 		});
 		vertx.eventBus().<JsonObject>consumer(REDIS_CHANNEL + ENROLMENT_CHANNEL, received -> {
 			String message = received.body().getJsonObject(REDIS_JSON_VALUE).getString("message");
-			log.trace(message);
+			log.info("enrol" + message);
 			addBordereauLineFromEnrolment(new JsonObject(message));
 		});
 
-		dRedis = new DeepseaRedis(vertx, redisOptions);
+		dRedis = new DeepseaRedis(vertx, redisOptions, res -> {
+			if (res.succeeded()) {
+				dRedis.subscribe(MTA_CHANNEL);
+				dRedis.subscribe(ENROLMENT_CHANNEL);
+			} else {
+				log.error("failed to instantiate deepsea redis");
+			}
+		});
 
-		dRedis.subscribe(MTA_CHANNEL);
-
-		dRedis.subscribe(ENROLMENT_CHANNEL);
 
 		/*
 		redis.subscribe(MTA_CHANNEL, ar -> {
