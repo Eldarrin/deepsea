@@ -18,7 +18,7 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 
 	//TODO: bad usage of protected, needs fixing
 	protected String typeName;
-	private DeepseaRedis dRedis;
+	private final DeepseaRedis dRedis;
 
 	public MySqlRedisRepositoryWrapper(Vertx vertx, JsonObject config, RedisOptions options) {
 		super(vertx, config);
@@ -29,10 +29,12 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 		Future<Optional<JsonObject>> future = Future.future();
 		this.executeReturnKey(params, sql).setHandler(res -> {
 			if (res.succeeded()) {
-				String keyName = typeName + "Id";
-				jsonObject.put(keyName, typeName + "-" + res.result().get().toString());
-				dRedis.publish(typeName, jsonObject).setHandler(publish ->
-						future.complete(Optional.of(jsonObject)));
+				if (res.result().isPresent()) {
+					String keyName = typeName + "Id";
+					jsonObject.put(keyName, typeName + "-" + res.result().get().toString());
+					dRedis.publish(typeName, jsonObject).setHandler(publish ->
+							future.complete(Optional.of(jsonObject)));
+				}
 			} else {
 				future.fail(res.cause());
 			}
@@ -44,9 +46,11 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 		Future<Optional<JsonObject>> future = Future.future();
 		this.executeReturnKey(params, sql).setHandler(exec -> {
 			if (exec.succeeded()) {
-				String keyName = typeName + "Id";
-				jsonObject.put(keyName, typeName + "-" + exec.result().get());
-				dRedis.setCache(typeName + "Id", jsonObject).setHandler(future);
+				if (exec.result().isPresent()) {
+					String keyName = typeName + "Id";
+					jsonObject.put(keyName, typeName + "-" + exec.result().get());
+					dRedis.setCache(typeName + "Id", jsonObject).setHandler(future);
+				}
 			} else {
 				future.fail(exec.cause());
 				log.error("SQL Failing Accessing Data");
@@ -59,7 +63,7 @@ public class MySqlRedisRepositoryWrapper extends MySqlRepositoryWrapper {
 		Future<Optional<JsonObject>> future = Future.future();
 		dRedis.getCache(key).setHandler(get -> {
 			if (get.succeeded()) {
-				if (get.result() != null) {
+				if (get.result().isPresent()) {
 					future.complete(get.result());
 				} else {
 					retrieveAndAdd(param, sql).setHandler(future);
