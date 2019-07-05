@@ -316,5 +316,6 @@
         <module>deepsea-iam</module>
 		<module>deepsea-ai</module>
 		<module>deepsea-testmod</module>
-	</modules>
+        <module>deepsea-models</module>
+    </modules>
 </project>

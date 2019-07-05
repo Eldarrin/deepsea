@@ -26,11 +26,15 @@ public class RedisWrapper {
         this.options = options;
     }
 
-    private RedisOptions getRedisOptions(String host, Integer port) {
+    public void setRedisOptions(RedisOptions options) {
+        this.options = options;
+    }
+
+    private void setRedisOptions(String host, Integer port) {
         RedisOptions options = new RedisOptions()
                 .addEndpoint(SocketAddress.inetSocketAddress(port, host))
                 .setType(RedisClientType.STANDALONE);
-        return options;
+        this.options = options;
     }
 
     public void connect(RedisOptions options, Handler<AsyncResult<Redis>> resultHandler) {
@@ -46,30 +50,22 @@ public class RedisWrapper {
     }
 
     public void connect(String host, Integer port, Handler<AsyncResult<Redis>> resultHandler) {
-        connect(getRedisOptions(host, port), resultHandler);
+        setRedisOptions(host, port);
+        connect(resultHandler);
     }
 
     public void connect(Handler<AsyncResult<Redis>> resultHandler) {
+        if (options == null) {
+            throw new NullPointerException("RedisOptions not assigned to Class, use correct Constructor or setRedisOptions");
+        }
         connect(options, resultHandler);
     }
 
     public void subscribe(Redis redis, List<String> channels) {
         RedisAPI api = RedisAPI.api(redis);
         api.subscribe(channels, subscribe -> {
-            if (subscribe.succeeded()) {
-                log.info(subscribe.result().get(0));
-            } else {
+            if (!subscribe.succeeded()) {
                 log.error("Cannot subscribe to channel", subscribe.cause());
-            }
-        });
-    }
-
-    void subscribe() {
-        connect("localhost", 6379, res -> {
-            if (res.succeeded()) {
-                res.result().handler(message -> {
-                    // do whatever you need to do with your message
-                });
             }
         });
     }

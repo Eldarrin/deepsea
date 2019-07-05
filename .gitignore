@@ -18,3 +18,5 @@ deepsea-ui-menu/target
 deepsea-underwriting/target/
 deepsea-underwriting/deepsea-underwriting-actuarial/src/main/generated/*
 deepsea-underwriting/deepsea-underwriting-actuarial/target/
+deepsea-models/src/main/generated/*
+deepsea-models/target/
