@@ -1,0 +1,46 @@
+define
+
+  deliverable_name sub attribute,
+    datatype string;
+
+  deliverable_description sub attribute,
+    datatype string;
+
+  actor_name sub attribute,
+    datatype string;
+
+  application_name sub attribute,
+    datatype string;
+
+  actor sub entity,
+    plays architect,
+    plays business_sponsor,
+    plays product_owner,
+    key actor_name;
+
+  deliverable sub entity,
+    plays delivers_application,
+    plays sponsors_deliverable,
+    plays owns_deliverable,
+    plays designs_deliverable,
+    key deliverable_name;
+
+  application sub entity,
+    plays assigned_application,
+    key application_name;
+
+  deliverable_application sub relation,
+    relates delivers_application,
+    relates assigned_application;
+
+  deliverable_sponsor sub relation,
+    relates sponsors_deliverable,
+    relates business_sponsor;
+
+  deliverable_owner sub relation,
+    relates owns_deliverable,
+    relates product_owner;
+
+  deliverable_architect sub relation,
+    relates designs_deliverable,
+    relates architect;
