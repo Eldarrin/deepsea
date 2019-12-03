@@ -34,3 +34,9 @@ steps:
     curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar
     java -jar wss-unified-agent.jar
   displayName: 'WhiteSource Test'
+
+- task: Docker@2
+  inputs:
+    repository: 'io.ensure.deepsea/deepsea-admin-enrolment'
+    command: 'build'
+    Dockerfile: 'deepsea-admin/deepsea-admin-enrolment/Dockerfile'
