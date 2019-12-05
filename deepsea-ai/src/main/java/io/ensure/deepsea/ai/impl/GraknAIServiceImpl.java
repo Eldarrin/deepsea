@@ -109,25 +109,26 @@ public class GraknAIServiceImpl implements AIService {
     @Override
     public AIService addEnrolment(JsonObject enrolment, Handler<AsyncResult<JsonObject>> resultHandler) {
 
-        GraknClient client = new GraknClient(graknServer + ":" + GRAKN_PORT);
-        GraknClient.Session session = client.session(graknKeySpace);
+        try (GraknClient client = new GraknClient(graknServer + ":" + GRAKN_PORT)) {
+            GraknClient.Session session = client.session(graknKeySpace);
 
-        GraknClient.Transaction writeTransaction = session.transaction().write();
+            GraknClient.Transaction writeTransaction = session.transaction().write();
 
-        writeTransaction.execute(buildPerson(enrolment));
+            writeTransaction.execute(buildPerson(enrolment));
 
-        writeTransaction.execute(buildPolicy(enrolment));
+            writeTransaction.execute(buildPolicy(enrolment));
 
-        writeTransaction.execute(buildDevice(enrolment));
+            writeTransaction.execute(buildDevice(enrolment));
 
-        writeTransaction.execute(buildPersonPolicy(enrolment));
+            writeTransaction.execute(buildPersonPolicy(enrolment));
 
-        writeTransaction.execute(buildDevicePolicy(enrolment));
+            writeTransaction.execute(buildDevicePolicy(enrolment));
 
-        writeTransaction.commit();
+            writeTransaction.commit();
 
-        session.close();
-        client.close();
+            session.close();
+            client.close();
+        }
         return this;
     }
 
@@ -199,35 +200,36 @@ public class GraknAIServiceImpl implements AIService {
     public AIService getEnrolmentInfo(Handler<AsyncResult<JsonObject>> resultHandler) {
         Future<JsonObject> future = Future.future();
 
-        GraknClient client = new GraknClient(graknServer + ":" + GRAKN_PORT);
-        GraknClient.Session session = client.session(graknKeySpace);
+        try (GraknClient client = new GraknClient(graknServer + ":" + GRAKN_PORT)) {
+            GraknClient.Session session = client.session(graknKeySpace);
 
-        JsonArray json = new JsonArray();
+            JsonArray json = new JsonArray();
 
-        GraknClient.Transaction readTransaction = session.transaction().read();
+            GraknClient.Transaction readTransaction = session.transaction().read();
 
-        Stream<ConceptMap> answers = readTransaction.stream(getRelQuery());
+            Stream<ConceptMap> answers = readTransaction.stream(getRelQuery());
 
-        answers.forEach(answer -> {
-            JsonObject j = new JsonObject().put("holder", answer.get("holder").asAttribute().value().toString());
-            if (answer.get("started").asAttribute().value() instanceof LocalDateTime){
-                LocalDateTime startDate = (LocalDateTime) answer.get("started").asAttribute().value();
-                j.put("start-date", startDate.toInstant(ZoneOffset.UTC));
-            } else {
-                log.error("$$$ NOT A DATE???");
-                log.error(answer.get("started").asAttribute().type().toString());
-            }
-            j.put("model", answer.get("devmodel").asAttribute().value().toString());
+            answers.forEach(answer -> {
+                JsonObject j = new JsonObject().put("holder", answer.get("holder").asAttribute().value().toString());
+                if (answer.get("started").asAttribute().value() instanceof LocalDateTime) {
+                    LocalDateTime startDate = (LocalDateTime) answer.get("started").asAttribute().value();
+                    j.put("start-date", startDate.toInstant(ZoneOffset.UTC));
+                } else {
+                    log.error("$$$ NOT A DATE???");
+                    log.error(answer.get("started").asAttribute().type().toString());
+                }
+                j.put("model", answer.get("devmodel").asAttribute().value().toString());
 
-            json.add(j);
-        });
+                json.add(j);
+            });
 
-        future.setHandler(resultHandler).complete(new JsonObject().put("person_policy", json));
+            future.setHandler(resultHandler).complete(new JsonObject().put("person_policy", json));
 
-        readTransaction.close();
+            readTransaction.close();
 
-        session.close();
-        client.close();
+            session.close();
+            client.close();
+        }
         return this;
     }
 

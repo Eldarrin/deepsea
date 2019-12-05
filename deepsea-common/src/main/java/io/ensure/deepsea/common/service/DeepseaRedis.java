@@ -214,7 +214,7 @@ public class DeepseaRedis {
             // we should stop now, as there's nothing we can do.
         } else {
             // retry with backoff up to 1280ms
-            long backoff = (long) (Math.pow(2, MAX_RECONNECT_RETRIES - Math.max(MAX_RECONNECT_RETRIES - retry, 9)) * 10);
+            long backoff = (long) (Math.pow(2, (double)MAX_RECONNECT_RETRIES - Math.max(MAX_RECONNECT_RETRIES - retry, 9)) * 10);
 
             vertx.setTimer(backoff, timer -> createRedisClient(vertx, onReconnect -> {
                 if (onReconnect.failed()) {
