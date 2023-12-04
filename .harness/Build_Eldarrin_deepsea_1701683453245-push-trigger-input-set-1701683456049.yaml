@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_Eldarrin_deepsea_1701683453245-push-trigger-input-set
+  identifier: Build_Eldarrin_deepsea_1701683453245pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: test
+  pipeline:
+    identifier: Build_Eldarrin_deepsea_1701683453245
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
