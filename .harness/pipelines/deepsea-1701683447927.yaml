@@ -1,0 +1,33 @@
+pipeline:
+  identifier: Build_Eldarrin_deepsea_1701683453245
+  name: Build deepsea
+  orgIdentifier: default
+  projectIdentifier: test
+  properties:
+    ci:
+      codebase:
+        build: <+input>
+        connectorRef: account.Github_OAuth_1701683245032
+        repoName: Eldarrin/deepsea
+  stages:
+    - stage:
+        identifier: build
+        name: build
+        spec:
+          cloneCodebase: true
+          execution:
+            steps:
+              - step:
+                  identifier: echo
+                  name: echo
+                  spec:
+                    command: echo hello world
+                  timeout: ""
+                  type: Run
+          platform:
+            arch: Amd64
+            os: Linux
+          runtime:
+            spec: {}
+            type: Cloud
+        type: CI
