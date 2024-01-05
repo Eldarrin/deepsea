@@ -31,3 +31,73 @@ pipeline:
             spec: {}
             type: Cloud
         type: CI
+    - parallel:
+        - stage:
+            name: SAST
+            identifier: SAST
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: ShellScript
+                      name: ShellScript_1
+                      identifier: ShellScript_1
+                      spec:
+                        shell: Bash
+                        executionTarget: {}
+                        source:
+                          type: Inline
+                          spec:
+                            script: echo A
+                        environmentVariables: []
+                        outputVariables: []
+                      timeout: 10m
+            tags: {}
+        - stage:
+            name: DAST
+            identifier: DAST
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: ShellScript
+                      name: ShellScript_1
+                      identifier: ShellScript_1
+                      spec:
+                        shell: Bash
+                        executionTarget: {}
+                        source:
+                          type: Inline
+                          spec:
+                            script: echo B
+                        environmentVariables: []
+                        outputVariables: []
+                      timeout: 10m
+            tags: {}
+        - stage:
+            name: SCA
+            identifier: SCA
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: ShellScript
+                      name: ShellScript_1
+                      identifier: ShellScript_1
+                      spec:
+                        shell: Bash
+                        executionTarget: {}
+                        source:
+                          type: Inline
+                          spec:
+                            script: echo C
+                        environmentVariables: []
+                        outputVariables: []
+                      timeout: 10m
+            tags: {}
