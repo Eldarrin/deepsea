@@ -195,6 +195,29 @@ pipeline:
                         outputVariables: []
                       timeout: 10m
             tags: {}
+        - stage:
+            name: chaos-tests
+            identifier: chaostests
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: ShellScript
+                      name: ShellScript_1
+                      identifier: ShellScript_1
+                      spec:
+                        shell: Bash
+                        executionTarget: {}
+                        source:
+                          type: Inline
+                          spec:
+                            script: echo A
+                        environmentVariables: []
+                        outputVariables: []
+                      timeout: 10m
+            tags: {}
     - stage:
         name: publish-artefact
         identifier: publishartefact
